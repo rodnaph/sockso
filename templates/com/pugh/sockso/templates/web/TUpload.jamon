@@ -1,0 +1,51 @@
+
+<%import>
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    String title = "Sockso";
+    Vector<Track> recentTracks = null;
+    Vector<Artist> topArtists = null;
+    User user = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<& IHeader; properties=properties; title="Upload"; user=user; locale=locale; &>
+
+<h2><% locale.getString("www.title.upload") %></h2>
+
+<form method="post" action="/upload/do" enctype="multipart/form-data" id="uploadForm">
+
+    <fieldset>
+
+        <label for="musicFile"><% locale.getString("www.label.trackToUpload") %></label>
+        <input type="file" name="musicFile" /><br />
+
+        <label for="artist"><% locale.getString("www.label.artist") %></label>
+        <input type="text" name="artist" /><br />
+
+        <label for="album"><% locale.getString("www.label.album") %></label>
+        <input type="text" name="album" /><br />
+
+        <label for="title"><% locale.getString("www.label.track") %></label>
+        <input type="text" name="title" /><br />
+
+        <input type="submit" class="submit" value="<% locale.getString("www.label.upload") %>" />
+
+    </fieldset>
+
+</form>
+
+<& IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

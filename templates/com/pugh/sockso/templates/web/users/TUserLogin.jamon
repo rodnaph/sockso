@@ -1,0 +1,28 @@
+
+<%import>
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.web.User;
+    com.pugh.sockso.resources.Locale;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    User user = null;
+    Properties properties = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<& ../IHeader; properties=properties; locale=locale; &>
+
+<h2><% locale.getString("www.title.login") %></h2>
+
+<p><% locale.getString("www.text.login", new String[] { "/user/register" } ) #n %></p>
+
+<& IUserLoginForm; locale=locale; &>
+
+<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

@@ -1,0 +1,4 @@
+first line
+then a second line
+a third line
+and the final line with no CR

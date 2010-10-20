@@ -1,0 +1,53 @@
+
+#
+#  database
+#  ========
+#
+db.host = localhost
+db.username = 
+db.password = 
+db.name = 
+db.type =
+
+#
+#  routes
+#  ======
+#
+#  eg. route.default = foo/bar
+
+#
+#  controllers
+#  ===========
+#
+#  eg. controllers.foo.defaultAction = bar
+
+#
+#  user authentication
+#  ===================
+#
+#  to enable auth you just need to specify
+#  an auth type, you can choose...
+#  standard = db user/passs auth
+#
+#  eg. auth.type = standard
+
+#
+#  mime types
+#  ==========
+#
+#  eg. mime.css = text/css
+
+#
+#  smutty manager
+#  ==============
+#
+#  manager = true
+#  manager.allowAnonymous = true
+#  manager.users = me/you/him
+
+#
+#  error handling
+#  ==============
+#
+#  errors = all
+#  errors.handler = controller/method

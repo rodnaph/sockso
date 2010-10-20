@@ -1,0 +1,28 @@
+
+<%import>
+    com.pugh.sockso.web.Server;
+    com.pugh.sockso.resources.Locale;
+</%import>
+
+<%args>
+    String host = null;
+    Locale locale = null;
+    String url = "";
+</%args>
+
+<h3><% locale.getString("www.title.share") %></h3>
+
+<p><% locale.getString("www.text.share") %></p>
+
+<%java>
+    String serverUrl = "http://" + host;
+    String linkUrl = serverUrl +
+        "/file/flash/xspf_player.swf?playlist_url=" +
+            serverUrl + "/xspf/" + url;
+</%java>
+
+<p><pre>
+&lt;object type="application/x-shockwave-flash" width="400" height="170" data="<% linkUrl %>"&gt;
+    &lt;param name="movie" value="<% linkUrl %>" /&gt;
+&lt;/object&gt;
+</pre></p>

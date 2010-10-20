@@ -1,0 +1,37 @@
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.web.Server;
+    com.pugh.sockso.music.Track;
+    java.util.Vector;
+    java.text.SimpleDateFormat;
+</%import>
+<%args>
+    Properties properties = null;
+    String host = null;
+    Vector<Track> tracks = null;
+</%args>
+<?xml version="1.0" encoding="UTF-8"?>
+<%java>
+    String title = properties.get( Constants.WWW_TITLE );
+</%java>
+<rss version="2.0">
+    <channel>
+        <title><% tracks.size() %> latest tracks from <% title %></title>
+        <link><% host %>/rss/latest</link>
+        <description>This feed lists the latest tracks that have been added to the sockso
+            music collection '<% title %>'</description>
+    </channel>
+    <%for Track track : tracks %>
+    <item>
+        <%java>
+            final String desc = track.getArtist().getName() + " - " + track.getName();
+            final SimpleDateFormat formatter = new SimpleDateFormat( "EEE, dd MMM yyyy HH:mm:ss zzz" ); 
+        </%java>
+        <title><% desc %></title>
+        <link><% host %>/m3u/tr<% track.getId() %></link>
+        <pubDate><% formatter.format(track.getDateAdded()) %></pubDate>
+        <description><![CDATA[ <% desc %> ]]></description>
+    </item>
+    </%for>
+</rss>

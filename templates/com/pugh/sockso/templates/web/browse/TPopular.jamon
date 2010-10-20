@@ -1,0 +1,46 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.web.User;
+    com.pugh.sockso.resources.Locale;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    Vector<Track> tracks = null;
+    User user = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<& ../IHeader; properties=properties; title="Most Popular Tracks"; user=user; locale=locale; &>
+
+<h2><% locale.getString("www.title.mostPopularTracks") %></h2>
+
+<ul class="musiclist">
+<%if tracks.size() > 0 %>
+    <%for Track track : tracks %>
+        <li class="track">
+            <& IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
+            <span class="link">
+                <a href="/browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a> -
+                <% Utils.u2e(track.getName()) #n %>
+            </span>
+            <span class="info">
+                (<% track.getPlayCount() %> play<%if track.getPlayCount() != 1 %>s</%if>)
+            </span>
+        </li>
+    </%for>
+<%else>
+    <li class="empty"><% locale.getString("www.text.noResults") %></li>
+</%if>
+</ul>
+
+<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

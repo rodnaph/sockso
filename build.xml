@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="sockso" default="run" basedir=".">
+
+    <description>Builds, runs and packages Sockso</description>
+
+    <!--
+        #############
+          INIT/PROPS
+        #############
+    -->
+
+    <property file="sockso.properties" />
+
+    <property name="sockso.version" value="1.2.4" />
+
+    <property name="dir.build" value="build/app" />
+    <property name="dir.build.test" value="build/test" />
+    <property name="dir.dist" value="dist" />
+    <property name="dir.docs" value="docs" />
+    <property name="dir.docs.junit" value="${dir.docs}/junit" />
+    <property name="dir.src" value="src" />
+    <property name="dir.src.test" value="test" />
+    <property name="dir.lib" value="lib" />
+    <property name="dir.lib-dev" value="lib-dev" />
+    <property name="dir.lib-opt" value="lib-opt" />
+    <property name="dir.temp" value="ant-temp-dir" />
+    <property name="dir.resources" value="resources" />
+    <property name="dir.packages" value="packages" />
+    <property name="dir.scripts" value="scripts" />
+    <property name="dir.javadocs" value="${dir.docs}/javadocs" />
+    <property name="dir.www" value="www" />
+    
+    <!-- set classpaths for jars -->
+    <fileset id="sockso.jars" dir=".">
+        <include name="${dir.lib}/*.jar" />
+    </fileset>
+    <pathconvert pathsep=":" property="app.classpath" refid="sockso.jars">
+        <map from="${basedir}/" to=""/>
+    </pathconvert>
+    <pathconvert pathsep=" " property="jar.classpath" refid="sockso.jars">
+        <map from="${basedir}/" to=" "/>
+    </pathconvert>
+
+    <!-- classpath for dev jars -->
+    <fileset id="sockso-dev.jars" dir=".">
+        <include name="${dir.lib-dev}/*.jar" />
+    </fileset>
+    <pathconvert pathsep=":" property="dev.classpath" refid="sockso-dev.jars">
+        <map from="${basedir}/" to=""/>
+    </pathconvert>
+
+    <!-- classpath for optional jars -->
+    <fileset id="sockso-opt.jars" dir=".">
+        <include name="${dir.lib-opt}/*.jar" />
+    </fileset>
+    <pathconvert pathsep=":" property="opt.classpath" refid="sockso-opt.jars">
+        <map from="${basedir}/" to=""/>
+    </pathconvert>
+    <pathconvert pathsep=" " property="jar-opt.classpath" refid="sockso-opt.jars">
+        <map from="${basedir}/" to=" "/>
+    </pathconvert>
+
+    <property name="junit.classpath" value="${dir.build}:${dir.build.test}:${app.classpath}:${dev.classpath}:${opt.classpath}" />
+    
+    <taskdef name="jamon"
+            classname="org.jamon.ant.JamonTask"
+            classpath="${dir.lib}/jamon-runtime-2.3.1.jar:${dir.lib-dev}/jamon-api-2.3.0.jar:${dir.lib-dev}/jamon-processor-2.3.2.jar:${dir.lib-dev}/jamon-anttask-2.3.1.jar" />
+
+    <taskdef name="jarbundler"
+            classname="net.sourceforge.jarbundler.JarBundler"
+            classpath="${dir.lib-dev}/jarbundler-2.1.0.jar" />
+
+    <taskdef name="testability"
+            classname="com.google.ant.TestabilityTask"
+            classpath="${dev.classpath}" />
+
+    <target name="init">
+        <mkdir dir="${dir.dist}" />
+        <mkdir dir="${dir.build}" />
+        <mkdir dir="${dir.build.test}" />
+        <mkdir dir="${dir.packages}" />
+    </target>
+
+    <!--
+        ################
+         COMPILE/BUILD
+        ################
+    -->
+
+    <!-- compile jamon source files to java classes -->
+    <target name="compile-templates" depends="init">
+        <delete dir="${dir.src}/com/pugh/mymusic/tmpl" />
+        <jamon destdir="${dir.src}" srcdir="templates" />
+    </target>
+
+    <!-- creates a file with some properties info -->
+    <target name="create-properties">
+        <!-- write app properties file -->
+        <echo file="src/com/pugh/sockso/Sockso.java">
+package com.pugh.sockso;
+public class Sockso {
+    public static final String VERSION = "${sockso.version}";
+}
+        </echo>
+    </target>
+    
+    <!-- compiles the project to build/ -->
+    <target name="compile" depends="create-properties,compile-templates">
+        <!-- then do compile -->
+        <javac srcdir="${dir.src}"
+                destdir="${dir.build}"
+                classpath="${app.classpath}:${opt.classpath}"
+                target="1.5"
+                debug="${debug}">
+            <compilerarg value="-Xlint:unchecked" />
+            <compilerarg value="-Xlint:deprecation" />
+        </javac>
+    </target>
+
+    <!-- builds resources -->
+    <target name="resources" depends="init">
+        <!-- compile stub file -->
+        <javac srcdir="${dir.resources}" destdir="${dir.resources}" />
+        <!-- remove locale javascript files, we don't want to pack them -->
+        <delete>
+            <fileset dir="${dir.resources}/htdocs/js" includes="locale*.js" />
+        </delete>
+        <!-- pack javascript -->
+        <exec executable="${php.exe}">
+            <arg value="${dir.scripts}/pack-javascript.php" />
+            <arg value="${sockso.version}" />
+        </exec>
+        <!-- create locale javascript files -->
+        <exec executable="${php.exe}">
+            <arg value="${dir.scripts}/create-locale-javascript.php" />
+            <arg value="${sockso.version}" />
+        </exec>
+        <!-- create locale index file -->
+        <exec executable="${php.exe}">
+            <arg value="${dir.scripts}/create-locale-index.php" />
+            <arg value="${sockso.version}" />
+        </exec>
+        <!-- build jar -->
+        <jar basedir="${dir.resources}" destfile="${dir.dist}/resources.jar">
+            <fileset dir="${dir.resources}">
+                <exclude name="**/*.java"  />
+                <!-- TODO: exclude all javascript but the packed javascript file -->
+            </fileset>
+        </jar>
+        <!-- copy files to dist dir -->
+        <copy todir="${dir.dist}/resources">
+            <fileset dir="resources" />
+        </copy>
+    </target>
+
+    <!-- puts the dist together -->
+    <target name="dist" depends="jars">
+        <copy todir="${dir.dist}">
+            <fileset dir="dist-files" />
+        </copy>
+        <copy todir="${dir.dist}/lib">
+            <fileset dir="${dir.lib}" />
+        </copy>
+        <!-- windows tray icon -->
+        <mkdir dir="${dir.dist}/icons" />
+        <copy file="${dir.resources}/icons/tray.ico" todir="${dir.dist}/icons" />
+    </target>
+
+    <!-- creates all the main sockso jar files -->
+    <target name="jars" depends="jar,resources" />
+    
+    <!-- cleans any compiles tests -->
+    <target name="clean-tests">
+        <delete dir="${dir.build.test}" />
+    </target>
+
+    <!-- cleans the dist build -->
+    <target name="clean" depends="clean-tests">
+        <delete dir="${dir.build}" />
+        <delete dir="${dir.dist}" />
+        <delete dir="${dir.src}/com/pugh/sockso/templates" />
+        <delete dir="${dir.packages}" />
+    </target>
+
+    <!-- build the main jar file -->
+    <target name="jar" depends="compile">
+        <jar file="${dir.dist}/sockso.jar" basedir="${dir.build}">
+            <include name="**/*.class" />
+            <manifest>
+                <attribute name="Built-By" value="${developer.name}" />
+                <attribute name="Main-class" value="com.pugh.sockso.Main" />
+                <attribute name="Class-Path" value="resources.jar ${jar.classpath} ${jar-opt.classpath}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <!--
+        #####################
+            DOCS/PACKAGING
+        #####################
+    -->
+
+    <target name="javadocs">
+        <javadoc sourcepath="${dir.src}" destdir="${dir.javadocs}" />
+    </target>
+    
+    <!-- make packages from dist -->
+    <target name="package" depends="clean,dist,website">
+
+        <mkdir dir="${dir.temp}" />
+        <move file="${dir.dist}" tofile="${dir.temp}/sockso-${sockso.version}" />
+
+        <!-- OSX.
+            1. create .app folder -->
+        <jarbundler dir="${dir.packages}"
+            name="sockso-${sockso.version}"
+            shortname="Sockso"
+            mainclass="com.pugh.sockso.Main"
+            icon="${dir.resources}/icons/sockso.icns"
+            version="${sockso.version}"
+            infostring="Sockso - Personal Music Server"
+            arguments="--resourcestype=jar"
+            jvmversion="1.5+">
+                <jarfileset dir="${dir.temp}">
+                    <include name="**/*.jar" />
+                </jarfileset>
+        </jarbundler>
+        <!-- 2. create dmg's from .app folder -->
+        <exec executable="hdiutil">
+            <arg line="create -srcfolder ${dir.packages}/sockso-${sockso.version}.app ${dir.packages}/sockso-${sockso.version}.dmg"/>
+        </exec>
+        <copy file="${dir.packages}/sockso-${sockso.version}.dmg" tofile="${dir.packages}/sockso-latest.dmg" />
+        <copy file="${dir.packages}/sockso-${sockso.version}.dmg" tofile="${dir.packages}/sockso-dev.dmg" />
+        <!-- 3. remove .app folder -->
+        <delete dir="${dir.packages}/sockso-${sockso.version}.app" />
+
+        <!-- we need the resources.jar files for the mac bundle, but not other packages -->
+        <delete file="${dir.temp}/sockso-${sockso.version}/resources.jar" />
+        <delete file="${dir.temp}/sockso-${sockso.version}/resources/ResourcesAnchor.class" />
+        <delete file="${dir.temp}/sockso-${sockso.version}/resources/ResourcesAnchor.java" />
+
+        <!-- make standard packages -->
+        <zip destfile="${dir.packages}/sockso-dev.zip" basedir="${dir.temp}" />
+        <zip destfile="${dir.packages}/sockso-latest.zip" basedir="${dir.temp}" />
+        <zip destfile="${dir.packages}/sockso-${sockso.version}.zip" basedir="${dir.temp}" />
+
+        <!-- done, cleanup! -->
+        <move file="${dir.temp}/sockso-${sockso.version}" tofile="${dir.dist}" />
+        <delete dir="${dir.temp}" />
+
+        <!-- build optionals package -->
+        <zip destfile="${dir.packages}/sockso-optionals.zip" basedir="${dir.lib-opt}" />
+
+    </target>
+
+    <!-- updates the website with information like current version -->
+    <target name="website">
+        <echo file="www/application/views/version/latest.tpl">${sockso.version}</echo>
+    </target>
+
+    <!-- includes optional components into the distribution -->
+    <target name="optionals">
+        <copy todir="${dir.dist}/lib-opt">
+            <fileset dir="${dir.lib-opt}" />
+        </copy>
+    </target>
+    
+    <!--
+        ##################
+            RUN/DEBUG
+        ##################
+    -->
+
+    <!-- runs the project -->
+    <target name="run" depends="dist,optionals">
+        <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
+            <arg value="--logtype=${run.arg.logtype}" />
+            <arg value="--resourcestype=${run.arg.resourcestype}" />
+            <arg value="--dbtype=${run.arg.dbtype}" />
+            <arg value="--dbhost=${run.arg.dbhost}" />
+            <arg value="--dbuser=${run.arg.dbuser}" />
+            <arg value="--dbpass=${run.arg.dbpass}" />
+            <arg value="--dbname=${run.arg.dbname}" />
+        </java>
+    </target>
+
+    <!-- starts a project in debug mode -->
+    <target name="debug" depends="clean,dist,optionals" if="netbeans.home">
+        <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
+            <arg value="--logtype=${run.arg.logtype}" />
+            <arg value="--resourcestype=${run.arg.resourcestype}" />
+            <arg value="--dbtype=${run.arg.dbtype}" />
+            <arg value="--dbhost=${run.arg.dbhost}" />
+            <arg value="--dbuser=${run.arg.dbuser}" />
+            <arg value="--dbpass=${run.arg.dbpass}" />
+            <arg value="--dbname=${run.arg.dbname}" />
+            <jvmarg value="-Xdebug" />
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,address=8888,suspend=n" />
+        </java>
+    </target>
+
+    <target name="profile" depends="dist,optionals" if="netbeans.home">
+        <nbprofiledirect>
+        </nbprofiledirect>
+        <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
+            <arg value="--logtype=${run.arg.logtype}" />
+            <arg value="--resourcestype=${run.arg.resourcestype}" />
+            <arg value="--dbtype=${run.arg.dbtype}" />
+            <arg value="--dbhost=${run.arg.dbhost}" />
+            <arg value="--dbuser=${run.arg.dbuser}" />
+            <arg value="--dbpass=${run.arg.dbpass}" />
+            <arg value="--dbname=${run.arg.dbname}" />
+            <jvmarg value="${profiler.info.jvmargs.agent}" />
+        </java>
+    </target>
+
+    <!--
+        ##################
+            TESTING
+        ##################
+    -->
+
+    <!-- compile test cases -->
+    <target name="compile-tests">
+        <javac srcdir="${dir.src.test}"
+                destdir="${dir.build.test}"
+                classpath="${dir.build}:${app.classpath}:${dev.classpath}"
+                target="1.5"
+                debug="on">
+            <compilerarg value="-Xlint:unchecked" />
+            <compilerarg value="-Xlint:deprecation" />
+        </javac>
+    </target>
+
+    <!-- init before we do tests -->
+    <target name="init-tests">
+        <!-- create mysql test database -->
+        <sql driver="com.mysql.jdbc.Driver"
+             url="jdbc:mysql://${mysql.host}"
+             userid="${mysql.user}"
+             password="${mysql.pass}"
+             classpath="${opt.classpath}"
+             onerror="continue">
+            <transaction src="test-data/mysql/drop.sql"/>
+            <transaction src="test-data/mysql/create.sql"/>
+        </sql>
+    </target>
+
+    <!-- tests a particular class -->
+    <!-- the class to test needs to be specified on the command line by using:
+        -Dclass=FULL_CLASSNAME -->
+    <target name="test-single" depends="compile,compile-tests,init-tests">
+        <fail unless="class">Must set property 'class'</fail>
+        <junit haltonfailure="true">
+            <classpath path="${junit.classpath}" />
+            <formatter type="plain" usefile="false" />            
+            <test name="${class}" />
+        </junit>
+    </target>
+    
+    <!-- run all tests and generate reports -->
+    <target name="test" depends="clean,compile,compile-tests,init-tests">
+
+        <delete dir="${dir.docs.junit}" />
+        <mkdir dir="${dir.docs.junit}" />
+        <mkdir dir="${dir.docs.junit}/html" />
+        <mkdir dir="${dir.docs.junit}/results" />
+
+        <junit haltonfailure="true" dir=".">
+            <classpath path="${junit.classpath}" />
+            <formatter type="plain" usefile="false" />
+            <formatter type="xml" />
+            <batchtest fork="yes" todir="${dir.docs.junit}/results">
+                <fileset dir="${dir.build.test}">
+                    <include name="**/*Test.class" />
+                </fileset>
+            </batchtest>
+        </junit>
+
+        <junitreport todir="${dir.docs.junit}">
+          <fileset dir="${dir.docs.junit}/results">
+            <include name="TEST-*.xml"/>
+          </fileset>
+          <report format="frames" todir="${dir.docs.junit}/html"/>
+        </junitreport>
+
+    </target>
+
+    <!-- runs the testability reports -->
+    <target name="testability" depends="clean,dist">
+      <testability
+          filter=""
+          resultfile="${dir.docs}/testability.result.html"
+          errorfile="${dir.docs}/testability.err.txt"
+          printdepth="2"
+          print="html"
+          mincost="1"
+          maxexcellentcost="50"
+          maxacceptablecost="100"
+          worstoffendercount="25"
+          whitelist="com.pugh.sockso."
+          cyclomatic="1"
+          global="10"
+          failproperty="testability.failproperty">
+        <classpath>
+          <fileset dir="${dir.dist}">
+             <include name="sockso.jar"/>
+          </fileset>
+        </classpath>
+      </testability>
+    </target>
+
+    <target name="test-all" depends="test,test-js" />
+
+    <!-- starts the js test server -->
+    <target name="test-js-server">
+        <java jar="lib-dev/JsTestDriver-${jstestdriver.version}.jar" fork="true">
+            <arg value="--port" />
+            <arg value="${jstestdriver.port}" />
+            <arg value="--browser" />
+            <arg value="open" />
+        </java>
+    </target>
+
+    <!-- runs the js tests -->
+    <target name="test-js">
+        <waitfor maxwait="1" maxwaitunit="second">
+            <socket server="localhost" port="${jstestdriver.port}"/>
+        </waitfor>
+        <!--
+        <condition property="tests" value="${tests}" else="all">
+            <isset property="tests" />
+        </condition>
+        -->
+        <java jar="lib-dev/JsTestDriver-${jstestdriver.version}.jar" fork="true">
+            <arg value="--config" />
+            <arg value="test/js/jsTestDriver.conf" />
+            <arg value="--tests" />
+            <arg value="all" />
+        </java>
+    </target>
+
+</project>

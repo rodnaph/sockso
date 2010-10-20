@@ -1,0 +1,236 @@
+# Italian Translation by Lephio
+# Version 1.0 Beta
+# Sockso Version: 0.8.6
+#
+# Attenzione, questa traduzione è (evidentemente) amatoriale. Se qualcuno vuole
+# dare una mano e fare una traduzione migliore è il benvenuto!
+# Basta contattarci sul forum di sockso!
+#
+# Buon Ascolto!
+# www.lephio.org
+
+#
+#  web errors
+#
+www.error.title=Tapioca!
+www.error.desc=Sockso è andato in musse, sta dicendo %1!
+www.error.unknownRequest=non ho idea di come fare quello che hai chiesto
+www.error.unknownUser=nome utente non registrato
+www.error.passwordIncorrect=password errata
+www.error.duplicateUsername=il nome utente esiste già
+www.error.duplicateEmail=l'indirizzo di posta esiste già
+www.error.passwordsDontMatch=le password non coincidono
+www.error.invalidEmail=indirizzo di posta non valido
+www.error.missingField=campo mancante
+www.error.registrationDisabled=registrazione disabilitata
+www.error.alreadyLoggedIn=sei già connesso!
+www.error.downloadsDisabled=il download è disabilitato
+www.error.noAnonymousUploads=devi essere connesso per caricare un file
+www.error.uploadsNotEnabled=il caricamento dei file è disabilitato
+www.error.noUploadsDirectory=la directory per il caricamento dei file non è impostata
+www.error.uploadsDirNotWritable=la directory per il caricamento dei file non è scrivibile
+www.error.noFileUploaded=non hai caricato il file
+www.error.unsupportedAudioFormat=sockso non supporta questo formato audio (accetta solo mp3, ogg e wma)
+www.error.cantCreateTrackFolder=impossibile creare la directory per il caricamento
+
+#
+#  web links
+#
+www.link.login=Login
+www.link.logout=Logout
+www.link.register=Registrati
+www.link.home=Home
+www.link.browse=Browse
+www.link.latest=Più Recenti
+www.link.popular=Più AscoltatePopular
+www.link.playlists=Playlist
+www.link.random=Casuale
+www.link.play=Play
+www.link.clear=Pulisci
+www.link.download=Download
+www.link.share=Condividi
+www.link.save=Salva
+www.link.upload=Upload
+www.link.randomizePlaylist=Mischia Playlist
+
+#
+#  web titles
+#
+www.title.playlist=Playlist
+www.title.recentlyPlayedTracks=Ascoltate di Recente
+www.title.topArtists=Artisti più ascoltati
+www.title.about=Crediti
+www.title.sitePlaylists=Playlist del Sito
+www.title.userPlaylists=Playlist dell'Utente
+www.title.mostPopularTracks=Canzoni più ascoltate
+www.title.latestTracks=Canzoni più recenti
+www.title.latestArtists=Artisti più recenti
+www.title.share=Condividi
+www.title.login=Login
+www.title.register=Registrazione in corso
+www.title.registerComplete=Registratione Completa!
+www.title.upload=Upload Canzoni
+www.title.uploadComplete=Upload Completato
+
+#
+#  web text
+#
+www.text.loggedInAs=Sei
+www.text.noResults=Non ho trovato nulla...
+www.text.uploadComplete=Grazie per la canzone, adesso è nella collezione!
+
+#
+#  web labels
+#
+www.label.dateAdded=Data aggiunta
+www.label.playCount=Numero Ascolti
+www.label.trackCount=Canzoni
+www.label.username=Nome Utente
+www.label.password=Password
+www.label.passwordRepeat=Repeti password
+www.label.login=Login
+www.label.email=Mail
+www.label.register=Registrati
+www.label.upload=Upload
+www.label.trackToUpload=File
+www.label.artist=Artista
+www.label.album=Album
+www.label.track=Titolo
+
+#
+#  gui window titles
+#
+gui.window.main= Sockso - Collectione
+gui.window.reports= Sockso - Rapporti
+gui.window.console= Sockso - Console
+
+#
+#  gui labels
+#
+gui.label.portForward=Setup NAT (experimental!)
+gui.label.exit=Esci
+gui.label.hide=Nasconi
+gui.label.options=Opzioni
+gui.label.gettingIPAddress=Sto rilevando il tuo IP
+gui.label.yourAddress=Il tuo IP è
+gui.label.music=Musica
+gui.label.collection=Collezione
+gui.label.users=Utenti
+gui.label.myComputer=Il Mio Computer
+gui.label.internetAddress=Indirizzo Internet (default)
+gui.label.refresh=Aggiorna
+gui.label.addFolder=Aggiungi Cartella
+gui.label.removeFolder=Rimuovi
+gui.label.username=Nome Utente
+gui.label.password=Password
+gui.label.passwordRepeat=Ripeti password
+gui.label.email=Mail
+gui.label.createUser=Crea Utente
+gui.label.cancel=Elimina
+gui.label.general=Generale
+gui.label.testNat=Test NAT setup (may take a few moments)
+gui.label.browse=Browse
+gui.label.encoders=Encoders
+gui.label.encTypeNone=Nessuno
+gui.label.encTypeBuiltin=Builtin
+gui.label.encTypeCustom=Personalizzato
+gui.label.encNoneSelected=Nessuna selezione
+gui.label.encoder=Encoder
+gui.label.bitrate=Bitrate
+gui.label.command=Comando
+gui.label.webServer=Web Server
+gui.label.port=Porta
+gui.label.wwwTitle=Titolo
+gui.label.wwwTagline=Tagline
+gui.label.disableDownloads=Disabilita downloads?
+gui.label.scanOnStartup=Aggiorna all'avvio?
+gui.label.scanInterval=Intervallo aggiornamento (in minuti)
+gui.label.uploads=Upload
+gui.label.enableUploads=Abilita upload?
+gui.label.anonymousUploads=Non richiedere il login?
+gui.label.uploadsDirectory=Directory
+gui.label.general=Generale
+gui.label.startMinimized=Avvia iconizzato?
+gui.label.confirmExit=Chiedi conferma all'uscita?
+gui.label.natSetup=NAT Setup
+gui.label.logging=Logging
+gui.label.enableRequestLog=Log?
+gui.label.exportRequestLogAs=Esporta log come:
+gui.label.export=Esporta!
+gui.label.consoleCommandGo=Esegui
+gui.label.showReportsWindow=Repporti
+gui.label.showConsoleWindow=Console
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=Non è stato trovato alcun Browser
+gui.error.missingField=Campo obbligatorio non inserito
+gui.error.invalidEmail=Indirizzo mail non valido
+gui.error.passwordsDontMatch=Le due password non coincidono
+gui.error.duplicateUsername=Il nome utente esiste già
+gui.error.duplicateEmail=La mail inserita esiste già
+
+#
+#  gui titles
+#
+gui.title.creatingUser=Creazione di un nuovo utente
+gui.title.options=Opzioni
+
+#
+#  gui tooltips
+#
+gui.tooltip.music=Le tue Canzoni/Playlist
+gui.tooltip.collection=Organizza la tya collezione
+gui.tooltip.users=Accesso Utenti
+gui.tooltip.general=Opzioni Generali
+gui.tooltip.encoders=Opzioni di Encoding
+
+#
+#  gui messages
+#
+gui.message.natTestOk=NAT test ok!  Your setup seems fine!
+gui.message.natTestFailed=NAT test failed...
+gui.message.exportComplete=Export complete!
+
+#
+#  gui reports
+#
+gui.reports.refresh=Aggiorna rapporto
+gui.reports.browsers.title=Browser
+gui.reports.browsers.titleLong=Il browser dell'utente
+gui.reports.requestsPerDay.title=Richieste al giorno
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=# Richieste
+
+#
+#  console errors
+#
+con.err.usernameExists=Il nome utente esiste già
+con.err.emailExists=La mail inserita esiste già
+con.err.errorCreatingUser=Errore nella creazione dell'utente...
+con.err.errorDeletingUser=Errore nella cancellazione dell'utente...
+con.err.directoryNotInColl=Mi spiace, la cartella non è nella tua collezione
+con.err.pathNotExist=%1 non esiste...
+
+#
+#  console messages
+#
+con.msg.userCreated=Utente creato!
+con.msg.userDeleted=Utente cancellato!
+con.msg.directoryDeleted=Cartella rimossa!
+con.msg.propertySaved=Proprietà salvate!
+
+#
+#  console command descriptions
+#
+con.desc.addDirectory=aggiunge una cartella alla collezione
+con.desc.removeDirectory=rimuove una cartella alla collezione
+con.desc.listDirectories=elenca le cartelle della collezione
+con.desc.exit=esce dall'applicazione
+con.desc.listProperties=elenca le proprietà dell'applicazione
+con.desc.setProperty=imposta una proprietà
+con.desc.listUsers=elenca gli utenti registrati
+con.desc.addUser=aggiunge un utente al sistema
+con.desc.deleteUser=cancella un utente a partire dall'ID
+con.desc.commands=Comandi:

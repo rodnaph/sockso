@@ -1,0 +1,28 @@
+
+<%import>
+    java.sql.ResultSet;
+    java.sql.SQLException;
+</%import>
+
+<%args>
+    ResultSet tracks = null;
+</%args>
+
+<%java>
+    boolean firstItem = true;
+</%java>
+
+[
+    <%java>try {</%java>
+    <%while tracks.next() %>
+        <%if !firstItem %>,</%if><%java>firstItem = false;</%java>
+        <%doc>
+            The quotes around the track id are important here for the case
+            when there's only 1 result.  In javascript if you pass a single
+            integer to the Array constructor, it uses it to init the size
+            of the array rather than as a single element.
+        </%doc>
+        '<% tracks.getInt("id") %>'
+    </%while>
+    <%java>} catch ( SQLException e ) {}</%java>
+]

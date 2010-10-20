@@ -1,0 +1,391 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+body {
+	margin: 0;
+	padding: 0;
+	background: #FFFFFF url(images/img01.jpg) repeat-x left top;
+	text-align: justify;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #404040;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+input, textarea, select {
+	font: normal 1em "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+
+h1, h2, h3 {
+	font-weight: normal;
+	color: #212121;
+}
+
+h1 {
+	letter-spacing: -1px;
+	font-size: 2.2em;
+}
+
+h2 {
+	font-size: 1.4em;
+}
+
+h3 {
+	font-size: 1.2em;
+}
+
+p, ul, ol {
+}
+
+p {
+}
+
+.blockbg {
+	background: #D9D785;
+}
+
+blockquote {
+	background: url(images/img08.jpg) no-repeat left top;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-style: italic;
+	margin: 0 0 0 15px;
+	padding: 0px 20px 0px 30px;
+	font-size: 18px;
+	color: #3D3D3D;
+}
+
+ul {
+}
+
+ol {
+}
+
+a {
+	color: #000000;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+small {
+}
+
+hr {
+	display: none;
+}
+
+img {
+	border: none;
+}
+
+img.left {
+	float: left;
+	margin: 0 15px 0 0;
+	border: #D9D785 1px dashed;
+}
+
+img.right {
+	float: right;
+	margin: 0 0 0 15px;
+	border: #D9D785 1px dashed;
+}
+
+.text1 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-style: italic;
+	margin: 0 0 0 15px;
+	padding: 90px 20px 0px 30px;
+	font-size: 30px;
+	color: #FFFFFF;
+}
+
+/* Header */
+
+#header {
+	width: 900px;
+	margin: 0 auto;
+	height: 71px;
+	letter-spacing: -1px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+
+#headerbg {
+	clear: both;
+	margin: 0 auto;
+	width: 900px;
+	height: 209px;
+	background: url(images/img05.jpg) no-repeat left top;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+/* Logo */
+
+#logo {
+	float: left;
+	margin-top: 30px;
+}
+
+#logo h1, #logo h2, #logo p {
+	float: left;
+	margin: 0;
+	text-transform: lowercase;
+}
+
+#logo h1 {
+        text-transform: none;
+	background: url(images/logo.png) no-repeat left 50%;
+	padding-left: 60px;
+	text-align: center;
+	font-size: 3.2em;
+	color: #212121;
+        font-weight: normal;
+        font-family: Tahoma,Arial,Helvetica,sans-serif;
+        letter-spacing: 2px;
+}
+
+#logo h1 a {
+	color: #212121;
+}
+
+#logo p {
+	padding-top: 27px;
+	text-transform: uppercase;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color: #000000;
+}
+
+#logo h2 a, #logo p a {
+	color: #000000;
+}
+
+#logo a {
+	text-decoration: none;
+}
+
+/* Menu */
+
+#menu {
+	float: right;
+	margin-top: 21px;
+}
+
+#menu ul {
+	margin: 0;
+	list-style: none;
+}
+
+#menu li {
+	display: inline;
+}
+
+#menu a {
+	display: block;
+	float: left;
+	padding: 30px 20px 0 20px;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	color: #4E4E4E;
+}
+
+#menu a:hover {
+	background: url(images/img03.jpg) no-repeat center top;
+}
+
+#menu .current_page_item a {
+	background: url(images/img03.jpg) no-repeat center top;
+}
+
+/* Page */
+
+#page {
+	width: 900px;
+	margin: 0 auto;
+	padding-top: 20px;
+	background: #F4F4F4;
+        border-left: 1px #ccc solid;
+        border-right: 1px #ccc solid;
+}
+
+#latest-post {
+	float: left;
+	width: 570px;
+	padding: 0px 20px 20px 20px;
+	line-height: 25px;
+	font-size: 12px;
+}
+#latest-post img {
+    border: 30px #ddd solid;
+}
+#latest-post h1 img {
+    border: none;
+}
+
+#recent-posts {
+	float: right;
+	width: 250px;
+	padding: 0px 20px 20px 19px;
+	line-height: 25px;
+	font-size: 12px;
+        border-left: 1px #ccc dashed;
+}
+#recent-posts h1 {
+    font-size: 1.8em;
+    padding: 3px 8px 3px 10px;
+}
+#recent-posts h2 {
+    border-left: 8px #ddd solid;
+    padding-left: 10px;
+}
+
+#recent-posts .entry {
+}
+
+#recent-posts .entry a {
+	background: #333333;
+	padding: 5px 10px;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-size: 10px;
+	color: #CCCCCC;
+}
+
+#recent-posts .more {
+	background: url(images/img04.gif) no-repeat left 50%;
+	padding-left: 20px;
+}
+
+#recent-posts .latest-news {
+    white-space: nowrap;
+}
+
+.post {
+}
+
+.post .title {
+	margin: 0;
+}
+
+.post .meta {
+	margin: 0;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	line-height: normal;
+	font-size: 13px;
+	color: #505050;
+}
+
+.post .meta a {
+	color: #000000;
+}
+
+.post .entry {
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+	border-bottom: #9C9C9C 1px dashed;
+
+}
+
+/* Sidebar */
+
+#sidebar {
+	clear: both;
+	width: 900px;
+	background: #000000;
+	color: #CCCCCC;
+	padding: 10px 0 0 0;
+}
+
+#sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#sidebar li {
+	display: block;
+	float: left;
+	width: 187px;
+	padding: 10px 10px 10px 25px;
+}
+
+#sidebar li ul {
+	line-height: 1.8em;
+}
+
+#sidebar li li {
+	display: list-item;
+	background: url(images/img07.gif) no-repeat left 50%;
+	float: none;
+	width: auto;
+	padding: 0 0 0 10px;
+	line-height: 25px;
+}
+
+#sidebar h2 {
+	margin: 0 0 10px 0;
+	color: #FFFFFF;
+}
+
+#sidebar a {
+	text-decoration: none;
+	color: #CCCCCC;
+}
+
+#sidebar a:hover {
+	text-decoration: underline;
+}
+
+/* Footer */
+
+#footer {
+	width: 900px;
+	height: 50px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	background: url(images/img06.jpg) no-repeat left top;
+	font-size: 11px;
+	color: #CCCCCC;
+}
+
+#footer p {
+	margin: 0;
+	padding: 13px 20px 15px 20px;
+}
+
+#footer a {
+	color: #FFFFFF;
+}
+
+#legal {
+	float: left;
+}
+
+#links {
+	float: right;
+}
+
+form.donate {
+    text-align: center;
+}

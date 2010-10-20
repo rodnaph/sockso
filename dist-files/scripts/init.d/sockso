@@ -1,0 +1,54 @@
+#!/usr/bin/perl
+
+###########################################################
+###########################################################
+#
+#  Edit this constant to point to your Sockso directory
+#
+
+use constant SOCKSO_DIR => "../../";
+
+#
+###########################################################
+###########################################################
+
+use strict;
+
+my $cmd = shift();
+
+if ( $cmd eq "start" ) { start(); }
+elsif ( $cmd eq "stop" ) { stop(); }
+elsif ( $cmd eq "restart" ) { restart(); }
+else { usage(); }
+
+sub start {
+
+	chdir( SOCKSO_DIR );
+	system( 'sh linux.sh --nogui > /dev/null 2>&1 &' );
+
+}
+
+sub stop {
+
+	my $pid = `ps x | grep sockso.jar | grep -v grep`;
+	$pid =~ s/^\s*(\d+) .*/$1/;
+
+        if ( $pid ) {
+            `kill -9 $pid`;
+        }
+
+}
+
+sub restart {
+	stop();
+        sleep( 2 );
+	start();
+}
+
+sub usage {
+	print <<EOF;
+
+Usage: sockso (start|stop|restart)
+
+EOF
+}

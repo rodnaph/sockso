@@ -1,0 +1,98 @@
+
+<%import>
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+    com.pugh.sockso.web.BadRequestException;
+    java.util.Vector;
+    java.util.regex.Pattern;
+    java.util.regex.Matcher;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    BadRequestException exception = null;
+    Properties properties = null;
+    String message = "";
+    String referer = "";
+    String host = "";
+    User user = null;
+    Locale locale = null;
+    boolean showStackTrace = false;
+    Vector<User> recentUsers = null;
+    int statusCode = 200;
+</%args>
+
+<& IHeader; properties=properties; user=user; locale=locale; &>
+
+<h2><% locale.getString("www.error.title") %></h2>
+
+<%if statusCode >= 400 && statusCode < 500 %>
+
+    <%doc>
+        If this is a 400 series error, then depending on the referer we can take a
+        guess as to how the user arrived here...
+            1) no referer, direct request of out of date link
+            2) local referer, internal site link broken
+            3) remote referer, other website is pointing to a bad page
+    </%doc>
+
+    <%if referer.equals("") %>
+
+        <!-- error: no referer -->
+        <p><% locale.getString("www.error.noRefererErrorDesc") #n %></p>
+
+    <%else>
+
+        <%if referer.contains(host) %>
+
+            <!-- error: local error -->
+            <p><% locale.getString("www.error.localErrorDesc") #n %></p>
+        
+        <%else>
+            <%java>
+                final Pattern p = Pattern.compile( "(http[s]?://)([a-zA-Z0-9-]+)(/.*)" );
+                final Matcher m = p.matcher( referer );
+                String domain = "", protocol = "";
+                if ( m.matches() ) {
+                    protocol = m.group( 1 );
+                    domain = m.group( 2 );
+                }
+            </%java>
+            <!-- error: remote error -->
+            <p><% locale.getString("www.error.remoteErrorDesc",new String[] { protocol, domain } ) #n %></p>
+        </%if>
+
+    </%if>
+
+</%if>
+
+<%doc>
+    All other error types just display the messages that have been set, and
+    optionally a stack trace.
+</%doc>
+
+<p><% locale.getString("www.error.desc") %>...</p>
+
+<ul>
+    <%for final String message : exception.getMessages() %>
+        <li><% message %></li>
+    </%for>
+</ul>
+
+<%if showStackTrace %>
+
+    <h3><% locale.getString("www.error.stackTrace") %></h3>
+
+    <ul>
+        <%for final StackTraceElement stackItem : exception.getStackTrace() %>
+            <li><% stackItem.toString() %></li>
+        </%for>
+    </ul>
+
+</%if>
+
+<& IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

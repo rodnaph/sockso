@@ -1,0 +1,72 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Constants;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.action.playlist.XspfPlayer;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    String[] playArgs = null;
+    String extraArgs = "";
+</%args>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Sockso Player</title>
+
+<& IHeaderIncludes; skin=properties.get(Constants.WWW_SKIN,"original"); &>
+
+<style type="text/css">
+body {
+    margin: 5px;
+    padding: 0px;
+}
+</style>
+
+</head>
+
+<body>
+
+<%java>
+
+    String playlistUrl = "/xspf";
+
+    for ( String arg : playArgs )
+        playlistUrl += "/" + arg;
+    playlistUrl += "?";
+
+    // has user chosen to not filter only mp3s? (because they have encoding
+    // options set up to handle other file types)
+    if ( !properties.get(Constants.WWW_FLASHPLAYER_DONTFILTERMP3S).equals(properties.YES) )
+        playlistUrl += "trackType=mp3";
+
+    playlistUrl += extraArgs;
+
+</%java>
+
+<script language="JavaScript" type="text/javascript" src="/file/flash/flexPlayer/swfobject.js"></script>
+
+<div id="flashcontent">
+    <strong>You need to upgrade your Flash Player</strong>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+var so = new SWFObject( "/file/flash/flexPlayer/big_xmlPlayer.swf", "xmlPlayer", "600", "300", "9", "#000000", "high" );
+so.addVariable("playlist_url", "<% playlistUrl %>");
+so.addVariable("song_title", "");
+so.addVariable("song_url", "");
+so.addVariable("podcast_mode", "0");
+so.addVariable("autoPlay", "1");
+so.write( "flashcontent" );
+// ]]>
+</script>
+
+</body>
+</html>

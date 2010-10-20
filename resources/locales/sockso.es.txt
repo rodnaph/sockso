@@ -1,0 +1,226 @@
+
+#
+#  web errors
+#
+www.error.title=Croak!
+www.error.desc=Sockso ha fuckdoozled,es decir %1!
+www.error.unknownRequest=que no sabe cómo hacer lo que usted pregunta
+www.error.unknownUser=usuario no registrado
+www.error.passwordIncorrect=contraseña no valida
+www.error.duplicateUsername=ese usuario ya existe
+www.error.duplicateEmail=ese email ya existe
+www.error.passwordsDontMatch=tu contraseña no coincide
+www.error.invalidEmail=tu email no es valido
+www.error.missingField=falta un dato
+www.error.registrationDisabled=registro de usuarios ha sido desactivado
+www.error.alreadyLoggedIn=¡tu ya estas logeado!
+www.error.downloadsDisabled=descargas desactivadas
+www.error.noAnonymousUploads=tu necesitas estar logeado para subir musica
+www.error.uploadsNotEnabled=subidas desactivadas
+www.error.noUploadsDirectory=no hay un directorio configurado para las subidas
+www.error.uploadsDirNotWritable=no se puede escribir en el directorio de subidas
+www.error.noFileUploaded=no has subido ningun archivo
+www.error.unsupportedAudioFormat=sockso no soporta ese formato de audio (solo mp3,ogg y wma)
+www.error.cantCreateTrackFolder=no se puede crear directorio de subidas
+
+#
+#  web links
+#
+www.link.login=Login
+www.link.logout=Logout
+www.link.register=Registrar
+www.link.home=Home
+www.link.browse=Explorar
+www.link.latest=Lo ultimo
+www.link.popular=Popular
+www.link.playlists=Lista reproduccion
+www.link.random=Random
+www.link.play=Play
+www.link.clear=Clear
+www.link.download=Descarga
+www.link.share=Compartido
+www.link.save=Guardado
+www.link.upload=Subido
+www.link.randomizePlaylist=Lista aleatoria
+
+#
+#  web titles
+#
+www.title.playlist=Lista de Reproduccion
+www.title.recentlyPlayedTracks=Ultimas canciones añadidas
+www.title.topArtists=Top Artistas
+www.title.about=Sobre
+www.title.sitePlaylists=Lista del sitio
+www.title.userPlaylists=Lista del usuario
+www.title.mostPopularTracks=Canciones mas populares
+www.title.latestTracks=Ultimas canciones
+www.title.latestArtists=Ultimos artistas
+www.title.share=Compartir
+www.title.login=Login
+www.title.register=Registrando
+www.title.registerComplete=¡Registro completo!
+www.title.upload=Musica subida
+www.title.uploadComplete=Subida completa
+
+#
+#  web text
+#
+www.text.loggedInAs=Logeado como
+www.text.noResults=No se encontro...
+www.text.uploadComplete=¡Gracias por la cancion,ahora esta añadida a la coleccion!
+
+#
+#  web labels
+#
+www.label.dateAdded=Fecha de añadido
+www.label.playCount=Reproducciones
+www.label.trackCount=Temas
+www.label.username=Nombre
+www.label.password=Contraseña
+www.label.passwordRepeat=Repetir contraseña
+www.label.login=Login
+www.label.email=Email
+www.label.register=Registro
+www.label.upload=Subir
+www.label.trackToUpload=Archivo
+www.label.artist=Artista
+www.label.album=Album
+www.label.track=Titulo cancion
+
+#
+#  gui window titles
+#
+gui.window.main= Sockso - Administrar coleccion
+gui.window.reports= Sockso - Reportes
+gui.window.console= Sockso - Consola
+
+#
+#  gui labels
+#
+gui.label.portForward=Configurar NAT (¡experimental!)
+gui.label.exit=Salir
+gui.label.hide=Ocultar
+gui.label.options=Opciones
+gui.label.gettingIPAddress=Conseguir direccion IP
+gui.label.yourAddress=Tu direccion
+gui.label.music=Musica
+gui.label.collection=Coleccion
+gui.label.users=Usuarios
+gui.label.myComputer=Mi PC
+gui.label.internetAddress=Direccion de Internet (por defecto)
+gui.label.refresh=Actualizar
+gui.label.addFolder=Añadir carpeta
+gui.label.removeFolder=Quitar carpeta
+gui.label.username=Usuario
+gui.label.password=Contraseña
+gui.label.passwordRepeat=Repetir contraseña
+gui.label.email=Email
+gui.label.createUser=Crear usuario
+gui.label.cancel=Cancelar
+gui.label.general=General
+gui.label.testNat=Probar configuracion NAT (esto durara un momento)
+gui.label.browse=Explorar
+gui.label.encoders=Encoders
+gui.label.encTypeNone=Nada
+gui.label.encTypeBuiltin=Builtin
+gui.label.encTypeCustom=Personalizar
+gui.label.encNoneSelected=Nada seleccionado
+gui.label.encoder=Encoder
+gui.label.bitrate=Bitrate
+gui.label.command=Comando
+gui.label.webServer=Servidor Web
+gui.label.port=Puerto
+gui.label.wwwTitle=Titulo
+gui.label.wwwTagline=Tags
+gui.label.disableDownloads=¿No permitir descargas?
+gui.label.scanOnStartup=¿Escanear al arrancar?
+gui.label.scanInterval=Escaneo a intervalos (minutos)
+gui.label.uploads=Subidas
+gui.label.enableUploads=¿Permitir Subidas?
+gui.label.anonymousUploads=¿No requerir Login?
+gui.label.uploadsDirectory=Directorio
+gui.label.general=General
+gui.label.startMinimized=¿Empezar minimizado?
+gui.label.confirmExit=¿Confirmar salida?
+gui.label.natSetup=Configuracion NAT
+gui.label.logging=Logging
+gui.label.enableRequestLog=¿Pedir informes?
+gui.label.exportRequestLogAs=Exportar informe como:
+gui.label.export=¡Exportado!
+gui.label.consoleCommandGo=Ejecutar
+gui.label.showReportsWindow=Informes
+gui.label.showConsoleWindow=Consola
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=Navegador web no encontrado
+gui.error.missingField=No rellenaste un campo requerido
+gui.error.invalidEmail=Direccion email no valida
+gui.error.passwordsDontMatch=Contraseñas no coinciden
+gui.error.duplicateUsername=Ese usuario ya existe
+gui.error.duplicateEmail=Ese email ya existe
+
+#
+#  gui titles
+#
+gui.title.creatingUser=Creando un nuevo usuario
+gui.title.options=Opciones
+
+#
+#  gui tooltips
+#
+gui.tooltip.music=Tu Musica/Listas
+gui.tooltip.collection=Administrar tu coleccion
+gui.tooltip.users=Acceso a control del usuarios
+gui.tooltip.general=Opciones generales
+gui.tooltip.encoders=Codificar opciones
+
+#
+#  gui messages
+#
+gui.message.natTestOk=¡Test NAT OK!¡Tu configuacion esta bien!
+gui.message.natTestFailed=Test NAT fallido...
+gui.message.exportComplete=¡Exportacion completa!
+
+#
+#  gui reports
+#
+gui.reports.refresh=Actualizar informe
+gui.reports.browsers.title=Exploraciones
+gui.reports.browsers.titleLong=Exploraciones usuario
+gui.reports.requestsPerDay.title=Peticiones por dia
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=# Peticiones
+
+#
+#  console errors
+#
+con.err.usernameExists=Usuario ya existe
+con.err.emailExists=Email ya existe
+con.err.errorCreatingUser=Error creando usuario...
+con.err.errorDeletingUser=Error borrando usuario...
+con.err.directoryNotInColl=Lo siento,ese directorio no esta en tu coleccion
+con.err.pathNotExist=%1 no existe...
+
+#
+#  console messages
+#
+con.msg.userCreated=¡Usuario creado!
+con.msg.userDeleted=¡Usuario borrado!
+con.msg.directoryDeleted=¡Directorio borrado!
+con.msg.propertySaved=¡Propiedad guardada!
+
+#
+#  console command descriptions
+#
+con.desc.addDirectory=añade un directorio a la coleccion
+con.desc.removeDirectory=quitar un directorio de la coleccion
+con.desc.listDirectories=mostrar directorios en la coleccion
+con.desc.exit=salir del programa
+con.desc.listProperties=mostrar propiedades del programa
+con.desc.setProperty=establece una propiedad
+con.desc.listUsers=listas de usuarios registrados
+con.desc.addUser=añade un usuario al sistema
+con.desc.deleteUser=elimina un usuario por ID
+con.desc.commands=Commands:

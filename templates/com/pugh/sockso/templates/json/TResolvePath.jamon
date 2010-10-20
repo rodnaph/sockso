@@ -1,0 +1,14 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Track;
+</%import>
+
+<%args>
+    Track track = null;
+</%args>
+
+{
+    id: '<% track.getId() %>',
+    name: '<% Utils.u2e(Utils.escapeJs(track.getName())) #n %>'
+}

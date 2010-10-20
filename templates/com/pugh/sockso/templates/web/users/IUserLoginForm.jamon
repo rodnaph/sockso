@@ -1,0 +1,26 @@
+
+<%import>
+    com.pugh.sockso.resources.Locale;
+</%import>
+
+<%args>
+    Locale locale = null;
+</%args>
+
+<form method="post" action="/user/login">
+
+    <input type="hidden" name="todo" value="login" />
+
+    <fieldset>
+
+        <label for="name"><% locale.getString("www.label.username") %></label>
+        <input type="text" name="name" /><br />
+
+        <label for="pass"><% locale.getString("www.label.password") %></label>
+        <input type="password" name="pass" /><br />
+
+        <input type="submit" class="submit" value="<% locale.getString("www.label.login") %>" />
+
+    </fieldset>
+
+</form>

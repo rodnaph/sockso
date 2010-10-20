@@ -1,0 +1,81 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.music.Playlist;
+    com.pugh.sockso.web.User;
+    com.pugh.sockso.resources.Locale;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    Vector<Playlist> sitePlaylists = null;
+    Vector<Playlist> userPlaylists = null;
+    User user = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<%java>
+    String skin = properties.get( Constants.WWW_SKIN, "original" );
+</%java>
+
+<& ../IHeader; properties=properties; title="Playlists"; user=user; locale=locale; &>
+
+<div class="section">
+
+    <h2><% locale.getString("www.title.sitePlaylists") %></h2>
+
+    <ul class="musiclist">
+    <%if sitePlaylists.size() > 0 %>
+        <%for Playlist playlist : sitePlaylists %>
+            <li class="playlist">
+                <& IMusicLinks; type="pl"; id=playlist.getId(); name=playlist.getName(); locale=locale; properties=properties; &>
+                <span class="link"><a href="/browse/playlist/<% playlist.getId() %>"><% Utils.u2e(playlist.getName()) #n %></a></span>
+                <span class="info">(<% playlist.getTrackCount() %> track<%if playlist.getTrackCount() != 1 %>s</%if>)</span>
+            </li>
+        </%for>
+    <%else>
+        <li class="empty"><% locale.getString("www.text.noResults") %></li>
+    </%if>
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2><% locale.getString("www.title.userPlaylists") %></h2>
+
+    <ul id="userPlaylists" class="musiclist">
+    <%if userPlaylists.size() > 0 %>
+        <%for Playlist playlist : userPlaylists %>
+            <li class="playlist" id="userPlaylist<% playlist.getId() %>">
+                <& IMusicLinks; type="pl"; id=playlist.getId(); name=playlist.getName(); locale=locale; properties=properties; &>
+                <a href="/browse/playlist/<% playlist.getId() %>"><% Utils.u2e(playlist.getName()) #n %></a>
+                by
+                <%if user != null && (user.getId() == playlist.getUser().getId()) %>
+                    <b>you</b>
+                <%else>
+                    <% Utils.u2e(playlist.getUser().getName()) #n %>
+                </%if>
+                (<% playlist.getTrackCount() %> track<%if playlist.getTrackCount() != 1 %>s</%if>)
+                <%if user != null && (playlist.getUser().getId() == user.getId()) %>
+                    <a href="javascript:;" class="delete" onclick="deletePlaylist('<% playlist.getId() %>');return false;"><img
+                        src="/file/skins/<% skin %>/images/remove.png" title="<% locale.getString("www.label.deletePlaylist") %>" /></a>
+                </%if>
+            </li>
+        </%for>
+    <%else>
+        <li class="empty"><% locale.getString("www.text.noResults") %></li>
+    </%if>
+    </ul>
+
+</div>
+
+<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

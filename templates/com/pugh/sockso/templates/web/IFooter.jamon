@@ -1,0 +1,105 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Sockso;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.resources.FileResources;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+    java.util.Vector;
+    java.util.Calendar;
+</%import>
+
+<%args>
+    User user = null;
+    Locale locale = null;
+    Properties properties = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<%java>
+    final String skin = properties.get( "www.skin", "original" );
+</%java>
+
+    </div>
+
+    <div id="sidebar">
+        <ul>
+            <li id="playlist"></li>
+            <%if recentUsers != null && recentUsers.size() > 0 %>
+            <li class="recentUsers">
+
+                <h2 class="bg3"><% locale.getString("www.title.recentUsers") %></h2>
+
+                <ul>
+                    <%for User user : recentUsers %>
+                        <li><% user.getName() %></li>
+                    </%for>
+                </ul>
+
+                <p><% locale.getString("www.text.recentUsersInfo") %></p>
+
+            </li>
+            </%if>
+            <li>
+                <h2 class="bg3"><% locale.getString("www.title.about") %></h2>
+                <p><% locale.getString("www.text.about") #n %></p>
+            </li>
+        </ul>
+    </div>
+
+    <div style="clear: both;">&#160;</div>
+
+</div>
+
+<div id="footer">
+    <p id="legal">
+
+        <strong>Sockso</strong>
+        v<% Sockso.VERSION %><br />
+        &copy; <% Calendar.getInstance().get(Calendar.YEAR) %>
+
+        <%if skin == "original" %>
+            CSS by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>
+        </%if>
+
+    </p>
+    <p><a href="http://sockso.pu-gh.com">http://sockso.pu-gh.com</a></p>
+</div>
+
+
+<%if properties.get("dev.enabled").equals(properties.YES) %>
+    <%java>
+        final String[] jsFiles = new String[] {
+
+            "jquery", "jquery.corner",
+
+            "sockso", "sockso.Base", "sockso.Hashtable", "sockso.Session",
+            "sockso.Locale", "sockso.Properties", "sockso.Player", "sockso.Playlist",
+            "sockso.SearchBox", "sockso.UploadForm", "sockso.User", "sockso.RelatedArtists",
+
+            "share", "imageflow", "folders", "init"
+
+        };
+    </%java>
+    <%for final String jsFile : jsFiles %>
+        <script type="text/javascript" src="/file/js/<% jsFile %>.js"></script>
+    </%for>
+<%else>
+    <script type="text/javascript" src="/file/js/packed-<% Sockso.VERSION %>.js"></script>
+</%if>
+
+<script type="text/javascript" src="/file/js/locale.<% locale.getLangCode() %>.<% Sockso.VERSION %>.js"></script>
+
+<script type="text/javascript">
+user = <%if user != null %>new sockso.User({ id: <% user.getId() %>, name: '<% user.getName() #n %>' })<%else>null</%if>;
+// duplicated here because of IE bug
+if ( !window.Properties ) {
+    Properties = new sockso.Properties();
+}
+Properties.setData({'':''<%for String name : properties.getProperties() %><%if name.substring(0,4).equals("www.") %>,'<% Utils.escapeJs(name) %>':'<% Utils.escapeJs(properties.get(name)) %>'</%if></%for>});
+</script>
+
+</body>
+</html>

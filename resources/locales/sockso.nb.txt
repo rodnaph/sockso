@@ -1,0 +1,248 @@
+# nb_NO Norsk (Bokm√•l) - 20071201
+#
+#  web errors
+#
+www.error.title=Argh, Feil!
+www.error.desc=Sockso sliter, feilen skyldes at %1!
+www.error.unknownRequest=den ikke vet hvordan den skal gj√∏re det du ber om.
+www.error.unknownUser=brukernavnet ikke finnes
+www.error.passwordIncorrect=passordet er feil
+www.error.duplicateUsername=brukernavnet allerede finnes
+www.error.duplicateEmail=epostadressen allerede er registrert
+www.error.passwordsDontMatch=du tastet forskjellige passord
+www.error.invalidEmail=epostadressen din er ugyldig
+www.error.missingField=du ikke har fylt ut alle feltene
+www.error.registrationDisabled=nye brukere ikke tillates
+www.error.alreadyLoggedIn=du har allerede logget inn!
+www.error.downloadsDisabled=nedlasting ikke er tillatt.
+www.error.noAnonymousUploads=du m√• logge inn for √• kunne laste opp musikk
+www.error.uploadsNotEnabled=opplasting av musikk ikke er tillatt
+www.error.noUploadsDirectory=det ikke er laget en mappe for opplasting
+www.error.uploadsDirNotWritable=sockso ikke f√•r skrive til opplastingsmappen
+www.error.noFileUploaded=du ikke spesifiserte en fil til opplasting
+www.error.unsupportedAudioFormat=sockso st√∏tter ikke lydformatet (kun mp3, ogg og wma)
+www.error.cantCreateTrackFolder=kan ikke lage opplastingsmappen
+www.error.browseFoldersNotEnabled=Mappeutforsker er ikke tillatt
+www.error.invalidCollectionId=Ugyldig samling
+www.error.folderDoesntExist=mappen finnes ikke
+www.error.trackNotFound=sangen finnes ikke
+
+#
+#  json messages
+#
+www.json.error.unknown=Ukjent feil
+www.json.error.noName=Du m√• spesifisere navn.
+www.json.error.noArguments=Du m√• spesifisere argumenter
+www.json.error.notLoggedIn=Du er ikke logget inn
+ 
+#
+#  web links
+#
+www.link.login=Logg inn
+www.link.logout=Logg ut
+www.link.register=Registrer
+www.link.home=Hjem
+www.link.browse=Bla
+www.link.latest=Nyeste
+www.link.popular=Popul√¶re
+www.link.playlists=Spillelister
+www.link.random=Tilfeldig
+www.link.play=Spill
+www.link.clear=T√∏m
+www.link.download=Last ned
+www.link.share=Dele
+www.link.save=Lagre
+www.link.upload=Last opp
+www.link.randomizePlaylist=Stokk om p√• spillelisten
+www.link.misc=Forskjellig
+www.link.folders=Mapper
+ 
+#
+#  web titles
+#
+www.title.playlist=Spilleliste
+www.title.recentlyPlayedTracks=Sist spilte sanger
+www.title.topArtists=Mest spilte artister
+www.title.about=Om
+www.title.sitePlaylists=Felles spillelister
+www.title.userPlaylists=Egne spillelister
+www.title.mostPopularTracks=Mest popul√¶re sanger
+www.title.latestTracks=Nyeste sanger
+www.title.latestArtists=Nyeste artister
+www.title.share=Dele sanger
+www.title.login=Logg inn
+www.title.register=Registrering
+www.title.registerComplete=Registrering fullf√∏rt
+www.title.upload=Last opp musikk
+www.title.uploadComplete=Opplastingen fullf√∏rt
+ 
+#
+#  web text
+#
+www.text.loggedInAs=Logget inn som
+www.text.noResults=Intet funnet...
+www.text.uploadComplete=Takk for sangen, den er n√• i samlingen!
+ 
+#
+#  web labels
+#
+www.label.dateAdded=Lagt til
+www.label.playCount=Spilt
+www.label.trackCount=Spor
+www.label.username=Navn
+www.label.password=Passord
+www.label.passwordRepeat=Bekreft passord
+www.label.login=Brukernavn
+www.label.email=Epostadresse
+www.label.register=Registrer
+www.label.upload=Last opp
+www.label.trackToUpload=Fil
+www.label.artist=Artist
+www.label.album=Album
+www.label.track=Sangtittel
+#
+#  gui window titles
+#
+gui.window.main= Sockso - Samlingsbehandler
+gui.window.reports= Sockso - Rapporter
+gui.window.console= Sockso - Konsoll
+
+ 
+#
+#  gui labels
+#
+gui.label.portForward=Konfigurer NAT (eksperimentell!)
+gui.label.exit=Avslutt
+gui.label.hide=Skjul
+gui.label.options=Innstillinger
+gui.label.gettingIPAddress=Henter IP adresse
+gui.label.yourAddress=Din adresse
+gui.label.music=Musikk
+gui.label.collection=Samling
+gui.label.users=Brukere
+gui.label.myComputer=Min datamaskin
+gui.label.internetAddress=IP adresse (standard)
+gui.label.refresh=Oppdater
+gui.label.addFolder=Legg til mappe
+gui.label.removeFolder=Fjern mappe
+gui.label.username=Brukernavn
+gui.label.password=Passord
+gui.label.passwordRepeat=Bekreft password
+gui.label.email=Epost
+gui.label.createUser=Lag bruker
+gui.label.cancel=Avbryt
+gui.label.general=Generelt
+gui.label.testNat=Test NAT oppsett (tar noen sekunder)
+gui.label.browse=Bla
+gui.label.encoders=Enkodere
+gui.label.encTypeNone=Ingen
+gui.label.encTypeBuiltin=Innebygget
+gui.label.encTypeCustom=Egendefinert
+gui.label.encNoneSelected=Ingen valgt
+gui.label.encoder=Enkoder
+gui.label.bitrate=Bitrate
+gui.label.command=Kommandolinje
+gui.label.webServer=Webtjener
+gui.label.port=Port
+gui.label.wwwTitle=Tittel
+gui.label.wwwTagline=Tagline
+gui.label.disableDownloads=Sperr nedlasting?
+gui.label.scanOnStartup=S√∏k igjennom samlingen ved start?
+gui.label.scanInterval=S√∏keintervall (minutter)
+gui.label.uploads=Opplasting
+gui.label.enableUploads=Tillat opplasting?
+gui.label.anonymousUploads=Tillat anonym opplasting?
+gui.label.uploadsDirectory=Mappe
+gui.label.general=Generelt
+gui.label.startMinimized=Start minimert?
+gui.label.confirmExit=Bekreft avsluting?
+gui.label.natSetup=NAT innstillinger
+gui.label.logging=Logging
+gui.label.enableRequestLog=Logge foresp√∏rsler?
+gui.label.exportRequestLogAs=Lagre loggen som:
+gui.label.export=Eksporter!
+gui.label.consoleCommandGo=Kj√∏r
+gui.label.showReportsWindow=Rapporter
+gui.label.showConsoleWindow=Konsoll
+gui.label.enableFolderBrowsing=Tillat mappeutforskning
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=Fant ingen nettleser
+gui.error.missingField=Du m√• fylle ut obligatoriske felt
+gui.error.invalidEmail=Ugyldig epostadresse
+gui.error.passwordsDontMatch=Passordene er ikke like
+gui.error.duplicateUsername=Brukernavnet eksisterer
+gui.error.duplicateEmail=Epostadressen er benyttet f√∏r
+ 
+#
+#  gui titles
+#
+gui.title.creatingUser=Lag ny bruker
+gui.title.options=Innstillinger
+ 
+#
+#  gui tooltips
+#
+gui.tooltip.music=Din musikk/spillelister
+gui.tooltip.collection=Samlingen
+gui.tooltip.users=Brukeradgang
+gui.tooltip.general=Generelle instillinger
+gui.tooltip.encoders=Enkodere
+
+#
+#  gui messages
+#
+gui.message.natTestOk=NAT testen gikk bra!
+gui.message.natTestFailed=NAT testen feilet...
+gui.message.exportComplete=Export fullf√∏rt
+
+#
+#  gui reports
+#
+gui.reports.refresh=Oppfrisk rapport
+gui.reports.browsers.title=Nettlesere
+gui.reports.browsers.titleLong=Brukerens nettleserre
+gui.reports.requestsPerDay.title=Foresp√∏rsler pr. dag
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=Antall foresp√∏rsler
+
+#
+#  console errors
+#
+con.err.usernameExists=Brukernavnet eksisterer
+con.err.emailExists=Epostadressen er benyttet tidligere
+con.err.errorCreatingUser=Feil ved oppretting av bruker...
+con.err.errorDeletingUser=Feil ved sletting av bruker...
+con.err.directoryNotInColl=Den mappen er ikke en del av samlingen
+con.err.pathNotExist=%1 finnes ikke...
+ 
+#
+#  console messages
+#
+con.msg.userCreated=Opprettet bruker
+con.msg.userDeleted=Slettet bruker
+con.msg.directoryDeleted=Slettet mappe
+con.msg.propertySaved=Lagret innstilling
+ 
+#
+#  console command descriptions
+#
+con.desc.addDirectory=legger til en mappe i samlingen
+con.desc.removeDirectory=fjerner en mappe fra samlingen
+con.desc.listDirectories=viser alle mapper i samlingen
+con.desc.exit=avslutter sockso
+con.desc.listProperties=viser innstillngene
+con.desc.setProperty=endrer en innstilling
+con.desc.listUsers=viser registrerte brukere
+con.desc.addUser=legger til en ny bruker
+con.desc.deleteUser=sletter en bruker
+con.desc.commands=Kommandoer:
+
+www.error.fileNotFound=Filen finnes ikke
+www.error.couldNotCreateUniqueFilename=Kan ikke opprette et unikt filnavn
+gui.label.clearRequestLog=Slett (%1 loggoppføringer)
+gui.message.confirmClearRequestLog=Du kan ikke angre, vil du slette loggen over forespørsler?
+gui.message.requestLogCleared=Forespørselsloggen er slettet!
+

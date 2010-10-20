@@ -1,0 +1,301 @@
+
+#
+#  web errors
+#
+www.error.title=Croak! Burp! Fuey!
+www.error.stackTrace=Stack Trace
+www.error.desc=Sockso says...
+www.error.unknownRequest=that it doesn't know how to do what you asked
+www.error.unknownUser=that username isn't registered
+www.error.passwordIncorrect=your password is wrong
+www.error.duplicateUsername=that username already exists
+www.error.duplicateEmail=that email already exists
+www.error.passwordsDontMatch=your passwords don't match
+www.error.invalidEmail=your email is invalid
+www.error.missingField=you missed a field
+www.error.registrationDisabled=user registration has been disabled
+www.error.alreadyLoggedIn=you are already logged in!
+www.error.downloadsDisabled=downloads are disabled
+www.error.noAnonymousUploads=you need to be logged in to upload music
+www.error.uploadsNotEnabled=uploads aren't enabled
+www.error.noUploadsDirectory=there isn't an uploads directory set
+www.error.uploadsDirNotWritable=the uploads directory isn't writable
+www.error.noFileUploaded=you didn't upload a file
+www.error.unsupportedAudioFormat=sockso doesn't support that audio format (only mp3, ogg and wma)
+www.error.cantCreateTrackFolder=it can't create the upload folder
+www.error.browseFoldersNotEnabled=folder browsing has not been enabled
+www.error.invalidCollectionId=invalid collection id
+www.error.folderDoesntExist=the folder doesn't exist
+www.error.trackNotFound=track not found
+www.error.fileNotFound=file not found
+www.error.couldNotCreateUniqueFilename=could not create unique filename
+www.error.coversDisabled=covers are disabled
+www.error.remoteErrorDesc=Sorry, but that page doesn't exist.  It looks like <a href="%1%2">%2</a> has an out of date link...  you may want to report it to them so they can update their site.
+www.error.localErrorDesc=Sorry, but that page doesn't exist.  It looks like you've followed a bad link in Sockso, if you think this might be a bug please <a href="http://forums.pu-gh.com">report it</a>.
+www.error.noRefererErrorDesc=Sorry, but that page doesn't exist.  It looks like you've either copy/pasted an incorrect URL, or followed a bookmark that seems to be out of date.
+www.error.nothingToPlay=You have to choose some stuff to play first, clart!
+www.error.nothingToDownload=You have to choose some stuff to download first, dufus!
+www.error.nothingToShare=You have to choose some stuff to share first, stoopid!
+www.error.passwordsDontMatch=The passwords don't match
+
+#
+#  json messages
+#
+www.json.error.unknown=Unknown error
+www.json.error.noName=No name specified
+www.json.error.noArguments=No arguments
+www.json.error.notLoggedIn=You are not logged in
+
+#
+#  web links
+#
+www.link.login=Login
+www.link.logout=Logout
+www.link.register=Register
+www.link.home=Home
+www.link.browse=Browse
+www.link.latest=Latest
+www.link.popular=Popular
+www.link.playlists=Playlists
+www.link.random=Random
+www.link.play=Play
+www.link.clear=Clear
+www.link.download=Download
+www.link.share=Share
+www.link.save=Save
+www.link.upload=Upload
+www.link.randomizePlaylist=Randomize Playlist
+www.link.misc=Misc
+www.link.folders=Folders
+www.link.playRandom=Play Randomly
+www.link.editUser=Edit
+www.link.scrobbleLog=Scrobble Log
+
+#
+#  web titles
+#
+www.title.playlist=Playlist
+www.title.recentlyPlayedTracks=Recently Played Tracks
+www.title.topArtists=Top Artists
+www.title.about=About
+www.title.sitePlaylists=Site Playlists
+www.title.userPlaylists=User Playlists
+www.title.mostPopularTracks=Most Popular Tracks
+www.title.latestTracks=Latest Tracks
+www.title.latestArtists=Latest Artists
+www.title.share=Share
+www.title.login=Login
+www.title.register=Registering
+www.title.registerComplete=Registration Complete!
+www.title.upload=Upload Music
+www.title.uploadComplete=Upload Complete
+www.title.recentlyPlayedAlbums=Recently Played Albums
+www.title.editProfile=Your Profile
+www.title.userUpdated=Profile Updated!
+www.title.recentUsers=Recent Users
+www.title.latestAlbums=Latest Albums
+www.title.sharePopup=Sockso - Sharing Music
+
+#
+#  web text
+#
+www.text.loggedInAs=Logged in as
+www.text.noResults=Nothing found...
+www.text.uploadComplete=Thanks for the track, it's now in the collection!
+www.text.noCover=Cover not found...
+www.text.userUpdated=Your details have been updated.
+www.text.confirmLogout=Sure you want to log out?
+www.text.confirmScrobbleLog=When you download your scrobble log, all your tracks will be marked as listened.  Are you sure you want to download it now?
+www.text.recentUsersInfo=(Users who have played songs in the last 5 minutes)
+www.text.about=<a href="http://sockso.pu-gh.com">Sockso</a> is a <a href="http://www.gnu.org/licenses/gpl.txt">free</a>, <a href="http://sockso.pu-gh.com/source">open-source</a>, personal music server for everyone!
+www.text.share=To share this music, you can put a flash player on your website by copy/pasting the following HTML...
+www.text.login=If you've created an account you can put your info into the form below to login.  If not then head over to the <a href="%1">register page</a> to get started!
+www.text.register=If you wanna be able to log in here, first thing you'll need to do is create yourself an account.  So whack your details into the form below and hit the <b>register</b> button to get going!
+www.text.registerComplete=Nice work %1, you've just created yourself an account!  You're now logged in and able to get on with all the musicy goodness!
+www.text.emptyPlaylist=Your playlist is currently empty.  To add tracks to it click the blue icons <img src="/file/skins/%1/images/add.png" /> next to songs, albums, etc...
+
+#
+#  web labels
+#
+www.label.dateAdded=Date added
+www.label.playCount=Plays
+www.label.trackCount=Tracks
+www.label.username=Name
+www.label.password=Password
+www.label.passwordRepeat=Repeat password
+www.label.login=Login
+www.label.email=Email
+www.label.register=Register
+www.label.upload=Upload
+www.label.trackToUpload=File
+www.label.artist=Artist
+www.label.album=Album
+www.label.track=Track title
+www.label.deletePlaylist=Delete playlist
+www.label.save=Save
+
+#
+#  www confirm prompts
+#
+www.confirm.deletePlaylist=Are you sure you want to delete this playlist?
+www.confirm.playlistName=What do you want to call this playlist?
+
+#
+#  gui window titles
+#
+gui.window.main= Sockso - Collection Manager
+gui.window.reports= Sockso - Reports
+gui.window.console= Sockso - Console
+
+#
+#  gui labels
+#
+gui.label.portForward=Setup NAT (experimental!)
+gui.label.exit=Exit
+gui.label.hide=Hide
+gui.label.options=Options
+gui.label.gettingIPAddress=Getting IP Address
+gui.label.yourAddress=Your address
+gui.label.music=Music
+gui.label.collection=Collection
+gui.label.users=Users
+gui.label.myComputer=My Computer
+gui.label.internetAddress=Internet Address (default)
+gui.label.refresh=Refresh
+gui.label.addFolder=Add Folder
+gui.label.removeFolder=Remove
+gui.label.username=Username
+gui.label.password=Password
+gui.label.passwordRepeat=Repeat password
+gui.label.email=Email
+gui.label.createUser=Create User
+gui.label.cancel=Cancel
+gui.label.general=General
+gui.label.testNat=Test NAT setup (may take a few moments)
+gui.label.browse=Browse
+gui.label.encoders=Encoders
+gui.label.encTypeNone=None
+gui.label.encTypeBuiltin=Builtin
+gui.label.encTypeCustom=Custom
+gui.label.encNoneSelected=None selected
+gui.label.encoder=Encoder
+gui.label.bitrate=Bitrate
+gui.label.command=Command
+gui.label.webServer=Web Server
+gui.label.port=Port
+gui.label.wwwTitle=Title
+gui.label.wwwTagline=Tagline
+gui.label.disableDownloads=Disable downloads?
+gui.label.scanOnStartup=Scan on startup?
+gui.label.scanInterval=Scan interval (minutes)
+gui.label.uploads=Uploads
+gui.label.enableUploads=Enable uploads?
+gui.label.anonymousUploads=Don't require login?
+gui.label.uploadsDirectory=Directory
+gui.label.general=General
+gui.label.startMinimized=Start minimized?
+gui.label.confirmExit=Confirm exit?
+gui.label.natSetup=NAT Setup
+gui.label.logging=Logging
+gui.label.enableRequestLog=Log requests?
+gui.label.exportRequestLogAs=Export request log as:
+gui.label.export=Export
+gui.label.import=Import
+gui.label.consoleCommandGo=Execute
+gui.label.showReportsWindow=Reports
+gui.label.showConsoleWindow=Console
+gui.label.enableFolderBrowsing=Enable folder browsing?
+gui.label.clearRequestLog=Clear (%1 records)
+gui.label.tracks=Tracks
+gui.label.playlists=Playlists
+gui.label.userPlaylists=User Playlists
+gui.label.rescanCollection=Scan Now
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=No web browser found
+gui.error.missingField=You missed a required field
+gui.error.invalidEmail=That is not a valid email address
+gui.error.passwordsDontMatch=Your passwords don't match
+gui.error.duplicateUsername=That username already exists
+gui.error.duplicateEmail=That email already exists
+
+#
+#  gui titles
+#
+gui.title.creatingUser=Creating a new user
+gui.title.options=Options
+
+#
+#  gui tooltips
+#
+gui.tooltip.music=Your Music/Playlists
+gui.tooltip.collection=Manage your collection
+gui.tooltip.users=Control user access
+gui.tooltip.general=General options
+gui.tooltip.encoders=Encoding options
+
+#
+#  gui messages
+#
+gui.message.natTestOk=NAT test ok!  Your setup seems fine!
+gui.message.natTestFailed=NAT test failed...
+gui.message.exportComplete=Export complete!
+gui.message.confirmClearRequestLog=There is no undo, are you sure you want to clear the request log?
+gui.message.requestLogCleared=Request log cleared!
+gui.message.playlistImported=Playlist imported!
+gui.message.playlistImportFailed=Import failed...
+
+#
+#  gui reports
+#
+gui.reports.refresh=Refresh report
+gui.reports.browsers.title=Browsers
+gui.reports.browsers.titleLong=User's Browsers
+gui.reports.requestsPerDay.title=Requests Per Day
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=# Requests
+
+#
+#  console errors
+#
+con.err.usernameExists=Username already exists
+con.err.emailExists=Email already exists
+con.err.errorCreatingUser=Error creating user...
+con.err.errorDeletingUser=Error deleting user...
+con.err.directoryNotInColl=Sorry, that directory isn't in your collection
+con.err.pathNotExist=%1 does not exist...
+con.err.propertyDoesntExist=Property doesn't exist...
+
+#
+#  console messages
+#
+con.msg.userCreated=User created!
+con.msg.userDeleted=User deleted!
+con.msg.directoryDeleted=Directory removed!
+con.msg.propertySaved=Property saved!
+con.msg.propertyDeleted=Property deleted!
+con.msg.directoryAdded=Directory added!
+
+#
+#  console command descriptions
+#
+con.desc.addDirectory=adds a directory to the collection
+con.desc.removeDirectory=removes a directory from the collection
+con.desc.listDirectories=lists directories in the collection
+con.desc.exit=exits the application
+con.desc.listProperties=lists application properties
+con.desc.setProperty=sets a property
+con.desc.listUsers=lists registered users
+con.desc.addUser=adds a user to the system
+con.desc.deleteUser=deletes a user by id
+con.desc.commands=Commands:
+con.desc.delProperty=deletes a property
+con.desc.version=show current version
+con.desc.rescanCollection=scan collection now
+
+#
+#  misc messages
+#
+misc.msg.updateAvailable=There is a newer version of Sockso available (%1)

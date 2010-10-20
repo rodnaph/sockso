@@ -1,0 +1,10 @@
+
+This fixture just creates a track, in a collection, with an artist and album
+
+collection:1,/music
+
+artists:1,My Artist,now(),My Artist
+
+albums:1,1,My Album,now()
+
+tracks:1,1,1,My Track,/music/track.mp3,180,now(),1,1

@@ -1,0 +1,81 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.web.User;
+    com.pugh.sockso.resources.Locale;
+</%import>
+
+<%args>
+    Properties properties = null;
+    String title = "";
+    User user = null;
+    Locale locale = null;
+</%args>
+
+<%java>
+    final String skin = properties.get( Constants.WWW_SKIN, "original" );
+    final String browseLink = properties.get( Constants.WWW_BROWSE_FOLDERS_ENABLED ).equals( Properties.YES )
+                                && properties.get( Constants.WWW_BROWSE_FOLDERS_ONLY ).equals( Properties.YES )
+        ? "/browse/folders"
+        : "/browse/letter/a";
+</%java>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+<title><% properties.get(Constants.WWW_TITLE) %><%if !title.equals("") %> - <% Utils.u2e(title) #n %></%if></title>
+
+<& IHeaderIncludes; skin=skin; &>
+
+<link rel="alternate" title="Latest Tracks" href="/rss/latest" type="application/rss+xml" />
+
+</head>
+
+<body>
+
+<div id="login-info">
+
+    <%if user == null %>
+        <a href="/user/login"><% locale.getString("www.link.login") %></a>
+        <%if !properties.get(Constants.WWW_USERS_DISABLE_REGISTRATION).equals(Properties.YES) %>
+            / <a href="/user/register"><% locale.getString("www.link.register") %></a>
+        </%if>
+        :
+    <%else>
+        <% locale.getString("www.text.loggedInAs") %> <% user.getName() %>
+        :
+        <a href="/user/edit" title="<% locale.getString("www.link.editUser") %>"><img src="/file/skins/<% skin %>/images/profile.png" alt="<% locale.getString("www.link.editUser") %>" /></a>
+        <a id="scrobbleLogLink" href="/user/scrobbleLog" title="<% locale.getString("www.link.scrobbleLog") %>"><img src="/file/skins/<% skin %>/images/audioscrobbler.png" alt="<% locale.getString("www.link.scrobbleLog") %>" /></a>
+    </%if>
+
+    <%if properties.get(Constants.WWW_UPLOADS_ENABLED).equals(properties.YES) && (user != null || properties.get(Constants.WWW_UPLOADS_ALLOW_ANONYMOUS).equals(properties.YES)) %>
+        <a href="/upload" title="<% locale.getString("www.link.upload") %>"><img src="/file/skins/<% skin %>/images/upload.png" alt="<% locale.getString("www.link.upload") %>" /></a>
+    </%if>
+
+    <%if user != null %>
+        <a id="logoutLink" href="/user/logout" title="<% locale.getString("www.link.logout") %>"><img src="/file/skins/<% skin %>/images/logout.png" alt="<% locale.getString("www.link.logout") %>" /></a>
+    </%if>
+
+</div>
+
+<div id="header">
+	<h1><a href="/"><% properties.get(Constants.WWW_TITLE) %></a></h1>
+	<p><a href="/"><% properties.get(Constants.WWW_TAGLINE) %></a></p>
+</div>
+
+<div id="page">
+
+    <div id="nav">
+        <a href="/"><% locale.getString("www.link.home") %></a>
+        <a href="<% browseLink %>"><% locale.getString("www.link.browse") %></a>
+        <a href="/browse/latest"><% locale.getString("www.link.latest") %></a>
+        <a href="/browse/popular"><% locale.getString("www.link.popular") %></a>
+        <a href="/browse/playlists"><% locale.getString("www.link.playlists") %></a>
+        <a href="javascript:player.play('random')"><% locale.getString("www.link.random") %></a>
+    </div>
+
+    <div id="content">

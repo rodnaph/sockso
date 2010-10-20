@@ -1,0 +1,12 @@
+<%import>
+    com.pugh.sockso.music.Track;
+    java.util.Vector;
+</%import>
+<%args>
+    Vector<Track> tracks = null;
+</%args>
+#AUDIOSCROBBLER/1.1
+#TZ/UNKNOWN
+#CLIENT/Sockso
+<%for Track track : tracks %><% track.getArtist().getName() %><% "\t" %><% track.getAlbum().getName() %><% "\t" %><% track.getName() %><% "\t" %><% track.getNumber() %><% "\t" %><% "\t" %>L<% "\t" %><% track.getDateAdded().getTime() / 1000 %><% "\t" %>
+</%for>

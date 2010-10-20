@@ -1,0 +1,25 @@
+
+developer.name=
+
+ant.run.jvm=
+
+php.exe=php
+
+run.arg.resourcestype=jar
+run.arg.logtype=dev
+
+run.arg.dbtype=
+run.arg.dbhost=
+run.arg.dbuser=
+run.arg.dbpass=
+
+# google code
+googleCode.username
+googleCode.password
+
+jstestdriver.port=9876
+jstestdriver.version=1.2
+
+mysql.host=localhost
+mysql.user=root
+mysql.pass=

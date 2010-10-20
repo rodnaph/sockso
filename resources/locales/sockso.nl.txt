@@ -1,0 +1,228 @@
+www.error.title':'Er heeft zich een fout voorgedaan
+www.error.stackTrace':'Stack Trace
+www.error.desc':'Sockso zegt dat...
+www.error.unknownRequest':'het de aanvraag niet begrijpt.
+www.error.unknownUser':'die gebruiker onbekend is.
+www.error.passwordIncorrect':'het opgegeven wachtwoord incorrect is.
+www.error.duplicateUsername':'die gebruikersnaam al bestaat.
+www.error.duplicateEmail':'het opgegeven e-mail adres al bestaat.
+www.error.passwordsDontMatch':'de wachtwoorden niet overeen komen.
+www.error.invalidEmail':'het e-mail adres niet geldig is.
+www.error.missingField':'je een veld bent vergeten.
+www.error.registrationDisabled':'registratie momenteel uitgeschakeld is.
+www.error.alreadyLoggedIn':'je al ingelogd bent.
+www.error.downloadsDisabled':'downloaden is uitgeschakeld.
+www.error.noAnonymousUploads':'om te uploaden je eerst in moet loggen.
+www.error.uploadsNotEnabled':'uploads niet ingeschakeld zijn.
+www.error.noUploadsDirectory':'er geen upload map is ingesteld.
+www.error.uploadsDirNotWritable':'het geen toegang heeft tot de upload map. (CHMOD?)
+www.error.noFileUploaded':'je geen bestand geupload hebt.
+www.error.unsupportedAudioFormat':'het muziekformaat niet wordt ondersteund (alleen mp3, ogg en wma)
+www.error.cantCreateTrackFolder':'de uploadmap niet aangemaakt kan worden.
+www.error.browseFoldersNotEnabled':'door mappen bladeren niet is ingeschakeld.
+www.error.invalidCollectionId':'ongeldige collectie ID.
+www.error.folderDoesntExist':'de gekozen map bestaat niet.
+www.error.trackNotFound':'nummer niet gevonden
+www.error.fileNotFound':'bestand niet gevonden
+www.error.couldNotCreateUniqueFilename':'kon geen unieke bestandsnaam aanmaken
+www.error.coversDisabled':'covers zijn uitgeschakeld
+www.error.remoteErrorDesc':'Sorry, de opgevraagde pagina bestaat niet.  Het lijkt er op dat <a href=\"%1%2\">%2</a> een oude link bevat.
+www.error.localErrorDesc':'Sorry, de opgevraagde pagina bestaat niet.  Het lijkst er op dat Sockso een foute URL heeft doorgegeven. Als je van mening bent dat dit een bug is, geef dit dan aub door op <a href=\"http://forums.pu-gh.com\">het forum</a>.
+www.error.noRefererErrorDesc':'Sorry, de opgevraagde pagina bestaat niet. Het lijkt er op dat je een verkeerde URL hebt ingevoerd, of een koppeling hebt gebruikt die niet meer bestaat.
+www.error.nothingToPlay':'Voor je op afspelen klikt moet je natuurljk wel eerst muziek selecteren!
+www.error.nothingToDownload':'Je moet natuurlijk eerst iets selecteren om te kunnen downloaden!
+www.error.nothingToShare':'Je moet eerst wat selecteren om te kunnen delen!
+www.json.error.unknown':'Onbekende fout
+www.json.error.noName':'Geen naam opgegeven
+www.json.error.noArguments':'Geen argumenten
+www.json.error.notLoggedIn':'Je bent niet ingelogd
+www.link.login':'Inloggen
+www.link.logout':'Uitloggen
+www.link.register':'Registreren
+www.link.home':'Home
+www.link.browse':'Bladeren
+www.link.latest':'Laatste
+www.link.popular':'Populair
+www.link.playlists':'Afspeellijsten
+www.link.random':'Willekeurig
+www.link.play':'Afspelen
+www.link.clear':'Wissen
+www.link.download':'Downloaden
+www.link.share':'Delen
+www.link.save':'Opslaan
+www.link.upload':'Uploaden
+www.link.randomizePlaylist':'Willekeurige afspeellijst
+www.link.misc':'Overig
+www.link.folders':'Mappen
+www.link.playRandom':'Willekeurig afspelen
+www.link.editUser':'Bewerken
+www.link.scrobbleLog':'Scrobble Log
+www.title.playlist':'Afspeellijst
+www.title.recentlyPlayedTracks':'Recent beluisterde nummers
+www.title.topArtists':'Top Artiesten
+www.title.about':'Over
+www.title.sitePlaylists':'Site afspeellijsten
+www.title.userPlaylists':'Gebruikers afspeellijsten
+www.title.mostPopularTracks':'Meest populaire nummers
+www.title.latestTracks':'Nieuwe nummers
+www.title.latestArtists':'Nieuwe artiesten
+www.title.share':'Delen
+www.title.login':'Inloggen
+www.title.register':'Registreren
+www.title.registerComplete':'Registratie voltooid!
+www.title.upload':'Muziek uploaden
+www.title.uploadComplete':'Uploaden voltooid
+www.title.recentlyPlayedAlbums':'Recent afgespeelde albums
+www.title.editProfile':'Mijn profiel
+www.title.userUpdated':'Profiel opgeslagen!
+www.title.recentUsers':'Recente gebruikers
+www.title.latestAlbums':'Nieuwe albums
+www.title.sharePopup':'Sockso - Deel muziek
+www.text.loggedInAs':'Ingelogd als
+www.text.noResults':'Niets gevonden...
+www.text.uploadComplete':'bedankt voor het nummer, het is opgenomen in de collectie!
+www.text.noCover':'Cover niet gevonden...
+www.text.userUpdated':'De details zijn bijgewerkt.
+www.text.confirmLogout':'Weet je zeker dat je uit wil loggen?
+www.text.confirmScrobbleLog':'Wanneer je het scrobble log download worden alle nummers gemarkeerd als beluisterd. Weet je zeker dat je dit wil doen?
+www.text.recentUsersInfo':'(Gebruikers die actief waren in de afgelopen 5 minuten)
+www.text.about':'<a href=\"http://sockso.pu-gh.com\">Sockso</a> is een <a href=\"http://www.gnu.org/licenses/gpl.txt\">gratis</a>, <a href=\"http://sockso.pu-gh.com/source\">open-source</a>, persoonlijke muziek server voor iedereen!
+www.text.share':'Om deze muziek te delen via een flash speler op je eigen website hoef je alleen maar de volgende HTML code te kopieëren...
+www.text.login':'Als je al een account hebt kun je hieronder met je bestaande gegevens inloggen, ben je nog geen lid ga dan naar de <a href=\"%1\">registratiepagina</a> om een account aan te maken!
+www.text.register':'Om van deze service gebruik te maken moet je lid zijn. Vul onderstaand formulier in en klik op <b>Registreren</b> om je account aan te maken!
+www.text.registerComplete':'Kijk een aan, %1. Je hebt zojuist een account aangemaakt!  Je bent al ingelogd en kunt meteen beginnen!
+www.text.emptyPlaylist':'Je afspeellijst is momenteel leeg. Klik op het blauwe icoontje <img src=\"/file/skins/%1/images/add.png\" /> naast de nummers of albums e.d. om ze toe te voegen.
+www.label.dateAdded':'Datum toegevoegd
+www.label.playCount':'Afgespeeld
+www.label.trackCount':'Nummers
+www.label.username':'Naam
+www.label.password':'Wachtwoord
+www.label.passwordRepeat':'Herhaal wachtwoord
+www.label.login':'Inloggen
+www.label.email':'E-mail
+www.label.register':'Registreren
+www.label.upload':'Uploaden
+www.label.trackToUpload':'Bestand
+www.label.artist':'Artiest
+www.label.album':'Album
+www.label.track':'Titel
+www.label.deletePlaylist':'Verwijder afspeellijst
+www.label.save':'Opslaan
+www.confirm.deletePlaylist':'Weet je zeker dat je deze afspeellijst wil verwijderen?
+www.confirm.playlistName':'Hoe wil je deze afspeellijst noemen?
+gui.window.main':'Sockso - Collectie Manager
+gui.window.reports':'Sockso - Rapportages
+gui.window.console':'Sockso - Console
+gui.label.portForward':'NAT Instellen (experimenteel!)
+gui.label.exit':'Sluiten
+gui.label.hide':'Verbergen
+gui.label.options':'Opties
+gui.label.gettingIPAddress':'IP adres ophalen
+gui.label.yourAddress':'Jouw IP adres
+gui.label.music':'Muziek
+gui.label.collection':'Collectie
+gui.label.users':'Gebruikers
+gui.label.myComputer':'Deze computer
+gui.label.internetAddress':'Internet adres (standaard)
+gui.label.refresh':'Vernieuwen
+gui.label.addFolder':'Map toevoegen
+gui.label.removeFolder':'Verwijderen
+gui.label.username':'Gebruikersnaam
+gui.label.password':'Wachtwoord
+gui.label.passwordRepeat':'Herhaal wachtwoord
+gui.label.email':'E-mail
+gui.label.createUser':'Nieuwe gebruiker
+gui.label.cancel':'Annuleren
+gui.label.general':'Algemeen
+gui.label.testNat':'Test NAT instellingen (kan even duren)
+gui.label.browse':'Selecteren
+gui.label.encoders':'Encoders
+gui.label.encTypeNone':'Geen
+gui.label.encTypeBuiltin':'Ingebouwd
+gui.label.encTypeCustom':'Custom
+gui.label.encNoneSelected':'Geen geselecteerd
+gui.label.encoder':'Encoder
+gui.label.bitrate':'Bitrate
+gui.label.command':'Commando
+gui.label.webServer':'Web Server
+gui.label.port':'Poort
+gui.label.wwwTitle':'Titel
+gui.label.wwwTagline':'Subtitel
+gui.label.disableDownloads':'Downloads uitschakelen?
+gui.label.scanOnStartup':'Scannen na start?
+gui.label.scanInterval':'Auto scan (minuten)
+gui.label.uploads':'Uploads
+gui.label.enableUploads':'Uploaden toestaan?
+gui.label.anonymousUploads':'Anoniem uploaden?
+gui.label.uploadsDirectory':'Uploadmap
+gui.label.general':'Algemeen
+gui.label.startMinimized':'Geminimaliseerd starten?
+gui.label.confirmExit':'Afsluiten bevestigen?
+gui.label.natSetup':'NAT Instellingen
+gui.label.logging':'Logboek
+gui.label.enableRequestLog':'Requests loggen?
+gui.label.exportRequestLogAs':'Exporteer log als:
+gui.label.export':'Exporteren
+gui.label.import':'Importeren
+gui.label.consoleCommandGo':'Uitvoeren
+gui.label.showReportsWindow':'Rapporten
+gui.label.showConsoleWindow':'Console
+gui.label.enableFolderBrowsing':'Door mappen bladeren inschakelen
+gui.label.clearRequestLog':'Wissen (%1 record)
+gui.label.tracks':'Nummers
+gui.label.playlists':'Afspeellijsten
+gui.label.userPlaylists':'Gebruikers afspeellijsten
+gui.label.rescanCollection':'Nu scannen
+gui.error.browserNotFound':'Geen webbrowser gevonden
+gui.error.missingField':'Een van de verplichte velden is leeg gelaten
+gui.error.invalidEmail':'Ongeldig e-mail adres
+gui.error.passwordsDontMatch':'De wachtwoorden komen niet overeen
+gui.error.duplicateUsername':'De gebruikersnaam bestaat al
+gui.error.duplicateEmail':'Het e-mail adres bestaat al
+gui.title.creatingUser':'Nieuwe gebruiker aanmaken
+gui.title.options':'Opties
+gui.tooltip.music':'Eigen Muziek/Afspeellijsten
+gui.tooltip.collection':'Beheer de collectie
+gui.tooltip.users':'Beheer gebruikers
+gui.tooltip.general':'Algemene instellingen
+gui.tooltip.encoders':'Encodeer opties
+gui.message.natTestOk':'NAT test voltooid! De setup werkt!
+gui.message.natTestFailed':'NAT test is mislukt...
+gui.message.exportComplete':'Export voltooid!
+gui.message.confirmClearRequestLog':'Je kunt deze actie niet ongedaan maken, weet je zeker dat je het logboek volledig wil wissen?
+gui.message.requestLogCleared':'Logboek gewist!
+gui.message.playlistImported':'Afspeellijst geimporteerd!
+gui.message.playlistImportFailed':'Importeren mislukt...
+gui.reports.refresh':'Rapport vernieuwen
+gui.reports.browsers.title':'Browsers
+gui.reports.browsers.titleLong':'Browser van gebruiker
+gui.reports.requestsPerDay.title':'Requests per dag
+gui.reports.requestsPerDay.xAxis':'
+gui.reports.requestsPerDay.yAxis':'Requests
+con.err.usernameExists':'Gebruikersnaam bestaat al
+con.err.emailExists':'E-mail adres bestaat al
+con.err.errorCreatingUser':'Fout bij het aanmaken van de gebruiker...
+con.err.errorDeletingUser':'Fout bij het verwijderen van de gebruiker...
+con.err.directoryNotInColl':'Sorry, die map is niet gevonden in de collectie
+con.err.pathNotExist':'%1 bestaat niet...
+con.err.propertyDoesntExist':'Eigenschap bestaat niet...
+con.msg.userCreated':'Gebruiker aangemaakt!
+con.msg.userDeleted':'Gebruiker verwijderd!
+con.msg.directoryDeleted':'Map verwijderd!
+con.msg.propertySaved':'Eigenschap opgeslagen!
+con.msg.propertyDeleted':'Eigenschap verwijderd!
+con.msg.directoryAdded':'Map toegevoegd!
+con.desc.addDirectory':'voegt een map toe aan de collectie
+con.desc.removeDirectory':'verwijderd een map uit de collectie
+con.desc.listDirectories':'geeft een lijst van mappen in de collectie
+con.desc.exit':'sluit het programma af
+con.desc.listProperties':'geeft een lijst met programma eigenschappen
+con.desc.setProperty':'stelt een eigenschap in
+con.desc.listUsers':'geeft een lijst met geregistreerde gebruikers
+con.desc.addUser':'voegt een gebruiker toe aan het systeem
+con.desc.deleteUser':'verwijderd een gebruiker middels ID
+con.desc.commands':'Commando's:
+con.desc.delProperty':'verwijderd een eigenschap
+con.desc.version':'geeft huidige Sockso versie weer
+con.desc.rescanCollection':'start een scan van de collectie
+misc.msg.updateAvailable':'Er is een nieuwe versie van Sockso beschikbaar (%1)

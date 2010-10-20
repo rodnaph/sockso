@@ -1,0 +1,65 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Track;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Properties properties = null;
+    Vector<Track> tracks = null;
+</%args>
+
+<%java>
+    final String skin = properties.get( Constants.WWW_SKIN, "original" );
+</%java>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+
+<& IHeaderIncludes; skin=skin; &>
+
+<script type="text/javascript" src="/file/js/jquery.js"></script>
+<script type="text/javascript" src="/file/js/swfobject.js"></script>
+<script type="text/javascript" src="/file/js/sockso.js"></script>
+<script type="text/javascript" src="/file/js/sockso.JSPlayer.js"></script>
+<script type="text/javascript">
+
+var jsplayer = null;
+
+$(function() {
+
+    jsplayer = new sockso.JSPlayer();
+    jsplayer.init( 'jsplayer', '<% skin %>' );
+
+    <%for final Track track : tracks %>
+        jsplayer.addTrack({
+            id: '<% track.getId() %>',
+            artist: {
+                id: '<% track.getArtist().getId() %>',
+                name: '<% Utils.escapeJs(track.getArtist().getName()) %>'
+            },
+            album: {
+                id: '<% track.getAlbum().getId() %>',
+                name: '<% Utils.escapeJs(track.getAlbum().getName()) %>'
+            },
+            name: '<% Utils.escapeJs(track.getName()) %>'
+        });
+    </%for>
+
+});
+
+</script>
+
+</head>
+
+<body class="plain">
+
+<div id="jsplayer"></div>
+
+</body>
+</html>

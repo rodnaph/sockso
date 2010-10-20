@@ -1,0 +1,24 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Artist;
+</%import>
+
+<%args>
+    Artist[] artists = null;
+</%args>
+
+<%java>
+    boolean firstItem = true;
+</%java>
+
+[
+    <%for final Artist artist : artists %>
+        <%if !firstItem %>,</%if><%java>firstItem = false;</%java>
+        new MusicItem(
+            'ar<% artist.getId() %>',
+            '<% Utils.escapeJs(artist.getName()) %>',
+            null
+        )
+    </%for>
+]

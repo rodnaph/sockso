@@ -1,0 +1,42 @@
+<%import>
+    java.util.Vector;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.web.Request;
+    com.pugh.sockso.web.User;
+</%import>
+<%implements>
+    com.pugh.sockso.web.action.playlist.PlaylistTemplate;
+</%implements>
+<%args>
+    Vector<Track> tracks = null;
+    Request request = null;
+    String protocol = null;
+    Properties properties = null;
+    User user = null;
+</%args>
+[playlist]
+NumberOfEntries=<% tracks.size() %>
+
+<%java>
+    int number = 1;
+    final String sessionArgs =
+        properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
+            && properties.get(Constants.STREAM_REQUIRE_LOGIN).equals(properties.YES)
+            && user != null
+        ? "?sessionId=" +user.getSessionId()+ "&sessionCode=" +user.getSessionCode()
+        : "";
+</%java>
+
+<%for Track track : tracks %>
+File<% number %>=<% protocol %>://<% request.getHost() %>/stream/<% track.getId() %>/<% Utils.URLEncode(track.getName()) %><% sessionArgs #n %>
+Title<% number %>=<% track.getName() %>
+Length<% number %>=-1
+<%java>
+    number++;
+</%java>
+</%for>
+
+Version=2

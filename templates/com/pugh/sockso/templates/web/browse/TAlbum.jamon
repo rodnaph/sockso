@@ -1,0 +1,48 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Album;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    Vector<Track> tracks = null;
+    Album album = null;
+    User user = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<%java>
+    Artist artist = album.getArtist();
+</%java>
+
+<& ../IHeader; properties=properties; title="Album: " + album.getName() + " (" + artist.getName() + ")"; user=user; locale=locale; &>
+
+<& ILetters; select = artist.getName().substring(0,1); properties=properties; locale=locale; &>
+
+<& IInfo; artist=artist; album=album; properties=properties; locale=locale; &>
+
+<ul class="musiclist">
+<%for Track track : tracks %>
+    <li class="track">
+        <& IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
+        <span class="link"><% Utils.u2e(track.getName()) #n %></span>
+    </li>
+</%for>
+</ul>
+
+<div class="related artist-<% artist.getId() %>"></div>
+
+<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

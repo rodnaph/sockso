@@ -1,0 +1,12 @@
+GET /?foo=bar HTTP/1.1
+Host: 192.168.2.2:8000
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.4) Gecko/2008102920 Firefox/3.0.4
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Keep-Alive: 300
+Connection: keep-alive
+Referer: http://192.168.2.2/~rod/catcher.php
+Cache-Control: max-age=0
+

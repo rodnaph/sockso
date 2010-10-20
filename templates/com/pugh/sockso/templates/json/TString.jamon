@@ -1,0 +1,10 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+</%import>
+
+<%args>
+    String result = null;
+</%args>
+
+'<% Utils.escapeJs(result) %>';

@@ -1,0 +1,285 @@
+﻿
+#
+#  web errors
+#
+www.error.title=Fehler
+www.error.stackTrace=Stack Trace
+www.error.desc=Sockso meldet folgende Fehler:
+www.error.unknownRequest=Unbekannte Anforderung.
+www.error.unknownUser=Der Nutzername ist nicht registriert.
+www.error.passwordIncorrect=Das Passwort ist nicht korrekt.
+www.error.duplicateUsername=Der Nutzername existiert bereits.
+www.error.duplicateEmail=Diese E-Mail-Adresse existiert bereits.
+www.error.passwordsDontMatch=Die eingegebenen Passwörter sind nicht identsich.
+www.error.invalidEmail=Die E-Mail-Adresse scheint nicht gültig zu sein.
+www.error.missingField=Ein benötigtes Feld wurde nicht ausgefüllt.
+www.error.registrationDisabled=Die Registrierung von neuen Nutzern ist deaktiviert.
+www.error.alreadyLoggedIn=Sie sind bereits angemeldet.
+www.error.downloadsDisabled=Downloads sind deaktiviert.
+www.error.noAnonymousUploads=Sie müssen angemeldet sein, um Musik hochladen zu können.
+www.error.uploadsNotEnabled=Uploads sind deaktiviert.
+www.error.noUploadsDirectory=Es ist kein Upload-Verzeichnis festgelegt.
+www.error.uploadsDirNotWritable=Keine Schreibrechte für das Upload-Verzeichnis.
+www.error.noFileUploaded=Es wurde keine Datei hochgeladen.
+www.error.unsupportedAudioFormat=Das Audioformat wird nicht unterstützt (nur mp3, ogg und wma).
+www.error.cantCreateTrackFolder=Das Upload-Verzeichnis konnte nicht angelegt werden.
+www.error.browseFoldersNotEnabled=Ordner-Katalog ist deaktiviert.
+www.error.invalidCollectionId=Ungültige Sammlungs-ID.
+www.error.folderDoesntExist=Der Ordner existiert nicht.
+www.error.trackNotFound=Der Titel wurde nicht gefunden.
+www.error.fileNotFound=Die Datei wurde nicht gefunden.
+www.error.couldNotCreateUniqueFilename=Es konnte kein eindeutiger Dateiname erzeugt werden.
+www.error.coversDisabled=CD-Cover sind deaktiviert.
+
+#
+#  json messages
+#
+www.json.error.unknown=Unbekannter Fehler
+www.json.error.noName=Kein Name angegeben
+www.json.error.noArguments=Keine Argumente
+www.json.error.notLoggedIn=Sie sind nicht angemeldet
+
+#
+#  web links
+#
+www.link.login=Anmelden
+www.link.logout=Abmelden
+www.link.register=Registrieren
+www.link.home=Start
+www.link.browse=Katalog
+www.link.latest=Neu
+www.link.popular=Beliebt
+www.link.playlists=Wiedergabelisten
+www.link.random=Zufall
+www.link.play=Abspielen
+www.link.clear=Leeren
+www.link.download=Download
+www.link.share=Freigeben
+www.link.save=Speichern
+www.link.upload=Upload
+www.link.randomizePlaylist=Mischen
+www.link.misc=0-9
+www.link.folders=Ordner
+www.link.playRandom=Zufällig abspielen
+www.link.editUser=Bearbeiten
+www.link.scrobbleLog=Scrobble Log
+
+#
+#  web titles
+#
+www.title.playlist=Wiedergabeliste
+www.title.recentlyPlayedTracks=Zuletzt gehörte Titel
+www.title.topArtists=Beliebteste Künstler
+www.title.about=Über
+www.title.sitePlaylists=Allgemeine Wiedergabelisten
+www.title.userPlaylists=Wiedergabelisten von Nutzern
+www.title.mostPopularTracks=Beliebteste Titel
+www.title.latestTracks=Neueste Titel
+www.title.latestArtists=Neueste Künstler
+www.title.share=Freigeben
+www.title.login=Anmeldung
+www.title.register=Registrierung
+www.title.registerComplete=Registrierung abgeschlossen
+www.title.upload=Musik hochladen
+www.title.uploadComplete=Upload abgeschlossen
+www.title.recentlyPlayedAlbums=Zuletzt gehörte Alben
+www.title.editProfile=Persönliches Profil
+www.title.userUpdated=Profil aktualisiert
+www.title.recentUsers=Aktive Nutzer
+
+#
+#  web text
+#
+www.text.loggedInAs=Angemeldet als
+www.text.noResults=Nichts gefunden
+www.text.uploadComplete=Danke für den Titel! Er wurde der Sammlung hinzugefügt.
+www.text.noCover=CD-Cover nicht gefunden.
+www.text.userUpdated=Das Profil wurde aktualisiert.
+www.text.confirmLogout=Wollen Sie sich wirklich abmelden?
+www.text.confirmScrobbleLog=Wenn Sie das Scrobble Log herunterladen, werden alle Titel als gehört vermerkt. Wollen Sie es jetzt herunterladen?
+www.text.recentUsersInfo=(Diese Nutzer haben innerhalb der letzten 5 Minuten einen Titel gehört.)
+
+#
+#  web labels
+#
+www.label.dateAdded=Datum hinzugefügt
+www.label.playCount=mal gehört
+www.label.trackCount=Titelzahl
+www.label.username=Nutzername
+www.label.password=Passwort
+www.label.passwordRepeat=Passwort wiederholen
+www.label.login=Anmelden
+www.label.email=E-Mail
+www.label.register=Registrieren
+www.label.upload=Upload
+www.label.trackToUpload=Datei
+www.label.artist=Künstler
+www.label.album=Album
+www.label.track=Titel
+www.label.deletePlaylist=Wiedergabeliste löschen
+www.label.save=Speichern
+
+#
+#  www confirm prompts
+#
+www.confirm.deletePlaylist=Wiedergabeliste wirklich löschen?
+
+#
+#  gui window titles
+#
+gui.window.main= Sockso - Sammlung verwalten
+gui.window.reports= Sockso - Berichte
+gui.window.console= Sockso - Konsole
+
+#
+#  gui labels
+#
+gui.label.portForward=NAT einrichten (experimentell)
+gui.label.exit=Beenden
+gui.label.hide=Verstecken
+gui.label.options=Optionen
+gui.label.gettingIPAddress=IP-Adresse ermitteln
+gui.label.yourAddress=Ihre IP-Adresse
+gui.label.music=Musik
+gui.label.collection=Sammlung
+gui.label.users=Nutzer
+gui.label.myComputer=Arbeitsplatz
+gui.label.internetAddress=URL (Standard)
+gui.label.refresh=Aktualisieren
+gui.label.addFolder=Verzeichnis hinzufügen
+gui.label.removeFolder=Entfernen
+gui.label.username=Nutzername
+gui.label.password=Passwort
+gui.label.passwordRepeat=Passwort wiederholen
+gui.label.email=E-Mail
+gui.label.createUser=Nutzer erstellen
+gui.label.cancel=Abbrechen
+gui.label.general=Allgemein
+gui.label.testNat=NAT-Einrichtung testen (dauert etwas)
+gui.label.browse=Katalog
+gui.label.encoders=Encoder
+gui.label.encTypeNone=Keiner
+gui.label.encTypeBuiltin=Eingebaut
+gui.label.encTypeCustom=Benutzerdefiniert
+gui.label.encNoneSelected=Keiner angegeben
+gui.label.encoder=Encoder
+gui.label.bitrate=Bit-Rate
+gui.label.command=Befehlszeile
+gui.label.webServer=Webserver
+gui.label.port=Port
+gui.label.wwwTitle=Titel
+gui.label.wwwTagline=Slogan
+gui.label.disableDownloads=Downloads deaktivieren
+gui.label.scanOnStartup=Beim Starten Sammlung aktualiseren
+gui.label.scanInterval=Alle X Minuten aktualisieren
+gui.label.uploads=Uploads
+gui.label.enableUploads=Uploads aktivieren
+gui.label.anonymousUploads=Anonyme Uploads erlauben
+gui.label.uploadsDirectory=Verzeichnis
+gui.label.general=Allgemein
+gui.label.startMinimized=Minimiert starten
+gui.label.confirmExit=Beenden bestätigen
+gui.label.natSetup=NAT einrichten
+gui.label.logging=Protokollierung
+gui.label.enableRequestLog=Anforderungen protokollieren
+gui.label.exportRequestLogAs=Anforderdungsprotokoll exportieren
+gui.label.export=Export
+gui.label.import=Import
+gui.label.consoleCommandGo=Ausführen
+gui.label.showReportsWindow=Berichte
+gui.label.showConsoleWindow=Konsole
+gui.label.enableFolderBrowsing=Ordner-Katalog aktivieren
+gui.label.clearRequestLog=Leeren (%1 Einträgen)
+gui.label.tracks=Titel
+gui.label.playlists=Allgemeine Wiedergabelisten
+gui.label.userPlaylists=Wiedergabelisten von Nutzern
+gui.label.rescanCollection=Jetzt aktualisieren
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=No web browser found
+gui.error.missingField=You missed a required field
+gui.error.invalidEmail=That is not a valid email address
+gui.error.passwordsDontMatch=Your passwords don't match
+gui.error.duplicateUsername=That username already exists
+gui.error.duplicateEmail=That email already exists
+
+#
+#  gui titles
+#
+gui.title.creatingUser=Neuen Nutzer erstellen
+gui.title.options=Optionen
+
+#
+#  gui tooltips
+#
+gui.tooltip.music=Eigene Musik/Wiedergabelisten
+gui.tooltip.collection=Sammlung verwalten
+gui.tooltip.users=Zugriffsrechte verwalten
+gui.tooltip.general=Allgemeine Optionen
+gui.tooltip.encoders=Encoder-Optionen
+
+#
+#  gui messages
+#
+gui.message.natTestOk=NAT-Test erfolgreich.
+gui.message.natTestFailed=NAT-Test fehlgeschlagen.
+gui.message.exportComplete=Export abgeschlossen.
+gui.message.confirmClearRequestLog=Aktion kann nicht rückgängig gemacht werden! Fortfahren?
+gui.message.requestLogCleared=Protokoll gelöscht.
+gui.message.playlistImported=Wiedergabeliste importiert.
+gui.message.playlistImportFailed=Import fehlgeschlagen.
+
+#
+#  gui reports
+#
+gui.reports.refresh=Bericht aktualisieren
+gui.reports.browsers.title=Browser
+gui.reports.browsers.titleLong=Genutzte Internetbrowser
+gui.reports.requestsPerDay.title=Anforderungen pro Tag
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=# Anforderungen
+
+#
+#  console errors
+#
+con.err.usernameExists=Nutzername existiert bereits.
+con.err.emailExists=E-Mail existiert bereits.
+con.err.errorCreatingUser=Fehler beim Erstellen des Nutzers...
+con.err.errorDeletingUser=Fehler beim Löschen des Nuttzers...
+con.err.directoryNotInColl=Dieses Verzeichnis ist nicht in der Sammlung
+con.err.pathNotExist=%1 existiert nicht...
+con.err.propertyDoesntExist=Eigenschaft existiert nicht....
+
+#
+#  console messages
+#
+con.msg.userCreated=Nutzer erstellt!
+con.msg.userDeleted=Nutzer gelöscht!
+con.msg.directoryDeleted=Verzeichnis entfernt!
+con.msg.propertySaved=Eigenschaft gespeichert!
+con.msg.propertyDeleted=Eigenschaft gelöscht!
+con.msg.directoryAdded=Verzeichnis hinzugefügt!
+
+#
+#  console command descriptions
+#
+con.desc.addDirectory=fügt der Sammlung ein Verzeichnis hinzu
+con.desc.removeDirectory=entfernt ein Verzeichnis aus der Sammlung
+con.desc.listDirectories=listet Verzecihnisse in der Sammlung auf
+con.desc.exit=Beendet Sockso
+con.desc.listProperties=listet Eigenschaften auf
+con.desc.setProperty=setzt eine Eigenschaft auf einen Wert
+con.desc.listUsers=listet registrierte Nutzer auf
+con.desc.addUser=fügt einen Nutzer hinzu
+con.desc.deleteUser=löscht einen Nutzer
+con.desc.commands=Befehle:
+con.desc.delProperty=löscht eine Eigenschaft
+con.desc.version=Versionsnummer anzeigen
+con.desc.rescanCollection=Sammlung aktualisieren
+
+#
+#  misc messages
+#
+misc.msg.updateAvailable=Eine neue Version von Sockso ist erschienen! (%1)

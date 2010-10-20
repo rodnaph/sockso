@@ -1,0 +1,38 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.music.Album;
+    com.pugh.sockso.music.Collection;
+    com.pugh.sockso.web.User;
+    com.pugh.sockso.resources.Locale;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    User user = null;
+    Locale locale = null;
+    Vector<Collection> folders = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<& ../IHeader; properties=properties; title=locale.getString("www.title.browseFolders"); user=user; locale=locale; &>
+
+<%if !properties.get( Constants.WWW_BROWSE_FOLDERS_ONLY ).equals( Properties.YES ) %>
+    <& ILetters; select="folders"; properties=properties; locale=locale; &>
+</%if>
+
+<ul id="folders">
+<%for Collection folder : folders %>
+    <li class="folder" id="collection-<% folder.getId() %>"><% folder.getPath() %></li>
+</%for>
+</ul>
+
+<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

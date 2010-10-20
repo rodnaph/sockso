@@ -1,0 +1,30 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.resources.Locale;
+</%import>
+
+<%args>
+    String select = "";
+    Properties properties = null;
+    Locale locale = null;
+</%args>
+
+<div id="letters">
+
+    <a <%if select.equals("") %>id="current" </%if>href="/browse/letter"><% locale.getString("www.link.misc") %></a>
+
+    <%for int i=65; i<91; i++ %>
+        <%java>
+            String chr = String.valueOf((char)i);
+        </%java>
+        <a <%if chr.toLowerCase().equals(select.toLowerCase()) %>id="current" </%if>href="/browse/letter/<% chr.toLowerCase() %>"><% chr %></a>
+        <%if i<90 %> </%if>
+    </%for>
+
+    <%if Utils.isFeatureEnabled(properties,"browse.folders.enabled") %>
+        <a href="/browse/folders"<%if select.equals("folders") %> id="current"</%if>><% locale.getString("www.link.folders") %></a>
+    </%if>
+
+</div>

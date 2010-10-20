@@ -1,0 +1,90 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Album;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    String title = "Sockso";
+    Vector<Track> recentTracks = null;
+    Vector<Artist> topArtists = null;
+    Vector<Album> recentAlbums = null;
+    Vector<User> recentUsers = null;
+    User user = null;
+    Locale locale = null;
+</%args>
+
+<& IHeader; properties=properties; title="Home"; user=user; locale=locale; &>
+
+<%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
+    <%if recentAlbums.size() > 0 %>
+        <div class="albumArt">
+            <h2><% locale.getString("www.title.recentlyPlayedAlbums") %></h2>
+            <ul>
+            <%for Album album : recentAlbums %>
+                <li>
+                    <a href="/browse/album/<% album.getId() %>" title="<% Utils.u2e(album.getArtist().getName())+ " - " +Utils.u2e(album.getName()) #n %>"><img class="cover" src="/file/cover/al<% album.getId() %>" /></a>
+                    <div class="links">
+                        <& browse/IMusicLinks; type="al"; id=album.getId(); name=album.getName(); playRandomLink=true; locale=locale; properties=properties; &>
+                    </div>
+                </li>
+            </%for>
+            </ul>
+        </div>
+    </%if>
+</%if>
+
+<div class="clearer"></div>
+
+<div class="section">
+    <h3><% locale.getString("www.title.recentlyPlayedTracks") %></h3>
+    <ul class="musiclist">
+    <%if recentTracks.size() > 0 %>
+        <%for Track track : recentTracks %>
+            <li class="track">
+                <& browse/IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
+                <span class="link">
+                    <a href="/browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a>
+                    -
+                    <% Utils.u2e(track.getName()) #n %>
+                </span>
+            </li>
+        </%for>
+    <%else>
+        <li class="empty"><% locale.getString("www.text.noResults") %></li>
+    </%if>
+    </ul>
+</div>
+
+<div class="section">
+    <h3><% locale.getString("www.title.topArtists") %></h3>
+    <ul class="musiclist">
+    <%if topArtists.size() > 0 %>
+        <%for Artist artist : topArtists %>
+            <li class="artist">
+                <& browse/IMusicLinks; type="ar"; id=artist.getId(); name=artist.getName(); locale=locale; properties=properties; &>
+                <span class="link">
+                    <a href="/browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a>
+                </span>
+                <span class="info">(<% artist.getPlayCount() %> play<%if artist.getPlayCount() != 1 %>s</%if>)</span>
+            </li>
+        </%for>
+    <%else>
+        <li class="empty"><% locale.getString("www.text.noResults") %></li>
+    </%if>
+    </ul>
+</div>
+
+<& IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

@@ -1,0 +1,37 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Track;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Vector<Track> tracks = null;
+</%args>
+
+<%java>
+    boolean firstItem = true;
+</%java>
+
+[
+    <%for final Track track : tracks %>
+        <%if !firstItem %>,</%if>
+{
+        id: <% track.getId() %>,
+        name: '<% Utils.escapeJs(track.getName()) %>',
+
+        artist: {
+            id: <% track.getArtist().getId() %>,
+            name: '<% Utils.escapeJs(track.getArtist().getName()) %>'
+        },
+
+        album: {
+            id: <% track.getAlbum().getId() %>,
+            name: '<% Utils.escapeJs(track.getAlbum().getName()) %>'
+        }
+}
+        <%java>
+            firstItem = false;
+        </%java>
+    </%for>
+]

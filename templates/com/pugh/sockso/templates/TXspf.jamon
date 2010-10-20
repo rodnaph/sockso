@@ -1,0 +1,50 @@
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.web.Request;
+    com.pugh.sockso.web.User;
+    java.util.Vector;
+</%import>
+<%implements>
+    com.pugh.sockso.web.action.playlist.PlaylistTemplate;
+</%implements>
+<%args>
+    Vector<Track> tracks = null;
+    Request request = null;
+    String protocol = null;
+    Properties properties = null;
+    User user = null;
+</%args>
+<?xml version="1.0" encoding="UTF-8"?>
+<%java>
+    final String url = protocol +"://" + request.getHost();
+    final String sessionArgs =
+        properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
+            && properties.get(Constants.STREAM_REQUIRE_LOGIN).equals(properties.YES)
+            && user != null
+        ? "?sessionId=" +user.getSessionId()+ "&amp;sessionCode=" +user.getSessionCode()
+        : "";
+</%java>
+<playlist version="1">
+    <trackList>
+        <%for Track track : tracks %>
+            <track>
+                <location><% url %>/stream/<% track.getId() %><% sessionArgs #n %></location>
+                <creator><% track.getArtist().getName() %></creator>
+                <artist><% track.getArtist().getName() %></artist>
+                <album><% track.getAlbum().getName() %></album>
+                <title><% track.getName() %></title>
+                <%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
+                    <%java>
+                        // are we set to display the cover for the album or artist?
+                        final String coverParam = properties.get(Constants.COVERS_XSPF_DISPLAY).equals("album")
+                            ? "al" + track.getAlbum().getId()
+                            : "ar" + track.getArtist().getId();
+                    </%java>
+                    <image><% url %>/file/cover/<% coverParam %></image>
+                </%if>
+            </track>
+        </%for>
+    </trackList>
+</playlist>

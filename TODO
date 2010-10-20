@@ -1,0 +1,49 @@
+
+1 - BUGS
+--------
+
+* lame ignoring bitrate
+* scrobble log - dates of songs played are wrong?
+* safari gzip bug
+* to specify ssl keystore password need to pass in via arg,
+  this can be stolen, chnage to read in from stdin
+* too much CPU usage when streaming
+* ssl not working
+* port field needs type checking
+
+2 - FEATURES
+------------
+
+* complete streamfinder impl
+* user comments
+* browse A-Z by artist/album/genre/etc...
+* windows installer
+* cover manager
+* UPNP server
+* DAAP server
+* provide album/artist information from wikipedia
+* use other artist information as andreones suggestion
+* provide different authentication methods?
+* turn off tag browsing
+* make playlists editable in web interface
+* allow preserving of folder structure on disk when downloading
+* indexing and streaming videos
+* more advanced user controls (what they can access, etc...)
+* better user profiles (like changing own password, stats, etc...)
+* store genre info for tracks, then in user prefs allow selecting
+  genres to limit on when viewing music.
+* postgres support
+* editing playlist in flash players dynamically
+* tag editing (maybe on scan alert when no tag?)
+* bandwidth limiting for downloads
+* support for AAC files
+* remote administration, or admin when running as daemon
+* rescan command line argument (prob mysql only...)
+* allow uploading zip files with multiple tracks
+
+3 - MANUAL
+----------
+
+* improve "artwork" page
+* add page about the "API"
+

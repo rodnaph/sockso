@@ -1,0 +1,61 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Album;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.resources.Locale;
+</%import>
+
+<%args>
+    Artist artist = null;
+    Album album = null;
+    Locale locale = null;
+    Properties properties = null;
+</%args>
+
+<div class="musicInfo">
+
+    <%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
+        <%if album == null %>
+            <img class="cover" src="/file/cover/ar<% artist.getId() %>" />
+        <%else>
+            <img class="cover" src="/file/cover/al<% album.getId() %>" />
+        </%if>
+    </%if>
+
+    <div class="text">
+
+        <span>
+            <h2>
+                <%if album != null %>
+                    <a href="/browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a>
+                <%else>
+                    <% Utils.u2e(artist.getName()) #n %>
+                </%if>
+            </h2>
+            <& IMusicLinks; type="ar"; id=artist.getId(); name=artist.getName(); shareLink=true; playRandomLink=true; locale=locale; properties=properties; &>
+        </span>
+
+        <%if album != null %>
+            <span>
+                <h2><% Utils.u2e(album.getName()) #n %></h2>
+                <& IMusicLinks; type="al"; id=album.getId(); name=artist.getName() + " - " + album.getName(); shareLink=true; playRandomLink=true; locale=locale; properties=properties; &>
+            </span>
+        </%if>
+        
+    </div>
+
+    <div class="info">
+        <%if album == null %>
+            <% locale.getString("www.label.dateAdded") %>: <% Utils.formatDate(artist.getDateAdded()) %><br />
+            <% locale.getString("www.label.trackCount") %>: <% artist.getTrackCount() %><br />
+            <% locale.getString("www.label.playCount") %>: <% artist.getPlayCount() %>
+        <%else>
+            <% locale.getString("www.label.dateAdded") %>: <% Utils.formatDate(album.getDateAdded()) %><br />
+            <% locale.getString("www.label.playCount") %>: <% album.getPlayCount() %>
+        </%if>
+    </div>
+
+</div>

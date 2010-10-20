@@ -1,0 +1,43 @@
+/*
+ * This panel has options for setting the encoding applications sockso can
+ * use to change how music is streamed to the client
+ * 
+ */
+
+package com.pugh.sockso.gui;
+
+import com.pugh.sockso.Properties;
+import com.pugh.sockso.resources.Resources;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+
+public class EncodersPanel extends JPanel {
+
+    public EncodersPanel( JFrame parent, Properties p, Resources r ) {
+        
+        FormLayout layout = new FormLayout(
+            " right:max(40dlu;pref), 3dlu, 150dlu, 7dlu "
+        );
+        DefaultFormBuilder b = new DefaultFormBuilder( layout );
+        b.setDefaultDialogBorder();
+       
+        for ( String format : new String[] { "mp3", "ogg", "wma", "flac", "m4a" } ) {
+            b.appendSeparator( format );
+            b.nextLine();
+            b.append( new EncoderPanel(parent,format,p,r) );
+            b.nextLine();
+        }
+
+        setLayout( new BorderLayout() );
+        add( new JScrollPane(b.getPanel()), BorderLayout.CENTER );
+        
+    }
+    
+}

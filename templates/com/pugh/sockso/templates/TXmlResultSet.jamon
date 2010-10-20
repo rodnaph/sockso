@@ -1,0 +1,42 @@
+<%import>
+    com.pugh.sockso.Utils;
+    java.sql.ResultSet;
+    java.sql.ResultSetMetaData;
+    java.sql.SQLException;
+</%import>
+<%args>
+    ResultSet resultSet = null;
+</%args>
+<?xml version="1.0"?>
+
+<results><%java>
+
+try {
+
+    while ( resultSet.next() ) {
+
+        ResultSetMetaData metadata = resultSet.getMetaData();
+        int columnCount = metadata.getColumnCount();
+
+        jamonWriter.write( "<row>" );
+
+        for ( int i=0; i<columnCount; i++ ) {
+
+            String columnName = metadata.getColumnName( i+1 );
+            String columnValue = resultSet.getString( columnName );
+
+            jamonWriter.write( "<" +columnName+ ">" +(columnValue == null ? "" : Utils.XMLEncode(columnValue))+ "</" +columnName+ ">" );
+
+        }
+
+        jamonWriter.write( "</row>" );
+
+    }
+
+}
+
+catch ( SQLException e ) {
+    System.err.println( e.getMessage() );
+}
+
+</%java></results>

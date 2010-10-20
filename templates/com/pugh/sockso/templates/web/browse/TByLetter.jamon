@@ -1,0 +1,44 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.web.User;
+    com.pugh.sockso.resources.Locale;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    String letter = null;
+    Vector<Artist> artists = null;
+    User user = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<& ../IHeader; properties=properties; title="Browsing Artists: " + letter.toUpperCase(); user=user; locale=locale; &>
+
+<& ILetters; select=letter; properties=properties; locale=locale; &>
+
+<br />
+
+<ul class="musiclist imageflow-list">
+<%if artists.size() > 0 %>
+    <%for Artist artist : artists %>
+        <li class="artist musicitem" id="ar<% artist.getId() %>">
+            <& IMusicLinks; type="ar"; id=artist.getId(); name=artist.getName(); locale=locale; properties=properties; &>
+            <span class="link"><a href="/browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a><span>
+            <span class="info">(<% artist.getAlbumCount() %> album<%if artist.getAlbumCount() != 1 %>s</%if>)</span>
+        </li>
+    </%for>
+<%else>
+    <li class="empty"><% locale.getString("www.text.noResults") %></li>
+</%if>
+</ul>
+
+<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

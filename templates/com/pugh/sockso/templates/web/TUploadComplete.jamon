@@ -1,0 +1,31 @@
+
+<%import>
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    String title = "Sockso";
+    Vector<Track> recentTracks = null;
+    Vector<Artist> topArtists = null;
+    User user = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<& IHeader; properties=properties; title="Upload"; user=user; locale=locale; &>
+
+<h2><% locale.getString("www.title.uploadComplete") %></h2>
+
+<p><% locale.getString("www.text.uploadComplete") %></p>
+
+<& IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

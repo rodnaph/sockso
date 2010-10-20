@@ -1,0 +1,15 @@
+POST / HTTP/1.1
+User-Agent: Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.8 (like Gecko)
+Referer: http://192.168.2.2/~rod/catcher.php
+Pragma: no-cache
+Cache-control: no-cache
+Accept: text/html, image/jpeg, image/png, text/*, image/*, */*
+Accept-Encoding: x-gzip, x-deflate, gzip, deflate
+Accept-Charset: utf-8, utf-8;q=0.5, *;q=0.5
+Accept-Language: en
+Host: 192.168.2.2:8000
+Content-Type: application/x-www-form-urlencoded
+Connection: Keep-Alive
+Content-Length: 7
+
+foo=bar

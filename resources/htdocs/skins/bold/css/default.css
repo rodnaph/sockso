@@ -1,0 +1,308 @@
+
+*, body, html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #000;
+    background-image: url(../images/background.png);
+    font-family: arial;
+}
+
+a {
+    color: #444;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #000;
+}
+
+a img {
+    border: none;
+}
+
+div.clearer {
+    clear: both;
+}
+
+
+/*========= MAIN LAYOUT ==============*/
+
+#page, #header, #footer {
+    width: 94%;
+    margin-left: 2%;
+}
+
+#content {
+    float: left;
+    width: 72%;
+}
+
+#sidebar {
+    float: left;
+    width: 24%;
+}
+
+#footer {
+    clear: left;
+}
+
+/*========== forms ===================*/
+
+form fieldset {
+    padding: 20px;
+    border: none;
+}
+
+form fieldset label {
+    clear: left;
+    float: left;
+    width: 120px;
+    font-weight: bold;
+    text-align: right;
+    padding: 3px 10px 3px 0;
+    margin-bottom: 10px;
+}
+
+form fieldset input, form fieldset textarea, form fieldset select {
+    float: left;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px #aaa dashed;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    width: 200px;
+}
+
+form fieldset input.submit {
+    clear: left;
+    border: 1px #aaa solid;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 5px 15px 5px 15px;
+    margin-left: 130px;
+    margin-top: 20px;
+    width: auto;
+}
+
+/*========== login info ==============*/
+
+#login-info {
+    background-color: #222;
+    margin-left: 2%;
+    margin-right: 79%;
+    margin-bottom: 5px;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 1px 0 4px 15px;
+    border: 1px #333 solid;
+    border-top: none;
+}
+
+#login-info, #login-info a {
+    color: #fff;
+}
+
+#login-info a img {
+    position: relative;
+    top: 3px;
+}
+
+/*=========== header =================*/
+
+#header {
+    sbackground-image: url(../images/header-bg.png);
+    sbackground-repeat: repeat-x;
+    background-color: #FF7900;
+    padding: 10px;
+}
+
+#header h1 a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: normal;
+    letter-spacing: 3px;
+    padding-left: 10px;
+}
+
+#header p a {
+    color: #311;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding-left: 10px;
+}
+
+/*=========== page =================*/
+
+#page {
+    background-color: #fff;
+    padding: 10px;
+    font-size: 0.8em;
+    border-top: 4px #FBB36B solid;
+    border-bottom: 4px #BCDD5A solid;
+}
+
+#page h2 {
+    margin-bottom: 15px;
+}
+
+/*========== navigation ==============*/
+
+#nav {
+    border-bottom: 1px #eee solid;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+#nav a {
+    font-size: 1.2em;
+    color: #000;
+    font-weight: bold;
+    padding: 3px 10px 3px 10px;
+}
+
+#nav a:hover {
+    background-color: #ddd;
+}
+
+#nav #play-options {
+    display: inline;
+}
+
+/*========== content ===============*/
+
+#content {
+    padding: 10px;
+}
+
+/*========== letters ================*/
+
+#letters {
+    text-align: left;
+    padding: 5px;
+}
+
+#letters a {
+    color: #33f;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-transform: lowercase;
+    margin-right: 5px;
+    opacity: 0.7;
+}
+
+#letters a:hover {
+    opacity: 1.0;
+}
+
+#letters a#current {
+    font-size: 2.2em;
+    text-transform: uppercase;
+}
+
+/*========= front page album art ====*/
+
+div.albumArt ul {
+    list-style-type: none;
+}
+div.albumArt ul li {
+    float: left;
+    width: 120px;
+}
+
+/*========= imageflow ===============*/
+
+div.imageflow_toggler {
+    text-align: right;
+}
+
+/*======== related artists ===========*/
+
+div.related ul {
+    list-style-type: none;
+    padding: 30px;
+}
+
+div.related ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+/*=========== sidebar ================*/
+
+#sidebar {
+    padding: 5px;
+}
+
+#sidebar ul {
+    list-style-type: none;
+}
+
+#sidebar h2 {
+    margin-top: 5px;
+    padding: 5px 0 3px 10px;
+}
+
+#sidebar p {
+    padding: 10px;
+}
+
+/*========= music list ==============*/
+
+ul.musiclist {
+    list-style-type: none;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+ul.musiclist li {
+    border-bottom: 1px #ccc dashed;
+    padding-top: 2px;
+    padding-bottom: 6px;
+}
+
+ul.musiclist a img {
+    position: relative;
+    top: 3px;
+    opacity: 0.6;
+}
+
+ul.musiclist a:hover img {
+    opacity: 1.0;
+}
+
+ul.musiclist a {
+    letter-spacing: 2px;
+    text-transform: lowercase;
+}
+
+ul.musiclist a:hover {
+    text-transform: uppercase;
+}
+
+ul.musiclist span.link {
+    margin-left: 15px;
+}
+
+ul.musiclist span.info {
+    display: none
+}
+
+/*=========== footer =================*/
+
+#footer {
+    background-color: #80C31C;
+    padding: 10px;
+    color: #000;
+    font-size: 0.7em;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+#footer a {
+    color: #fff;
+}

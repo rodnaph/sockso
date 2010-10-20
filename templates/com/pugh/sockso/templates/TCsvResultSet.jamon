@@ -1,0 +1,58 @@
+<%import>
+    java.sql.ResultSet;
+    java.sql.ResultSetMetaData;
+    java.sql.SQLException;
+</%import>
+<%args>
+    ResultSet resultSet = null;
+</%args>
+<%java>
+
+boolean headersAdded = false;
+
+try {
+
+    ResultSetMetaData metadata = null;
+    String[] columnNames = null;
+
+    while ( resultSet.next() ) {
+
+        if ( metadata == null ) {
+
+            metadata = resultSet.getMetaData();
+            final int columnCount = metadata.getColumnCount();
+
+            columnNames = new String[ columnCount ];
+            for ( int i=0; i<columnCount; i++ )
+                columnNames[i] = metadata.getColumnName( i+1 );
+
+        }
+
+        if ( !headersAdded ) {
+            for ( int i=0; i<columnNames.length; i++ ) {
+                if ( i > 0 )
+                    jamonWriter.write( "," );
+                jamonWriter.write( columnNames[i] );
+            }
+            headersAdded = true;
+            jamonWriter.write( "\n" );
+        }
+
+        for ( int i=0; i<columnNames.length; i++ ) {
+            String columnValue = resultSet.getString( columnNames[i] );
+            if ( columnValue == null )
+                columnValue = "";
+            if ( i > 0 )
+                jamonWriter.write( "," );
+            jamonWriter.write( columnValue );
+        }
+
+        jamonWriter.write( "\n" );
+
+    }
+
+}
+
+catch ( SQLException e ) {}
+
+</%java>

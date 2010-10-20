@@ -1,0 +1,87 @@
+
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.music.Track;
+    com.pugh.sockso.music.Album;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+    java.util.Vector;
+</%import>
+
+<%implements>
+    com.pugh.sockso.web.PageTemplate;
+</%implements>
+
+<%args>
+    Properties properties = null;
+    Vector<Track> tracks = null;
+    Vector<Artist> artists = null;
+    Vector<Album> albums = null;
+    User user = null;
+    Locale locale = null;
+    Vector<User> recentUsers = null;
+</%args>
+
+<& ../IHeader; properties=properties; title="Latest Music"; user=user; locale=locale; &>
+
+<h2><% locale.getString("www.title.latestTracks") %></h2>
+
+<ul class="musiclist">
+<%if tracks.size() > 0 %>
+    <%for Track track : tracks %>
+        <li class="track">
+            <& IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
+            <span class="link">
+                <a href="/browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a>
+                - <% Utils.u2e(track.getName()) #n %>
+            </span>
+        </li>
+    </%for>
+<%else>
+    <li class="empty"><% locale.getString("www.text.noResults") %></li>
+</%if>
+</ul>
+
+<%if artists.size() > 0 %>
+<div class="albumArt">
+
+    <h2><% locale.getString("www.title.latestArtists") %></h2>
+
+    <ul>
+        <%for Artist artist : artists %>
+            <li>
+                <a href="/browse/artist/<% artist.getId() %>" title="<% Utils.u2e(artist.getName()) #n %>"><img class="cover" src="/file/cover/ar<% artist.getId() %>" /></a>
+                <div class="links">
+                    <& IMusicLinks; type="ar"; id=artist.getId(); name=artist.getName(); locale=locale; properties=properties; &>
+                </div>
+            </li>
+        </%for>
+    </ul>
+
+</div>
+</%if>
+
+<div class="clearer"></div>
+
+<%if albums.size() > 0 %>
+<div class="albumArt">
+
+    <h2><% locale.getString("www.title.latestAlbums") %></h2>
+
+    <ul>
+        <%for Album album : albums %>
+            <li>
+                <a href="/browse/album/<% album.getId() %>" title="<% Utils.u2e(album.getName()) #n %>"><img class="cover" src="/file/cover/al<% album.getId() %>" /></a>
+                <div class="links">
+                    <& IMusicLinks; type="al"; id=album.getId(); name=album.getName(); locale=locale; properties=properties; &>
+                </div>
+            </li>
+        </%for>
+    </ul>
+
+</div>
+</%if>
+
+<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>
