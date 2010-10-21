@@ -7,7 +7,6 @@
 * safari gzip bug
 * to specify ssl keystore password need to pass in via arg,
   this can be stolen, chnage to read in from stdin
-* too much CPU usage when streaming
 * ssl not working
 * port field needs type checking
 
