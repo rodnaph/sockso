@@ -145,7 +145,8 @@ $(function() {
             path,
             function( responseText ) {
                 eval( 'var track = ' +responseText );
-                addToPlaylist( 'tr' +track['id'], track['name'] );
+                var item = new MusicItem( 'tr' + track.id, track.name );
+                playlist.add( item );
             },
             Locale.getString('www.error.trackNotFound')
         );
