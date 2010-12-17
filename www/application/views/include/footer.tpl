@@ -27,6 +27,14 @@ $this->assign( 'downloadExtension',
         <h1>Latest News &amp; Releases <a href="http://code.google.com/feeds/p/sockso/downloads/basic"><img src="{$smutty->baseUrl}/images/rss_icon.gif" alt="RSS Icon" /></a></h1>
 
         <div class="post">
+            <h2>17th December</h2>
+            <p><a href="http://sockso.googlecode.com/files/sockso-1.2.5.{$downloadExtension}">Sockso 1.2.5</a>
+            -
+            Minor bug fix for adding items to the playlist when browsing folders.
+            </p>
+        </div>
+
+        <div class="post">
             <h2>10th April</h2>
             <p><a href="http://sockso.googlecode.com/files/sockso-1.2.4.{$downloadExtension}">Sockso 1.2.4</a>
             -
