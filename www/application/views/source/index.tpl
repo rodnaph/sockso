@@ -16,7 +16,7 @@
 	<p><pre>git clone https://github.com/rodnaph/sockso.git</pre></p>
 
         <p>I push my latest changes here pretty often so it should be up to date with
-        the latest development./p>
+        the latest development.</p>
 
 </div>
 
