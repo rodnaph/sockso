@@ -16,8 +16,7 @@
 	<p><pre>git clone https://github.com/rodnaph/sockso.git</pre></p>
 
         <p>I push my latest changes here pretty often so it should be up to date with
-        the latest development.  If you're new to Bazaar then go check out the website
-        for all the info you'll need!</p>
+        the latest development./p>
 
 </div>
 
