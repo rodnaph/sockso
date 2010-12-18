@@ -61,11 +61,19 @@ public class FlacTag extends AudioTag {
      */
     
     protected String getComment( final VorbisComment comment, final String name ) {
-        
-        final String[] comments = comment.getCommentByName( name );
- 
-        return ( comments.length > 0 )
-            ? comments[ 0 ] : "";
+
+        try {
+
+            final String[] comments = comment.getCommentByName( name );
+
+            return ( comments.length > 0 )
+                ? comments[ 0 ] : "";
+
+        }
+
+        catch ( final Exception e ){
+            return name;
+        }
 
     }
 
