@@ -316,18 +316,20 @@ sockso.Playlist = function( options ) {
 
     self.load = function() {
 
-        var cookie = session.get( 'playlist' );
-
-        if ( cookie ) {
-            var items = cookie.split( SPLIT_PLITEM );
-            for ( var i=0; i<items.length; i++ ) {
-                var item = items[ i ];
-                var parts = item.split( SPLIT_PLVARS );
-                if ( parts.length == 3 ) {
-                    self.add( new sockso.MusicItem(parts[0],parts[1],parts[2]) );
+        session.get( 'playlist', function(data) {
+            
+            if ( data ) {
+                var items = data.split( SPLIT_PLITEM );
+                for ( var i=0; i<items.length; i++ ) {
+                    var item = items[ i ];
+                    var parts = item.split( SPLIT_PLVARS );
+                    if ( parts.length == 3 ) {
+                        self.add( new sockso.MusicItem(parts[0],parts[1],parts[2]) );
+                    }
                 }
             }
-        }
+
+        });
 
     };
 
@@ -338,15 +340,15 @@ sockso.Playlist = function( options ) {
 
     self.save = function() {
 
-        var cookie = '';
+        var data = '';
 
         for ( var i=0; i<items.length; i++ ) {
             var item = items[ i ];
             var s = item.id + SPLIT_PLVARS + item.name + SPLIT_PLVARS + item.playlistId;
-            cookie += ( cookie == '' ? s : SPLIT_PLITEM + s );
+            data += ( data == '' ? s : SPLIT_PLITEM + s );
         }
 
-        session.set( 'playlist', cookie );
+        session.set( 'playlist', data );
 
     };
 

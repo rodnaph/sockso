@@ -1,21 +1,17 @@
 
 /**
- *  Allows storing name/value pairs in the users session.
- *
- *  The current implementation uses cookies, but in the future this could use
- *  client-side storage.
- *
- *  NB: Currently because we are using cookies, this means all instances of this
- *  object will share the same info.
+ *  Allows storing name/value pairs in the users session via persistsjs.
  *
  *  var sess = new sockso.Session();
- *  var val = sess.get( 'name' );
- *  
+ *
+ *  sess.get( 'name', function(data) { ... } );
  *  sess.set( 'name', 'value' );
  *
  */
 
 sockso.Session = function() {
+
+    var store = new Persist.Store( 'Sockso' );
 
     /**
      *  Sets a named piece of information in the users session
@@ -27,12 +23,7 @@ sockso.Session = function() {
 
     this.set = function( key, value ) {
 
-        var path = '/';
-        var expires = new Date( new Date().getTime() + (30*24*60*60*1000) );
-
-        document.cookie = key + '=' + encodeURI( value ) + '; ' +
-            'path=' + path + '; ' +
-            'expires=' + expires.toGMTString() + ';';
+        store.set( key, value );
 
     };
 
@@ -44,29 +35,11 @@ sockso.Session = function() {
      *
      */
 
-    this.get = function( key ) {
+    this.get = function( key, callback ) {
 
-        // Get cookie string and separate into individual cookie phrases:
-        var cookie_string = '' + document.cookie;
-        var cookie_array = cookie_string.split("; ");
-
-        // Scan for desired cookie:
-        for ( var i=0; i<cookie_array.length; ++i ) {
-
-            var single_cookie = cookie_array [i].split('=');
-            if ( single_cookie.length != 2 )
-                    continue;
-            var name  = decodeURI ( single_cookie[0] );
-            var value = decodeURI ( single_cookie[1] );
-
-            // Return cookie if found:
-            if ( key == name )
-                return value;
-
-        }
-
-        // Cookie was not found:
-        return null;
+        return store.get( key, function(ok,data) {
+            callback( data );
+        });
 
     };
 

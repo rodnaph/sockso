@@ -163,7 +163,9 @@ sockso.Player = function( options ) {
             .appendTo( $('body') )
             .hide();
 
-        self.setPlayType( session.get(PLAY_COOKIE) );
+        session.get( PLAY_COOKIE, function(playType) {
+            self.setPlayType( playType );
+        });
 
     };
 

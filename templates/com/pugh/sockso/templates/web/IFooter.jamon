@@ -73,7 +73,7 @@
     <%java>
         final String[] jsFiles = new String[] {
 
-            "jquery", "jquery.corner",
+            "jquery", "jquery.corner", "persistjs",
 
             "sockso", "sockso.Base", "sockso.Hashtable", "sockso.Session",
             "sockso.Locale", "sockso.Properties", "sockso.Player", "sockso.Playlist",
