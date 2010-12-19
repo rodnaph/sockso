@@ -217,6 +217,8 @@ sockso.Playlist = function( options ) {
                 self.showEmpty();
             });
 
+        self.save();
+
     };
 
     /**
