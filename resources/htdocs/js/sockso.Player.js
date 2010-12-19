@@ -47,13 +47,17 @@ sockso.Player = function( options ) {
      */
 
     this.setPlayType = function( playType ) {
+        
+        var playValue = ( playType === null || playType === undefined || playType === 'null' )
+            ? self.PLAY_FLASH_POPUP
+            : playType;
 
         $( 'option', playOptions )
             .attr({ selected: false })
-            .filter( "option[value='" +(playType != null ? playType : self.PLAY_FLASH_POPUP)+ "']" )
+            .filter( "option[value='" +playValue+ "']" )
             .attr({ selected: true });
 
-        session.set( PLAY_COOKIE, playType );
+        session.set( PLAY_COOKIE, playValue );
 
     };
 
