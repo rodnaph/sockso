@@ -46,18 +46,18 @@ sockso.Player = function( options ) {
      *
      */
 
-    this.setPlayType = function( playType ) {
+    this.setPlayType = function( newPlayType ) {
         
-        var playValue = ( playType === null || playType === undefined || playType === 'null' )
+        self.playType = ( newPlayType === null || newPlayType === undefined || newPlayType === 'null' )
             ? self.PLAY_FLASH_POPUP
-            : playType;
+            : newPlayType;
 
         $( 'option', playOptions )
             .attr({ selected: false })
-            .filter( "option[value='" +playValue+ "']" )
+            .filter( "option[value='" +self.playType+ "']" )
             .attr({ selected: true });
 
-        session.set( PLAY_COOKIE, playValue );
+        session.set( PLAY_COOKIE, self.playType );
 
     };
 
@@ -75,12 +75,12 @@ sockso.Player = function( options ) {
         var trackFilter = ( Properties.get('www.flashPlayer.dontFilterMp3s') == 'yes' )
                               ? '' : '&trackType=mp3';
 
-        switch ( playType ) {
+        switch ( self.playType ) {
 
             case self.PLAY_PLS:
             case self.PLAY_M3U:
             case self.PLAY_XSPF:
-                location.href = '/' + playType+ '/' + playUrl;
+                location.href = '/' + self.playType+ '/' + playUrl;
                 break;
 
             case self.PLAY_FLASH_EMBED:
@@ -117,7 +117,7 @@ sockso.Player = function( options ) {
                 var width = 410;
                 var height = 180;
                 // adjust dimensions for different players...
-                if ( playType == self.PLAY_FLEX ) {
+                if ( self.playType == self.PLAY_FLEX ) {
                     width = 610;
                     height = 310;
                     playUrl += '&player=flexPlayer';
