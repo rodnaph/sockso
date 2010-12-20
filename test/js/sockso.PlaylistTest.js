@@ -81,15 +81,14 @@ Playlist.prototype.testGetPlaylistAsUrl = function() {
 
 Playlist.prototype.testLoad = function() {
 
-    expectAsserts( 1 );
-
     var sess = new sockso.mocks.Session();
     var p = new sockso.Playlist({ parentId: 'playlist', session: sess });
 
     sess.set( 'playlist', '1:_::_:First:_::_:1_:__:_2:_::_:Second:_::_:2' );
-    p.load();
-
-    assertEquals( 2, p.getItems().length );
+    
+    p.load(function() {
+        assertEquals( 2, p.getItems().length );
+    });
 
 };
 
@@ -104,10 +103,12 @@ Playlist.prototype.testSave = function() {
     p.add( new sockso.MusicItem( 'al456', 'Second' ) );
     p.save();
 
-    assertEquals(
-        'ar123%3A_%3A%3A_%3AFirst%3A_%3A%3A_%3A0_:__:_al456%3A_%3A%3A_%3ASecond%3A_%3A%3A_%3A1',
-        sess.get( 'playlist' )
-    );
+    sess.get( 'playlist', function(data) {
+        assertEquals(
+            'ar123%3A_%3A%3A_%3AFirst%3A_%3A%3A_%3A0_:__:_al456%3A_%3A%3A_%3ASecond%3A_%3A%3A_%3A1',
+            data,
+        );
+    });
 
 };
 

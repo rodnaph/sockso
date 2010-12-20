@@ -17,6 +17,8 @@ Session.prototype.testSetAndGet = function() {
 
     sess.set( 'foo', value );
 
-    assertEquals( value, sess.get('foo') );
+    sess.get('foo',function(data) {
+        assertEquals( value, data );
+    });
 
 };

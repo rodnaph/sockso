@@ -313,10 +313,12 @@ sockso.Playlist = function( options ) {
 
     /**
      *  Loads the playlist from the users session
-     *  
+     *
+     *  @param onLoad Function
+     *
      */
 
-    self.load = function() {
+    self.load = function( onLoad ) {
 
         session.get( 'playlist', function(data) {
             
@@ -330,6 +332,8 @@ sockso.Playlist = function( options ) {
                     }
                 }
             }
+
+            if ( onLoad ) { onLoad(); }
 
         });
 
