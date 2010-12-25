@@ -288,7 +288,7 @@ public class Console implements Manager {
 
                 newUser.save( db );
 
-                out.println( newUser.getId() == -1
+                out.println( newUser.getId() != -1
                     ? locale.getString("con.msg.userCreated")
                     : locale.getString("con.err.errorCreatingUser") );
 
