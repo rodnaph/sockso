@@ -29,7 +29,7 @@
 </%if>
 
 <%if shareLink %>
-    <a href="javascript:;" onclick="shareMusic(this,'<% type %><% id %>');" title="<% locale.getString("www.link.share") %> '<% name %>'"><img src="/file/skins/<% skin %>/images/share.png" /></a>
+    <a href="javascript:;" class="share-music share-music-<% type %><% id %>" title="<% locale.getString("www.link.share") %> '<% name %>'"><img src="/file/skins/<% skin %>/images/share.png" /></a>
 </%if>
 
 <%if playRandomLink %>

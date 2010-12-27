@@ -136,7 +136,8 @@ sockso.Playlist = function( options ) {
         items = [],
         contents = null,
         empty = null,
-        nextPlaylistId = 0;
+        nextPlaylistId = 0,
+        sharer = null;
 
     /**
      *  Adds an item to the playlist and draws it on the page
@@ -287,8 +288,14 @@ sockso.Playlist = function( options ) {
 
     self.share = function( evt ) {
 
-        // @TODO refactor
-        shareMusic( evt.target, self.getAsUrl() );
+        if ( !sharer ) {
+            sharer = new sockso.Sharer( $(evt.target) );
+            sharer.init();
+            sharer.addStandardLinks();
+        }
+        
+        sharer.setData( self.getAsUrl() );
+        sharer.show();
 
     };
 

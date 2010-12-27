@@ -142,3 +142,10 @@ function getPosition( obj ) {
     return new Point( curleft, curtop );
 
 }
+
+Function.prototype.bind = function( scope ) {
+    var self = this;
+    return function() {
+        self.apply( scope, arguments );
+    }
+};
