@@ -81,6 +81,16 @@ $(function() {
     });
     related.init();
 
+    // Sharing links
+
+    $( '.share-music' ).each(function() {
+
+        var popup = new sockso.Sharer( $(this) );
+        popup.init();
+        popup.addStandardLinks();
+
+    });
+
     // global objects
     
     window.player = player;

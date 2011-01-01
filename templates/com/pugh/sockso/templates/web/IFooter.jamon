@@ -80,7 +80,7 @@
             "sockso.SearchBox", "sockso.UploadForm", "sockso.User", "sockso.RelatedArtists",
             "sockso.Sharer",
 
-            "share", "imageflow", "folders", "init"
+            "imageflow", "folders", "init"
 
         };
     </%java>

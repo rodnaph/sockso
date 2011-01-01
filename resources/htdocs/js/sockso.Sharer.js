@@ -104,6 +104,11 @@ sockso.Sharer.prototype.addStandardLinks = function() {
 
     this.add( 'Show HTML code for player', 'embed.png', this.onShowHtml.bind(this) );
 
+//    this.add( 'Add to Streamfinder', 'streamfinder.png', function() {
+//        var url = '';
+//        alert( 'URL: ' + url );
+//    });
+
 };
 
 /**
