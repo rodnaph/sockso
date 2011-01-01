@@ -91,6 +91,13 @@ $(function() {
 
     });
 
+    // Imageflow
+
+    if ( Properties.get("www.imageflow.disable") != 'yes' && Properties.get("www.covers.disable") != 'yes' ) {
+        var imageflow = new sockso.ImageFlow();
+        imageflow.init();
+    }
+
     // global objects
     
     window.player = player;
