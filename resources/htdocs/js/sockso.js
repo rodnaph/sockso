@@ -47,7 +47,7 @@ sockso.MusicItem = MusicItem;
  *
  */
 
-function getActionNode( icon, action, title ) {
+sockso.util.getActionNode = function( icon, action, title ) {
 
     var skin = Properties.get( "www.skin", "original" );
 
@@ -69,21 +69,21 @@ function getActionNode( icon, action, title ) {
  *
  */
 
-function getMusicElement( item, includePlaylistLink ) {
+sockso.util.getMusicElement = function getMusicElement( item, includePlaylistLink ) {
 
     var type = item.getTypeName();
     var doRemove = ( item.playlistId != null );
     var name = item.name.replace( /'/, '\\\'' );
 
     var remove = doRemove
-        ? getActionNode('remove','javascript:playlist.remove('+item.playlistId+');','Remove')
+        ? sockso.util.getActionNode('remove','javascript:playlist.remove('+item.playlistId+');','Remove')
         : null;
 
     var addToPlaylist = ( includePlaylistLink == true )
-        ? getActionNode( 'add', 'javascript:playlist.add(new sockso.MusicItem(\'' +item.id+ '\',\'' +name+ '\'));', 'Add to playlist' )
+        ? sockso.util.getActionNode( 'add', 'javascript:playlist.add(new sockso.MusicItem(\'' +item.id+ '\',\'' +name+ '\'));', 'Add to playlist' )
         : null;
 
-    var play = getActionNode('play','javascript:player.play(\''+item.id+'\')','Play \''+name+'\'');
+    var play = sockso.util.getActionNode('play','javascript:player.play(\''+item.id+'\')','Play \''+name+'\'');
 
     var link = ( type == 'track' )
         ? $( '<span>' + item.name + '</span>' )
@@ -99,7 +99,7 @@ function getMusicElement( item, includePlaylistLink ) {
         .append( remove );
 
    if ( Properties.get('www.disableDownloads') != 'yes' )
-        element.append( getActionNode('download','/download/'+item.id,'Download \''+name+'\'') );
+        element.append( sockso.util.getActionNode('download','/download/'+item.id,'Download \''+name+'\'') );
 
    element.append( link );
 
@@ -107,42 +107,13 @@ function getMusicElement( item, includePlaylistLink ) {
 
 }
 
-sockso.util.getMusicElement = getMusicElement;
-
 /**
- *  represents an X,Y point
+ * Bind the function to be called with the specified scope
  *
- */
-
-function Point( x, y ) {
-
-    this.x = x;
-    this.y = y;
-
-}
-
-/**
- *  returns the absolute position of a page element
+ * @param scope Object
  *
+ * @return Function
  */
-
-function getPosition( obj ) {
-
-    var curleft = curtop = 0;
-
-    if ( obj.offsetParent ) {
-        curleft = obj.offsetLeft;
-        curtop = obj.offsetTop;
-        while ( obj = obj.offsetParent ) {
-            curleft += obj.offsetLeft;
-            curtop += obj.offsetTop;
-        }
-    }
-
-    return new Point( curleft, curtop );
-
-}
-
 Function.prototype.bind = function( scope ) {
     var self = this;
     return function() {

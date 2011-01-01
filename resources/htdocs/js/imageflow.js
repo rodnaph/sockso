@@ -89,7 +89,7 @@ function glideTo(x, new_caption_id)
 	if (captionText == '') captionText = '&nbsp;';
 	caption_div.innerHTML = captionText;
          
-         getMusicElement( new MusicItem(id,captionText), true )
+         sockso.util.getMusicElement( new MusicItem(id,captionText), true )
             .appendTo( $(caption_div).empty() );
 
 	// Set scrollbar slider to new position

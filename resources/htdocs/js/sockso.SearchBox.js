@@ -80,7 +80,7 @@ sockso.SearchBox = function() {
 
         if ( items.length > 0 ) {
             for ( var i=0; i<items.length; i++ ) {
-                results.append( getMusicElement(items[i],true) );
+                results.append( sockso.util.getMusicElement(items[i],true) );
             }
         }
 

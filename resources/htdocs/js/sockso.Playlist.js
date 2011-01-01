@@ -30,7 +30,7 @@ function savePlaylist( options ) {
                 eval( 'var result = ' + responseText );
                 if ( result.match(/^\d+$/) ) {
 
-                    var li = getMusicElement(
+                    var li = sockso.util.getMusicElement(
                         new MusicItem('pl'+result,name), true
                     );
 
