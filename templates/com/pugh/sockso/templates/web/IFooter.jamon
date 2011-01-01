@@ -78,9 +78,9 @@
             "sockso", "sockso.Base", "sockso.Hashtable", "sockso.Session",
             "sockso.Locale", "sockso.Properties", "sockso.Player", "sockso.Playlist",
             "sockso.SearchBox", "sockso.UploadForm", "sockso.User", "sockso.RelatedArtists",
-            "sockso.Sharer", "sockso.ImageFlow",
+            "sockso.Sharer", "sockso.ImageFlow", "sockso.FolderBrowsing",
 
-            "folders", "init"
+            "init"
 
         };
     </%java>

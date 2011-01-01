@@ -98,6 +98,11 @@ $(function() {
         imageflow.init();
     }
 
+    // Folder browsing
+
+    var folders = new sockso.FolderBrowsing( player, playlist );
+    folders.init();
+
     // global objects
     
     window.player = player;
