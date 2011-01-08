@@ -1,0 +1,301 @@
+
+#
+#  web errors
+#
+www.error.title=我晕~我倒~我faint~
+www.error.stackTrace=Stack Trace
+www.error.desc=阿勒泰地区检察院音乐分享平台 说...
+www.error.unknownRequest=不知道该怎么处理你请求的东东
+www.error.unknownUser=那个用户名还没有被注册
+www.error.passwordIncorrect=你的密码错了哦
+www.error.duplicateUsername=该用户名已存在
+www.error.duplicateEmail=邮件地址已经被使用了（就是说你不能用了）
+www.error.passwordsDontMatch=你两次的密码不一样哦
+www.error.invalidEmail=你的邮箱地址不可用
+www.error.missingField=你偷懒，漏填了昂
+www.error.registrationDisabled=用户注册被禁用了
+www.error.alreadyLoggedIn=你已经登录了!
+www.error.downloadsDisabled=下载不可用
+www.error.noAnonymousUploads=你需要登录才可以上传音乐
+www.error.uploadsNotEnabled=上传不可用
+www.error.noUploadsDirectory=那里不是设定的上传目录
+www.error.uploadsDirNotWritable=上传目录不可写
+www.error.noFileUploaded=你还没有上传文件
+www.error.unsupportedAudioFormat=我们的音乐分享平台暂时不支持这个格式...(仅支持 mp3, ogg 和 wma)
+www.error.cantCreateTrackFolder=不能创建上传文件夹
+www.error.browseFoldersNotEnabled=目录浏览功能不可用
+www.error.invalidCollectionId=不可用的收集id
+www.error.folderDoesntExist=文件夹不存在
+www.error.trackNotFound=曲目不存在
+www.error.fileNotFound=文件不存在
+www.error.couldNotCreateUniqueFilename=不能创建此文件名
+www.error.coversDisabled=封面不可用
+www.error.remoteErrorDesc=抱歉，该页面不存在. 貌似这个地址<a href="%1%2">%2</a>  已经过期了...  你可以告诉我以便我修复这个问题哦.
+www.error.localErrorDesc=抱歉，该页面不存在. 貌似这是一个损坏的链接昂~, 如果你认为这是一个严重错误你可以<a href="http://www.alt.xj.pro">点击这里反馈给我</a>.
+www.error.noRefererErrorDesc=抱歉，该页面不存在. 貌似你复制/粘贴了一个不正确的URL地址，或者是一个已经过期的书签.
+www.error.nothingToPlay=老大~你必须挑一个歌曲啊，要不我给你播放什么啊!
+www.error.nothingToDownload=你必须选一些歌才能开始下载昂~
+www.error.nothingToShare=你要选一些歌曲才能分享啊，什么都不选分享什么啊...
+www.error.passwordsDontMatch=密码不匹配哦
+
+#
+#   json messages
+#
+www.json.error.unknown=未知错误
+www.json.error.noName=没有名字被指定
+www.json.error.noArguments=没有协议
+www.json.error.notLoggedIn=你还没有登录呢..
+
+#
+#  web links
+#
+www.link.login=登录
+www.link.logout=退出
+www.link.register=注册
+www.link.home=首页
+www.link.browse=浏览
+www.link.latest=最新的
+www.link.popular=最流行
+www.link.playlists=播放列表
+www.link.random=随机播放
+www.link.play=播放
+www.link.clear=清除
+www.link.download=下载
+www.link.share=分享
+www.link.save=保存
+www.link.upload=上传
+www.link.randomizePlaylist=随机播放列表
+www.link.misc=混合
+www.link.folders=文件夹
+www.link.playRandom=随机播放
+www.link.editUser=编辑
+www.link.scrobbleLog=Scrobble 播放历史
+
+#
+#  web titles
+#
+www.title.playlist=播放列表
+www.title.recentlyPlayedTracks=最近已播放曲目
+www.title.topArtists=最给力的艺术家
+www.title.about=关于
+www.title.sitePlaylists=站点播放列表
+www.title.userPlaylists=用户播放列表
+www.title.mostPopularTracks=最流行曲目
+www.title.latestTracks=最新曲目
+www.title.latestArtists=最近的艺术家
+www.title.share=分享
+www.title.login=登录
+www.title.register=注册
+www.title.registerComplete=注册已完成!
+www.title.upload=上传音乐
+www.title.uploadComplete=上传完成
+www.title.recentlyPlayedAlbums=最近已播放专辑
+www.title.editProfile=你的个人信息
+www.title.userUpdated=个人信息已更新!
+www.title.recentUsers=最近的用户
+www.title.latestAlbums=最新的专辑
+www.title.sharePopup=阿勒泰地区检察院音乐分享系统 - 分享乐曲
+
+#
+#   web text
+#
+www.text.loggedInAs=登录为..
+www.text.noResults=没有任何发现...
+www.text.uploadComplete=感谢您的曲目，本歌曲已经被添加入!
+www.text.noCover=没有发现封面...
+www.text.userUpdated=你的相关信息已经被更新.
+www.text.confirmLogout=你确定你要退出么?
+www.text.confirmScrobbleLog=当你下载你的听歌记录时,你所有的曲目都将被标记为已听过.你确定你要现在下载么（没事不推荐下载~）?
+www.text.recentUsersInfo=(在最近5分钟内点播歌曲的用户)
+www.text.about= <a href="http://10.165.61.8:4444">阿勒泰地区检察院音乐分享系统</a> 是一个能让内网中所有人聆听音乐的共享平台!
+www.text.share=如果你想在你的网站中分享这首歌, 你可以复制/粘贴以下代码放在你网站的flash播放器中...
+www.text.login=如果你已经创建了帐户那就把登录信息填在这里就可以登录了.如果还没有创建那就去 <a href="%1">注册页面</a>立即注册吧!
+www.text.register=如果你想在这里登录, 你要做的第一件事情就是为你自己创建一个账户.把你的相关信息填在下面的表格中然后点击 <b>注册</b>按钮就可以了!
+www.text.registerComplete=干得好~ %1,你刚刚已经为你自己创建了一个帐户!  你现在可以用这个帐号登录开始使用我们的音乐分享平台了!
+www.text.emptyPlaylist=你的播放列表目前是空的.请点击旁边的图标添加曲目<img src="/file/skins/ %1/images/add.png" /> 歌曲，专辑, 等等...
+
+#
+#  web labels
+#
+www.label.dateAdded=日期已被添加
+www.label.playCount=播放
+www.label.trackCount=曲目
+www.label.username=用户名
+www.label.password=密码
+www.label.passwordRepeat=请重复输入一次密码
+www.label.login=登录
+www.label.email=邮件
+www.label.register=注册
+www.label.upload=上传
+www.label.trackToUpload=文件
+www.label.artist=艺术家
+www.label.album=专辑
+www.label.track=曲目名称
+www.label.deletePlaylist=删除播放列表
+www.label.save=保存
+
+#
+#  www confirm prompts
+#
+www.confirm.deletePlaylist=你确定你要删除这个播放列表么?
+www.confirm.playlistName=你想给这个播放列表起个什么名字?
+
+#
+#  gui window titles
+#
+gui.window.main= Sockso - Collection Manager
+gui.window.reports= Sockso  - Reports
+gui.window.console= Sockso - Console
+
+#
+#  gui labels
+#
+gui.label.portForward=Setup NAT (experimental!)
+gui.label.exit=Exit
+gui.label.hide=Hide
+gui.label.options=Options
+gui.label.gettingIPAddress=Getting IP Address
+gui.label.yourAddress=Your address
+gui.label.music=Music
+gui.label.collection=Collection
+gui.label.users=Users
+gui.label.myComputer=My Computer
+gui.label.internetAddress=Internet Address (default)
+gui.label.refresh=Refresh
+gui.label.addFolder=Add  Folder
+gui.label.removeFolder=Remove
+gui.label.username=Username
+gui.label.password=Password
+gui.label.passwordRepeat=Repeat password
+gui.label.email=Email
+gui.label.createUser=Create User
+gui.label.cancel=Cancel
+gui.label.general=General
+gui.label.testNat=Test NAT setup (may take a few moments)
+gui.label.browse=Browse
+gui.label.encoders=Encoders
+gui.label.encTypeNone=None
+gui.label.encTypeBuiltin=Builtin
+gui.label.encTypeCustom=Custom
+gui.label.encNoneSelected=None selected
+gui.label.encoder=Encoder
+gui.label.bitrate=Bitrate
+gui.label.command=Command
+gui.label.webServer=Web Server
+gui.label.port=端口
+gui.label.wwwTitle=Title
+gui.label.wwwTagline=Tagline
+gui.label.disableDownloads=禁用下载?
+gui.label.scanOnStartup=启动后自动扫描?
+gui.label.scanInterval=Scan interval (minutes)
+gui.label.uploads=上传
+gui.label.enableUploads=允许上传?
+gui.label.anonymousUploads=不需要登录么?
+gui.label.uploadsDirectory=Directory
+gui.label.general=General
+gui.label.startMinimized=启动后最小化?
+gui.label.confirmExit=确定要退出?
+gui.label.natSetup=NAT 设置
+gui.label.logging=Logging
+gui.label.enableRequestLog=日志请求?
+gui.label.exportRequestLogAs=导出请求日志作为:
+gui.label.export=导出
+gui.label.import=导入
+gui.label.consoleCommandGo=Execute
+gui.label.showReportsWindow=报告
+gui.label.showConsoleWindow=会话
+gui.label.enableFolderBrowsing=Enable folder browsing?
+gui.label.clearRequestLog=Clear (%1 records)
+gui.label.tracks=曲目
+gui.label.playlists=播放列表
+gui.label.userPlaylists=用户播放列表
+gui.label.rescanCollection=开始扫描
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=没有发现可用的web浏览器
+gui.error.missingField=你有漏填的项
+gui.error.invalidEmail=这不是一个可用的邮件地址哦
+gui.error.passwordsDontMatch=你的密码不匹配
+gui.error.duplicateUsername=该用户名已存在
+gui.error.duplicateEmail=该邮件地址已存在
+
+#
+#  gui titles
+#
+gui.title.creatingUser=创建一个新用户
+gui.title.options=选项
+
+#
+#  gui tooltips
+#
+gui.tooltip.music=你的音乐/播放列表
+gui.tooltip.collection=管理你的collection
+gui.tooltip.users=控制用户进入
+gui.tooltip.general=概况
+gui.tooltip.encoders=编码选项
+
+#
+#  gui messages
+#
+gui.message.natTestOk=NAT测试完成! 你的设置看起来木有问题~
+gui.message.natTestFailed=NAT 测试失败...
+gui.message.exportComplete=导出成功!
+gui.message.confirmClearRequestLog=这是不可撤销的, 你确定一定以及肯定你真的要删除日志么?
+gui.message.requestLogCleared=请求日志已经删除!
+gui.message.playlistImported=播放列表已成功导入!
+gui.message.playlistImportFailed=导入失败...
+
+#
+#  gui reports
+#
+gui.reports.refresh=刷新报告
+gui.reports.browsers.title=浏览
+gui.reports.browsers.titleLong=用户的浏览
+gui.reports.requestsPerDay.title=每天的请求
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=# 请求
+
+#
+#  console errors
+#
+con.err.usernameExists=用户名已存在
+con.err.emailExists=邮箱地址已存在
+con.err.errorCreatingUser=创建用户时出现错误...
+con.err.errorDeletingUser=删除用户时出现错误...
+con.err.directoryNotInColl=抱歉, 该目录不在collection中
+con.err.pathNotExist=%1 不存在...
+con.err.propertyDoesntExist=属性不存在...
+
+#
+#  console messages
+#
+con.msg.userCreated=用户被成功创建!
+con.msg.userDeleted=用户已被删除!
+con.msg.directoryDeleted=目录已移除!
+con.msg.propertySaved=属性已经保存!
+con.msg.propertyDeleted=属性已经被删除!
+con.msg.directoryAdded=目录已被成功添加!
+
+#
+#  console command descriptions
+#
+con.desc.addDirectory=adds a directory to the collection
+con.desc.removeDirectory=removes a directory from the collection
+con.desc.listDirectories=lists directories in the collection
+con.desc.exit=退出应用程序
+con.desc.listProperties=列出应用程序属性
+con.desc.setProperty=设置一个属性
+con.desc.listUsers=列出已注册用户
+con.desc.addUser=为系统添加一个用户
+con.desc.deleteUser=通过id删除一个用户
+con.desc.commands=命令:
+con.desc.delProperty=删除一项属性
+con.desc.version=显示目前的版本
+con.desc.rescanCollection=现在开始搜索收藏
+
+#
+#  misc messages
+#
+misc.msg.updateAvailable=发现新版本的sockso组件 (%1)
