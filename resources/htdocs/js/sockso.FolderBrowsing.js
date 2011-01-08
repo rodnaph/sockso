@@ -143,7 +143,7 @@ sockso.FolderBrowsing.prototype.getCollectionId = function( elem ) {
  */
 sockso.FolderBrowsing.prototype.resolvePath = function( path, handler, errorMessage ) {
 
-    $.ajax({
+    this.ajax({
         type: 'POST',
         url: '/json/resolvePath',
         data: {
@@ -345,7 +345,7 @@ sockso.FolderBrowsing.prototype.getTracksForFolder = function( folder, handler )
 
     var url = '/json/tracksForPath?path=' +encodeURIComponent(folder.path);
 
-    $.ajax({
+    this.ajax({
         url: url,
         success: function( responseText ) {
             eval( 'var tracks = ' +responseText );
@@ -521,14 +521,17 @@ sockso.FolderBrowsing.prototype.loadFolder = function( folder ) {
 
     // set a small timeout so the page can refresh with the loading
     // gif before we make the ajax request (which could take a lil bit)
-    setTimeout( function() {
-        $.ajax({
-            url: url,
-            success: function( responseText ) {
-                self.handleLoadFolder( folder, responseText )
-            }
-        });
-    }, 100 );
+    setTimeout(
+        function() {
+            self.ajax({
+                url: url,
+                success: function( responseText ) {
+                    self.handleLoadFolder( folder, responseText )
+                }
+            });
+        },
+        100
+    );
 
 };
 
@@ -560,3 +563,9 @@ sockso.FolderBrowsing.prototype.onToggleClicked = function( event ) {
     }
 
 };
+
+/**
+ * For intercepting in tests
+ * 
+ */
+sockso.FolderBrowsing.prototype.ajax = $.ajax;
