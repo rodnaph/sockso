@@ -37,6 +37,7 @@ www.error.nothingToPlay=You have to choose some stuff to play first, clart!
 www.error.nothingToDownload=You have to choose some stuff to download first, dufus!
 www.error.nothingToShare=You have to choose some stuff to share first, stoopid!
 www.error.passwordsDontMatch=The passwords don't match
+www.error.notAnAdmin=You need to be an administrator to do that
 
 #
 #  json messages
