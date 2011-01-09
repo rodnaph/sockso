@@ -141,7 +141,8 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " name text not null unique, " +
                       " pass text not null, " +
                       " email text not null," +
-                      " date_created datetime not null " +
+                      " date_created datetime not null, " +
+                      " is_admin integer not null default '0' " +
                   " ) ";
             update( sql );
 

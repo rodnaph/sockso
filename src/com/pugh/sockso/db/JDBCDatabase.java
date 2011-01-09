@@ -92,6 +92,30 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         
     }
 
+    /**
+     * Execute an sql statement and supress any exceptions
+     *
+     * @param sql
+     *
+     * @return
+     *
+     */
+    
+    protected boolean safeUpdate( final String sql ) {
+
+        try {
+            update( sql );
+            return true;
+        }
+
+        catch ( final SQLException e ) {
+            log.debug( e );
+        }
+
+        return false;
+
+    }
+
 
     /**
      *  returns a prepared statement for the specified sql

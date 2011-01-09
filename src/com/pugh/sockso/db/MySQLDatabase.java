@@ -74,6 +74,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             // schema updates
             checkArtistsBrowseNameField();
             checkIndexerTableExists();
+            checkUserAdminColumnExists();
 
         }
         
@@ -281,6 +282,20 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
         catch ( final SQLException e ) {
             log.debug( e );
         }
+
+    }
+
+    /**
+     * Checks the users.is_admin column
+     *
+     */
+
+    private void checkUserAdminColumnExists() {
+
+        final String sql = " alter table users " +
+                           " add is_admin tinyint(1) not null default '0' ";
+
+        safeUpdate( sql );
 
     }
 

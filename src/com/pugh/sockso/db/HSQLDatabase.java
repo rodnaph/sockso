@@ -120,6 +120,7 @@ public class HSQLDatabase extends JDBCDatabase {
         checkScrobbledLogField();
         checkArtistsBrowseNameField();
         checkIndexerTableExists();
+        checkUserAdminColumnExists();
 
     }
     
@@ -157,24 +158,32 @@ public class HSQLDatabase extends JDBCDatabase {
     }
 
     /**
+     * Checks the users.is_admin column
+     * 
+     */
+    
+    private void checkUserAdminColumnExists() {
+
+        final String sql = " alter table users " +
+                           " add is_admin bit default 0 ";
+
+        safeUpdate( sql );
+
+    }
+
+    /**
      *  Checks the file used to store indexing info exists
      *
      */
 
     private void checkIndexerTableExists() {
 
-        try {
-            final String sql = " create table indexer ( " +
-                                   " id integer not null,  " +
-                                   " last_modified timestamp not null, " +
-                                   " primary key ( id ) " +
-                               " ) ";
-            update( sql );
-        }
-
-        catch ( final SQLException e ) {
-            log.debug( e );
-        }
+        final String sql = " create table indexer ( " +
+                               " id integer not null,  " +
+                               " last_modified timestamp not null, " +
+                               " primary key ( id ) " +
+                           " ) ";
+        safeUpdate( sql );
 
     }
 
