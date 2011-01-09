@@ -17,6 +17,8 @@ import com.pugh.sockso.web.action.Uploader;
 import com.pugh.sockso.web.action.Userer;
 import com.pugh.sockso.web.action.WebAction;
 
+import com.pugh.sockso.web.action.admin.Console;
+
 import com.pugh.sockso.web.action.browse.Albumer;
 import com.pugh.sockso.web.action.browse.Artister;
 import com.pugh.sockso.web.action.browse.ByLetterer;
@@ -89,6 +91,8 @@ public class DispatcherTest extends TestCase {
         dt.put( "/browse/latest", Latester.class );
         dt.put( "/browse/playlists", Playlistser.class );
         dt.put( "/browse/playlist/123", Playlister.class );
+        dt.put( "/admin/console", Console.class );
+        dt.put( "/admin/console/send", Console.class );
 
         for ( final String url : dt.keySet() ) {
             dispatch( url, dt.get(url) );

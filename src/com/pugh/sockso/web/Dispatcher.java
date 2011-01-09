@@ -8,6 +8,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.resources.Resources;
 
+import com.pugh.sockso.web.action.AdminAction;
 import com.pugh.sockso.web.action.Downloader;
 import com.pugh.sockso.web.action.Feeder;
 import com.pugh.sockso.web.action.FileServer;
@@ -20,6 +21,8 @@ import com.pugh.sockso.web.action.Streamer;
 import com.pugh.sockso.web.action.Uploader;
 import com.pugh.sockso.web.action.Userer;
 import com.pugh.sockso.web.action.WebAction;
+
+import com.pugh.sockso.web.action.admin.Console;
 
 import com.pugh.sockso.web.action.browse.Albumer;
 import com.pugh.sockso.web.action.browse.Artister;
@@ -117,6 +120,10 @@ public class Dispatcher {
         
         else if ( command.equals("rss") )
             action = new Feeder( host );
+
+        else if ( command.equals("admin") ) {
+            action = getAdminAction( req );
+        }
         
         else if ( command.equals("nat") )
             action = new Nater();
@@ -169,6 +176,18 @@ public class Dispatcher {
 
         else return null;
         
+    }
+
+    protected AdminAction getAdminAction( final Request req ) {
+
+        final String command = req.getUrlParam( 1 );
+
+        if ( command.equals("console") ) {
+            return new Console();
+        }
+
+        return null;
+
     }
 
     /**
