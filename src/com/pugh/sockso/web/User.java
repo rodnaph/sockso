@@ -24,6 +24,7 @@ public class User {
     
     private final int sessionId;
     private final String name, pass, email, sessionCode;
+    private final boolean isAdmin;
 
     private int id;
 
@@ -33,25 +34,25 @@ public class User {
 
     }
     
-    public User( final String name, final String pass, final String email ) {
+    public User( final String name, final String pass, final String email, final boolean isAdmin ) {
 
-        this( -1, name, pass, email, -1, "" );
+        this( -1, name, pass, email, -1, "", isAdmin );
 
     }
     
-    public User( final int id, final String name, final String email ) {
+    public User( final int id, final String name, final String email, final boolean isAdmin ) {
 
-        this( id, name, "", email, -1, "" );
+        this( id, name, "", email, -1, "", isAdmin );
 
     }
 
     public User( final int id, final String name, final String pass, final String email ) {
 
-        this( id, name, pass, email, -1, "" );
+        this( id, name, pass, email, -1, "", false );
 
     }
 
-    public User( final int id, final String name, final String pass, final String email, final int sessionId, final String sessionCode ) {
+    public User( final int id, final String name, final String pass, final String email, final int sessionId, final String sessionCode, final boolean isAdmin ) {
 
         this.id = id;
         this.name = name;
@@ -59,6 +60,7 @@ public class User {
         this.email = email;
         this.sessionId = sessionId;
         this.sessionCode = sessionCode;
+        this.isAdmin = isAdmin;
 
     }
 
@@ -76,13 +78,14 @@ public class User {
 
         try {
 
-            String sql = " insert into users ( name, pass, email, date_created ) " +
-                         " values ( ?, ?, ?, current_timestamp ) ";
+            String sql = " insert into users ( name, pass, email, date_created, is_admin ) " +
+                         " values ( ?, ?, ?, current_timestamp, ? ) ";
 
             st = db.prepare( sql );
             st.setString( 1, name );
             st.setString( 2, Utils.md5(pass) );
             st.setString( 3, email );
+            st.setInt( 4, isAdmin ? 1 : 0 );
             st.executeUpdate();
             
             Utils.close( st );
@@ -125,4 +128,51 @@ public class User {
     public String getSessionCode() {
         return sessionCode;
     }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    /**
+     * Finds a user db their ID
+     *
+     * @param db
+     * @param id
+     *
+     * @return
+     */
+    public static User find( final Database db, final int id ) {
+
+        final String sql = " select id, name, email, is_admin " +
+                           " from users " +
+                           " where id = ? ";
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            rs = st.executeQuery();
+
+            if ( rs.next() ) {
+                return new User(
+                    id,
+                    rs.getString( "name" ),
+                    rs.getString( "email" ),
+                    rs.getBoolean( "is_admin" )
+                );
+            }
+
+        }
+
+        catch ( final Exception e ) {
+            log.error( e );
+        }
+
+        return null;
+
+    }
+
 }

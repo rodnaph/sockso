@@ -64,8 +64,8 @@ public class IMusicLinksTest extends TemplateTestCase {
         
         final Properties p = new StringProperties();
 
-        assertTrue( getTemplate(p,null,true).asString().contains("shareMusic(") );
-        assertTrue( !getTemplate(p,null,false).asString().contains("shareMusic(") );
+        assertTrue( getTemplate(p,null,true).asString().contains("share-music") );
+        assertTrue( !getTemplate(p,null,false).asString().contains("share-music") );
 
     }
 

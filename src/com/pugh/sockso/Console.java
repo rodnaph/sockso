@@ -47,6 +47,7 @@ public class Console implements Manager {
     protected static final String CMD_USERLIST = "userlist";
     protected static final String CMD_USERADD = "useradd";
     protected static final String CMD_USERDEL = "userdel";
+    protected static final String CMD_USERADMIN = "useradmin";
     protected static final String CMD_VERSION = "version";
 
     private final Database db;
@@ -173,6 +174,7 @@ public class Console implements Manager {
         else if ( name.equals(CMD_USERLIST) ) { cmdUserList( args ); }
         else if ( name.equals(CMD_USERADD) ) { cmdUserAdd( args ); }
         else if ( name.equals(CMD_USERDEL) ) { cmdUserDel( args ); }
+        else if ( name.equals(CMD_USERADMIN) ) { cmdUserAdmin( args ); }
         else if ( name.equals(CMD_VERSION) ) { cmdVersion(); }
 
         else printCommands();
@@ -205,18 +207,19 @@ public class Console implements Manager {
     protected void printCommands() {
         
         out.println( locale.getString("con.desc.commands") );
-        out.println( CMD_COLADD + " PATH                " + locale.getString("con.desc.addDirectory") );
-        out.println( CMD_COLDEL + " PATH                " + locale.getString("con.desc.removeDirectory") );
-        out.println( CMD_COLLIST + "                    " + locale.getString("con.desc.listDirectories") );
-        out.println( CMD_COLSCAN + "                    " + locale.getString("con.desc.rescanCollection") );
-        out.println( CMD_EXIT + "                       " + locale.getString("con.desc.exit") );
-        out.println( CMD_PROPLIST + " FILTER            " + locale.getString("con.desc.listProperties") );
-        out.println( CMD_PROPSET + " NAME VALUE         " + locale.getString("con.desc.setProperty") );
-        out.println( CMD_PROPDEL + " NAME               " + locale.getString("con.desc.delProperty") );
-        out.println( CMD_USERLIST + "                   " + locale.getString("con.desc.listUsers") );
-        out.println( CMD_USERADD + " NAME PASS EMAIL    " + locale.getString("con.desc.addUser") );
-        out.println( CMD_USERDEL + " ID                 " + locale.getString("con.desc.deleteUser") );
-        out.println( CMD_VERSION + "                    " + locale.getString("con.desc.version") );
+        out.println( CMD_COLADD + " PATH                            " + locale.getString("con.desc.addDirectory") );
+        out.println( CMD_COLDEL + " PATH                            " + locale.getString("con.desc.removeDirectory") );
+        out.println( CMD_COLLIST + "                                " + locale.getString("con.desc.listDirectories") );
+        out.println( CMD_COLSCAN + "                                " + locale.getString("con.desc.rescanCollection") );
+        out.println( CMD_EXIT + "                                   " + locale.getString("con.desc.exit") );
+        out.println( CMD_PROPLIST + " FILTER                        " + locale.getString("con.desc.listProperties") );
+        out.println( CMD_PROPSET + " NAME VALUE                     " + locale.getString("con.desc.setProperty") );
+        out.println( CMD_PROPDEL + " NAME                           " + locale.getString("con.desc.delProperty") );
+        out.println( CMD_USERLIST + "                               " + locale.getString("con.desc.listUsers") );
+        out.println( CMD_USERADD + " NAME PASS EMAIL ISADMIN (1/0)  " + locale.getString("con.desc.addUser") );
+        out.println( CMD_USERDEL + " ID                             " + locale.getString("con.desc.deleteUser") );
+        out.println( CMD_USERADMIN + " ID ISADMIN (1/0)             " + locale.getString("con.desc.adminUser") );
+        out.println( CMD_VERSION + "                                " + locale.getString("con.desc.version") );
         out.println( "" );
 
     }
@@ -235,7 +238,7 @@ public class Console implements Manager {
         
         try {
         
-            final String sql = " select id, name, email " +
+            final String sql = " select id, name, email, is_admin " +
                                " from users " +
                                " order by name asc ";
 
@@ -245,7 +248,8 @@ public class Console implements Manager {
             while ( rs.next() )
                 out.println( rs.getString("id") + "\t" +
                              rs.getString("name") + "\t" +
-                             rs.getString("email") );
+                             rs.getString("email") + "\t" +
+                             ( rs.getBoolean("is_admin") ? "ADMIN" : "") );
 
         }
         
@@ -265,7 +269,7 @@ public class Console implements Manager {
     
     protected void cmdUserAdd( final String[] args ) throws SQLException {
         
-        if ( args.length < 4 )
+        if ( args.length < 5 )
             printCommands();
         else {
             
@@ -275,6 +279,7 @@ public class Console implements Manager {
                 final String name = args[ 1 ];
                 final String pass = args[ 2 ];
                 final String email = args[ 3 ];
+                final String isAdmin = args[ 4 ];
                 
                 if ( v.usernameExists(name) ) {
                     throw new ValidationException( locale.getString("con.err.usernameExists") );
@@ -284,7 +289,12 @@ public class Console implements Manager {
                     throw new ValidationException( locale.getString("con.err.emailExists") );
                 }
 
-                final User newUser = new User( name, pass, email );
+                final User newUser = new User(
+                    name,
+                    pass,
+                    email,
+                    isAdmin.equals("1") ? true : false
+                );
 
                 newUser.save( db );
 
@@ -324,6 +334,43 @@ public class Console implements Manager {
 
         }
         
+    }
+
+    protected void cmdUserAdmin( final String[] args ) {
+
+        if ( args.length < 3 ) {
+            printCommands();
+        }
+        
+        else {
+
+            PreparedStatement st = null;
+
+            final int id = Integer.parseInt( args[1] );
+            final int isAdmin = Integer.parseInt( args[2] );
+            final String sql = " update users " +
+                               " set is_admin = ? " +
+                               " where id = ? ";
+
+            try {
+                st = db.prepare( sql );
+                st.setInt( 1, isAdmin );
+                st.setInt( 2, id );
+                st.executeUpdate();
+                out.println( "User " +id+ " updated!" );
+            }
+
+            catch ( final SQLException e ) {
+                out.println( "Error updating user: " +e.getMessage() );
+                log.error( e );
+            }
+
+            finally {
+                Utils.close( st );
+            }
+            
+        }
+
     }
     
     /**

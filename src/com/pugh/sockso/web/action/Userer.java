@@ -595,7 +595,7 @@ public class Userer extends WebAction {
             }
 
             else {
-                final User user = new User( name, pass, "" );
+                final User user = new User( name, pass, "", false );
                 user.save( db );
                 return user;
             }

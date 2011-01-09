@@ -134,7 +134,7 @@ public class UsersPanel extends JPanel {
         table.getSelectionModel().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         
         // set table column widths
-        int[] widths = { 20, 150, 200, 100 };
+        int[] widths = { 10, 150, 200, 100, 10 };
         for ( int i=0; i<widths.length; i++ )
             columns.getColumn(i).setPreferredWidth( widths[i] );
 
@@ -220,9 +220,9 @@ public class UsersPanel extends JPanel {
         
         try {
             
-            final String sql = " select u.id, u.name, u.email, u.date_created " +
-                         " from users u " +
-                         " order by u.name asc ";
+            final String sql = " select u.id, u.name, u.email, u.date_created, u.is_admin " +
+                               " from users u " +
+                               " order by u.name asc ";
             
             st = db.prepare( sql );
             rs = st.executeQuery();
@@ -236,6 +236,7 @@ public class UsersPanel extends JPanel {
                 model.setValueAt( rs.getString("name"), row - 1, 1 );
                 model.setValueAt( rs.getString("email"), row - 1, 2 );
                 model.setValueAt( rs.getString("date_created"), row - 1, 3 );
+                model.setValueAt( rs.getString("is_admin"), row - 1, 4 );
 
             }
             
@@ -256,7 +257,7 @@ public class UsersPanel extends JPanel {
 
 class MyTableModel extends DefaultTableModel {
     
-    private String[] columns = { "ID", "Name", "Email", "Date Created" };
+    private String[] columns = { "ID", "Name", "Email", "Date Created", "Admin" };
     
     @Override
     public int getColumnCount() { return columns.length; }

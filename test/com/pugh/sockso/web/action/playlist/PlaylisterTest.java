@@ -20,7 +20,7 @@ public class PlaylisterTest extends PlaylistTestCase {
         final String email = Utils.getRandomString( 20 );
         final int sessionId = 23123;
         final String sessionCode = Utils.getRandomString( 20 );
-        final User user = new User( 1, name, "", email, sessionId, sessionCode );
+        final User user = new User( 1, name, "", email, sessionId, sessionCode, true );
 
         String data = "";
 

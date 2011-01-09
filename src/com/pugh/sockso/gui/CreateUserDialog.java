@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
+import javax.swing.JCheckBox;
 
 import java.sql.SQLException;
 
@@ -48,6 +49,7 @@ public class CreateUserDialog extends JDialog {
     
     private JTextField txtName, txtEmail;
     private JPasswordField txtPass1, txtPass2;
+    private JCheckBox isAdmin;
     
     public CreateUserDialog( JFrame parent, Database db, Resources r, UsersPanel usersPanel ) {
         
@@ -86,6 +88,7 @@ public class CreateUserDialog extends JDialog {
         txtEmail = new JTextField();
         txtPass1 = new JPasswordField();
         txtPass2 = new JPasswordField();
+        isAdmin = new JCheckBox();
         
     }
     
@@ -113,6 +116,8 @@ public class CreateUserDialog extends JDialog {
         builder.append( locale.getString("gui.label.passwordRepeat"), txtPass2 );
         builder.nextLine();
         builder.append( locale.getString("gui.label.email"), txtEmail );
+        builder.nextLine();
+        builder.append( locale.getString("gui.label.isAdmin"), isAdmin );
         builder.nextLine();
 
         return builder.getPanel();
@@ -211,7 +216,8 @@ public class CreateUserDialog extends JDialog {
             final User newUser = new User(
                 txtName.getText(),
                 new String(txtPass1.getPassword()),
-                txtEmail.getText()
+                txtEmail.getText(),
+                isAdmin.isSelected()
             );
 
             newUser.save( db );

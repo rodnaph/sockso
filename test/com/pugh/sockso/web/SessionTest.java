@@ -57,7 +57,7 @@ public class SessionTest extends SocksoTestCase {
 
         final int sessionId = 12344;
         final String sessionCode = "HGASJDGAJ";
-        final User u = new User( 1, "", "", "", sessionId, sessionCode );
+        final User u = new User( 1, "", "", "", sessionId, sessionCode, true );
 
         assertEquals( sessionId, u.getSessionId() );
         assertEquals( sessionCode, u.getSessionCode() );

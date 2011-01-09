@@ -13,7 +13,10 @@ import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.web.User;
 import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestLocale;
 
 import java.io.PrintStream;
 import java.io.InputStream;
@@ -165,6 +168,7 @@ public class ConsoleTest extends SocksoTestCase {
         expect( rs.getString("id") ).andReturn( "id" );
         expect( rs.getString("name") ).andReturn( "name" );
         expect( rs.getString("email") ).andReturn( "email" );
+        expect( rs.getBoolean("is_admin") ).andReturn( false );
         expect( rs.next() ).andReturn( false );
         rs.close();
         replay( rs );
@@ -222,6 +226,32 @@ public class ConsoleTest extends SocksoTestCase {
         Console c = new Console( null, null, null, null, null, null );
         
         assertEquals( "a b c", Utils.joinArray(c.getArgs("a b c")," ",0,2) );
+        
+    }
+
+    public void testMakingANonAdminUserAdminDoesSo() throws Exception {
+        Database db = new TestDatabase();
+        Console c = new Console( db, p, cm, out, in, new TestLocale() );
+        User u1 = new User( "qwe", "rty", "qwe@rty.com", false );
+        u1.save( db );
+        ///////////
+        c.cmdUserAdmin(new String[]{ "useradmin", String.valueOf(u1.getId()), "1" });
+        User u2 = User.find( db, u1.getId() );
+        assertTrue( u2.isAdmin() );
+    }
+    
+    public void testMakingAnAdminUserNonAdminDoesSo() throws Exception {
+        Database db = new TestDatabase();
+        Console c = new Console( db, p, cm, out, in, new TestLocale() );
+        User u1 = new User( "qwe", "rty", "qwe@rty.com", true );
+        u1.save( db );
+        ///////////
+        c.cmdUserAdmin(new String[]{ "useradmin", String.valueOf(u1.getId()), "0" });
+        User u2 = User.find( db, u1.getId() );
+        assertFalse( u2.isAdmin() );
+    }
+    
+    public void testSpecifyingInvalidUserIdReportsThisToTheUser() {
         
     }
 
