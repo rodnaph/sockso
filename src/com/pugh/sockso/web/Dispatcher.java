@@ -178,6 +178,15 @@ public class Dispatcher {
         
     }
 
+    /**
+     *  Returns an action from the admin namespace
+     *
+     *  @param req
+     *
+     *  @return
+     *
+     */
+    
     protected AdminAction getAdminAction( final Request req ) {
 
         final String command = req.getUrlParam( 1 );
