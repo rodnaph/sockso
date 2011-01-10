@@ -131,6 +131,17 @@ public interface Response {
     public void showText( final Renderer renderer ) throws IOException;
     
     /**
+     *  shows some plain text
+     *
+     *  @param text
+     * 
+     *  @throws java.io.IOException
+     *
+     */
+
+    public void showText( final String text ) throws IOException;
+
+    /**
      *  sets the content type header and sends headers, then sends
      *  the template which this renderer is for to the client
      * 

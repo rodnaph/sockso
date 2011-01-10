@@ -58,6 +58,9 @@
 
     <%if user != null %>
         <a id="logoutLink" href="/user/logout" title="<% locale.getString("www.link.logout") %>"><img src="/file/skins/<% skin %>/images/logout.png" alt="<% locale.getString("www.link.logout") %>" /></a>
+        <%if user.isAdmin() %>
+            <a class="admin-console-link" href="/admin/console" title="<% locale.getString("www.link.adminConsole") %>"><img src="/file/skins/<% skin %>/images/adminConsole.png" alt="Admin Console" /></a>
+        </%if>
     </%if>
 
 </div>

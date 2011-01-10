@@ -7,12 +7,17 @@ import com.pugh.sockso.web.UploadFile;
 
 import java.io.InputStream;
 
+import java.util.Hashtable;
+
 public class TestRequest extends HttpRequest implements Request {
 
     private String resource;
 
+    private Hashtable<String,String> args;
+
     public TestRequest( final String resource ) {
         super( null );
+        this.args = new Hashtable<String,String>();
         this.resource = resource;
     }
 
@@ -56,11 +61,17 @@ public class TestRequest extends HttpRequest implements Request {
     }
 
     public String getArgument( String name ) {
-        return "";
+        return hasArgument( name )
+            ? args.get( name )
+            : "";
     }
 
     public boolean hasArgument( String name ) {
-        return false;
+        return args.containsKey( name );
+    }
+
+    public void setArgument( final String name, final String value ) {
+        args.put( name, value );
     }
 
     public UploadFile getFile( String file ) {

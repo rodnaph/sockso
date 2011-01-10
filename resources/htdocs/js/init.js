@@ -103,6 +103,11 @@ $(function() {
     var folders = new sockso.FolderBrowsing( player, playlist );
     folders.init();
 
+    // Admin console
+    
+    var console = new sockso.AdminConsole();
+    console.init();
+
     // global objects
     
     window.player = player;

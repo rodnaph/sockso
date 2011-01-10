@@ -1,0 +1,27 @@
+
+<%import>
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+</%import>
+
+<%args>
+    Properties properties = null;
+    Locale locale = null;
+    User user = null;
+</%args>
+
+<html>
+<head>
+<title><% locale.getString("www.admin.title.console") %></title>
+
+</head>
+
+<body>
+
+<div class="admin-console"></div>
+
+<& ../IJavascript; properties=properties; locale=locale; user=user; &>
+
+</body>
+</html>

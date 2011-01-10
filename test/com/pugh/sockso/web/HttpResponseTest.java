@@ -213,6 +213,13 @@ public class HttpResponseTest extends SocksoTestCase {
         res.getRecentUsers();
         
     }
+
+    public void testSendingStringTextViaTheResponse() throws IOException {
+        StringOutputStream stream = new StringOutputStream();
+        HttpResponse res = new HttpResponse( stream, null, null, null, null, false );
+        res.showText( "SOME TEXT" );
+        assertContains( stream.toString(), "SOME TEXT" );
+    }
     
 }
 

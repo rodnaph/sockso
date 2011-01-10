@@ -161,7 +161,7 @@ public class Console implements Manager {
         
         final String[] args = getArgs( command );
         final String name = args.length > 0 ? args[0] : "";
-        
+
         if ( name.equals("") ) { /* ignore empty lines */ }
         else if ( name.equals(CMD_EXIT) ) { cmdExit(); }
         else if ( name.equals(CMD_COLADD) ) { cmdColAdd( args ); }
@@ -484,11 +484,11 @@ public class Console implements Manager {
      */
     
     protected void cmdPropSet( final String[] args ) {
-        
+
         if ( args.length < 3 )
             printCommands();
         else {
-        
+
             final String name = args[ 1 ];
             final String value = Utils.joinArray( args, " ", 2, args.length - 1 );
 

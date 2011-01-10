@@ -1,0 +1,47 @@
+
+<%import>
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Sockso;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.resources.Locale;
+    com.pugh.sockso.web.User;
+</%import>
+
+<%args>
+    Locale locale = null;
+    Properties properties = null;
+    User user = null;
+</%args>
+
+<%if properties.get("dev.enabled").equals(properties.YES) %>
+    <%java>
+        final String[] jsFiles = new String[] {
+
+            "jquery", "jquery.corner", "persistjs",
+
+            "sockso", "sockso.Base", "sockso.Hashtable", "sockso.Session",
+            "sockso.Locale", "sockso.Properties", "sockso.Player", "sockso.Playlist",
+            "sockso.SearchBox", "sockso.UploadForm", "sockso.User", "sockso.RelatedArtists",
+            "sockso.Sharer", "sockso.ImageFlow", "sockso.FolderBrowsing", "sockso.AdminConsole",
+
+            "init"
+
+        };
+    </%java>
+    <%for final String jsFile : jsFiles %>
+        <script type="text/javascript" src="/file/js/<% jsFile %>.js"></script>
+    </%for>
+<%else>
+    <script type="text/javascript" src="/file/js/packed-<% Sockso.VERSION %>.js"></script>
+</%if>
+
+<script type="text/javascript" src="/file/js/locale.<% locale.getLangCode() %>.<% Sockso.VERSION %>.js"></script>
+
+<script type="text/javascript">
+user = <%if user != null %>new sockso.User({ id: <% user.getId() %>, name: '<% user.getName() #n %>' })<%else>null</%if>;
+// duplicated here because of IE bug
+if ( !window.Properties ) {
+    Properties = new sockso.Properties();
+}
+Properties.setData({'':''<%for String name : properties.getProperties() %><%if name.substring(0,4).equals("www.") %>,'<% Utils.escapeJs(name) %>':'<% Utils.escapeJs(properties.get(name)) %>'</%if></%for>});
+</script>

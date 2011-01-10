@@ -146,4 +146,20 @@ public class SocksoTestCase extends TestCase {
         
     }
 
+    /**
+     *  Asserts that one string contains another
+     *
+     *  @param haystack
+     *  @param needle
+     *
+     */
+
+    protected void assertContains( final String haystack, final String needle ) {
+
+        if ( !haystack.contains(needle) ) {
+            fail( "'" +haystack+ "' does not contain the string '" +needle+ "'" );
+        }
+
+    }
+
 }

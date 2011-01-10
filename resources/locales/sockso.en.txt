@@ -98,6 +98,11 @@ www.title.latestAlbums=Latest Albums
 www.title.sharePopup=Sockso - Sharing Music
 
 #
+#  web admin
+#
+www.admin.title.console=Sockso - Admin Console
+
+#
 #  web text
 #
 www.text.loggedInAs=Logged in as

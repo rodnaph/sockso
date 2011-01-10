@@ -4,48 +4,31 @@ package com.pugh.sockso.web;
 import junit.framework.TestCase;
 
 public class StringOutputStreamTest extends TestCase {
-    
-    public StringOutputStreamTest(String testName) {
-        super(testName);
-    }            
 
+    private StringOutputStream out;
+    
     @Override
     protected void setUp() throws Exception {
-        super.setUp();
+        out = new StringOutputStream();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    public void testConstructor() {
-        
-        final StringOutputStream out = new StringOutputStream();
-        
-        assertNotNull( out );
-        
-    }
-    
-    public void testWriteByte() {
-        
-        final StringOutputStream out = new StringOutputStream();
-        final int i = 91;
-        
-        out.writeByte( 91 );
-        
-    }
-
-    public void testToString() {
-        
-        final StringOutputStream out = new StringOutputStream();
-
+    public void testWriteByteToStreamRecordsIt() {
         out.writeByte( 65 );
         out.writeByte( 66 );
         out.writeByte( 67 );
-
         assertEquals( "ABC", out.toString() );
-        
     }
-    
+
+    public void testWritingAnIntToTheStreamRecordsIt() {
+        out.write( 65 );
+        out.write( 66 );
+        out.write( 67 );
+        assertEquals( "ABC", out.toString() );
+    }
+
+    public void testWritingAByteArrayToTheStreamRecordsIt() {
+        out.write( new byte[] { 65, 66, 67 }, 0, 3 );
+        assertEquals( "ABC", out.toString() );
+    }
+
 }

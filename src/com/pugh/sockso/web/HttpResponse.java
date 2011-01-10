@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.PrintStream;
 
 import java.sql.Timestamp;
 import java.sql.SQLException;
@@ -386,6 +387,27 @@ public class HttpResponse implements Response {
        
         showTemplate( renderer, "text/plain" );
         
+    }
+
+    /**
+     *  Shows some text
+     *
+     *  @param text
+     *
+     *  @throws IOException
+     *
+     */
+    
+    public void showText( final String text ) throws IOException {
+
+        addHeader( "Content-type", "text/plain" );
+        sendHeaders();
+
+        final OutputStreamWriter out = new OutputStreamWriter( stream );
+        
+        out.write( text );
+        out.flush();
+
     }
     
     /**
