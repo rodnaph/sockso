@@ -32,6 +32,10 @@
     <input type="submit" class="admin-console-submit" value="Execute" />
 </form>
 
+<p>
+    <a target="_blank" href="http://sockso.pu-gh.com/manual/console">http://sockso.pu-gh.com/manual/console</a>
+</p>
+
 <& ../IJavascript; properties=properties; locale=locale; user=user; &>
 
 </body>
