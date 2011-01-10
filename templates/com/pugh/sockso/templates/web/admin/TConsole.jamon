@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.resources.Locale;
     com.pugh.sockso.web.User;
@@ -11,15 +12,25 @@
     User user = null;
 </%args>
 
+<%java>
+    final String skin = properties.get( Constants.WWW_SKIN, "original" );
+</%java>
+
 <html>
 <head>
 <title><% locale.getString("www.admin.title.console") %></title>
 
+<link href="/file/skins/<% skin %>/css/default.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="/file/skins/<% skin %>/images/favicon.ico" type="image/x-icon">
+
 </head>
 
-<body>
+<body class="admin-console">
 
-<div class="admin-console"></div>
+<form method="post" action="/admin/console/send">
+    <input type="text" class="admin-console-input" name="command" />
+    <input type="submit" class="admin-console-submit" value="Execute" />
+</form>
 
 <& ../IJavascript; properties=properties; locale=locale; user=user; &>
 

@@ -693,3 +693,35 @@ li#playlist {
 .playlist .user-controls {
     margin-top: 10px;
 }
+
+/*=============== admin console ================*/
+
+.admin-console {
+    background-image: none;
+    padding: 20px;
+}
+
+.admin-console-input, .admin-console-submit {
+    border: 2px #ccc solid;
+    padding: 3px;
+}
+
+.admin-console-input {
+    width: 350px;
+}
+
+.admin-console-output {
+    border: 1px #aaa solid;
+    height: 480px;
+    width: 720px;
+    margin: 0 0 10px 0;
+    font-family: courier;
+    overflow: scroll;
+    color: #000;
+}
+
+.admin-console-submit {
+    border-color: #777;
+    font-weight: bold;
+    width: 70px;
+}
