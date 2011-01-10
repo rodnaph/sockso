@@ -69,7 +69,7 @@ public class HttpRequest implements Request {
         
         final InputBuffer buffer = new InputBuffer( stream, 100 );
 
-        readStatusLine( buffer );
+        readStatusLine( buffer.readLine() );
         readHeaders( buffer );
         readBody( buffer );
 
@@ -85,9 +85,9 @@ public class HttpRequest implements Request {
      * 
      */
     
-    private void readStatusLine( final InputBuffer buffer ) throws IOException, BadRequestException, EmptyRequestException {
+    protected void readStatusLine( final String rawStatusLine ) throws IOException, BadRequestException, EmptyRequestException {
 
-        statusLine = buffer.readLine();
+        statusLine = rawStatusLine;
 
         // look for IE6 "strangeness"
         if ( statusLine.equals("") ) {

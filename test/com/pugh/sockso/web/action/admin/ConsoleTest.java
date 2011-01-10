@@ -40,7 +40,7 @@ public class ConsoleTest extends SocksoTestCase {
         TestRequest req = new TestRequest( "GET /admin/console/send HTTP/1.0" );
         req.setArgument( "command", "propset foo bar" );
         c.setRequest( req );
-        c.processCommand();
+        c.handleAdminRequest();
         assertEquals( "bar", p.get("foo") );
     }
 
@@ -49,7 +49,7 @@ public class ConsoleTest extends SocksoTestCase {
         req.setArgument( "command", "propset foo bar" );
         locale.setString( "con.msg.propertySaved", "property updated" );
         c.setRequest( req );
-        c.processCommand();
+        c.handleAdminRequest();
         assertContains( res.getOutput(), "property updated" );
     }
 

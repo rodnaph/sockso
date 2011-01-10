@@ -26,9 +26,25 @@ public class Console extends AdminAction {
         
     }
 
+    /**
+     *  Handles a request, either processing a command, or displaying the console
+     *
+     *  @throws IOException
+     *  @throws SQLException
+     *
+     */
+    
     public void handleAdminRequest() throws IOException, SQLException {
 
-        showConsole();
+        final String command = getRequest().getUrlParam( 2 );
+
+        if ( command.equals("send") ) {
+            processCommand();
+        }
+
+        else {
+            showConsole();
+        }
         
     }
 

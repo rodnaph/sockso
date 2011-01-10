@@ -4,6 +4,7 @@ package com.pugh.sockso.tests;
 import com.pugh.sockso.web.HttpRequest;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.UploadFile;
+import java.io.IOException;
 
 import java.io.InputStream;
 
@@ -19,6 +20,8 @@ public class TestRequest extends HttpRequest implements Request {
         super( null );
         this.args = new Hashtable<String,String>();
         this.resource = resource;
+        try { readStatusLine(resource); }
+        catch ( Exception e ) {}
     }
 
     public void process( InputStream in ) {
@@ -38,14 +41,6 @@ public class TestRequest extends HttpRequest implements Request {
 
     public String getHost() {
         return "";
-    }
-
-    public String getUrlParam( int index ) {
-        return "";
-    }
-
-    public int getParamCount() {
-        return 0;
     }
 
     public String[] getPlayParams( boolean skipOne ) {

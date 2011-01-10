@@ -69,9 +69,10 @@ public interface Request {
     public String getHost();
     
     /**
-     *  returns the parameter at the specified index
+     *  returns the parameter at the specified index (starting at 0)
      * 
      *  @param index the index of the parameter to fetch
+     * 
      *  @return the parameter value
      * 
      */ 

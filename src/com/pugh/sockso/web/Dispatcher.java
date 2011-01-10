@@ -183,7 +183,7 @@ public class Dispatcher {
         final String command = req.getUrlParam( 1 );
 
         if ( command.equals("console") ) {
-            return new Console();
+            return new Console( cm );
         }
 
         return null;
