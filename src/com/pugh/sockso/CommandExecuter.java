@@ -22,7 +22,6 @@ import java.sql.SQLException;
  *    propset
  *    proplist
  *    propdel
- *    useradd
  *    userdel
  *    useradmin
  *    version
