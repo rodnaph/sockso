@@ -25,8 +25,10 @@ public class CommandExecuterTest extends SocksoTestCase {
         db = new TestDatabase();
         locale = new TestLocale();
         locale.setString( "con.msg.userCreated", "user added" );
+        locale.setString( "con.msg.userDeleted", "user deleted" );
         locale.setString( "con.desc.commands", "Usage:" );
         locale.setString( "con.err.usernameExists", "username exists" );
+        locale.setString( "con.err.errorDeletingUser", "invalid user id" );
         cmd = new CommandExecuter( db, p, null, locale );
     }
 
@@ -102,6 +104,29 @@ public class CommandExecuterTest extends SocksoTestCase {
         cmd.execute( "useradd foo bar email@domain.com 0" );
         String message = cmd.execute( "useradd foo bar email@domain.com 0" );
         assertEquals( message, "username exists" );
+    }
+
+    public void testDeletingAUserByIdRemovesThem() throws Exception {
+        cmd.execute( "useradd foo bar email@domain.com 0" );
+        cmd.execute( "userdel 0" );
+        assertTableSize( db, "users", 0 );
+    }
+
+    public void testUserIsReportedAsHavingBeenDeleted() throws Exception {
+        cmd.execute( "useradd foo bar email@domain.com 0" );
+        assertEquals( cmd.execute("userdel 0"), "user deleted" );
+    }
+
+    public void testErrorStringReturnedWhenInvalidUserIdToDeleteSpecified() throws Exception {
+        assertEquals( cmd.execute("userdel 1"), "invalid user id" );
+    }
+
+    public void testUsageReturnedWhenTooManyArgsToUserdel() throws Exception {
+        assertContains( cmd.execute("userdel 1 2"), "Usage:" );
+    }
+
+    public void testUsageReturnedWhenNotEnoughArgsToUserdel() throws Exception {
+        assertContains( cmd.execute("userdel"), "Usage:" );
     }
 
 }

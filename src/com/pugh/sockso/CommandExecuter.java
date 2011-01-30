@@ -77,6 +77,7 @@ public class CommandExecuter {
 
         if ( name.equals(CMD_USERLIST) ) { return cmdUserList(); }
         else if (name.equals(CMD_USERADD)) { return cmdUserAdd(args); }
+        else if (name.equals(CMD_USERDEL)) { return cmdUserDel(args); }
 
         return null;
 
@@ -183,6 +184,41 @@ public class CommandExecuter {
         finally {
             Utils.close( rs );
             Utils.close( st );
+        }
+
+    }
+
+    /**
+     *  handles the CMD_USERDEL to delete a user
+     *
+     *  @param args command arguments
+     *
+     */
+
+    protected String cmdUserDel( final String[] args ) {
+
+        if ( args.length != 2 ) {
+            return getCommands();
+        }
+
+        else {
+
+            try {
+
+                final String sql = " delete from users " +
+                                   " where id = " + db.escape(args[1]);
+                final int affectedRows = db.update( sql );
+
+                return affectedRows == 1
+                    ? locale.getString( "con.msg.userDeleted" )
+                    : locale.getString( "con.err.errorDeletingUser" );
+
+            }
+
+            catch ( final SQLException e ) {
+                return locale.getString( "con.err.errorDeletingUser" );
+            }
+
         }
 
     }
