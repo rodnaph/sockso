@@ -1,0 +1,305 @@
+# Russian Translation by MaxWell&Warlock
+# Version 1.0 Beta
+# Sockso Version: 1.2.4
+#
+
+#
+#  web errors
+#
+www.error.title=Croak! Burp! Fuey!
+www.error.stackTrace=Stack Trace
+www.error.desc=Sockso сообщает...
+www.error.unknownRequest=что он не знает, как сделать то, что вы спросили
+www.error.unknownUser=такое имя пользователя не зарегистрировано
+www.error.passwordIncorrect=Ваш пароль неправильный
+www.error.duplicateUsername=это имя пользователя уже существует
+www.error.duplicateEmail=такой адрес электронной почты уже существует
+www.error.passwordsDontMatch=Ваши пароли не совпадают
+www.error.invalidEmail=Ваш адрес email недействительный
+www.error.missingField=Вы пропустили поле
+www.error.registrationDisabled=Регистрация пользователей была отключена
+www.error.alreadyLoggedIn=Вы уже вошли в систему!
+www.error.downloadsDisabled=загрузки отключены
+www.error.noAnonymousUploads=Вы должны войти в систему, чтобы загрузить музыку
+www.error.uploadsNotEnabled=загрузки не включены
+www.error.noUploadsDirectory=нет каталога для загрузок
+www.error.uploadsDirNotWritable=каталог не доступен для записи
+www.error.noFileUploaded=Отдача не удалась
+www.error.unsupportedAudioFormat=sockso не поддерживает этот формат аудио (только MP3, OGG и WMA)
+www.error.cantCreateTrackFolder=вы не можете создать папку для загрузки
+www.error.browseFoldersNotEnabled=папки не были включены в просмотре
+www.error.invalidCollectionId=недействительный ID коллекции
+www.error.folderDoesntExist=папки не существует
+www.error.trackNotFound=композиция не найдена
+www.error.fileNotFound=файл не найден
+www.error.couldNotCreateUniqueFilename=Не удалось создать уникальное имя файла
+www.error.coversDisabled=куки отключены
+www.error.remoteErrorDesc=Извините, но этой страницы не существует. Похоже, <a href="%1%2">% 2 </> она имеет устаревшую ссылку ... Вы можете сообщить нам об этом , чтобы мы могли обновить свой сайт.
+www.error.localErrorDesc=Извините, но этой страницы не существует. Похоже, что вы перешли по неправильной ссылке в Sockso, если вы думаете, это может быть ошибка, пожалуйста <a href="http://forums.pu-gh.com"> сообщите нам об этом </a>.
+www.error.noRefererErrorDesc=Извините, но этой страницы не существует.Похоже, что вы либо скопировали и вставили неправильный URL, или закладку, и она кажется, устарелой.
+www.error.nothingToPlay=Вы должны выбрать что-нибудь, чтобы воспроизвести трек!
+www.error.nothingToDownload=Вы должны предварительно выбрать файлы для загрузки, уважаемый!
+www.error.nothingToShare=Вы должны выбрать что-нибудь выделив, уважаемый!
+www.error.passwordsDontMatch=Пароли не совпадают
+
+
+#
+#  json messages
+#
+www.json.error.unknown=Неизвестная ошибка
+www.json.error.noName=Имя не указано
+www.json.error.noArguments=Нет аргументов
+www.json.error.notLoggedIn=ВЫ не вошли в систему
+
+#
+#  web links
+#
+www.link.login=Логин
+www.link.logout=Выйти
+www.link.register=Регистрация
+www.link.home=Главная
+www.link.browse=Обзор
+www.link.latest=Последние
+www.link.popular=Популярные
+www.link.playlists=Плейлист
+www.link.random=Случайные
+www.link.play=Играть
+www.link.clear=Очистить
+www.link.download=Скачать
+www.link.share=Share
+www.link.save=Сохранить
+www.link.upload=Загрузить
+www.link.randomizePlaylist=Случайный плейлист
+www.link.misc=Смешать
+www.link.folders=Папки
+www.link.playRandom=Играть случайно
+www.link.editUser=Редактировать
+www.link.scrobbleLog=Журнал запросов
+
+#
+#  web titles
+#
+www.title.playlist=Плейлист
+www.title.recentlyPlayedTracks=Недавно проигранные треки
+www.title.topArtists=Топ исполнителей
+www.title.about=О нас
+www.title.sitePlaylists=Список плейлистов
+www.title.userPlaylists=Пользовательские плейлисты
+www.title.mostPopularTracks=Самые популярные треки
+www.title.latestTracks=Последние треки
+www.title.latestArtists=Последние исполнители
+www.title.share=Поделиться
+www.title.login=Войти
+www.title.register=Регистрация
+www.title.registerComplete=Регистрация завершена!
+www.title.upload=Закачать музыку
+www.title.uploadComplete=Отдача завершена!
+www.title.recentlyPlayedAlbums=Недавно проигранные альбомы
+www.title.editProfile=Ваш профиль
+www.title.userUpdated=Профиль обновлен!
+www.title.recentUsers=Новые пользователи
+www.title.latestAlbums=Последние альбомы
+www.title.sharePopup=Sockso - Обмен музыкой
+
+#
+#  web text
+#
+www.text.loggedInAs=Вы вошли как
+www.text.noResults=Ничего не найдено ...
+www.text.uploadComplete=Спасибо за трек, он теперь в коллекции!
+www.text.noCover=Обложка не найдена...
+www.text.userUpdated=Ваши данные были обновлены.
+www.text.confirmLogout=Уверены,что хотите выйти из системы?
+www.text.confirmScrobbleLog=При загрузке вашего журнала запросов все ваши треки будут помечены как прослушанные. Вы уверены, что хотите скачать его сейчас?
+www.text.recentUsersInfo=(Пользователи, которые прослушали песни последние 5 минут)
+www.text.about=<a href="http://sockso.pu-gh.com">Sockso</a> является <a href="http://www.gnu.org/licenses/gpl.txt">свободным</a>, <a href="http://sockso.pu-gh.com/source">open-source</a>, персональным музыкальным сервером для каждого!
+www.text.share=Для того чтобы поделиться вашей музыкой, Вы можете создать ссылку на Flash Player с Вашего сайта просто скопировав и вставить следующий HTML-код  
+www.text.login=Если вы создали учетную запись, можно поместить свою информацию в форму ниже, чтобы Войти. Если нет, то в шапке на <a href="%1"> странице регистрации </a> это можно сделать!
+www.text.register=Если вы хотите войти на сайт, первое, что вам нужно сделать, это создать себе аккаунт. Впишите ваши данные в форму ниже и нажмите кнопку <b> регистрация </b>, для продолжения работы!
+www.text.registerComplete=Отличная% работа 1, вы только что создали себе аккаунт! Теперь вы можете войти в систему и Получить доступ ко всей музыке!
+www.text.emptyPlaylist=Ваш плейлист пуст. Чтобы добавить в него треки, нажмите синюю иконку <img src="/file/skins/%1/images/add.png" /> ядом с песней, альбомом и т.д....
+#
+#  web labels
+#
+www.label.dateAdded=Добавлено
+www.label.playCount=Проиграно
+www.label.trackCount=Треки
+www.label.username=Имя/Логин
+www.label.password=Пароль
+www.label.passwordRepeat=Повторить пароль
+www.label.login=Войти
+www.label.email=Email
+www.label.register=Регистрация
+www.label.upload=Загрузка
+www.label.trackToUpload=Файл
+www.label.artist=Исполнитель
+www.label.album=Альбом
+www.label.track=Название трека
+www.label.deletePlaylist=Удалить плейлист
+www.label.save=Сохранить
+
+#
+#  www confirm prompts
+#
+www.confirm.deletePlaylist=Вы уверены, что хотите удалить этот плейлист?
+www.confirm.playlistName=Как вы хотите называть этот плейлист?
+
+#
+#  gui window titles
+#
+gui.window.main= Sockso - менеджер коллекции
+gui.window.reports= Sockso - Отчеты
+gui.window.console= Sockso - Console
+
+#
+#  gui labels
+#
+gui.label.portForward=Установка NAT (Экспериментально!)
+gui.label.exit=Выйти
+gui.label.hide=Скрыть
+gui.label.options=Настройки
+gui.label.gettingIPAddress=Получение IP-адреса
+gui.label.yourAddress=Ваш адрес
+gui.label.music=Музыка
+gui.label.collection=Коллекция
+gui.label.users=Пользователи
+gui.label.myComputer=Мой компьютер
+gui.label.internetAddress=Интернет адрес (по умолчанию)
+gui.label.refresh=Обновить
+gui.label.addFolder=Добавить папку
+gui.label.removeFolder=Удалить
+gui.label.username=Имя пользователя
+gui.label.password=Пароль
+gui.label.passwordRepeat=Повторить пароль
+gui.label.email=Email
+gui.label.createUser=Создать пользователя
+gui.label.cancel=Отменить
+gui.label.general=Общие
+gui.label.testNat=Тест NAT настроек(требуется немного подождать)
+gui.label.browse=Обзор
+gui.label.encoders=Кодировщики
+gui.label.encTypeNone=Ничего
+gui.label.encTypeBuiltin=Встроенные
+gui.label.encTypeCustom=Свои
+gui.label.encNoneSelected=Ничего не выбрано
+gui.label.encoder=Кодировщик
+gui.label.bitrate=Битрейт
+gui.label.command=Комманда
+gui.label.webServer=Веб-сервер
+gui.label.port=Порт
+gui.label.wwwTitle=Название
+gui.label.wwwTagline=Слоган
+gui.label.disableDownloads=Отключить скачивание?
+gui.label.scanOnStartup=Сканировать папки при старте?
+gui.label.scanInterval=Интервал сканирования (минуты)
+gui.label.uploads=Загрузки
+gui.label.enableUploads=Включить загрузки на сервер?
+gui.label.anonymousUploads=Не требуется авторизация?
+gui.label.uploadsDirectory=Директория
+gui.label.general=Общие
+gui.label.startMinimized=При старте минимизировать?
+gui.label.confirmExit=Подтверждать выход?
+gui.label.natSetup=NAT настройки
+gui.label.logging=Logging
+gui.label.enableRequestLog=Записывать запросы?
+gui.label.exportRequestLogAs=Экспорт истории запросов как:
+gui.label.export=Експорт
+gui.label.import=Импорт
+gui.label.consoleCommandGo=Выполнять
+gui.label.showReportsWindow=Отчеты
+gui.label.showConsoleWindow=Консоль
+gui.label.enableFolderBrowsing=Включить обзор папки?
+gui.label.clearRequestLog=Очистить (%1 records)
+gui.label.tracks=Треки
+gui.label.playlists=Плейлисты
+gui.label.userPlaylists=Пользовательский плейлист
+gui.label.rescanCollection=Сканировать сейчас
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=Веб-браузер не найден
+gui.error.missingField=Вы пропустили обязательные для заполнения поля
+gui.error.invalidEmail=Это  не правильный email
+gui.error.passwordsDontMatch=Ваши пароли не совпадают
+gui.error.duplicateUsername=Пользователь создан
+gui.error.duplicateEmail=Ваше письмо отправлено
+
+#
+#  gui titles
+#
+gui.title.creatingUser=Создать нового пользователя
+gui.title.options=Настройки
+
+#
+#  gui tooltips
+#
+gui.tooltip.music=Ваша музыка/Плейлист
+gui.tooltip.collection=Менеджер вашей коллекции
+gui.tooltip.users=Пользовательский контроль доступа
+gui.tooltip.general=Основные настройки
+gui.tooltip.encoders=Настройки кодирования
+
+#
+#  gui messages
+#
+gui.message.natTestOk=NAT test ok!  Ваши настройки правильные!
+gui.message.natTestFailed=NAT test неудался...
+gui.message.exportComplete=Передача завершена!
+gui.message.confirmClearRequestLog=Операцию нельзя не отменить, вы уверены, что хотите очистить историю запросов?
+gui.message.requestLogCleared=История запросов очищена!
+gui.message.playlistImported=Плейлист импортирован!
+gui.message.playlistImportFailed=Импорт не удался...
+
+#
+#  gui reports
+#
+gui.reports.refresh=Обновить отчет
+gui.reports.browsers.title=Браузеры
+gui.reports.browsers.titleLong=Пользовательские Браузеры
+gui.reports.requestsPerDay.title=Запросов в день
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=# Запросы
+
+#
+#  console errors
+#
+con.err.usernameExists=Имя пользователя создано
+con.err.emailExists=Письмо отправлено
+con.err.errorCreatingUser=Ошибка создания пользователя...
+con.err.errorDeletingUser=Ошибка удаления пользователя...
+con.err.directoryNotInColl=К сожалению, этот каталог не находится в вашей коллекции
+con.err.pathNotExist=%1 не существует...
+con.err.propertyDoesntExist=Свойства не существует...
+
+#
+#  Консольные сообщения
+#
+con.msg.userCreated=Пользователь создан!
+con.msg.userDeleted=Пользователь удален!
+con.msg.directoryDeleted=Папка удалена!
+con.msg.propertySaved=Свойство сохранено!
+con.msg.propertyDeleted=Свойство удалено!
+con.msg.directoryAdded=Папка добавлена!
+
+#
+#  описания консольных команд
+#  
+con.desc.addDirectory=добавить папку с музыкой в коллекцию
+con.desc.removeDirectory=удалить папку из коллекции
+con.desc.listDirectories=список папок в коллекции
+con.desc.exit=выйти из программы
+con.desc.listProperties=список свойств приложения
+con.desc.setProperty=задать свойство
+con.desc.listUsers=список зарегистрированных пользователей
+con.desc.addUser=добавить пользователя в систему
+con.desc.deleteUser=удалить пользователя по id
+con.desc.commands=Команды:
+con.desc.delProperty=удалить свойство
+con.desc.version=Показать текущую версию
+con.desc.rescanCollection=сканировать коллекцию сейчас
+
+#
+#  misc messages
+#
+misc.msg.updateAvailable=Существует более новая версия, доступна Sockso (%1)
