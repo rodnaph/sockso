@@ -203,6 +203,13 @@ public class CommandExecuter {
 
     }
 
+    /**
+     *  Returns a description of the possible commands
+     *
+     *  @return
+     *
+     */
+
     protected String getCommands() {
 
         final StringBuffer sb = new StringBuffer();
