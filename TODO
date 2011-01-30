@@ -38,6 +38,7 @@
 * remote administration, or admin when running as daemon
 * rescan command line argument (prob mysql only...)
 * allow uploading zip files with multiple tracks
+* remove need to restart scheduler after change (add scheduler runner wrapper)
 
 3 - MANUAL
 ----------
