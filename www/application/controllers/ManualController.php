@@ -31,6 +31,8 @@ class ManualController extends Smutty_Controller {
     function scrobblingAction() { $this->view(); }
     function consoleEnablingUploadsAction() { $this->view(); }
 
+    function webAdminAction() { $this->view(); }
+
     function screencastIntroAction() { $this->view(); }
     function screencastPortForwardAction() { $this->view(); }
 

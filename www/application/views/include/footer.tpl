@@ -27,6 +27,14 @@ $this->assign( 'downloadExtension',
         <h1>Latest News &amp; Releases <a href="http://code.google.com/feeds/p/sockso/downloads/basic"><img src="{$smutty->baseUrl}/images/rss_icon.gif" alt="RSS Icon" /></a></h1>
 
         <div class="post">
+            <h2>30th January 2011</h2>
+            <p><a href="http://sockso.googlecode.com/files/sockso-1.2.6.{$downloadExtension}">Sockso 1.2.6</a>
+            -
+            Fix for selecting the playlist in some browsers, and added new {link url={ controller="manual" action="webAdmin" } text="web admin console"}.
+            </p>
+        </div>
+
+        <div class="post">
             <h2>17th December</h2>
             <p><a href="http://sockso.googlecode.com/files/sockso-1.2.5.{$downloadExtension}">Sockso 1.2.5</a>
             -
@@ -49,35 +57,6 @@ $this->assign( 'downloadExtension',
             <p><a href="http://sockso.googlecode.com/files/sockso-1.2.3.{$downloadExtension}">Sockso 1.2.3</a>
             -
             Fixed broken 1.2.2 release.
-            </p>
-        </div>
-
-        <div class="post">
-            <h2>7th February 2010</h2>
-            <p>Sockso 1.2.2 <b>(BROKEN)</b>
-            -
-            Users can now change their passwords via the web interface, added
-            property to disable checking for the latest version, new manual
-            scheduler, and bug fixes for quotes in track names and amazon cover
-            fetching.
-            </p>
-        </div>
-
-        <div class="post">
-            <h2>30th December</h2>
-            <p><a href="http://sockso.googlecode.com/files/sockso-1.2.1.{$downloadExtension}">Sockso 1.2.1</a>
-            -
-            New {link url={ controller="manual" action="scheduling" } text="cron scheduling support" } for collection
-            scanning, streaming improvement (by mrave), and added palm pre support.
-            </p>
-        </div>
-
-        <div class="post">
-            <h2>26th September</h2>
-            <p><a href="http://sockso.googlecode.com/files/sockso-1.2.{$downloadExtension}">Sockso 1.2</a>
-            -
-            New faster track indexing, AAC support (by mrave), CPU usage improvements, updated Dutch translation,
-            lots of other fixes.
             </p>
         </div>
 

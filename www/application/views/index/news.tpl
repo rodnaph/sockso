@@ -9,6 +9,28 @@ $this->assign( 'downloadExtension',
         ? 'dmg' : 'zip' );
 {/php}
 
+<h2>7th February 2010</h2>
+<p>Sockso 1.2.2 <b>(BROKEN)</b>
+-
+Users can now change their passwords via the web interface, added
+property to disable checking for the latest version, new manual
+scheduler, and bug fixes for quotes in track names and amazon cover
+fetching.
+</p>
+
+<h2>30th December</h2>
+<p><a href="http://sockso.googlecode.com/files/sockso-1.2.1.{$downloadExtension}">Sockso 1.2.1</a>
+-
+New {link url={ controller="manual" action="scheduling" } text="cron scheduling support" } for collection
+scanning, streaming improvement (by mrave), and added palm pre support.
+</p>
+
+<h2>26th September</h2>
+<p><a href="http://sockso.googlecode.com/files/sockso-1.2.{$downloadExtension}">Sockso 1.2</a>
+-
+New faster track indexing, AAC support (by mrave), CPU usage improvements, updated Dutch translation,
+lots of other fixes.
+</p>
 
 <h2>2nd May</h2>
 <p><a href="http://sockso.googlecode.com/files/sockso-1.1.8.{$downloadExtension}">Sockso 1.1.8</a>

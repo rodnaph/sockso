@@ -8,4 +8,5 @@
 <li>{link url={ action="folderBrowsing" } text="Folder browsing"}</li>
 <li>{link url={ action="scrobbling" } text="Scrobbling (last.fm)"}</li>
 <li>{link url={ action="skins" } text="Skins"}</li>
+<li>{link url={ action="webAdmin" } text="Administration Console"}</li>
 </ul>
