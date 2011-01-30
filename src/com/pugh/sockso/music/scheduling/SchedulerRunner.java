@@ -9,12 +9,14 @@ import java.util.Calendar;
 import org.apache.log4j.Logger;
 
 /**
- *  The base scheduler provides the functionality to run and check if the indexer
- *  needs to be kicked off.
+ *  The scheduler runner provides the functionality to run and check if the
+ *  indexer needs to be kicked off.
  *
  */
 
 public class SchedulerRunner extends Thread {
+
+    private static final int ONE_MINUTE = 60000;
 
     private static final Logger log = Logger.getLogger( SchedulerRunner.class );
 
@@ -55,8 +57,7 @@ public class SchedulerRunner extends Thread {
                 indexer.scan();
             }
 
-            // run every minute
-            try { Thread.sleep( 3000 ); }
+            try { Thread.sleep(ONE_MINUTE); }
                 catch ( InterruptedException e ) {}
 
         }
