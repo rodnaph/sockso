@@ -9,7 +9,7 @@ public class ManualSchedulerTest extends SocksoTestCase {
 
     public void testAlwaysReturnsFalse() {
         // not quite testing "always"...
-        final Scheduler s = new ManualScheduler( null );
+        final Scheduler s = new ManualScheduler();
         assertFalse( s.shouldRunAt(new Date()) );
     }
 

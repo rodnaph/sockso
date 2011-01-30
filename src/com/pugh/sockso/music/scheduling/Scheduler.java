@@ -21,11 +21,4 @@ public interface Scheduler {
 
     public boolean shouldRunAt( final Date date );
 
-    /**
-     *  Starts the scheduler running
-     *
-     */
-
-    public void start();
-
 }

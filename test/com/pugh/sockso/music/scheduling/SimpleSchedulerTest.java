@@ -14,7 +14,7 @@ public class SimpleSchedulerTest extends SocksoTestCase {
 
     public void testShouldRunAt() throws Exception {
         final Properties p = new StringProperties();
-        final Scheduler s = new SimpleScheduler( null, p );
+        final Scheduler s = new SimpleScheduler( p );
         final DateFormat df = new SimpleDateFormat( "y-M-d H:m:s" );
         p.set( "scheduler.simple.interval", 10 );
         assertTrue( s.shouldRunAt(df.parse("2009-10-10 11:00:00")) );

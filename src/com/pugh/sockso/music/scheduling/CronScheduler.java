@@ -3,7 +3,6 @@ package com.pugh.sockso.music.scheduling;
 
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
-import com.pugh.sockso.music.indexing.Indexer;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -21,7 +20,7 @@ import org.apache.log4j.Logger;
  *
  */
 
-public class CronScheduler extends BaseScheduler {
+public class CronScheduler implements Scheduler {
 
     private static final Logger log = Logger.getLogger( CronScheduler.class );
     
@@ -37,9 +36,7 @@ public class CronScheduler extends BaseScheduler {
      *
      */
 
-    public CronScheduler( final Indexer indexer, final Properties p ) {
-        
-        super( indexer );
+    public CronScheduler( final Properties p ) {
         
         this.p = p;
         

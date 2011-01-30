@@ -85,34 +85,6 @@ public class MainTest extends SocksoTestCase {
         assertEquals( SQLiteDatabase.class, Main.getDatabase(sqliteOptions).getClass() );
         
     }
- 
-    public void testGetIndexer() {
-        assertEquals( TrackIndexer.class, Main.getIndexer().getClass() );
-    }
-    
-    public void testGetScheduler() {
-        final Properties p = new StringProperties();
-        assertEquals( SimpleScheduler.class, Main.getScheduler(p).getClass() );
-    }
-
-    public void testGetCronScheduler() {
-        final Properties p = new StringProperties();
-        p.set( Constants.SCHED, "cron" );
-        assertEquals( CronScheduler.class, Main.getScheduler(p).getClass() );
-    }
-
-    public void testGetManualScheduler() {
-        final Properties p = new StringProperties();
-        p.set( Constants.SCHED, "manual" );
-        assertEquals( ManualScheduler.class, Main.getScheduler(p).getClass() );
-    }
-
-    public void testGetSchedulerReturnsDefaultWhenInvalidOneSpecified() {
-        final Properties p = new StringProperties();
-        p.set( Constants.SCHED, "somethingThatDoesntExist" );
-        assertEquals( SimpleScheduler.class, Main.getScheduler(p).getClass() );
-    }
-
     public void testGettingSavedPort() {
         final Properties p = new StringProperties();
         p.set( Constants.SERVER_PORT, 1234 );
@@ -143,6 +115,10 @@ public class MainTest extends SocksoTestCase {
 
     public void testGettingConsoleAsManager() {
         assertEquals( Console.class, Main.getManager(false,null).getClass() );
+    }
+
+    public void testGetIndexer() {
+        assertEquals( TrackIndexer.class, Main.getIndexer().getClass() );
     }
 
 }

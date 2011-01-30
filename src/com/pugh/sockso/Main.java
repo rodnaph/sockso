@@ -21,10 +21,7 @@ import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.music.DBCollectionManager;
 import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.indexing.TrackIndexer;
-import com.pugh.sockso.music.scheduling.Scheduler;
-import com.pugh.sockso.music.scheduling.CronScheduler;
-import com.pugh.sockso.music.scheduling.ManualScheduler;
-import com.pugh.sockso.music.scheduling.SimpleScheduler;
+import com.pugh.sockso.music.scheduling.SchedulerRunner;
 import com.pugh.sockso.resources.FileResources;
 import com.pugh.sockso.resources.JarResources;
 import com.pugh.sockso.resources.Resources;
@@ -63,7 +60,7 @@ public class Main {
     private static Resources r;
     private static Locale locale;
     private static Indexer indexer;
-    private static Scheduler sched;
+    private static SchedulerRunner sched;
 
     /**
      *  application entry point
@@ -269,9 +266,8 @@ public class Main {
         indexer = getIndexer();
 
         log.info( "Starting Scheduler" );
-        sched = getScheduler( p );
+        sched = new SchedulerRunner( indexer, p );
         sched.start();
-        log.debug( "Using scheduler: " +sched.getClass().getSimpleName() );
 
         log.info( "Starting Collection Manager" );
         cm = new DBCollectionManager( db, p, indexer );
@@ -455,29 +451,6 @@ public class Main {
 
         return new TrackIndexer( db );
         
-    }
-
-    /**
-     *  Returns the scheduler to use to run the indexer
-     * 
-     *  @return
-     * 
-     */
-
-    protected static Scheduler getScheduler( final Properties p ) {
-        
-        final String scheduler = p.get( Constants.SCHED );
-        
-        if ( scheduler.equals("cron") ) {
-            return new CronScheduler( indexer, p );
-        }
-
-        if ( scheduler.equals("manual") ) {
-            return new ManualScheduler( indexer );
-        }
-
-        return new SimpleScheduler( indexer, p );
-
     }
 
     /**

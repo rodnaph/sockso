@@ -10,7 +10,7 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-public class SimpleScheduler extends BaseScheduler implements Scheduler {
+public class SimpleScheduler implements Scheduler {
 
     private static final Logger log = Logger.getLogger( SimpleScheduler.class );
 
@@ -25,10 +25,8 @@ public class SimpleScheduler extends BaseScheduler implements Scheduler {
      *
      */
 
-    public SimpleScheduler( final Indexer indexer, final Properties p ) {
+    public SimpleScheduler( final Properties p ) {
 
-        super( indexer );
-        
         this.p = p;
 
     }

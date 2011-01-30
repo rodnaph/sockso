@@ -19,7 +19,7 @@ public class CronSchedulerTest extends SocksoTestCase {
     public void setUp() {
         
         p = new StringProperties();
-        s = new CronScheduler( null, p );
+        s = new CronScheduler( p );
         df = new SimpleDateFormat( "y-M-d H:m:s" );
 
     }

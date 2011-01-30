@@ -1,8 +1,6 @@
 
 package com.pugh.sockso.music.scheduling;
 
-import com.pugh.sockso.music.indexing.Indexer;
-
 import java.util.Date;
 
 /**
@@ -11,20 +9,7 @@ import java.util.Date;
  *
  */
 
-public class ManualScheduler extends BaseScheduler {
-
-    /**
-     *  Creates a manual scheduler
-     *
-     *  @param indexer
-     *
-     */
-    
-    public ManualScheduler( final Indexer indexer ) {
-        
-        super( indexer );
-        
-    }
+public class ManualScheduler implements Scheduler {
 
     /**
      *  Always return false
