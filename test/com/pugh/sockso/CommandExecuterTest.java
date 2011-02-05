@@ -1,6 +1,7 @@
 
 package com.pugh.sockso;
 
+import com.pugh.sockso.commands.CommandExecuter;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.web.User;
@@ -26,9 +27,11 @@ public class CommandExecuterTest extends SocksoTestCase {
         locale = new TestLocale();
         locale.setString( "con.msg.userCreated", "user added" );
         locale.setString( "con.msg.userDeleted", "user deleted" );
+        locale.setString( "con.msg.userUpdated", "user updated" );
         locale.setString( "con.desc.commands", "Usage:" );
         locale.setString( "con.err.usernameExists", "username exists" );
         locale.setString( "con.err.errorDeletingUser", "invalid user id" );
+        locale.setString( "con.err.errorUpdatingUser", "invalid user id" );
         cmd = new CommandExecuter( db, p, null, locale );
     }
 
@@ -127,6 +130,46 @@ public class CommandExecuterTest extends SocksoTestCase {
 
     public void testUsageReturnedWhenNotEnoughArgsToUserdel() throws Exception {
         assertContains( cmd.execute("userdel"), "Usage:" );
+    }
+
+    public void testMakingAUserAdminDoesSo() throws Exception {
+        cmd.execute( "useradd foo bar foo@bar.com 0" );
+        cmd.execute( "useradmin 0 1" );
+        assertRowExists( db, "users", "is_admin", "1" );
+    }
+
+    public void testRevokingAUsersAdminDoesSo() throws Exception {
+        cmd.execute( "useradd foo bar foo@bar.com 1" );
+        cmd.execute( "useradmin 0 0" );
+        assertRowExists( db, "users", "is_admin", "0" );
+    }
+
+    public void testUsageReturnedWhenTooManyArgsToUseradmin() throws Exception {
+        assertContains( cmd.execute("useradmin 0 1 2"), "Usage:" );
+    }
+
+    public void testUsageReturnedWhenNotEnoughArgsToUseradmin() throws Exception {
+        assertContains( cmd.execute("useradmin 0"), "Usage:" );
+    }
+
+    public void testMessageReturnedWhenUserIsGivenAdmin() throws Exception {
+        cmd.execute( "useradd foo bar foo@bar.com 0" );
+        assertEquals( cmd.execute("useradmin 0 1"), "user updated" );
+    }
+
+    public void testMessageReturnedWhenUserIsRevokedFromAdmin() throws Exception {
+        cmd.execute( "useradd foo bar foo@bar.com 1" );
+        assertEquals( cmd.execute("useradmin 0 0"), "user updated" );
+    }
+
+    public void testErrorMessageReturnedWhenUseradminUsedWithInvalidUserId() throws Exception {
+        cmd.execute( "useradd foo bar foo@bar.com 0" );
+        assertEquals( cmd.execute("useradmin 1 1"), "invalid user id" );
+    }
+
+    public void testErrorMessageReturnedWhenIsadminValueIsNot1Or0() throws Exception {
+        cmd.execute( "useradd foo bar foo@bar.com 1" );
+        assertEquals( cmd.execute("useradmin 0 2"), "error updating user" );
     }
 
 }

@@ -125,9 +125,12 @@ public class SocksoTestCase extends TestCase {
         
         try {
 
+            final String columnValue = value.matches( "^\\d+$" )
+                                                ? value
+                                                : "'" +value+ "'";
             final String sql = " select count(*) as total " +
                                " from " +table+ " " +
-                               " where " +column+ " = '" +value+ "' ";
+                               " where " +column+ " = " +columnValue+ " ";
 
             rs = db.query( sql );
             

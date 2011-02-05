@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action.admin;
 
+import com.pugh.sockso.commands.CommandExecuter;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.templates.web.admin.TConsole;
 import com.pugh.sockso.web.action.AdminAction;
@@ -57,21 +58,8 @@ public class Console extends AdminAction {
     protected void processCommand() throws SQLException, IOException {
 
         final String command = getRequest().getArgument( "command" );
-        final StringOutputStream stream = new StringOutputStream();
-        final PrintStream out = new PrintStream( stream );
-
-        com.pugh.sockso.Console console = new com.pugh.sockso.Console(
-            getDatabase(),
-            getProperties(),
-            cm,
-            out,
-            null,
-            getLocale()
-        );
-
-        console.dispatchCommand( command );
-
-        final String output = stream.toString();
+        final CommandExecuter cmd = new CommandExecuter( getDatabase(), getProperties(), cm, getLocale() );
+        final String output = cmd.execute( command );
         
         getResponse().showText( output );
 
