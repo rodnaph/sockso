@@ -153,7 +153,7 @@ sockso.Player = function( options ) {
                 .attr( 'id', 'play-options' )
                 .append( 'Play using: ' )
                 .change(function() {
-                    self.setPlayType( playOptions.val() )
+                    self.setPlayType( playOptions.val() );
                 })
                 .append( playOptions )
             );

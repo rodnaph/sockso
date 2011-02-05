@@ -57,7 +57,7 @@ sockso.util.getActionNode = function( icon, action, title ) {
         .append( $('<img />').attr('src','/file/skins/' +skin+ '/images/' + icon +'.png') )
         .append( '<span>&nbsp;</span>' );
 
-}
+};
 
 /**
  *  returns an LI element for a MusicItem
@@ -105,7 +105,7 @@ sockso.util.getMusicElement = function getMusicElement( item, includePlaylistLin
 
    return element;
 
-}
+};
 
 /**
  * Bind the function to be called with the specified scope
@@ -118,5 +118,5 @@ Function.prototype.bind = function( scope ) {
     var self = this;
     return function() {
         return self.apply( scope, arguments );
-    }
+    };
 };

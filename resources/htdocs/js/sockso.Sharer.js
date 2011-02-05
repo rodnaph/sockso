@@ -49,7 +49,7 @@ sockso.Sharer.prototype.setDataFromClasses = function( classes ) {
         }
     }
 
-}
+};
 
 /**
  * Sets the share data (eg. tr123)

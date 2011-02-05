@@ -22,7 +22,7 @@
  *      NOTE: This script has been modified for use in Sockso.
  *
  */
-sockso.ImageFlow = function() {}
+sockso.ImageFlow = function() {};
 
 /**
  * Initialise imageflow for this page

@@ -195,6 +195,13 @@ public class Sockso {
         </jar>
     </target>
 
+    <target name="lint-js" description="run jslint on javascript files">
+        <exec executable="rhino" failonerror="true">
+            <arg value="scripts/lint.js" />
+        </exec>
+        
+    </target>
+
     <!--
         #####################
             DOCS/PACKAGING
@@ -204,7 +211,7 @@ public class Sockso {
     <target name="javadocs">
         <javadoc sourcepath="${dir.src}" destdir="${dir.javadocs}" />
     </target>
-    
+
     <!-- make packages from dist -->
     <target name="package" depends="clean,dist,website">
 

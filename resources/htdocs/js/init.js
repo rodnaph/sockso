@@ -37,7 +37,7 @@ $(function() {
     // check skin to see if we need to do any init
     
     var skin = Properties.get( 'www.skin', 'original' );
-    if ( skin == 'bold' ) {
+    if ( skin === 'bold' ) {
         initBoldSkin();
     }
 
@@ -93,7 +93,7 @@ $(function() {
 
     // Imageflow
 
-    if ( Properties.get("www.imageflow.disable") != 'yes' && Properties.get("www.covers.disable") != 'yes' ) {
+    if ( Properties.get("www.imageflow.disable") !== 'yes' && Properties.get("www.covers.disable") !== 'yes' ) {
         var imageflow = new sockso.ImageFlow();
         imageflow.init();
     }

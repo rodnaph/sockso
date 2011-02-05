@@ -242,7 +242,7 @@ sockso.JSPlayer = function() {
                         .append(
                             $( '<img></img>')
                                 .attr({ src: '/file/skins/' +skin+ '/images/jsplayer/' +imgName+ '.png' })
-                        )
+                        );
 
         }
 

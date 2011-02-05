@@ -87,7 +87,7 @@ sockso.AdminConsole.prototype = {
                 command: this.input.val()
             },
             success: this.onCommandResult.bind( this )
-        })
+        });
 
         this.input.val( '' );
 
