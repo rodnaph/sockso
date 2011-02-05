@@ -27,8 +27,16 @@ $this->assign( 'downloadExtension',
         <h1>Latest News &amp; Releases <a href="http://code.google.com/feeds/p/sockso/downloads/basic"><img src="{$smutty->baseUrl}/images/rss_icon.gif" alt="RSS Icon" /></a></h1>
 
         <div class="post">
+            <h2>5th Fabruary</h2>
+            <p><a href="http://sockso.googlecode.com/files/sockso-1.2.7.{$downloadExtension}">Sockso 1.2.7</a>
+            -
+            Fix for broken javascript in 1.2.6.
+            </p>
+        </div>
+
+        <div class="post">
             <h2>30th January 2011</h2>
-            <p><a href="http://sockso.googlecode.com/files/sockso-1.2.6.{$downloadExtension}">Sockso 1.2.6</a>
+            <p>Sockso 1.2.6 <b>(broken)</b></a>
             -
             Fix for selecting the playlist in some browsers, and added new {link url={ controller="manual" action="webAdmin" } text="web admin console"}.
             </p>
