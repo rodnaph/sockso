@@ -35,7 +35,7 @@ public class Console extends AdminAction {
      *
      */
     
-    public void handleAdminRequest() throws IOException, SQLException {
+    public void handleAdminRequest() throws Exception {
 
         final String command = getRequest().getUrlParam( 2 );
 
@@ -55,7 +55,7 @@ public class Console extends AdminAction {
      *
      */
 
-    protected void processCommand() throws SQLException, IOException {
+    protected void processCommand() throws Exception {
 
         final String command = getRequest().getArgument( "command" );
         final CommandExecuter cmd = new CommandExecuter( getDatabase(), getProperties(), cm, getLocale() );

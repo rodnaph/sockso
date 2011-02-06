@@ -118,11 +118,7 @@ public class Console implements Manager {
 
         }
         
-        catch ( final IOException e ) {
-            log.error( e );
-        }
-        
-        catch ( final SQLException e ) {
+        catch ( final Exception e ) {
             log.error( e );
         }
         

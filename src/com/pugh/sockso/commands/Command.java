@@ -27,14 +27,52 @@ public interface Command {
     public String getDescription();
 
     /**
+     *  Returns the names of the command arguments
+     *
+     *  @return
+     *
+     */
+    
+    public String[] getArguments();
+
+    /**
      *  Execute the command and return the result
      *
      *  @param args
      *
      *  @return
      *
+     *  @throws Exception
+     *
      */
 
-    public String execute( final String[] args );
+    public String execute( final String[] args ) throws Exception;
+
+    /**
+     *  Returns the exact number of args this command requires, or -1
+     *
+     *  @return
+     *
+     */
+
+    public int getNumArgs();
+
+    /**
+     *  Returns the minimum number of args this command requires, or -1
+     *
+     *  @return
+     *
+     */
+
+    public int getMinArgs();
+
+    /**
+     *  Returns the maximum number of args this command requires, or -1
+     *
+     *  @return
+     *
+     */
+
+    public int getMaxArgs();
 
 }
