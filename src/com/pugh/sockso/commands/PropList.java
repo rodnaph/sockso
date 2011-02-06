@@ -117,5 +117,11 @@ public class PropList extends BaseCommand {
 
     }
 
+    @Override
+    public String[] getArguments() {
+
+        return new String[] { "FILTER" };
+        
+    }
 
 }

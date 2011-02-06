@@ -65,5 +65,11 @@ public class UserDel extends BaseCommand {
 
     }
 
+    @Override
+    public String[] getArguments() {
+
+        return new String[] { "ID" };
+        
+    }
 
 }

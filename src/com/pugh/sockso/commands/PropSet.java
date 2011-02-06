@@ -57,4 +57,11 @@ public class PropSet extends BaseCommand {
 
     }
 
+    @Override
+    public String[] getArguments() {
+
+        return new String[] { "NAME", "VALUE" };
+        
+    }
+
 }

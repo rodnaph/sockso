@@ -91,5 +91,11 @@ public class UserAdd extends BaseCommand {
         
     }
 
+    @Override
+    public String[] getArguments() {
+
+        return new String[] { "NAME", "PASS", "EMAIL", "ISADMIN 1/0" };
+        
+    }
 
 }

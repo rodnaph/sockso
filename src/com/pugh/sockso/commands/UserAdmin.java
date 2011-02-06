@@ -83,5 +83,11 @@ public class UserAdmin extends BaseCommand {
 
     }
 
+    @Override
+    public String[] getArguments() {
+
+        return new String[] { "ID", "ISADMIN 1/0" };
+        
+    }
 
 }

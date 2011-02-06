@@ -57,22 +57,4 @@ public interface Command {
 
     public int getNumArgs();
 
-    /**
-     *  Returns the minimum number of args this command requires, or -1
-     *
-     *  @return
-     *
-     */
-
-    public int getMinArgs();
-
-    /**
-     *  Returns the maximum number of args this command requires, or -1
-     *
-     *  @return
-     *
-     */
-
-    public int getMaxArgs();
-
 }
