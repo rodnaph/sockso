@@ -32,7 +32,6 @@
             <track>
                 <location><% url %>/stream/<% track.getId() %><% sessionArgs #n %></location>
                 <creator><% track.getArtist().getName() %></creator>
-                <artist><% track.getArtist().getName() %></artist>
                 <album><% track.getAlbum().getName() %></album>
                 <title><% track.getName() %></title>
                 <%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
