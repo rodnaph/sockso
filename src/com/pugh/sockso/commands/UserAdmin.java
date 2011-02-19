@@ -50,6 +50,10 @@ public class UserAdmin extends BaseCommand {
 
         PreparedStatement st = null;
 
+        if ( !args[2].matches("1|0") ) {
+            return locale.getString( "con.err.errorUpdatingUser" );
+        }
+
         final int id = Integer.parseInt( args[1] );
         final int isAdmin = Integer.parseInt( args[2] );
         final String sql = " update users " +
