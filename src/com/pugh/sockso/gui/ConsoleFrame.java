@@ -5,6 +5,7 @@
 
 package com.pugh.sockso.gui;
 
+import com.pugh.sockso.commands.CommandExecuter;
 import com.pugh.sockso.Console;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
@@ -38,11 +39,9 @@ public class ConsoleFrame extends JFrame {
     private static final Logger log = Logger.getLogger( ConsoleFrame.class );
     
     private static final int MAX_OUTPUT_LENGTH = 5000;
-    
-    private final Console console;
+
+    private final CommandExecuter cmd;
     private final Resources r;
-    private final ConsoleInputStream in;
-    private final ConsoleOutputStream out;
 
     private JTextField inputField;
     protected JTextArea outputArea;
@@ -53,11 +52,8 @@ public class ConsoleFrame extends JFrame {
         super( r.getCurrentLocale().getString("gui.window.console") );
         
         this.r = r;
-        
-        in = new ConsoleInputStream();
-        out = new ConsoleOutputStream( this );
-        
-        console = new Console( db, p, cm, new PrintStream(out), in, r.getCurrentLocale() );
+
+        cmd = new CommandExecuter( db, p, cm, r.getCurrentLocale() );
         
         createComponents();
         layoutComponents();
@@ -123,13 +119,13 @@ public class ConsoleFrame extends JFrame {
                 
                 try {
 
-                    console.dispatchCommand( inputField.getText() );
-
                     // constrain the amount of text displayed in the outputArea,
                     // don't want it getting too massive.
-                    final int len = outputArea.getText().length();
+                    final String newText = outputArea.getText() + cmd.execute( inputField.getText() ) + "\n\n";
+                    final int len = newText.length();
                     final int start = len > MAX_OUTPUT_LENGTH ? len - MAX_OUTPUT_LENGTH : 0;
-                    outputArea.setText( outputArea.getText().substring(start,len) + "\n" );
+
+                    outputArea.setText( newText.substring(start,len) + "\n" );
 
                     inputField.setText( "" );
                     

@@ -103,7 +103,7 @@ sockso.AdminConsole.prototype = {
      */
     onCommandResult: function( text ) {
 
-        this.output.append( text );
+        this.output.append( text + "\n" );
 
         this.output[0].scrollTop = this.output[0].scrollHeight;
 
