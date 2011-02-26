@@ -28,8 +28,10 @@
 <body class="admin-console">
 
 <form method="post" action="/admin/console/send">
-    <input type="text" class="admin-console-input" name="command" />
-    <input type="submit" class="admin-console-submit" value="Execute" />
+    <fieldset>
+        <input type="text" class="admin-console-input" name="command" />
+        <input type="submit" class="submit admin-console-submit" value="Execute" />
+    </fieldset>
 </form>
 
 <p>

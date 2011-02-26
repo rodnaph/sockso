@@ -697,7 +697,8 @@ li#playlist {
 /*=============== admin console ================*/
 
 .admin-console {
-    background-image: none;
+    background-image: url(../images/img02.gif);
+    background-repeat: repeat;
     padding: 20px;
 }
 
@@ -711,8 +712,9 @@ li#playlist {
 }
 
 .admin-console-output {
-    border: 1px #aaa solid;
-    height: 470px;
+    background-color: #fff;
+    border: 5px #ccc solid;
+    height: 440px;
     width: 720px;
     margin: 0 0 10px 0;
     font-family: courier;
@@ -720,8 +722,12 @@ li#playlist {
     color: #000;
 }
 
-.admin-console-submit {
-    border-color: #777;
-    font-weight: bold;
-    width: 70px;
+fieldset input.admin-console-submit {
+    margin-left: 20px;
+    clear: none;
+}
+
+.admin-console form,
+.admin-console p {
+    margin: 0;
 }
