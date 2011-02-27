@@ -42,6 +42,49 @@ complain about all the imports.  Otherwise try some of these useful Ant tasks...
 3) test-all - Run all the unit tests
 4) test-single -Dclass=CLASSNAME - Run a specific class's tests
 
+Source Layout
+-------------
+
+lib* - Java libraries
+resources - JS/CSS/Image resources for desktop application and web browser
+scripts - Various utility scripts for development
+src - Java source doe
+templates - Jamon templates
+test - Test cases
+www - The Sockso website
+
+Unit Testing
+------------
+
+Sockso strives to have as much UT coverage as possible in both it's Java and
+Javascript.  To run the JUnit tests for Java use...
+
+$> ant test
+
+Or to run a single test case...
+
+$> ant test-single -Dclass=com.pugh.sockso.StringProperties
+
+For the Javascript tests Sockso uses JsTestDriver, so first you need to start
+up the test server in one shell...
+
+$> ant test-js-server
+
+Then go to http://localhost:9876 to attach a browser, you can then run the tests
+from another shell.
+
+$> ant test-js
+
+You can attach multiple browsers to test across them all at once.
+
+Contributing
+------------
+
+If you would like to contribute some code to Sockso please fork the project on
+Github, commit your changes and then open a pull request.
+
+http://github.com/rodnaph/sockso
+
 Further Help
 ------------
 
