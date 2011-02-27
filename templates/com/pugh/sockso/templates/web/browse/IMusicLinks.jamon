@@ -18,7 +18,7 @@
 </%args>
 
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
     final String skin = properties.get( "www.skin", "original" );
     final String htmlName = name.replaceAll( "'", "\\\\'" )
                                 .replaceAll( "\"", "&quot;" );

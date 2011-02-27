@@ -150,7 +150,7 @@ public class ServerThread extends Thread {
         }
 
         if ( loginRequired(user,action) ) {
-            res.redirect( p.get(Constants.SERVER_BASE_PATH)+"user/login" );
+            res.redirect( p.get(Constants.SERVER_BASE_PATH,"/")+"user/login" );
         }
 
         else {

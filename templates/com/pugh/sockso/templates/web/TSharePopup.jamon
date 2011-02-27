@@ -20,7 +20,7 @@
 <head>
 <title><% locale.getString("www.title.sharePopup") %></title>
 
-<& IHeaderIncludes; skin=properties.get(Constants.WWW_SKIN,"original"); basepath=properties.get(Constants.SERVER_BASE_PATH) &>
+<& IHeaderIncludes; skin=properties.get(Constants.WWW_SKIN,"original"); basepath=properties.get(Constants.SERVER_BASE_PATH,"/") &>
 
 <style type="text/css">
 
@@ -41,7 +41,7 @@ body {
         url += arg + "/";
 </%java>
 
-<& IShare; host=host; url=url; locale=locale; basepath=properties.get(Constants.SERVER_BASE_PATH) &>
+<& IShare; host=host; url=url; locale=locale; basepath=properties.get(Constants.SERVER_BASE_PATH,"/") &>
 
 </body>
 </html>

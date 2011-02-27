@@ -13,7 +13,7 @@
 </%args>
 
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
 </%java>
 
 <div id="letters">

@@ -23,7 +23,7 @@
 </%args>
 
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
 </%java>
 
 <& ../IHeader; properties=properties; title="Browsing Artists: " + letter.toUpperCase(); user=user; locale=locale; &>

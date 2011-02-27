@@ -18,7 +18,7 @@
 </%args>
 <?xml version="1.0" encoding="UTF-8"?>
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
     final String url = protocol +"://" + request.getHost();
     final String sessionArgs =
         properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)

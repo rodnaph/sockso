@@ -21,7 +21,7 @@
 NumberOfEntries=<% tracks.size() %>
 
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
     int number = 1;
     final String sessionArgs =
         properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)

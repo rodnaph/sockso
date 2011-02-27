@@ -15,7 +15,7 @@
 </%args>
 
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
 </%java>
 
 <%if properties.get("dev.enabled").equals(properties.YES) %>
@@ -48,5 +48,5 @@ user = <%if user != null %>new sockso.User({ id: <% user.getId() %>, name: '<% u
 if ( !window.Properties ) {
     Properties = new sockso.Properties();
 }
-Properties.setData({'':''<%for String name : properties.getProperties() %><%if name.length() > 3 && name.substring(0,4).equals("www.") %>,'<% Utils.escapeJs(name) %>':'<% Utils.escapeJs(properties.get(name)) %>'</%if></%for>,'<% Utils.escapeJs(Constants.SERVER_BASE_PATH) %>':'<% Utils.escapeJs(properties.get(Constants.SERVER_BASE_PATH)) %>'});
+Properties.setData({'':''<%for String name : properties.getProperties() %><%if name.length() > 3 && name.substring(0,4).equals("www.") %>,'<% Utils.escapeJs(name) %>':'<% Utils.escapeJs(properties.get(name)) %>'</%if></%for>,'<% Utils.escapeJs(Constants.SERVER_BASE_PATH) %>':'<% Utils.escapeJs(properties.get(Constants.SERVER_BASE_PATH,"/")) %>'});
 </script>

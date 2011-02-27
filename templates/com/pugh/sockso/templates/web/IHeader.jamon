@@ -15,7 +15,7 @@
 </%args>
 
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
     final String skin = properties.get( Constants.WWW_SKIN, "original" );
     final String browseLink = properties.get( Constants.WWW_BROWSE_FOLDERS_ENABLED ).equals( Properties.YES )
                                 && properties.get( Constants.WWW_BROWSE_FOLDERS_ONLY ).equals( Properties.YES )
