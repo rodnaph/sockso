@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.Sockso;
     com.pugh.sockso.Utils;
@@ -12,6 +13,10 @@
     Properties properties = null;
     User user = null;
 </%args>
+
+<%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+</%java>
 
 <%if properties.get("dev.enabled").equals(properties.YES) %>
     <%java>
@@ -29,13 +34,13 @@
         };
     </%java>
     <%for final String jsFile : jsFiles %>
-        <script type="text/javascript" src="/file/js/<% jsFile %>.js"></script>
+        <script type="text/javascript" src="<% basepath #n %>file/js/<% jsFile %>.js"></script>
     </%for>
 <%else>
-    <script type="text/javascript" src="/file/js/packed-<% Sockso.VERSION %>.js"></script>
+    <script type="text/javascript" src="<% basepath #n %>file/js/packed-<% Sockso.VERSION %>.js"></script>
 </%if>
 
-<script type="text/javascript" src="/file/js/locale.<% locale.getLangCode() %>.<% Sockso.VERSION %>.js"></script>
+<script type="text/javascript" src="<% basepath #n %>file/js/locale.<% locale.getLangCode() %>.<% Sockso.VERSION %>.js"></script>
 
 <script type="text/javascript">
 user = <%if user != null %>new sockso.User({ id: <% user.getId() %>, name: '<% user.getName() #n %>' })<%else>null</%if>;
@@ -43,5 +48,5 @@ user = <%if user != null %>new sockso.User({ id: <% user.getId() %>, name: '<% u
 if ( !window.Properties ) {
     Properties = new sockso.Properties();
 }
-Properties.setData({'':''<%for String name : properties.getProperties() %><%if name.length() > 3 && name.substring(0,4).equals("www.") %>,'<% Utils.escapeJs(name) %>':'<% Utils.escapeJs(properties.get(name)) %>'</%if></%for>});
+Properties.setData({'':''<%for String name : properties.getProperties() %><%if name.length() > 3 && name.substring(0,4).equals("www.") %>,'<% Utils.escapeJs(name) %>':'<% Utils.escapeJs(properties.get(name)) %>'</%if></%for>,'<% Utils.escapeJs(Constants.SERVER_BASE_PATH) %>':'<% Utils.escapeJs(properties.get(Constants.SERVER_BASE_PATH)) %>'});
 </script>

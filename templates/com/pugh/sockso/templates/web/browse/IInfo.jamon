@@ -15,13 +15,17 @@
     Properties properties = null;
 </%args>
 
+<%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+</%java>
+
 <div class="musicInfo">
 
     <%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
         <%if album == null %>
-            <img class="cover" src="/file/cover/ar<% artist.getId() %>" />
+            <img class="cover" src="<% basepath #n %>file/cover/ar<% artist.getId() %>" />
         <%else>
-            <img class="cover" src="/file/cover/al<% album.getId() %>" />
+            <img class="cover" src="<% basepath #n %>file/cover/al<% album.getId() %>" />
         </%if>
     </%if>
 
@@ -30,7 +34,7 @@
         <span>
             <h2>
                 <%if album != null %>
-                    <a href="/browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a>
+                    <a href="<% basepath #n %>browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a>
                 <%else>
                     <% Utils.u2e(artist.getName()) #n %>
                 </%if>

@@ -1,7 +1,8 @@
 
 <%args>
     String skin = null;
+    String basepath = "/";
 </%args>
 
-<link href="/file/skins/<% skin %>/css/default.css" rel="stylesheet" type="text/css" />
-<link rel="shortcut icon" href="/file/skins/<% skin %>/images/favicon.ico" type="image/x-icon" />
+<link href="<% basepath #n %>file/skins/<% skin %>/css/default.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="<% basepath #n %>file/skins/<% skin %>/images/favicon.ico" type="image/x-icon" />

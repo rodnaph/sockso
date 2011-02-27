@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Utils;
     com.pugh.sockso.Properties;
     com.pugh.sockso.music.Artist;
@@ -21,6 +22,10 @@
     Vector<User> recentUsers = null;
 </%args>
 
+<%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+</%java>
+
 <& ../IHeader; properties=properties; title="Browsing Artists: " + letter.toUpperCase(); user=user; locale=locale; &>
 
 <& ILetters; select=letter; properties=properties; locale=locale; &>
@@ -32,7 +37,7 @@
     <%for Artist artist : artists %>
         <li class="artist musicitem" id="ar<% artist.getId() %>">
             <& IMusicLinks; type="ar"; id=artist.getId(); name=artist.getName(); locale=locale; properties=properties; &>
-            <span class="link"><a href="/browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a><span>
+            <span class="link"><a href="<% basepath #n %>browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a><span>
             <span class="info">(<% artist.getAlbumCount() %> album<%if artist.getAlbumCount() != 1 %>s</%if>)</span>
         </li>
     </%for>

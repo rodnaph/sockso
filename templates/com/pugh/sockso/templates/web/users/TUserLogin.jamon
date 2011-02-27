@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.web.User;
     com.pugh.sockso.resources.Locale;
@@ -17,12 +18,16 @@
     Vector<User> recentUsers = null;
 </%args>
 
+<%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+</%java>
+
 <& ../IHeader; properties=properties; locale=locale; &>
 
 <h2><% locale.getString("www.title.login") %></h2>
 
-<p><% locale.getString("www.text.login", new String[] { "/user/register" } ) #n %></p>
+<p><% locale.getString("www.text.login", new String[] { "<% basepath #n %>user/register" } ) #n %></p>
 
-<& IUserLoginForm; locale=locale; &>
+<& IUserLoginForm; locale=locale; basepath=basepath &>
 
 <& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

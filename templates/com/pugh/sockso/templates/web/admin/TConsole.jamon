@@ -13,6 +13,7 @@
 </%args>
 
 <%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
     final String skin = properties.get( Constants.WWW_SKIN, "original" );
 </%java>
 
@@ -20,14 +21,14 @@
 <head>
 <title><% locale.getString("www.admin.title.console") %></title>
 
-<link href="/file/skins/<% skin %>/css/default.css" rel="stylesheet" type="text/css">
-<link rel="shortcut icon" href="/file/skins/<% skin %>/images/favicon.ico" type="image/x-icon">
+<link href="<% basepath #n %>file/skins/<% skin %>/css/default.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="<% basepath #n %>file/skins/<% skin %>/images/favicon.ico" type="image/x-icon">
 
 </head>
 
 <body class="admin-console">
 
-<form method="post" action="/admin/console/send">
+<form method="post" action="<% basepath #n %>admin/console/send">
     <input type="text" class="admin-console-input" name="command" />
     <input type="submit" class="admin-console-submit" value="Execute" />
 </form>

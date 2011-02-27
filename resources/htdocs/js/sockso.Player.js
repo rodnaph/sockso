@@ -80,12 +80,12 @@ sockso.Player = function( options ) {
             case self.PLAY_PLS:
             case self.PLAY_M3U:
             case self.PLAY_XSPF:
-                location.href = '/' + self.playType+ '/' + playUrl;
+                location.href = Properties.get( "server.basepath", "/" ) + self.playType+ '/' + playUrl;
                 break;
 
             case self.PLAY_FLASH_EMBED:
-                var xspfUrl = '/file/flash/xspf_player_slim.swf' +
-                    '?playlist_url=' + escape('/xspf/' +playUrl + trackFilter)+
+                var xspfUrl = Properties.get( "server.basepath", "/" )+'file/flash/xspf_player_slim.swf' +
+                    '?playlist_url=' + escape(Properties.get( "server.basepath", "/" )+'xspf/' +playUrl + trackFilter)+
                     '&autoplay=1';
                 $( '#flash-player' )
                     .empty()
@@ -101,7 +101,7 @@ sockso.Player = function( options ) {
                 var w = window.open( '', 'PlayerWin', 'width=590,height=270,toolbars=no' );
                 // load window first time
                 if ( !options.jspAllowReload || w.location.href == 'about:blank' ) {
-                    w.location.href = '/player/js/' +playUrl;
+                    w.location.href = Properties.get( "server.basepath", "/" )+'player/js/' +playUrl;
                 }
                 // reload contents dynamically
                 else {
@@ -123,7 +123,7 @@ sockso.Player = function( options ) {
                     playUrl += '&player=flexPlayer';
                 }
                 // now we can open the window...
-                var w = window.open( '/player/xspf/' + playUrl, 'PlayerWin', 'width=' +width+ ',height=' +height+ ',toolbars=no' );
+                var w = window.open( Properties.get( "server.basepath", "/" )+'player/xspf/' + playUrl, 'PlayerWin', 'width=' +width+ ',height=' +height+ ',toolbars=no' );
                 w.focus();
                 break;
 

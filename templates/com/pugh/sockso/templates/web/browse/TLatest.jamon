@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Utils;
     com.pugh.sockso.Properties;
     com.pugh.sockso.music.Track;
@@ -24,6 +25,10 @@
     Vector<User> recentUsers = null;
 </%args>
 
+<%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+</%java>
+
 <& ../IHeader; properties=properties; title="Latest Music"; user=user; locale=locale; &>
 
 <h2><% locale.getString("www.title.latestTracks") %></h2>
@@ -34,7 +39,7 @@
         <li class="track">
             <& IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
             <span class="link">
-                <a href="/browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a>
+                <a href="<% basepath #n %>browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a>
                 - <% Utils.u2e(track.getName()) #n %>
             </span>
         </li>
@@ -52,7 +57,7 @@
     <ul>
         <%for Artist artist : artists %>
             <li>
-                <a href="/browse/artist/<% artist.getId() %>" title="<% Utils.u2e(artist.getName()) #n %>"><img class="cover" src="/file/cover/ar<% artist.getId() %>" /></a>
+                <a href="<% basepath #n %>browse/artist/<% artist.getId() %>" title="<% Utils.u2e(artist.getName()) #n %>"><img class="cover" src="<% basepath #n %>file/cover/ar<% artist.getId() %>" /></a>
                 <div class="links">
                     <& IMusicLinks; type="ar"; id=artist.getId(); name=artist.getName(); locale=locale; properties=properties; &>
                 </div>
@@ -73,7 +78,7 @@
     <ul>
         <%for Album album : albums %>
             <li>
-                <a href="/browse/album/<% album.getId() %>" title="<% Utils.u2e(album.getName()) #n %>"><img class="cover" src="/file/cover/al<% album.getId() %>" /></a>
+                <a href="<% basepath #n %>browse/album/<% album.getId() %>" title="<% Utils.u2e(album.getName()) #n %>"><img class="cover" src="<% basepath #n %>file/cover/al<% album.getId() %>" /></a>
                 <div class="links">
                     <& IMusicLinks; type="al"; id=album.getId(); name=album.getName(); locale=locale; properties=properties; &>
                 </div>

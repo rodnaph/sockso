@@ -15,11 +15,12 @@
 </%args>
 
 <%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
     final String skin = properties.get( Constants.WWW_SKIN, "original" );
     final String browseLink = properties.get( Constants.WWW_BROWSE_FOLDERS_ENABLED ).equals( Properties.YES )
                                 && properties.get( Constants.WWW_BROWSE_FOLDERS_ONLY ).equals( Properties.YES )
-        ? "/browse/folders"
-        : "/browse/letter/a";
+        ? basepath+"browse/folders"
+        : basepath+"browse/letter/a";
 </%java>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -29,9 +30,9 @@
 
 <title><% properties.get(Constants.WWW_TITLE) %><%if !title.equals("") %> - <% Utils.u2e(title) #n %></%if></title>
 
-<& IHeaderIncludes; skin=skin; &>
+<& IHeaderIncludes; skin=skin; basepath=basepath &>
 
-<link rel="alternate" title="Latest Tracks" href="/rss/latest" type="application/rss+xml" />
+<link rel="alternate" title="Latest Tracks" href="<% basepath #n %>rss/latest" type="application/rss+xml" />
 
 </head>
 
@@ -40,44 +41,44 @@
 <div id="login-info">
 
     <%if user == null %>
-        <a href="/user/login"><% locale.getString("www.link.login") %></a>
+        <a href="<% basepath #n %>user/login"><% locale.getString("www.link.login") %></a>
         <%if !properties.get(Constants.WWW_USERS_DISABLE_REGISTRATION).equals(Properties.YES) %>
-            / <a href="/user/register"><% locale.getString("www.link.register") %></a>
+            / <a href="<% basepath #n %>user/register"><% locale.getString("www.link.register") %></a>
         </%if>
         :
     <%else>
         <% locale.getString("www.text.loggedInAs") %> <% user.getName() %>
         :
-        <a href="/user/edit" title="<% locale.getString("www.link.editUser") %>"><img src="/file/skins/<% skin %>/images/profile.png" alt="<% locale.getString("www.link.editUser") %>" /></a>
-        <a id="scrobbleLogLink" href="/user/scrobbleLog" title="<% locale.getString("www.link.scrobbleLog") %>"><img src="/file/skins/<% skin %>/images/audioscrobbler.png" alt="<% locale.getString("www.link.scrobbleLog") %>" /></a>
+        <a href="<% basepath #n %>user/edit" title="<% locale.getString("www.link.editUser") %>"><img src="<% basepath #n %>file/skins/<% skin %>/images/profile.png" alt="<% locale.getString("www.link.editUser") %>" /></a>
+        <a id="scrobbleLogLink" href="<% basepath #n %>user/scrobbleLog" title="<% locale.getString("www.link.scrobbleLog") %>"><img src="<% basepath #n %>file/skins/<% skin %>/images/audioscrobbler.png" alt="<% locale.getString("www.link.scrobbleLog") %>" /></a>
     </%if>
 
     <%if properties.get(Constants.WWW_UPLOADS_ENABLED).equals(properties.YES) && (user != null || properties.get(Constants.WWW_UPLOADS_ALLOW_ANONYMOUS).equals(properties.YES)) %>
-        <a href="/upload" title="<% locale.getString("www.link.upload") %>"><img src="/file/skins/<% skin %>/images/upload.png" alt="<% locale.getString("www.link.upload") %>" /></a>
+        <a href="<% basepath #n %>upload" title="<% locale.getString("www.link.upload") %>"><img src="<% basepath #n %>file/skins/<% skin %>/images/upload.png" alt="<% locale.getString("www.link.upload") %>" /></a>
     </%if>
 
     <%if user != null %>
-        <a id="logoutLink" href="/user/logout" title="<% locale.getString("www.link.logout") %>"><img src="/file/skins/<% skin %>/images/logout.png" alt="<% locale.getString("www.link.logout") %>" /></a>
+        <a id="logoutLink" href="<% basepath #n %>user/logout" title="<% locale.getString("www.link.logout") %>"><img src=<% basepath #n %>/file/skins/<% skin %>/images/logout.png" alt="<% locale.getString("www.link.logout") %>" /></a>
         <%if user.isAdmin() %>
-            <a class="admin-console-link" href="/admin/console" title="<% locale.getString("www.link.adminConsole") %>"><img src="/file/skins/<% skin %>/images/adminConsole.png" alt="Admin Console" /></a>
+            <a class="admin-console-link" href="<% basepath #n %>admin/console" title="<% locale.getString("www.link.adminConsole") %>"><img src="<% basepath #n %>file/skins/<% skin %>/images/adminConsole.png" alt="Admin Console" /></a>
         </%if>
     </%if>
 
 </div>
 
 <div id="header">
-	<h1><a href="/"><% properties.get(Constants.WWW_TITLE) %></a></h1>
-	<p><a href="/"><% properties.get(Constants.WWW_TAGLINE) %></a></p>
+	<h1><a href="<% basepath #n %>"><% properties.get(Constants.WWW_TITLE) %></a></h1>
+	<p><a href="<% basepath #n %>"><% properties.get(Constants.WWW_TAGLINE) %></a></p>
 </div>
 
 <div id="page">
 
     <div id="nav">
-        <a href="/"><% locale.getString("www.link.home") %></a>
+        <a href="<% basepath #n %>"><% locale.getString("www.link.home") %></a>
         <a href="<% browseLink %>"><% locale.getString("www.link.browse") %></a>
-        <a href="/browse/latest"><% locale.getString("www.link.latest") %></a>
-        <a href="/browse/popular"><% locale.getString("www.link.popular") %></a>
-        <a href="/browse/playlists"><% locale.getString("www.link.playlists") %></a>
+        <a href="<% basepath #n %>browse/latest"><% locale.getString("www.link.latest") %></a>
+        <a href="<% basepath #n %>browse/popular"><% locale.getString("www.link.popular") %></a>
+        <a href="<% basepath #n %>browse/playlists"><% locale.getString("www.link.playlists") %></a>
         <a href="javascript:player.play('random')"><% locale.getString("www.link.random") %></a>
     </div>
 

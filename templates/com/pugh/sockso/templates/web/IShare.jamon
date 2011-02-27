@@ -8,6 +8,7 @@
     String host = null;
     Locale locale = null;
     String url = "";
+    String basepath = "";
 </%args>
 
 <h3><% locale.getString("www.title.share") %></h3>
@@ -16,9 +17,9 @@
 
 <%java>
     String serverUrl = "http://" + host;
-    String linkUrl = serverUrl +
-        "/file/flash/xspf_player.swf?playlist_url=" +
-            serverUrl + "/xspf/" + url;
+    String linkUrl = serverUrl + basepath +
+        "file/flash/xspf_player.swf?playlist_url=" +
+            serverUrl + basepath +"xspf/" + url;
 </%java>
 
 <p><pre>

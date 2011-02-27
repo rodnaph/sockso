@@ -23,6 +23,10 @@
     Vector<User> recentUsers = null;
 </%args>
 
+<%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+</%java>
+
 <& ../IHeader; properties=properties; title="Artist: " + artist.getName(); user=user; locale=locale; &>
 
 <& ILetters; select = artist.getName().substring(0,1); properties=properties; locale=locale; &>
@@ -33,7 +37,7 @@
 <%for Album album : albums %>
     <li class="album musicitem" id="al<% album.getId() %>">
         <& IMusicLinks; type="al"; id=album.getId(); name=album.getName(); locale=locale; properties=properties; &>
-        <span class="link"><a href="/browse/album/<% album.getId() %>"><% Utils.u2e(album.getName()) #n %></a></span>
+        <span class="link"><a href="<% basepath #n %>browse/album/<% album.getId() %>"><% Utils.u2e(album.getName()) #n %></a></span>
         <span class="info">(<% album.getTrackCount() %> track<%if album.getTrackCount() != 1 %>s</%if>)</span>
     </li>
 </%for>

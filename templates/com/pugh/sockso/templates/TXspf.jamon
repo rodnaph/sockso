@@ -18,6 +18,7 @@
 </%args>
 <?xml version="1.0" encoding="UTF-8"?>
 <%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
     final String url = protocol +"://" + request.getHost();
     final String sessionArgs =
         properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
@@ -30,7 +31,7 @@
     <trackList>
         <%for Track track : tracks %>
             <track>
-                <location><% url %>/stream/<% track.getId() %><% sessionArgs #n %></location>
+                <location><% url %><% basepath %>stream/<% track.getId() %><% sessionArgs #n %></location>
                 <creator><% track.getArtist().getName() %></creator>
                 <album><% track.getAlbum().getName() %></album>
                 <title><% track.getName() %></title>
@@ -41,7 +42,7 @@
                             ? "al" + track.getAlbum().getId()
                             : "ar" + track.getArtist().getId();
                     </%java>
-                    <image><% url %>/file/cover/<% coverParam %></image>
+                    <image><% url %><% basepath %>file/cover/<% coverParam %></image>
                 </%if>
             </track>
         </%for>

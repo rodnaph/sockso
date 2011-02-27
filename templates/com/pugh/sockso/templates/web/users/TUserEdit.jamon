@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.web.User;
     com.pugh.sockso.resources.Locale;
@@ -17,11 +18,15 @@
     Vector<User> recentUsers = null;
 </%args>
 
+<%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
+</%java>
+
 <& ../IHeader; properties=properties; locale=locale; user=user; &>
 
 <h2><% locale.getString("www.title.editProfile") %></h2>
 
-<form method="post" action="/user/update">
+<form method="post" action="<% basepath #n %>user/update">
 
     <fieldset>
 

@@ -32,7 +32,7 @@ sockso.RelatedArtists = function( options ) {
 
         self.ajax({
             type: 'GET',
-            url: '/json/similarArtists/' +artistId,
+            url: Properties.get( "server.basepath", "/" )+'json/similarArtists/' +artistId,
             success: function( responseText ) {
                 var artists = null;
                 eval( 'artists = ' +responseText );
@@ -60,7 +60,7 @@ sockso.RelatedArtists = function( options ) {
                .addClass( 'related-artist related-artist-' +relatedId )
                .append(
                    $( '<a/>' )
-                       .attr({ href: '/browse/artist/' +relatedId })
+                       .attr({ href: Properties.get( "server.basepath", "/" )+'browse/artist/' +relatedId })
                        .html( related.name )
                )
                .appendTo( list );
@@ -86,7 +86,7 @@ sockso.RelatedArtists = function( options ) {
         var url = '';
         var skin = properties.get( 'www.skin', 'original' );
         var img = $( '<img></img>' )
-                        .attr({ src: '/file/skins/' +skin+ '/images/play.png' });
+                        .attr({ src: Properties.get( "server.basepath", "/" )+'file/skins/' +skin+ '/images/play.png' });
 
         $.each( relatedArtists, function(i,related) {
             url += related.id + '/';

@@ -271,7 +271,7 @@ sockso.FolderBrowsing.prototype.getTrackAction = function( icon, action, title )
             title: title
         })
         .click( action )
-        .append( $('<img />').attr('src','/file/skins/' +skin+ '/images/' + icon +'.png') )
+        .append( $('<img />').attr('src',Properties.get( "server.basepath", "/" )+'file/skins/' +skin+ '/images/' + icon +'.png') )
         .append( '<span>&nbsp;</span>' );
 
 };
@@ -286,7 +286,7 @@ sockso.FolderBrowsing.prototype.downloadFile = function( path ) {
 
     this.resolvePath( path, function( responseText ) {
         eval( 'var track = ' +responseText );
-        self.location.href = '/download/tr' +track['id'];
+        self.location.href = Properties.get( "server.basepath", "/" )+'download/tr' +track['id'];
     });
 
 };
@@ -343,7 +343,7 @@ sockso.FolderBrowsing.prototype.getTrackItem = function( file ) {
  */
 sockso.FolderBrowsing.prototype.getTracksForFolder = function( folder, handler ) {
 
-    var url = '/json/tracksForPath?path=' +encodeURIComponent(folder.path);
+    var url = Properties.get( "server.basepath", "/" )+'json/tracksForPath?path=' +encodeURIComponent(folder.path);
 
     this.ajax({
         url: url,
@@ -379,7 +379,7 @@ sockso.FolderBrowsing.prototype.playFolder = function( playUrl ) {
  */
 sockso.FolderBrowsing.prototype.downloadFolder = function( playUrl ) {
 
-    self.location.href = '/download/' +playUrl;
+    self.location.href = Properties.get( "server.basepath", "/" )+'download/' +playUrl;
 
 };
 
@@ -509,14 +509,14 @@ sockso.FolderBrowsing.prototype.loadFolder = function( folder ) {
     var skin = Properties.get( "www.skin", "original" );
     var path = this.getPath( folder );
     var collectionId = this.getCollectionId( folder );
-    var url = '/json/folder' +
+    var url = Properties.get( "server.basepath", "/" )+'json/folder' +
         path+ // already URI encoded
         '?collectionId=' +encodeURIComponent(collectionId);
 
     // show loading gif
     $( 'ul', folder ).append(
         $( '<img />' )
-            .attr({ src: '/file/skins/' +skin+ '/images/loading.gif' })
+            .attr({ src: Properties.get( "server.basepath", "/" )+'file/skins/' +skin+ '/images/loading.gif' })
     );
 
     // set a small timeout so the page can refresh with the loading

@@ -5,9 +5,10 @@
 
 <%args>
     Locale locale = null;
+    String basepath = "";
 </%args>
 
-<form method="post" action="/user/login">
+<form method="post" action="<% basepath #n %>user/login">
 
     <input type="hidden" name="todo" value="login" />
 

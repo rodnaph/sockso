@@ -20,6 +20,7 @@
 #EXTM3U
 <%for Track track : tracks %>\
 <%java>
+    final String basepath = properties.get( Constants.SERVER_BASE_PATH );
     String title = track.getArtist().getName() + " - " + track.getName();
     final String sessionArgs =
         properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
@@ -29,5 +30,5 @@
         : "";
 </%java>
 #EXTINF:-1,<% title %>
-<% protocol %>://<% request.getHost() %>/stream/<% track.getId() %>/<% Utils.URLEncode(title) %><% sessionArgs #n %>
+<% protocol %>://<% request.getHost() %><% basepath %>stream/<% track.getId() %>/<% Utils.URLEncode(title) %><% sessionArgs #n %>
 </%for>

@@ -25,7 +25,7 @@ function savePlaylist( options ) {
         if ( name == '' || name == null ) return;
 
         $.ajax({
-            url: '/json/savePlaylist/' + encodeURIComponent(name) + url,
+            url: Properties.get( "server.basepath", "/" )+'json/savePlaylist/' + encodeURIComponent(name) + url,
             success: function( responseText ) {
                 eval( 'var result = ' + responseText );
                 if ( result.match(/^\d+$/) ) {
@@ -43,7 +43,7 @@ function savePlaylist( options ) {
                                   .addClass( 'delete' )
                                   .click(function(){ deletePlaylist(result); })
                                   .append( ' ' )
-                                  .append( $('<img/>').attr({ src: '/file/skins/' +skin+ '/images/remove.png' }))
+                                  .append( $('<img/>').attr({ src: Properties.get( "server.basepath", "/" )+'file/skins/' +skin+ '/images/remove.png' }))
                         )
                         .css({ display: 'none' });
 
@@ -76,7 +76,7 @@ function deletePlaylist( playlistId ) {
     if ( confirm(Locale.getString("www.confirm.deletePlaylist")) ) {
         
         $.ajax({
-            url: '/json/deletePlaylist/' +playlistId,
+            url: Properties.get( "server.basepath", "/" )+'json/deletePlaylist/' +playlistId,
             success: deletePlaylistHandler
         });
 
@@ -265,7 +265,7 @@ sockso.Playlist = function( options ) {
             alert( Locale.getString('www.error.nothingToDownload') );
         }
         else {
-            location.href = '/download/' + url;
+            location.href = Properties.get( "server.basepath", "/" )+'download/' + url;
         }
 
     };
@@ -463,7 +463,7 @@ sockso.Playlist = function( options ) {
                     .addClass( 'controls user-controls' )
                     .append( makeLink('save',function() {
                         savePlaylist({
-                            url: '/' + self.getAsUrl()
+                            url: Properties.get( "server.basepath", "/" )+ self.getAsUrl()
                         });
                     }))
             );

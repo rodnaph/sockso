@@ -58,7 +58,7 @@ sockso.SearchBox = function() {
 
         else {
             $.getJSON(
-                '/json/search/' + encodeURIComponent(query),
+                Properties.get( "server.basepath", "/" )+'json/search/' + encodeURIComponent(query),
                 {},
                 function( data ) {
                     self.showResults( data );
