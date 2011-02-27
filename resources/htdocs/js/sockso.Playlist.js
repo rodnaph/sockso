@@ -463,7 +463,7 @@ sockso.Playlist = function( options ) {
                     .addClass( 'controls user-controls' )
                     .append( makeLink('save',function() {
                         savePlaylist({
-                            url: Properties.get( "server.basepath", "/" )+ self.getAsUrl()
+                            url: self.getAsUrl()
                         });
                     }))
             );
