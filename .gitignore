@@ -1,0 +1,11 @@
+manifest.mf
+nbproject
+nbbuild.xml
+resources/ResourcesAnchor.class
+resources/htdocs/js/locale*js
+resources/htdocs/js/*packed*js
+resources/locales/index
+sockso.properties
+src/com/pugh/sockso/Sockso.java
+src/com/pugh/sockso/templates
+
