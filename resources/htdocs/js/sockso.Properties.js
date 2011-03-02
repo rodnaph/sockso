@@ -22,7 +22,7 @@ String.prototype.endsWith = function(suffix) {
 
 sockso.Properties.prototype.getUrl = function(url) {
     
-    if (url.startsWith("http://")) {
+    if (url.startsWith("http://") || url.startsWith("http://")) {
         return url;
     }
     
@@ -38,7 +38,7 @@ sockso.Properties.prototype.getUrl = function(url) {
     if (!basepath.endsWith("/")) {
         basepath += "/";
     }
-    if (!basepath.startsWith("/") && !basepath.startsWith("http://")) {
+    if (!basepath.startsWith("/") && !basepath.startsWith("http://") && !basepath.startsWith("https://")) {
         basepath = "/"+basepath;
     }
 

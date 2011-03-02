@@ -37,7 +37,7 @@ PropertiesTest.prototype.testSetData = function() {
 
 PropertiesTest.prototype.testGetUrl = function() {
 
-    expectAsserts( 8 );
+    expectAsserts( 9 );
 
     var p = new sockso.Properties();
     
@@ -60,4 +60,5 @@ PropertiesTest.prototype.testGetUrl = function() {
     assertEquals( 'http://other.com/file/skins/other/foo', p.getUrl('<skin>/foo') );
     
     assertEquals( 'http://test.com/foo', p.getUrl('http://test.com/foo') );
+    assertEquals( 'https://test.com/foo', p.getUrl('https://test.com/foo') );
 };

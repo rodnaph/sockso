@@ -263,7 +263,7 @@ public class StringProperties implements Properties {
     
     
     public String getUrl(String url) {
-        if (url.startsWith("http://"))
+        if (url.startsWith("http://") || url.startsWith("https://"))
             return url;
                 
         if (url.startsWith("/"))
@@ -275,7 +275,7 @@ public class StringProperties implements Properties {
         String basepath = this.get(Constants.SERVER_BASE_PATH,"/");
         if (!basepath.endsWith("/"))
             basepath += "/";
-        if (!basepath.startsWith("/") && !basepath.startsWith("http://")) {
+        if (!basepath.startsWith("/") && !basepath.startsWith("http://") && !basepath.startsWith("https://")) {
             basepath = "/"+basepath;
         }
         

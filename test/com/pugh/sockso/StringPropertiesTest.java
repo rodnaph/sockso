@@ -103,5 +103,6 @@ public class StringPropertiesTest extends SocksoTestCase implements PropertiesLi
         assertEquals( "http://other.com/file/skins/other/foo", p.getUrl("<skin>/foo") );
 
         assertEquals( "http://test.com/foo", p.getUrl("http://test.com/foo") );
+        assertEquals( "https://test.com/foo", p.getUrl("https://test.com/foo") );
     }
 }
