@@ -20,7 +20,7 @@
 <%java>
     String url = protocol +"://" + request.getHost();
     String base = properties.getUrl("/");
-    if (!base.startsWith("http://") || !base.startsWith("https://")) {
+    if (base.startsWith("http://") || base.startsWith("https://")) {
         url = "";
     }
     final String sessionArgs =

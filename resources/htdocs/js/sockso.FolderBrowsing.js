@@ -145,7 +145,7 @@ sockso.FolderBrowsing.prototype.resolvePath = function( path, handler, errorMess
 
     this.ajax({
         type: 'POST',
-        url: '/json/resolvePath',
+        url: Properties.getUrl('/json/resolvePath'),
         data: {
             path: path
         },
