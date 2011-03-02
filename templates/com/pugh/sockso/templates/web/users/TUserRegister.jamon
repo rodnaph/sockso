@@ -18,17 +18,13 @@
     Vector<User> recentUsers = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <& ../IHeader; properties=properties; locale=locale; &>
 
 <h2><% locale.getString("www.title.register") %></h2>
 
 <p><% locale.getString("www.text.register") #n %></p>
 
-<form method="post" action="<% basepath #n %>user/register">
+<form method="post" action="<% properties.getUrl("/") #n %>user/register">
 
     <input type="hidden" name="todo" value="register" />
 

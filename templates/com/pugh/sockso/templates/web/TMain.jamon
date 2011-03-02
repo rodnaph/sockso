@@ -26,10 +26,6 @@
     Locale locale = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <& IHeader; properties=properties; title="Home"; user=user; locale=locale; &>
 
 <%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
@@ -39,7 +35,7 @@
             <ul>
             <%for Album album : recentAlbums %>
                 <li>
-                    <a href="<% basepath #n %>browse/album/<% album.getId() %>" title="<% Utils.u2e(album.getArtist().getName())+ " - " +Utils.u2e(album.getName()) #n %>"><img class="cover" src="<% basepath #n %>file/cover/al<% album.getId() %>" /></a>
+                    <a href="<% properties.getUrl("/browse/album/"+album.getId()) #n %>" title="<% Utils.u2e(album.getArtist().getName())+ " - " +Utils.u2e(album.getName()) #n %>"><img class="cover" src="<% properties.getUrl("/file/cover/al"+album.getId()) #n %>" /></a>
                     <div class="links">
                         <& browse/IMusicLinks; type="al"; id=album.getId(); name=album.getName(); playRandomLink=true; locale=locale; properties=properties; &>
                     </div>
@@ -60,7 +56,7 @@
             <li class="track">
                 <& browse/IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
                 <span class="link">
-                    <a href="<% basepath #n %>browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a>
+                    <a href="<% properties.getUrl("/browse/artist/"+track.getArtist().getId()) #n %>"><% Utils.u2e(track.getArtist().getName()) #n %></a>
                     -
                     <% Utils.u2e(track.getName()) #n %>
                 </span>
@@ -80,7 +76,7 @@
             <li class="artist">
                 <& browse/IMusicLinks; type="ar"; id=artist.getId(); name=artist.getName(); locale=locale; properties=properties; &>
                 <span class="link">
-                    <a href="<% basepath #n %>browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a>
+                    <a href="<% properties.getUrl("/browse/artist/"+artist.getId()) #n %>"><% Utils.u2e(artist.getName()) #n %></a>
                 </span>
                 <span class="info">(<% artist.getPlayCount() %> play<%if artist.getPlayCount() != 1 %>s</%if>)</span>
             </li>

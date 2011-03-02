@@ -13,7 +13,6 @@ function savePlaylist( options ) {
     options = options || {};
 
     var url = options.url || getPlaylistAsUrl();
-    var skin = Properties.get( 'www.skin', 'original' );
 
     if ( url == '' )
         alert( Locale.getString('www.error.nothingToPlay') );
@@ -25,7 +24,7 @@ function savePlaylist( options ) {
         if ( name == '' || name == null ) return;
 
         $.ajax({
-            url: Properties.get( "server.basepath", "/" )+'json/savePlaylist/' + encodeURIComponent(name) + url,
+            url: Properties.getUrl('/json/savePlaylist/' + encodeURIComponent(name) + '/'+url),
             success: function( responseText ) {
                 eval( 'var result = ' + responseText );
                 if ( result.match(/^\d+$/) ) {
@@ -43,7 +42,7 @@ function savePlaylist( options ) {
                                   .addClass( 'delete' )
                                   .click(function(){ deletePlaylist(result); })
                                   .append( ' ' )
-                                  .append( $('<img/>').attr({ src: Properties.get( "server.basepath", "/" )+'file/skins/' +skin+ '/images/remove.png' }))
+                                  .append( $('<img/>').attr({ src: Properties.getUrl('<skin>/images/remove.png') }))
                         )
                         .css({ display: 'none' });
 
@@ -76,7 +75,7 @@ function deletePlaylist( playlistId ) {
     if ( confirm(Locale.getString("www.confirm.deletePlaylist")) ) {
         
         $.ajax({
-            url: Properties.get( "server.basepath", "/" )+'json/deletePlaylist/' +playlistId,
+            url: Properties.getUrl('/json/deletePlaylist/' +playlistId),
             success: deletePlaylistHandler
         });
 
@@ -265,7 +264,7 @@ sockso.Playlist = function( options ) {
             alert( Locale.getString('www.error.nothingToDownload') );
         }
         else {
-            location.href = Properties.get( "server.basepath", "/" )+'download/' + url;
+            location.href = Properties.getUrl('/download/' + url);
         }
 
     };

@@ -116,7 +116,7 @@ public class Dispatcher {
             action = new Uploader( cm );
         
         else if ( command.equals("share") )
-            action = new Sharer( host );
+            action = new Sharer();
         
         else if ( command.equals("rss") )
             action = new Feeder( host );

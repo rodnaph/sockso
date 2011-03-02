@@ -186,7 +186,7 @@ sockso.ImageFlow.prototype.init = function() {
                                                       ? 'artist' : 'album';
                                                   var id = data[1].substring( 2 );
 
-                                                  document.location = Properties.get( "server.basepath", "/" )+'browse/' +type+ '/' +id;
+                                                  document.location = Properties.getUrl( 'browse/' +type+ '/' +id);
 
                                               }
 
@@ -476,7 +476,7 @@ sockso.ImageFlow.prototype.init = function() {
             $( '<img />' )
                 .addClass( 'cover' )
                 .attr({
-                    src: Properties.get( "server.basepath", "/" )+'file/cover/' + itemData,
+                    src: Properties.getUrl('file/cover/' + itemData),
                     alt: $(anchors[anchors.length-1]).html()
                 })
                 .appendTo( images );

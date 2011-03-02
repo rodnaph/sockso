@@ -297,7 +297,7 @@ public class Userer extends WebAction {
     protected void requireLogin() throws IOException {
         
         if ( getUser() == null )
-            getResponse().redirect( getProperties().get(Constants.SERVER_BASE_PATH,"/")+"user/login" );
+            getResponse().redirect( getProperties().getUrl("/user/login"));
         
     }
     
@@ -504,7 +504,7 @@ public class Userer extends WebAction {
 
         loginUser( name, pass );
         
-        res.redirect( getProperties().get(Constants.SERVER_BASE_PATH,"/"));
+        res.redirect( getProperties().getUrl("/"));
 
     }
     
@@ -624,7 +624,7 @@ public class Userer extends WebAction {
 
         sess.destroy();
 
-        res.redirect(getProperties().get(Constants.SERVER_BASE_PATH,"/"));
+        res.redirect(getProperties().getUrl("/"));
 
     }
 

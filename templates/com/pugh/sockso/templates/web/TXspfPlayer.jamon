@@ -15,16 +15,12 @@
     String extraArgs = "";
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Sockso Player</title>
 
-<& IHeaderIncludes; skin=properties.get(Constants.WWW_SKIN,"original"); basepath=basepath &>
+<& IHeaderIncludes; properties=properties &>
 
 <style type="text/css">
 body {
@@ -39,7 +35,7 @@ body {
 
 <%java>
 
-    String playlistUrl = basepath + "xspf";
+    String playlistUrl = "/xspf";
 
     for ( String arg : playArgs )
         playlistUrl += "/" + arg;
@@ -51,10 +47,12 @@ body {
         playlistUrl += "trackType=mp3";
 
     playlistUrl += extraArgs;
+    playlistUrl = properties.getUrl(playlistUrl);
 
-    String url = basepath+"file/flash/xspf_player.swf" +
+    String url = "/file/flash/xspf_player.swf" +
         "?playlist_url=" + Utils.URLEncode(playlistUrl) +
         "&autoplay=1";
+    url = properties.getUrl(url);
 
 </%java>
 

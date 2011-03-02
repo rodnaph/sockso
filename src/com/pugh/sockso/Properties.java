@@ -159,4 +159,12 @@ public interface Properties {
     
     public boolean exists( final String name );
     
+    /**
+     * Resolves the url passed to the correct full url
+     * If starts by <skin> get the resource based on the configured skin
+     * @param url
+     * @return 
+     */
+    public String getUrl(String url);
+
 }

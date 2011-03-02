@@ -22,11 +22,6 @@
     Vector<User> recentUsers = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-    String skin = properties.get( Constants.WWW_SKIN, "original" );
-</%java>
-
 <& ../IHeader; properties=properties; title="Playlists"; user=user; locale=locale; &>
 
 <div class="section">
@@ -38,7 +33,7 @@
         <%for Playlist playlist : sitePlaylists %>
             <li class="playlist">
                 <& IMusicLinks; type="pl"; id=playlist.getId(); name=playlist.getName(); locale=locale; properties=properties; &>
-                <span class="link"><a href="<% basepath #n %>browse/playlist/<% playlist.getId() %>"><% Utils.u2e(playlist.getName()) #n %></a></span>
+                <span class="link"><a href="<% properties.getUrl("/browse/playlist/"+playlist.getId()) #n %>"><% Utils.u2e(playlist.getName()) #n %></a></span>
                 <span class="info">(<% playlist.getTrackCount() %> track<%if playlist.getTrackCount() != 1 %>s</%if>)</span>
             </li>
         </%for>
@@ -58,7 +53,7 @@
         <%for Playlist playlist : userPlaylists %>
             <li class="playlist" id="userPlaylist<% playlist.getId() %>">
                 <& IMusicLinks; type="pl"; id=playlist.getId(); name=playlist.getName(); locale=locale; properties=properties; &>
-                <a href="<% basepath #n %>browse/playlist/<% playlist.getId() %>"><% Utils.u2e(playlist.getName()) #n %></a>
+                <a href="<% properties.getUrl("/browse/playlist/"+playlist.getId()) #n %>"><% Utils.u2e(playlist.getName()) #n %></a>
                 by
                 <%if user != null && (user.getId() == playlist.getUser().getId()) %>
                     <b>you</b>
@@ -68,7 +63,7 @@
                 (<% playlist.getTrackCount() %> track<%if playlist.getTrackCount() != 1 %>s</%if>)
                 <%if user != null && (playlist.getUser().getId() == user.getId()) %>
                     <a href="javascript:;" class="delete" onclick="deletePlaylist('<% playlist.getId() %>');return false;"><img
-                        src="<% basepath #n %>file/skins/<% skin %>/images/remove.png" title="<% locale.getString("www.label.deletePlaylist") %>" /></a>
+                        src="<% properties.getUrl("/<skin>/images/remove.png") #n %>" title="<% locale.getString("www.label.deletePlaylist") %>" /></a>
                 </%if>
             </li>
         </%for>

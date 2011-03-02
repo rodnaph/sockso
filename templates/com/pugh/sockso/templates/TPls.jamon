@@ -21,7 +21,6 @@
 NumberOfEntries=<% tracks.size() %>
 
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
     int number = 1;
     final String sessionArgs =
         properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
@@ -29,10 +28,17 @@ NumberOfEntries=<% tracks.size() %>
             && user != null
         ? "?sessionId=" +user.getSessionId()+ "&sessionCode=" +user.getSessionCode()
         : "";
+    String link = "";
 </%java>
 
 <%for Track track : tracks %>
-File<% number %>=<% protocol %>://<% request.getHost() %><% basepath %>stream/<% track.getId() %>/<% Utils.URLEncode(track.getName()) %><% sessionArgs #n %>
+<%java>
+    link = properties.getUrl("/stream/"+track.getId()+"/"+track.getName());
+    if (!link.startsWith("http://") || !link.startsWith("https://")) {
+        link = protocol +"://"+request.getHost()+link;
+    }
+</%java>
+File<% number %>=<% link #n %><% sessionArgs #n %>
 Title<% number %>=<% track.getName() %>
 Length<% number %>=-1
 <%java>

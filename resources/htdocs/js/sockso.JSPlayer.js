@@ -38,7 +38,7 @@ sockso.JSPlayer = function() {
             .append(
                 $( '<img></img>' )
                     .attr({
-                        src: Properties.get( "server.basepath", "/" )+'file/cover/al' +item.album.id
+                        src: Properties.getUrl('/file/cover/al' +item.album.id)
                     })
             );
 
@@ -118,7 +118,7 @@ sockso.JSPlayer = function() {
             // play the item
             jwplayer.sendEvent( 'LOAD', {
                 type: 'sound',
-                file: Properties.get( "server.basepath", "/" )+'stream/' +item.id
+                file: Properties.getUrl('/stream/' +item.id)
             });
             jwplayer.sendEvent( 'PLAY' );
 
@@ -241,7 +241,7 @@ sockso.JSPlayer = function() {
                         .attr({ href: 'javascript:;' })
                         .append(
                             $( '<img></img>')
-                                .attr({ src: Properties.get( "server.basepath", "/" )+'file/skins/' +skin+ '/images/jsplayer/' +imgName+ '.png' })
+                                .attr({ src: Properties.getUrl('/<skin>/images/jsplayer/' +imgName+ '.png') })
                         );
 
         }
@@ -277,7 +277,7 @@ sockso.JSPlayer = function() {
             .append( controlsDiv )
             .append( infoDiv );
 
-        var s1 = new SWFObject( Properties.get( "server.basepath", "/" )+'file/flash/jwplayer-4.2/player.swf','player','0','0','9');
+        var s1 = new SWFObject( Properties.getUrl('/file/flash/jwplayer-4.2/player.swf'),'player','0','0','9');
         s1.addParam( 'allowfullscreen','false' );
         s1.addParam( 'allowscriptaccess','always' );
         s1.write( jwplayerId );
@@ -326,7 +326,7 @@ sockso.JSPlayer = function() {
 
 window.jsp_reload = function( playUrl ) {
 
-    var url = Properties.get( "server.basepath", "/" )+'json/tracks/' +playUrl;
+    var url = Properties.getUrl('/json/tracks/' +playUrl);
 
     $.getJSON( url, {}, jsplayer.update );
 

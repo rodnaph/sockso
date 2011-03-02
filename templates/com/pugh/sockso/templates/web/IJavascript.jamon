@@ -14,10 +14,6 @@
     User user = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <%if properties.get("dev.enabled").equals(properties.YES) %>
     <%java>
         final String[] jsFiles = new String[] {
@@ -34,13 +30,13 @@
         };
     </%java>
     <%for final String jsFile : jsFiles %>
-        <script type="text/javascript" src="<% basepath #n %>file/js/<% jsFile %>.js"></script>
+        <script type="text/javascript" src="<% properties.getUrl("/file/js/"+jsFile+".js") #n %>"></script>
     </%for>
 <%else>
-    <script type="text/javascript" src="<% basepath #n %>file/js/packed-<% Sockso.VERSION %>.js"></script>
+    <script type="text/javascript" src="<% properties.getUrl("/file/js/packed-"+Sockso.VERSION+".js") #n %>"></script>
 </%if>
 
-<script type="text/javascript" src="<% basepath #n %>file/js/locale.<% locale.getLangCode() %>.<% Sockso.VERSION %>.js"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/locale."+locale.getLangCode()+"."+Sockso.VERSION+".js") #n %>"></script>
 
 <script type="text/javascript">
 user = <%if user != null %>new sockso.User({ id: <% user.getId() %>, name: '<% user.getName() #n %>' })<%else>null</%if>;

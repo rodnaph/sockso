@@ -15,16 +15,12 @@
     String extraArgs = "";
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Sockso Player</title>
 
-<& IHeaderIncludes; skin=properties.get(Constants.WWW_SKIN,"original"); basepath=basepath &>
+<& IHeaderIncludes; properties=properties &>
 
 <style type="text/css">
 body {
@@ -39,7 +35,7 @@ body {
 
 <%java>
 
-    String playlistUrl = basepath + "xspf";
+    String playlistUrl = "xspf";
 
     for ( String arg : playArgs )
         playlistUrl += "/" + arg;
@@ -51,10 +47,11 @@ body {
         playlistUrl += "trackType=mp3";
 
     playlistUrl += extraArgs;
+    playlistUrl = properties.getUrl(playlistUrl);
 
 </%java>
 
-<script language="JavaScript" type="text/javascript" src="<% basepath #n %>file/flash/flexPlayer/swfobject.js"></script>
+<script language="JavaScript" type="text/javascript" src="<% properties.getUrl("/file/flash/flexPlayer/swfobject.js") #n %>"></script>
 
 <div id="flashcontent">
     <strong>You need to upgrade your Flash Player</strong>
@@ -62,7 +59,7 @@ body {
 
 <script type="text/javascript">
 // <![CDATA[
-var so = new SWFObject( "<% basepath #n %>file/flash/flexPlayer/big_xmlPlayer.swf", "xmlPlayer", "600", "300", "9", "#000000", "high" );
+var so = new SWFObject( "<% properties.getUrl("/file/flash/flexPlayer/big_xmlPlayer.swf") #n %>", "xmlPlayer", "600", "300", "9", "#000000", "high" );
 so.addVariable("playlist_url", "<% playlistUrl %>");
 so.addVariable("song_title", "");
 so.addVariable("song_url", "");

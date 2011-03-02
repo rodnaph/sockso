@@ -34,7 +34,7 @@ sockso.AdminConsole.prototype = {
 
         $( '.admin-console-link' ).click(function() {
             window.open(
-                Properties.get( "server.basepath", "/" )+'admin/console',
+                Properties.getUrl('/admin/console'),
                 'AdminConsole',
                 'width=800,height=600,toolbars=no'
             ).focus();
@@ -82,7 +82,7 @@ sockso.AdminConsole.prototype = {
 
         this.ajax({
             method: 'POST',
-            url: Properties.get( "server.basepath", "/" )+'admin/console/send',
+            url: Properties.getUrl('/admin/console/send'),
             data: {
                 command: this.input.val()
             },

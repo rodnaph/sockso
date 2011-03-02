@@ -12,24 +12,20 @@
     Locale locale = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <div id="letters">
 
-    <a <%if select.equals("") %>id="current" </%if>href="<% basepath #n %>browse/letter"><% locale.getString("www.link.misc") %></a>
+    <a <%if select.equals("") %>id="current" </%if>href="<% properties.getUrl("/browse/letter") #n %>"><% locale.getString("www.link.misc") %></a>
 
     <%for int i=65; i<91; i++ %>
         <%java>
             String chr = String.valueOf((char)i);
         </%java>
-        <a <%if chr.toLowerCase().equals(select.toLowerCase()) %>id="current" </%if>href="<% basepath #n %>browse/letter/<% chr.toLowerCase() %>"><% chr %></a>
+        <a <%if chr.toLowerCase().equals(select.toLowerCase()) %>id="current" </%if>href="<% properties.getUrl("/browse/letter/"+chr.toLowerCase()) #n %>"><% chr %></a>
         <%if i<90 %> </%if>
     </%for>
 
     <%if Utils.isFeatureEnabled(properties,"browse.folders.enabled") %>
-        <a href="<% basepath #n %>browse/folders"<%if select.equals("folders") %> id="current"</%if>><% locale.getString("www.link.folders") %></a>
+        <a href="<% properties.getUrl("/browse/folders") #n %>"<%if select.equals("folders") %> id="current"</%if>><% locale.getString("www.link.folders") %></a>
     </%if>
 
 </div>

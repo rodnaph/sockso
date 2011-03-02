@@ -21,10 +21,6 @@
     Vector<User> recentUsers = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <& ../IHeader; properties=properties; title="Most Popular Tracks"; user=user; locale=locale; &>
 
 <h2><% locale.getString("www.title.mostPopularTracks") %></h2>
@@ -35,7 +31,7 @@
         <li class="track">
             <& IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
             <span class="link">
-                <a href="<% basepath #n %>browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a> -
+                <a href="<% properties.getUrl("/browse/artist/"+track.getArtist().getId()) #n %>"><% Utils.u2e(track.getArtist().getName()) #n %></a> -
                 <% Utils.u2e(track.getName()) #n %>
             </span>
             <span class="info">

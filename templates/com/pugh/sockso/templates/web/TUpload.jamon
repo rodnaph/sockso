@@ -23,15 +23,11 @@
     Vector<User> recentUsers = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <& IHeader; properties=properties; title="Upload"; user=user; locale=locale; &>
 
 <h2><% locale.getString("www.title.upload") %></h2>
 
-<form method="post" action="<% basepath #n %>upload/do" enctype="multipart/form-data" id="uploadForm">
+<form method="post" action="<% properties.getUrl("/upload/do") #n %>" enctype="multipart/form-data" id="uploadForm">
 
     <fieldset>
 

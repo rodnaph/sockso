@@ -20,7 +20,6 @@
 #EXTM3U
 <%for Track track : tracks %>\
 <%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
     String title = track.getArtist().getName() + " - " + track.getName();
     final String sessionArgs =
         properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
@@ -28,7 +27,11 @@
             && user != null
         ? "?sessionId=" +user.getSessionId()+ "&sessionCode=" +user.getSessionCode()
         : "";
+    String link = properties.getUrl("/stream/"+track.getId()+"/"+title);
+    if (!link.startsWith("http://") || !link.startsWith("https://")) {
+        link = protocol +"://"+request.getHost()+link;
+    }
 </%java>
 #EXTINF:-1,<% title %>
-<% protocol %>://<% request.getHost() %><% basepath %>stream/<% track.getId() %>/<% Utils.URLEncode(title) %><% sessionArgs #n %>
+<% link #n %><% sessionArgs #n %>
 </%for>

@@ -49,12 +49,10 @@ sockso.MusicItem = MusicItem;
 
 sockso.util.getActionNode = function( icon, action, title ) {
 
-    var skin = Properties.get( "www.skin", "original" );
-
     return $( '<a></a>' )
         .attr( 'href', action )
         .attr( 'title', title )
-        .append( $('<img />').attr('src',Properties.get( "server.basepath", "/" )+'file/skins/' +skin+ '/images/' + icon +'.png') )
+        .append( $('<img />').attr('src',Properties.getUrl('/<skin>/images/' + icon +'.png')) )
         .append( '<span>&nbsp;</span>' );
 
 };
@@ -88,7 +86,7 @@ sockso.util.getMusicElement = function getMusicElement( item, includePlaylistLin
     var link = ( type == 'track' )
         ? $( '<span>' + item.name + '</span>' )
         : $( '<a></a>' )
-            .attr( 'href', Properties.get( "server.basepath", "/" )+'browse/' + type + '/' + item.id.substring(2) )
+            .attr( 'href', Properties.getUrl('/browse/' + type + '/' + item.id.substring(2)))
             .append( item.name );
 
     var element = $( '<li></li>' )
@@ -99,7 +97,7 @@ sockso.util.getMusicElement = function getMusicElement( item, includePlaylistLin
         .append( remove );
 
    if ( Properties.get('www.disableDownloads') != 'yes' )
-        element.append( sockso.util.getActionNode('download',Properties.get( "server.basepath", "/" )+'download/'+item.id,'Download \''+name+'\'') );
+        element.append( sockso.util.getActionNode('download',Properties.getUrl('/download/'+item.id),'Download \''+name+'\'') );
 
    element.append( link );
 

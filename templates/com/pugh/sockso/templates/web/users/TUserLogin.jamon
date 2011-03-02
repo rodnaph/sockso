@@ -18,16 +18,12 @@
     Vector<User> recentUsers = null;
 </%args>
 
-<%java>
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
-</%java>
-
 <& ../IHeader; properties=properties; locale=locale; &>
 
 <h2><% locale.getString("www.title.login") %></h2>
 
-<p><% locale.getString("www.text.login", new String[] { "<% basepath #n %>user/register" } ) #n %></p>
+<p><% locale.getString("www.text.login", new String[] { properties.getUrl("/user/register") } ) #n %></p>
 
-<& IUserLoginForm; locale=locale; basepath=basepath &>
+<& IUserLoginForm; locale=locale; properties=properties &>
 
 <& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>

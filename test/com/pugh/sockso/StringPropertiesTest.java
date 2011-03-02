@@ -80,4 +80,28 @@ public class StringPropertiesTest extends SocksoTestCase implements PropertiesLi
 
     }
 
+    public void testGetUrl() {
+
+        final Properties p = new StringProperties();
+    
+        assertEquals( "/foo", p.getUrl("foo") );
+        assertEquals( "/foo", p.getUrl("/foo") );
+
+        assertEquals( "/file/skins/original/foo", p.getUrl("<skin>/foo") );
+        assertEquals( "/file/skins/original/foo", p.getUrl("/<skin>/foo") );
+
+        p.set("www.skin","other");
+
+        assertEquals( "/file/skins/other/foo", p.getUrl("<skin>/foo") );
+
+        p.set("server.basepath","other");
+
+        assertEquals( "/other/file/skins/other/foo", p.getUrl("<skin>/foo") );
+
+        p.set("server.basepath","http://other.com");
+
+        assertEquals( "http://other.com/file/skins/other/foo", p.getUrl("<skin>/foo") );
+
+        assertEquals( "http://test.com/foo", p.getUrl("http://test.com/foo") );
+    }
 }

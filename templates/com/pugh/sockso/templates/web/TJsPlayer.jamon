@@ -13,8 +13,7 @@
 </%args>
 
 <%java>
-    final String skin = properties.get( Constants.WWW_SKIN, "original" );
-    final String basepath = properties.get( Constants.SERVER_BASE_PATH,"/" );
+    final String skin = properties.get( "www.skin", "original" );
 </%java>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -22,14 +21,14 @@
 <head>
 <title></title>
 
-<& IHeaderIncludes; skin=skin; basepath=basepath &>
+<& IHeaderIncludes; properties=properties&>
 
-<script type="text/javascript" src="<% basepath #n %>file/js/jquery.js"></script>
-<script type="text/javascript" src="<% basepath #n %>file/js/swfobject.js"></script>
-<script type="text/javascript" src="<% basepath #n %>file/js/sockso.js"></script>
-<script type="text/javascript" src="<% basepath #n %>file/js/sockso.Hashtable.js"></script>
-<script type="text/javascript" src="<% basepath #n %>file/js/sockso.Properties.js"></script>
-<script type="text/javascript" src="<% basepath #n %>file/js/sockso.JSPlayer.js"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/jquery.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/swfobject.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Hashtable.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Properties.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.JSPlayer.js") #n %>"></script>
 <script type="text/javascript">
 
 // duplicated here because of IE bug

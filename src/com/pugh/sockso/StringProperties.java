@@ -260,5 +260,26 @@ public class StringProperties implements Properties {
         return ( data.get(name) != null );
 
     }
-
+    
+    
+    public String getUrl(String url) {
+        if (url.startsWith("http://"))
+            return url;
+                
+        if (url.startsWith("/"))
+            url = url.substring(1);
+        
+        if (url.startsWith("<skin>/"))
+            url = url.replace("<skin>", "file/skins/"+this.get(Constants.WWW_SKIN, "original" ));
+        
+        String basepath = this.get(Constants.SERVER_BASE_PATH,"/");
+        if (!basepath.endsWith("/"))
+            basepath += "/";
+        if (!basepath.startsWith("/") && !basepath.startsWith("http://")) {
+            basepath = "/"+basepath;
+        }
+        
+        return basepath+url;
+    }
+    
 }
