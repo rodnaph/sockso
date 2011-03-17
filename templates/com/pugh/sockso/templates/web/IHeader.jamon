@@ -56,7 +56,7 @@
     </%if>
 
     <%if user != null %>
-        <a id="logoutLink" href="<% properties.getUrl("/user/logout") #n %>" title="<% locale.getString("www.link.logout") %>"><img src=<% properties.getUrl("/<skin>/images/logout.png") #n %>" alt="<% locale.getString("www.link.logout") %>" /></a>
+        <a id="logoutLink" href="<% properties.getUrl("/user/logout") #n %>" title="<% locale.getString("www.link.logout") %>"><img src="<% properties.getUrl("/<skin>/images/logout.png") #n %>" alt="<% locale.getString("www.link.logout") %>" /></a>
         <%if user.isAdmin() %>
             <a class="admin-console-link" href="<% properties.getUrl("/admin/console") #n %>" title="<% locale.getString("www.link.adminConsole") %>"><img src="<% properties.getUrl("/<skin>/images/adminConsole.png") #n %>" alt="Admin Console" /></a>
         </%if>
