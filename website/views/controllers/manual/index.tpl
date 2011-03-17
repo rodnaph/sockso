@@ -31,7 +31,9 @@ and drop me a message.</p>
 </li>
 <li><a href="index.php?controller=manual&page=console">Console</a>
     {include file="controllers/manual/menu-console.tpl"}
-</li><li><a href="index.php?controller=manual&page=artwork">Artist/Album Artwork</a></li>
+</li>
+<li><a href="index.php?controller=manual&page=artwork">Artist/Album Artwork</a></li>
+<li><a href="index.php?controller=manual&page=community">Community Servers</a></li>
 </ul>
 
 <ul>
