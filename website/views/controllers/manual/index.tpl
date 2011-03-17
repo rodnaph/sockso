@@ -36,7 +36,7 @@ and drop me a message.</p>
 
 <ul>
 <li><a href="index.php?controller=manual&page=troubleshooting">Troubleshooting</a></li>
-<li><a href="index.php?controller=todo">TODO List</a></li>
+<li><a href="https://github.com/rodnaph/sockso/raw/master/TODO">TODO List</a></li>
 </ul>
 
 <ul>

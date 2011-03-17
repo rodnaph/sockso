@@ -19,6 +19,7 @@ something that people can use and enjoy, cheers guys and gals!!  :D</p>
     <li><b>Quemandoacromo</b> - Spanish translation</li>
     <li><b>Cr!us</b> - Simpleblack skin</li>
     <li><b>JTRipper</b> - Precision skin</li>
+    <li><b>LightGlitch</b> - Basepath patch</li>
 </ul>
 
 <p>If if I've missed your name, sorry!  Just remind me and I'll put it in.</p>
