@@ -4,8 +4,10 @@
 {php}
 $smarty->assign(
     'latestVersion',
-    '@TODO'
-    //file_get_contents( 'application/views/version/latest.tpl' )
+    file_get_contents(sprintf(
+        '%s/views/controllers/version/latest.tpl',
+        $smarty->getTemplateVars( 'siteDir' )
+    ))
 );
 {/php}
 
