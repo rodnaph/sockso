@@ -41,7 +41,7 @@ public class XspferTest extends PlaylistTestCase {
         tpl.setRequest( req );
         tpl.setProtocol( protocol );
         tpl.setTracks( tracks );
-        tpl.setProperties( TestUtils.getProperties() );
+        tpl.setProperties( new StringProperties() );
         
         res.showTemplate( tpl.makeRenderer() );
         

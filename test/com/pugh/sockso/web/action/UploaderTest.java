@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.tests.TestResponse;
@@ -26,7 +27,7 @@ public class UploaderTest extends SocksoTestCase {
         final TestResponse res = new TestResponse();
 
         u.setLocale( TestUtils.getLocale() );
-        u.setProperties( TestUtils.getProperties() );
+        u.setProperties( new StringProperties() );
         u.setResponse( res );
         
         u.showUploadForm();

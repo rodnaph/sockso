@@ -3,6 +3,7 @@ package com.pugh.sockso.web.action.browse;
 
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Artist;
@@ -64,7 +65,7 @@ public class PopularerTest extends SocksoTestCase {
         final Database db = new TestDatabase();
         final Popularer b = new Popularer();
         
-        b.setProperties( TestUtils.getProperties() );
+        b.setProperties( new StringProperties() );
         b.setDatabase( db );
         b.getPopularTracks();
         
