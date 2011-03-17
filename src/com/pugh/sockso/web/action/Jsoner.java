@@ -616,6 +616,7 @@ public class Jsoner extends WebAction {
      *  Returns information about this server (nothing secret)
      *
      */
+
     protected void serverinfo() throws IOException {
 
         final TServerInfo tpl = new TServerInfo();
@@ -623,6 +624,21 @@ public class Jsoner extends WebAction {
 
         getResponse().showJson( tpl.makeRenderer() );
 
+    }
+
+    /**
+     *  Login is not required when requesting serverinfo
+     *
+     *  @return
+     *
+     */
+
+    @Override
+    public boolean requiresLogin() {
+
+        return !getRequest().getUrlParam( 1 )
+                            .equals( "serverinfo" );
+        
     }
     
 }

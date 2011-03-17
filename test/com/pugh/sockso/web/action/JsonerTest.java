@@ -149,4 +149,14 @@ public class JsonerTest extends SocksoTestCase {
 
     }
 
+    public void testLoginNotRequiredWhenServerInfoRequested() {
+        
+        Request req = new TestRequest( "GET /json/serverinfo HTTP/1.1" );
+        Jsoner j = new Jsoner( null );
+        j.setRequest( req );
+
+        assertFalse( j.requiresLogin() );
+
+    }
+
 }
