@@ -45,6 +45,13 @@ and drop me a message.</p>
 <li><a href="index.php?controller=credits">Credits</a></li>
 </ul>
 
+<h2>Screencasts</h2>
+
+<ul>
+    <li><a href="index.php?controller=manual&action=screencastIntro">Introduction</a></li>
+    <li><a href="index.php?controller=manual&action=screencastPortForward">Port Forwarding</a></li>
+</ul>
+
 <h2>Advanced</h2>
 
 <ul>
