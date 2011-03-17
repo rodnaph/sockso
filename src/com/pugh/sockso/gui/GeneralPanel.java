@@ -160,6 +160,10 @@ public class GeneralPanel extends JPanel {
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setDefaultDialogBorder();
   
+        builder.appendSeparator( locale.getString("gui.label.community") );
+        builder.append( locale.getString("gui.label.communityEnabled"), new BooleanOptionField(p,Constants.COMMUNITY_ENABLED) );
+        builder.nextLine();
+        
         builder.appendSeparator( locale.getString("gui.label.webServer") );
         builder.append( locale.getString("gui.label.port"), new NumberOptionField(p,"server.port") );
         builder.nextLine();

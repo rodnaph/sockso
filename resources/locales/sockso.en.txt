@@ -218,6 +218,8 @@ gui.label.playlists=Playlists
 gui.label.userPlaylists=User Playlists
 gui.label.rescanCollection=Scan Now
 gui.label.isAdmin=Admin?
+gui.label.community=Community
+gui.label.communityEnabled=List my server in the Sockso community
 
 #
 #  gui errors

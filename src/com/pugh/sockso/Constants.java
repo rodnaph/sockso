@@ -137,4 +137,14 @@ public class Constants {
     public static final String SCHED_SIMPLE_INTERVAL = "scheduler.simple.interval";
     public static final String SCHED_CRON_TAB = "scheduler.cron.tab";
     
+    //**********************************************************
+    //**********************************************************
+    //
+    //  COMMUNITY
+    //
+    //**********************************************************
+    //**********************************************************
+
+    public static final String COMMUNITY_ENABLED = "community.enabled";
+    
 }
