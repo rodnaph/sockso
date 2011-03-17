@@ -14,3 +14,5 @@ src/com/pugh/sockso/templates
 .DS_Store
 *.~*~
 .*
+website/conf/smut.conf
+
