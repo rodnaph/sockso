@@ -113,8 +113,42 @@ sockso.util.getMusicElement = function getMusicElement( item, includePlaylistLin
  * @return Function
  */
 Function.prototype.bind = function( scope ) {
+
     var self = this;
+
     return function() {
         return self.apply( scope, arguments );
     };
+    
 };
+
+/**
+ *  Indicates if the string starts with the specified substring
+ *
+ *  @param prefix
+ *
+ *  @return boolean
+ *
+ */
+
+String.prototype.startsWith = function(prefix) {
+
+    return this.indexOf(prefix) === 0;
+
+};
+
+/**
+ *  Indicates if the string ends with the specified substring
+ *
+ *  @param prefix
+ *
+ *  @return boolean
+ *
+ */
+
+String.prototype.endsWith = function(suffix) {
+
+    return this.match(suffix + "$") == suffix;
+
+};
+

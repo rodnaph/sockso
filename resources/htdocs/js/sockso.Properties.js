@@ -12,35 +12,39 @@
 
 sockso.Properties = sockso.Hashtable;
 
-String.prototype.startsWith = function(prefix) {
-    return this.indexOf(prefix) === 0;
-};
-
-String.prototype.endsWith = function(suffix) {
-    return this.match(suffix + "$") == suffix;
-};
+/**
+ *  Fetches a url with base path and skin resolved
+ *
+ *  @param url
+ *
+ *  @return String
+ *
+ */
 
 sockso.Properties.prototype.getUrl = function(url) {
     
-    if (url.startsWith("http://") || url.startsWith("http://")) {
+    var basepath = this.get("server.basepath","/");
+
+    if ( url.startsWith("http://") || url.startsWith("https://") ) {
         return url;
     }
     
-    if (url.startsWith("/")) {
+    if ( url.startsWith("/") ) {
         url = url.substring(1);
     }
 
-    if (url.startsWith("<skin>/")) {
+    if ( url.startsWith("<skin>/") ) {
         url = url.replace("<skin>", "file/skins/"+this.get("www.skin", "original" ));
     }
     
-    var basepath = this.get("server.basepath","/");
-    if (!basepath.endsWith("/")) {
+    if ( !basepath.endsWith("/") ) {
         basepath += "/";
     }
-    if (!basepath.startsWith("/") && !basepath.startsWith("http://") && !basepath.startsWith("https://")) {
-        basepath = "/"+basepath;
+
+    if ( !basepath.startsWith("/") && !basepath.startsWith("http://") && !basepath.startsWith("https://") ) {
+        basepath = "/" + basepath;
     }
 
-    return basepath+url;
+    return basepath + url;
+
 };

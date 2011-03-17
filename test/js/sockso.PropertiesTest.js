@@ -35,6 +35,16 @@ PropertiesTest.prototype.testSetData = function() {
 
 };
 
+PropertiesTest.prototype.testStartsWith = function() {
+    
+    var p = new sockso.Properties();
+
+};
+
+PropertiesTest.prototype.testEndsWith = function() {
+
+};
+
 PropertiesTest.prototype.testGetUrl = function() {
 
     expectAsserts( 9 );
@@ -61,4 +71,5 @@ PropertiesTest.prototype.testGetUrl = function() {
     
     assertEquals( 'http://test.com/foo', p.getUrl('http://test.com/foo') );
     assertEquals( 'https://test.com/foo', p.getUrl('https://test.com/foo') );
+
 };
