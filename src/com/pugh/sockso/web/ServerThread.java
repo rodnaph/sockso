@@ -144,6 +144,7 @@ public class ServerThread extends Thread {
         }
         
         final WebAction action = dispatcher.getAction( req );
+        action.init( req, res, user, locale );
 
         if ( action == null ) {
             throw new BadRequestException(locale.getString("www.error.unknownRequest"), 400);
@@ -154,7 +155,6 @@ public class ServerThread extends Thread {
         }
 
         else {
-            action.init( req, res, user, locale );
             action.handleRequest();
         }
 
