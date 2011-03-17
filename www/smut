@@ -1,3 +1,0 @@
-#!/bin/sh
-
-php ./library/scripts/smut.php $1 $2
