@@ -2,7 +2,11 @@
 
 class Nat_Controller extends Default_Controller {
 
-    public function doIndex() {
+    /**
+     * Echo back the clients public IP address
+     *
+     */
+    public function doIp() {
 
         $oServer = $this->getServer();
 

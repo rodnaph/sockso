@@ -18,9 +18,9 @@
 		<ul>
 			<li>{link url={ controller="index" } text="home"}</li>
 			<li><a href="http://forums.pu-gh.com/">forums</a></li>
+			<li>{link url={ controller="community" } text="community"}</li>
 			<li>{link url={ controller="manual" } text="manual"}</li>
 			<li>{link url={ controller="source" } text="source"}</li>
-			<li>{link url={ controller="contact" } text="contact"}</li>
 			<li>{link url={ controller="downloads/" } text="archive"}</li>
 		</ul>
 	</div>

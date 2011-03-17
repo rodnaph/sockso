@@ -45,7 +45,7 @@ $smarty->assign(
         <li>Download single tracks, or entire albums/artists or playlists</li>
         <li>Statistics like most played, recently popular, etc...</li>
     </ul>
-    <p>See a <a href="index.php?controller=wiki&page=features">complete feature list</a></p>
+    <p>See a <a href="index.php?controller=manual&page=features">complete feature list</a></p>
     <p><a href="{$filesUrl}/images/album.png"><img src="{$filesUrl}/images/album-small.png" alt="Viewing an album" /></a></p>
     <p><img src="{$filesUrl}/images/gui.png" alt="GUI Interface Screenshot" /></p>
     <p><a href="{$filesUrl}/images/homepage.png"><img src="{$filesUrl}/images/homepage-small.png" alt="The homepage" /></a></p>

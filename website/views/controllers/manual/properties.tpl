@@ -36,6 +36,7 @@ set it to.  eg.</p>
 <p><b>server.host</b>: ip address</p>
 <p><b>server.host.lastUpdated</b>: number (unix timestamp)</p>
 <p><b>server.port</b>: number</p>
+<p><b>server.basepath</b>: path</p>
 
 <h3>Streaming</h3>
 <p><b>stream.requireLogin</b>: yes/no (require auth for streaming, this requires

@@ -8,4 +8,5 @@
 <li><a href="index.php?controller=manual&page=folderBrowsing">Folder browsing</a></li>
 <li><a href="index.php?controller=manual&page=scrobbling">Scrobbling (last.fm)</a></li>
 <li><a href="index.php?controller=manual&page=skins">Skins</a></li>
+<li><a href="index.php?controller=manual&page=webAdmin">Administration Console</a></li>
 </ul>

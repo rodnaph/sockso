@@ -264,7 +264,7 @@ public class Sockso {
 
     <!-- updates the website with information like current version -->
     <target name="website">
-        <echo file="www/application/views/version/latest.tpl">${sockso.version}</echo>
+        <echo file="website/views/controllers/version/latest.tpl">${sockso.version}</echo>
     </target>
 
     <!-- includes optional components into the distribution -->

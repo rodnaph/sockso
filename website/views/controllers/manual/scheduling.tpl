@@ -31,8 +31,8 @@ propset scheduler cron
 <p>To revert back to simple scheduling just set this back to <b>simple</b> instead
 of <b>cron</b>.</p>
 
-<p><b>NB:</b> You will need to restart Sockso any time you change the scheduler
-for it to take effect!</p>
+<p><b>NB:</b> In Sockso versions 1.2.6 and below you will need to restart Sockso
+any time you change the scheduler for it to take effect.</p>
 
 <h3>Configuring</h3>
 

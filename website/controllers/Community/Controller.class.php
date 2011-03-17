@@ -24,7 +24,7 @@ class Community_Controller extends Default_Controller {
         $json = file_get_contents( 'php://input' );
         $pingData = json_decode( $json );
 
-        $ip = $this->getServer()->get( 'REMOTE_ADDR' );
+        $ip = $this->getServer()->REMOTE_ADDR;
 
         $this->errorCheck( $pingData );
         $this->recordPing( $ip, $pingData, $this->getServerData($ip,$pingData) );

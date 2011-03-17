@@ -211,7 +211,7 @@ public class IpFinder {
 
         try {
 
-            final String natUrl = "http://sockso.pu-gh.com/nat/ip/";
+            final String natUrl = Constants.WEBSITE_URL + "/nat/ip/";
 
             log.info( "Fetching IP from " + natUrl );
 
