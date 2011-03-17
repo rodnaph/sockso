@@ -24,8 +24,14 @@ $smarty->assign( 'downloadExtension',
             <input type="image" src="{$filesUrl}images/donate_now.png" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
         </form>
 
-        {module name="sidebar"}
-        
+        <h1>Latest News &amp; Releases <a href="http://code.google.com/feeds/p/sockso/downloads/basic"><img src="{$filesUrl}images/rss_icon.gif" alt="RSS Icon" /></a></h1>
+
+        {include file="news-latest.tpl"}
+
+        <ul>
+            <li><a href="index.php?controller=archive">older news...</a></li>
+        </ul>
+
     <!-- end recent-posts -->
     </div>
 	<!-- end content -->
