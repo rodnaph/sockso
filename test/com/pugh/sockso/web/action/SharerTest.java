@@ -9,6 +9,7 @@ import com.pugh.sockso.web.Server;
 import com.pugh.sockso.web.User;
 import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.tests.TestRequest;
 
 import static org.easymock.EasyMock.*;
 
@@ -26,21 +27,16 @@ public class SharerTest extends SocksoTestCase {
 
     public void testHandleRequest() throws Exception {
 
-        String host = "domain.com";
-
         TestResponse res = new TestResponse();
         Server sv = createNiceMock( Server.class );
         String skin = "hsdjkahsdjkahsdk";
 
-        Properties p = createMock( Properties.class );
-        expect( p.get((String) anyObject(), (String) anyObject()) ).andReturn( skin ).times( 1 );
-        replay( p );
+        Properties p = new StringProperties();
+        p.set( "www.skin", skin );
 
-        Request req = createMock( Request.class );
-        expect( req.getPlayParams(false) ).andReturn( new String[] { "share", "123" } ).times( 1 );
-        replay( req );
+        Request req = new TestRequest( "/" );
 
-        Sharer s = new Sharer( host );
+        Sharer s = new Sharer();
         s.setResponse( res );
         s.setRequest( req );
         s.setLocale( locale );
@@ -51,23 +47,19 @@ public class SharerTest extends SocksoTestCase {
 
         assertTrue( data.length() > 0 );
         assertTrue( data.contains(skin) );
-        assertTrue( data.contains(host) );
-
-        verify( req );
-        verify( p );
 
     }
 
     public void testRenderingTheSharePage() throws Exception {
         TestResponse res = new TestResponse();
-        Sharer s = new Sharer( "domain.com" );
+        Sharer s = new Sharer();
+        s.setRequest(new TestRequest("/") );
         s.setLocale( locale );
         s.setResponse( res );
         s.setUser( new User(-1,"foo") );
         s.setProperties( new StringProperties() );
         s.showSharePage( new String[] { "ar123" } );
         String data = res.getOutput();
-        assertTrue( data.contains("domain.com") );
         assertTrue( data.contains("ar123") );
     }
 

@@ -104,5 +104,7 @@ public class StringPropertiesTest extends SocksoTestCase implements PropertiesLi
 
         assertEquals( "http://test.com/foo", p.getUrl("http://test.com/foo") );
         assertEquals( "https://test.com/foo", p.getUrl("https://test.com/foo") );
+
     }
+    
 }

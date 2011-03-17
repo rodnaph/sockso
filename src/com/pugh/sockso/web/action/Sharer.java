@@ -13,17 +13,6 @@ import java.io.IOException;
 
 public class Sharer extends WebAction {
 
-
-    /**
-     *  Creates a new sharer action handler
-     *
-     *  @param host
-     *
-     */
-
-    public Sharer() {
-    }
-
     /**
      *  Handles the request
      *
