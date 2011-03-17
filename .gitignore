@@ -1,3 +1,5 @@
+build
+docs
 manifest.mf
 nbproject
 nbbuild.xml
@@ -8,4 +10,6 @@ resources/locales/index
 sockso.properties
 src/com/pugh/sockso/Sockso.java
 src/com/pugh/sockso/templates
-
+.DS_Store
+*.~*~
+.*
