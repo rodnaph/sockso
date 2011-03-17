@@ -24,6 +24,7 @@ import com.pugh.sockso.templates.json.TResolvePath;
 import com.pugh.sockso.templates.json.TTracks;
 import com.pugh.sockso.templates.json.TTracksForPath;
 import com.pugh.sockso.templates.json.TSimilarArtists;
+import com.pugh.sockso.templates.json.TServerInfo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -90,6 +91,8 @@ public class Jsoner extends WebAction {
             similarArtists();
         else if ( type.equals("tracks") )
             tracks();
+        else if ( type.equals("serverinfo") )
+            serverinfo();
 
         else throw new BadRequestException( "Unknown json request (" + type + ")", 400 );
 
@@ -545,10 +548,6 @@ public class Jsoner extends WebAction {
      *  a single integer which is the playlist ID if all goes well, otherwise
      *  you'll get a description of the problem.
      * 
-     *  @param req the request object
-     *  @param res the response object
-     *  @param user the current user
-     * 
      *  @throws IOException
      * 
      */
@@ -595,9 +594,6 @@ public class Jsoner extends WebAction {
      *  performs a search on the music collection for the specified string and
      *  then creates a json results page
      * 
-     *  @param res the response object
-     *  @param query the query string
-     * 
      *  @throws SQLException
      *  @throws IOException
      * 
@@ -612,6 +608,19 @@ public class Jsoner extends WebAction {
 
         final TSearch tpl = new TSearch();
         tpl.setItems( musicSearch.search(query) );
+        getResponse().showJson( tpl.makeRenderer() );
+
+    }
+
+    /**
+     *  Returns information about this server (nothing secret)
+     *
+     */
+    protected void serverinfo() throws IOException {
+
+        final TServerInfo tpl = new TServerInfo();
+        tpl.setProperties( getProperties() );
+
         getResponse().showJson( tpl.makeRenderer() );
 
     }

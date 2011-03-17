@@ -1,10 +1,14 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
+import com.pugh.sockso.tests.TestRequest;
 import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.web.*;
 
@@ -77,6 +81,71 @@ public class JsonerTest extends SocksoTestCase {
         assertEquals( ordered[2], unordered[2] );
         assertEquals( ordered[3], unordered[0] );
         assertEquals( ordered[4], unordered[1] );
+
+    }
+
+    public void testReturningJsonServerInfoIncludesAllRequiredFields() throws Exception {
+
+        Properties p = new StringProperties();
+        p.set( Constants.WWW_TITLE, "THEtitle" );
+        p.set( Constants.WWW_TAGLINE, "THEtagline" );
+
+        TestResponse res = new TestResponse();
+        Jsoner j = new Jsoner( null );
+        j.setProperties( p );
+        j.setResponse( res );
+        j.serverinfo();
+
+        String data = res.getOutput();
+
+        assertContains( data, "title" );
+        assertContains( data, "THEtitle" );
+
+        assertContains( data, "tagline" );
+        assertContains( data, "THEtagline" );
+
+        assertContains( data, "version" );
+        //assertContains( data, Sockso.VERSION ); // ?
+
+        assertContains( data, "requiresLogin" );
+        assertContains( data, "0" );
+
+    }
+
+    public void testServerInfoReturnsRequireLoginAsOneWhenItIsEnabled() throws Exception {
+
+        Properties p = new StringProperties();
+        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, Properties.YES );
+
+        TestResponse res = new TestResponse();
+        Jsoner j = new Jsoner( null );
+        j.setResponse( res );
+        j.setProperties( p );
+        j.serverinfo();
+
+        String data = res.getOutput();
+
+        assertContains( data, "requiresLogin\": \"1\"" );
+
+    }
+
+    public void testDoubleQuotesAreEscapedInServerInfoStrings() throws Exception {
+
+        Properties p = new StringProperties();
+        p.set( Constants.WWW_TITLE, "THE\"title" );
+        p.set( Constants.WWW_TAGLINE, "THE\"tagline" );
+
+        TestResponse res = new TestResponse();
+        Jsoner j = new Jsoner( null );
+        j.setProperties( p );
+        j.setResponse( res );
+        j.serverinfo();
+
+        String data = res.getOutput();
+
+        assertContains( data, "THE\\\"title" );
+        assertContains( data, "THE\\\"tagline" );
+
 
     }
 

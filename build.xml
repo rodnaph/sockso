@@ -122,7 +122,7 @@ public class Sockso {
     <!-- builds resources -->
     <target name="resources" depends="init">
         <!-- compile stub file -->
-        <javac srcdir="${dir.resources}" destdir="${dir.resources}" />
+        <javac srcdir="${dir.resources}" destdir="${dir.resources}" includeantruntime="true" />
         <!-- remove locale javascript files, we don't want to pack them -->
         <delete>
             <fileset dir="${dir.resources}/htdocs/js" includes="locale*.js" />
