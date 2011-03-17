@@ -24,14 +24,14 @@ $smarty->assign(
 
     <p>
         <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="580" height="378">
-            <param name="movie" value="swf/bootstrap.swf"></param>
+            <param name="movie" value="files/sockso/swf/bootstrap.swf"></param>
             <param name="quality" value="high"></param>
             <param name="bgcolor" value="#FFFFFF"></param>
-            <param name="flashVars" value="thumb=images/using-sockso.png&amp;content=swf/using-sockso.swf&amp;width=580&amp;height=378"></param>
+            <param name="flashVars" value="thumb=files/sockso/images/using-sockso.png&amp;content=files/sockso/swf/using-sockso.swf&amp;width=580&amp;height=378"></param>
             <param name="allowFullScreen" value="true"></param>
             <param name="scale" value="showall"></param>
             <param name="allowScriptAccess" value="always"></param>
-            <embed src="swf/bootstrap.swf" quality="high" bgcolor="#FFFFFF" width="580" height="378" type="application/x-shockwave-flash" allowScriptAccess="always" flashVars="thumb=images/using-sockso.png&amp;content=swf/using-sockso.swf&amp;width=580&amp;height=378" allowFullScreen="true" scale="showall"></embed>
+            <embed src="files/sockso/swf/bootstrap.swf" quality="high" bgcolor="#FFFFFF" width="580" height="378" type="application/x-shockwave-flash" allowScriptAccess="always" flashVars="thumb=files/sockso/images/using-sockso.png&amp;content=files/sockso/swf/using-sockso.swf&amp;width=580&amp;height=378" allowFullScreen="true" scale="showall"></embed>
         </object>
     </p>
 
