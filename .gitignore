@@ -17,5 +17,8 @@ src/com/pugh/sockso/templates
 .*
 website/conf/smut.conf
 website/views/controllers/version/latest.tpl
-website/*.sh
 website/htdocs/swf
+
+# used for local upload scripts
+website/*.sh
+website/exclude.txt
