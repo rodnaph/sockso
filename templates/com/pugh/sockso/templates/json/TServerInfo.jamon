@@ -11,7 +11,7 @@
 </%args>
 
 <%java>
-    String requiresLogin = properties.get( Constants.WWW_USERS_REQUIRE_LOGIN ) == Properties.YES
+    String requiresLogin = properties.get( Constants.WWW_USERS_REQUIRE_LOGIN ).equals( Properties.YES )
         ? "1"
         : "0";
 </%java>
