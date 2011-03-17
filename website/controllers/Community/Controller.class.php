@@ -3,6 +3,19 @@
 class Community_Controller extends Default_Controller {
 
     /**
+     * Show the index page listing active servers
+     *
+     */
+    public function doIndex() {
+        
+        $this->render( 'index', array(
+            'servers' => $this->getModel( 'CommunityActive' )
+                              ->findActive()
+        ));
+        
+    }
+
+    /**
      * Handle POST call to ping active server details
      *
      */
@@ -75,12 +88,12 @@ class Community_Controller extends Default_Controller {
     /**
      *  Checks data validity, returning error if found
      *
-     *  @param object $data
+     *  @param object $pingData
      *
      */
-    private function errorCheck( $data ) {
+    private function errorCheck( $pingData ) {
 
-        if ( !$data->skey || !$data->port || strlen($data->skey) != 32 ) {
+        if ( !$pingData->skey || !$pingData->port || strlen($pingData->skey) != 32 ) {
             $this->show( "Invalid data", 400 );
         }
 
