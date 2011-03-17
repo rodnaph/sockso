@@ -260,5 +260,44 @@ public class StringProperties implements Properties {
         return ( data.get(name) != null );
 
     }
+    
+    /**
+     *  Returns a URL with base path/skin resolved
+     *
+     *  @param url
+     *
+     *  @return
+     *
+     */
 
+    public String getUrl( final String url ) {
+
+        String newUrl = url;
+        String basepath = this.get( Constants.SERVER_BASE_PATH, "/" );
+
+        if ( newUrl.startsWith("http://") || newUrl.startsWith("https://") ) {
+            return newUrl;
+        }
+                
+        if ( newUrl.startsWith("/") ) {
+            newUrl = newUrl.substring( 1 );
+        }
+        
+        if ( newUrl.startsWith("<skin>/")) {
+            newUrl = newUrl.replace("<skin>", "file/skins/"+this.get(Constants.WWW_SKIN, "original" ));
+        }
+        
+
+        if ( !basepath.endsWith("/") ) {
+            basepath += "/";
+        }
+
+        if (!basepath.startsWith("/") && !basepath.startsWith("http://") && !basepath.startsWith("https://")) {
+            basepath = "/"+basepath;
+        }
+        
+        return basepath+newUrl;
+
+    }
+    
 }

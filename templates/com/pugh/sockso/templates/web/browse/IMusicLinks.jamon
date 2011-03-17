@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Utils;
     com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
@@ -22,16 +23,16 @@
                                 .replaceAll( "\"", "&quot;" );
 </%java>
 
-<a href="javascript:player.play('<% type %><% id %>');" title="<% locale.getString("www.link.play") %> '<% Utils.u2e(name) #n %>'"><img src="/file/skins/<% skin %>/images/play.png" /></a>
-<a href="javascript:playlist.add(new sockso.MusicItem('<% type %><% id %>','<% Utils.u2e(htmlName) #n %>'))" title="Add '<% Utils.u2e(htmlName) #n %>' to playlist"><img src="/file/skins/<% skin %>/images/add.png" /></a>
+<a href="javascript:player.play('<% type %><% id %>');" title="<% locale.getString("www.link.play") %> '<% Utils.u2e(name) #n %>'"><img src="<% properties.getUrl("/<skin>/images/play.png") #n %>" /></a>
+<a href="javascript:playlist.add(new sockso.MusicItem('<% type %><% id %>','<% Utils.u2e(htmlName) #n %>'))" title="Add '<% Utils.u2e(htmlName) #n %>' to playlist"><img src="<% properties.getUrl("/<skin>/images/add.png") #n %>" /></a>
 <%if !properties.get(Constants.WWW_DOWNLOADS_DISABLE).equals(properties.YES) %>
-    <a href="/download/<% type %><% id %>" title="<% locale.getString("www.link.download") %> '<% Utils.u2e(name) #n %>'"><img src="/file/skins/<% skin %>/images/download.png" /></a>
+    <a href="<% properties.getUrl("/download/"+type+id) #n %>" title="<% locale.getString("www.link.download") %> '<% Utils.u2e(name) #n %>'"><img src="<% properties.getUrl("/<skin>/images/download.png") #n %>" /></a>
 </%if>
 
 <%if shareLink %>
-    <a href="javascript:;" class="share-music share-music-<% type %><% id %>" title="<% locale.getString("www.link.share") %> '<% name %>'"><img src="/file/skins/<% skin %>/images/share.png" /></a>
+    <a href="javascript:;" class="share-music share-music-<% type %><% id %>" title="<% locale.getString("www.link.share") %> '<% name %>'"><img src="<% properties.getUrl("/<skin>/images/share.png") #n %>" /></a>
 </%if>
 
 <%if playRandomLink %>
-    <a title="<% locale.getString("www.link.playRandom") %>" href="javascript:player.play('<% type %><% id %>','orderBy=random')"><img src="/file/skins/<% skin %>/images/random_play.png" /></a>
+    <a title="<% locale.getString("www.link.playRandom") %>" href="javascript:player.play('<% type %><% id %>','orderBy=random')"><img src="<% properties.getUrl("/<skin>/images/random_play.png") #n %>" /></a>
 </%if>

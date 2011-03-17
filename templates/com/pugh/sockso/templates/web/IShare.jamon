@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Properties;
     com.pugh.sockso.web.Server;
     com.pugh.sockso.resources.Locale;
 </%import>
@@ -8,6 +9,7 @@
     String host = null;
     Locale locale = null;
     String url = "";
+    Properties properties = null;
 </%args>
 
 <h3><% locale.getString("www.title.share") %></h3>
@@ -16,9 +18,13 @@
 
 <%java>
     String serverUrl = "http://" + host;
-    String linkUrl = serverUrl +
-        "/file/flash/xspf_player.swf?playlist_url=" +
-            serverUrl + "/xspf/" + url;
+    String linkUrl = properties.getUrl("file/flash/xspf_player.swf?playlist_url=");
+    if (linkUrl.startsWith("http://") || linkUrl.startsWith("https://")) {
+        linkUrl += properties.getUrl("xspf/" + url);
+    }
+    else {
+        linkUrl = serverUrl + linkUrl + serverUrl + properties.getUrl("xspf/" + url);
+    }
 </%java>
 
 <p><pre>

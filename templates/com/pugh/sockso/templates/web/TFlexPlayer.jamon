@@ -20,7 +20,7 @@
 <head>
 <title>Sockso Player</title>
 
-<& IHeaderIncludes; skin=properties.get(Constants.WWW_SKIN,"original"); &>
+<& IHeaderIncludes; properties=properties &>
 
 <style type="text/css">
 body {
@@ -35,7 +35,7 @@ body {
 
 <%java>
 
-    String playlistUrl = "/xspf";
+    String playlistUrl = "xspf";
 
     for ( String arg : playArgs )
         playlistUrl += "/" + arg;
@@ -47,10 +47,11 @@ body {
         playlistUrl += "trackType=mp3";
 
     playlistUrl += extraArgs;
+    playlistUrl = properties.getUrl(playlistUrl);
 
 </%java>
 
-<script language="JavaScript" type="text/javascript" src="/file/flash/flexPlayer/swfobject.js"></script>
+<script language="JavaScript" type="text/javascript" src="<% properties.getUrl("/file/flash/flexPlayer/swfobject.js") #n %>"></script>
 
 <div id="flashcontent">
     <strong>You need to upgrade your Flash Player</strong>
@@ -58,7 +59,7 @@ body {
 
 <script type="text/javascript">
 // <![CDATA[
-var so = new SWFObject( "/file/flash/flexPlayer/big_xmlPlayer.swf", "xmlPlayer", "600", "300", "9", "#000000", "high" );
+var so = new SWFObject( "<% properties.getUrl("/file/flash/flexPlayer/big_xmlPlayer.swf") #n %>", "xmlPlayer", "600", "300", "9", "#000000", "high" );
 so.addVariable("playlist_url", "<% playlistUrl %>");
 so.addVariable("song_title", "");
 so.addVariable("song_url", "");

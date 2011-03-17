@@ -82,7 +82,6 @@ sockso.Sharer.prototype.getData = function() {
  */
 sockso.Sharer.prototype.add = function( text, icon, onClick ) {
 
-    var skin = Properties.get( "www.skin", "original" );
     var self = this;
 
     $( '<a></a>' )
@@ -90,7 +89,7 @@ sockso.Sharer.prototype.add = function( text, icon, onClick ) {
         .click(function() { self.hide(); onClick(); return false; })
         .mouseover( this.cancelHide.bind(this) )
         .mouseout( this.setHideDelay.bind(this) )
-        .append( $('<img />').attr('src','/file/skins/' +skin+ '/images/' + icon) )
+        .append( $('<img />').attr('src',Properties.getUrl('<skin>/images/' + icon)) )
         .append( text )
         .appendTo( this.elem );
 
@@ -118,7 +117,7 @@ sockso.Sharer.prototype.addStandardLinks = function() {
 sockso.Sharer.prototype.onShowHtml = function() {
 
     var w = window.open(
-        '/share/' + this.getData(),
+        Properties.getUrl('/share/' + this.getData()),
         'ShareWindow',
         'width=500,height=250,toolbars=no'
     );

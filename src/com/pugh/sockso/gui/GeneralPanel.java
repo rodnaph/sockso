@@ -163,6 +163,8 @@ public class GeneralPanel extends JPanel {
         builder.appendSeparator( locale.getString("gui.label.webServer") );
         builder.append( locale.getString("gui.label.port"), new NumberOptionField(p,"server.port") );
         builder.nextLine();
+        builder.append( locale.getString("gui.label.basepath"), new TextOptionField(p,"server.basepath") );
+        builder.nextLine();
         builder.append( locale.getString("gui.label.wwwTitle"), new TextOptionField(p,"www.title") );
         builder.nextLine();
         builder.append( locale.getString("gui.label.wwwTagline"), new TextOptionField(p,"www.tagline") );

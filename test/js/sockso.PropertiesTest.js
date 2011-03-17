@@ -34,3 +34,42 @@ PropertiesTest.prototype.testSetData = function() {
     assertEquals( 'bar', p.get('foo') );
 
 };
+
+PropertiesTest.prototype.testStartsWith = function() {
+    
+    var p = new sockso.Properties();
+
+};
+
+PropertiesTest.prototype.testEndsWith = function() {
+
+};
+
+PropertiesTest.prototype.testGetUrl = function() {
+
+    expectAsserts( 9 );
+
+    var p = new sockso.Properties();
+    
+    assertEquals( '/foo', p.getUrl('foo') );
+    assertEquals( '/foo', p.getUrl('/foo') );
+    
+    assertEquals( '/file/skins/original/foo', p.getUrl('<skin>/foo') );
+    assertEquals( '/file/skins/original/foo', p.getUrl('/<skin>/foo') );
+    
+    p.set('www.skin','other');
+
+    assertEquals( '/file/skins/other/foo', p.getUrl('<skin>/foo') );
+    
+    p.set('server.basepath','other');
+    
+    assertEquals( '/other/file/skins/other/foo', p.getUrl('<skin>/foo') );
+    
+    p.set('server.basepath','http://other.com');
+
+    assertEquals( 'http://other.com/file/skins/other/foo', p.getUrl('<skin>/foo') );
+    
+    assertEquals( 'http://test.com/foo', p.getUrl('http://test.com/foo') );
+    assertEquals( 'https://test.com/foo', p.getUrl('https://test.com/foo') );
+
+};

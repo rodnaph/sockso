@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.web.TXspfPlayer;
@@ -56,7 +57,7 @@ public class PlayerTest extends SocksoTestCase {
         final String[] playArgs = new String[] {};
         final TXspfPlayer tpl = new TXspfPlayer();
         
-        player.setProperties( TestUtils.getProperties() );
+        player.setProperties( new StringProperties() );
         player.setResponse( res );
         player.showXspfPlayer( tpl, extraArgs, playArgs );
         
@@ -74,7 +75,7 @@ public class PlayerTest extends SocksoTestCase {
         final String[] playArgs = new String[] {};
         final TFlexPlayer tpl = new TFlexPlayer();
         
-        player.setProperties( TestUtils.getProperties() );
+        player.setProperties( new StringProperties() );
         player.setResponse( res );
         player.showXspfPlayer( tpl, extraArgs, playArgs );
         
@@ -90,7 +91,7 @@ public class PlayerTest extends SocksoTestCase {
         final Player player = new Player();
         final Vector<Track> tracks = new Vector<Track>();
         
-        player.setProperties( TestUtils.getProperties() );
+        player.setProperties( new StringProperties() );
         player.setResponse( res );
         player.showJsPlayer( tracks );
         

@@ -106,7 +106,7 @@ Playlist.prototype.testSave = function() {
     sess.get( 'playlist', function(data) {
         assertEquals(
             'ar123%3A_%3A%3A_%3AFirst%3A_%3A%3A_%3A0_:__:_al456%3A_%3A%3A_%3ASecond%3A_%3A%3A_%3A1',
-            data,
+            data
         );
     });
 

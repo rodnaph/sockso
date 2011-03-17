@@ -19,7 +19,7 @@ public class DownloaderTest extends SocksoTestCase {
 
     public void testGetTrackZipPath() {
         
-        final Properties p = TestUtils.getProperties();
+        final Properties p = new StringProperties();
         final Downloader d = new Downloader();
         
         d.setProperties( p );

@@ -291,6 +291,7 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
     protected void setDefaultProperties() throws SQLException {
 
         update( "insert into properties ( name, value ) values ( '" +Constants.SERVER_PORT+ "', '4444' )" );
+        update( "insert into properties ( name, value ) values ( '" +Constants.SERVER_BASE_PATH+ "', '/' )" );
 
         update( "insert into properties ( name, value ) values ( '" +Constants.WWW_TITLE+ "', 'Sockso' )" );
         update( "insert into properties ( name, value ) values ( '" +Constants.WWW_TAGLINE+ "', 'Personal Music Server' )" );

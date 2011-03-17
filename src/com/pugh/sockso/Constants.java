@@ -27,6 +27,7 @@ public class Constants {
     public static final String SERVER_HOST = "server.host";
     public static final String SERVER_HOST_LAST_UPDATED = "server.host.lastUpdated";
     public static final String SERVER_PORT = "server.port";
+    public static final String SERVER_BASE_PATH = "server.basepath";
     //
     //  www
     //

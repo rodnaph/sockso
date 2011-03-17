@@ -26,14 +26,19 @@ public class UserDelTest extends SocksoTestCase {
         return cmd.execute( command.split(" ") );
     }
 
+    private void addUser() throws Exception {
+        UserAdd add = new UserAdd( db, locale );
+        add.execute( new String("useradd foo bar email@domain.com 0").split(" ") );
+    }
+
     public void testDeletingAUserByIdRemovesThem() throws Exception {
-        execute( "useradd foo bar email@domain.com 0" );
+        addUser();
         execute( "userdel 0" );
         assertTableSize( db, "users", 0 );
     }
 
     public void testUserIsReportedAsHavingBeenDeleted() throws Exception {
-        execute( "useradd foo bar email@domain.com 0" );
+        addUser();
         assertEquals( execute("userdel 0"), "user deleted" );
     }
 

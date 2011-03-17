@@ -19,9 +19,9 @@
 
     <%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
         <%if album == null %>
-            <img class="cover" src="/file/cover/ar<% artist.getId() %>" />
+            <img class="cover" src="<% properties.getUrl("/file/cover/ar"+artist.getId()) #n %>" />
         <%else>
-            <img class="cover" src="/file/cover/al<% album.getId() %>" />
+            <img class="cover" src="<% properties.getUrl("/file/cover/al"+album.getId()) #n %>" />
         </%if>
     </%if>
 
@@ -30,7 +30,7 @@
         <span>
             <h2>
                 <%if album != null %>
-                    <a href="/browse/artist/<% artist.getId() %>"><% Utils.u2e(artist.getName()) #n %></a>
+                    <a href="<% properties.getUrl("/browse/artist/"+artist.getId()) #n %>"><% Utils.u2e(artist.getName()) #n %></a>
                 <%else>
                     <% Utils.u2e(artist.getName()) #n %>
                 </%if>

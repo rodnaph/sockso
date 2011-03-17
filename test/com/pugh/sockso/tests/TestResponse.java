@@ -1,13 +1,12 @@
 
 package com.pugh.sockso.tests;
 
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.web.*;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.tests.TestUtils;
 
 import java.io.OutputStream;
 
-import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 
@@ -35,7 +34,7 @@ public class TestResponse extends HttpResponse {
         
     public TestResponse( final Database db ) {
 
-        super( null, db, TestUtils.getProperties(), TestUtils.getLocale(), new User(1,"foo"), false );
+        super( null, db, new StringProperties(), TestUtils.getLocale(), new User(1,"foo"), false );
 
         if ( db == null ) {
 

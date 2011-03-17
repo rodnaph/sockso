@@ -20,7 +20,7 @@
 <head>
 <title>Sockso Player</title>
 
-<& IHeaderIncludes; skin=properties.get(Constants.WWW_SKIN,"original"); &>
+<& IHeaderIncludes; properties=properties &>
 
 <style type="text/css">
 body {
@@ -47,10 +47,12 @@ body {
         playlistUrl += "trackType=mp3";
 
     playlistUrl += extraArgs;
+    playlistUrl = properties.getUrl(playlistUrl);
 
     String url = "/file/flash/xspf_player.swf" +
         "?playlist_url=" + Utils.URLEncode(playlistUrl) +
         "&autoplay=1";
+    url = properties.getUrl(url);
 
 </%java>
 

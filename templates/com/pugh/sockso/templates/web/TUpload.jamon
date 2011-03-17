@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.music.Track;
     com.pugh.sockso.music.Artist;
@@ -26,7 +27,7 @@
 
 <h2><% locale.getString("www.title.upload") %></h2>
 
-<form method="post" action="/upload/do" enctype="multipart/form-data" id="uploadForm">
+<form method="post" action="<% properties.getUrl("/upload/do") #n %>" enctype="multipart/form-data" id="uploadForm">
 
     <fieldset>
 

@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.web.User;
     com.pugh.sockso.resources.Locale;
@@ -21,7 +22,7 @@
 
 <h2><% locale.getString("www.title.editProfile") %></h2>
 
-<form method="post" action="/user/update">
+<form method="post" action="<% properties.getUrl("/user/update") #n %>">
 
     <fieldset>
 

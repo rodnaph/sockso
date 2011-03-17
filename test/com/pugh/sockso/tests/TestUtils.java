@@ -92,25 +92,6 @@ public class TestUtils {
     }
 
     /**
-     *  returns a mock properties object that can be passed to templates and
-     *  does enough not to throw any errors
-     * 
-     *  @return
-     * 
-     */
-    
-    public static Properties getProperties() {
-
-        final Properties p = createNiceMock( Properties.class );
-        expect( p.get((String)anyObject()) ).andReturn( "" ).anyTimes();
-        expect( p.getProperties() ).andReturn( new String[] {} ).times( 1 );
-        replay( p );
-        
-        return p;
-
-    }
-
-    /**
      *  returns a mock Locale object
      * 
      *  @return

@@ -27,7 +27,11 @@
             && user != null
         ? "?sessionId=" +user.getSessionId()+ "&sessionCode=" +user.getSessionCode()
         : "";
+    String link = properties.getUrl("/stream/"+track.getId()+"/"+title);
+    if (!link.startsWith("http://") || !link.startsWith("https://")) {
+        link = protocol +"://"+request.getHost()+link;
+    }
 </%java>
 #EXTINF:-1,<% title %>
-<% protocol %>://<% request.getHost() %>/stream/<% track.getId() %>/<% Utils.URLEncode(title) %><% sessionArgs #n %>
+<% link #n %><% sessionArgs #n %>
 </%for>

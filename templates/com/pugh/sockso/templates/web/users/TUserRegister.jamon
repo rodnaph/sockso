@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.web.User;
     com.pugh.sockso.resources.Locale;
@@ -23,7 +24,7 @@
 
 <p><% locale.getString("www.text.register") #n %></p>
 
-<form method="post" action="/user/register">
+<form method="post" action="<% properties.getUrl("/") #n %>user/register">
 
     <input type="hidden" name="todo" value="register" />
 

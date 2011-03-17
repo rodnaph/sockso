@@ -189,6 +189,7 @@ gui.label.bitrate=Bitrate
 gui.label.command=Command
 gui.label.webServer=Web Server
 gui.label.port=Port
+gui.label.basepath=Server Path
 gui.label.wwwTitle=Title
 gui.label.wwwTagline=Tagline
 gui.label.disableDownloads=Disable downloads?

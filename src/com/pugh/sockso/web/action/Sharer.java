@@ -13,21 +13,6 @@ import java.io.IOException;
 
 public class Sharer extends WebAction {
 
-    private final String host;
-
-    /**
-     *  Creates a new sharer action handler
-     *
-     *  @param host
-     *
-     */
-
-    public Sharer( final String host ) {
-
-        this.host = host;
-
-    }
-
     /**
      *  Handles the request
      *
@@ -59,7 +44,7 @@ public class Sharer extends WebAction {
         
         tpl.setLocale( getLocale() );
         tpl.setUser( getUser() );
-        tpl.setHost( host );
+        tpl.setRequest( getRequest() );
         tpl.setProperties( getProperties() );
         tpl.setPlayArgs( playArgs );
         

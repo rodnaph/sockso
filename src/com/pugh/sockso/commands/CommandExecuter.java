@@ -69,12 +69,8 @@ public class CommandExecuter {
         final String[] args = getArgs( command );
         final String name = args.length > 0 ? args[0] : "";
 
-        log.debug( "Find Command: '" +name+ "'" );
-
         for ( final Command cmd : commands ) {
-            log.debug( "Try Command: '" +cmd.getName()+ "'" );
             if ( cmd.getName().equals(name) ) {
-                log.debug( "Run Command: " +name );
                 return runCommand( cmd, args );
             }
         }

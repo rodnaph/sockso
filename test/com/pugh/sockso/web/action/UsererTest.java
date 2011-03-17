@@ -14,11 +14,13 @@ import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.tests.TestRequest;
 import com.pugh.sockso.web.*;
 
 import java.io.IOException;
@@ -93,12 +95,13 @@ public class UsererTest extends SocksoTestCase {
     public void testLogout() throws IOException {
         
         Database db = createMock( Database.class );
-        Request req = createMock( Request.class );
+        Request req = new TestRequest( "/" );
         Response res = createMock( Response.class );
-        Properties p = createMock( Properties.class );
         Locale locale = createNiceMock( Locale.class );
+
         Userer u = new Userer();
         u.init( req, res, null, locale );
+        u.setProperties( new StringProperties() );
 
         res.addCookie( (HttpResponseCookie) anyObject() );
         res.addCookie( (HttpResponseCookie) anyObject() );
@@ -137,6 +140,7 @@ public class UsererTest extends SocksoTestCase {
         
         u.setUser( null );
         u.setResponse( res );
+        u.setProperties( new StringProperties() );
         
         u.requireLogin();
         

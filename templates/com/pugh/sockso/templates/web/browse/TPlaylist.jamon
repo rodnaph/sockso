@@ -1,5 +1,6 @@
 
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Utils;
     com.pugh.sockso.Properties;
     com.pugh.sockso.music.Track;
@@ -40,8 +41,8 @@
     <%for Track track : tracks %>
         <li class="track">
             <& IMusicLinks; type="tr"; id=track.getId(); name=track.getName(); locale=locale; properties=properties; &>
-            <a href="/browse/artist/<% track.getArtist().getId() %>"><% Utils.u2e(track.getArtist().getName()) #n %></a> -
-            <a href="/browse/album/<% track.getAlbum().getId() %>"><% Utils.u2e(track.getAlbum().getName()) #n %></a> -
+            <a href="<% properties.getUrl("/browse/artist/"+track.getArtist().getId()) #n %>"><% Utils.u2e(track.getArtist().getName()) #n %></a> -
+            <a href="<% properties.getUrl("/browse/album/"+track.getAlbum().getId()) #n %>"><% Utils.u2e(track.getAlbum().getName()) #n %></a> -
             <span class="link"><% Utils.u2e(track.getName()) #n %></span>
         </li>
     </%for>
