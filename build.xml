@@ -112,7 +112,8 @@ public class Sockso {
                 destdir="${dir.build}"
                 classpath="${app.classpath}:${opt.classpath}"
                 target="1.5"
-                debug="${debug}">
+                debug="${debug}"
+                includeantruntime="true">
             <compilerarg value="-Xlint:unchecked" />
             <compilerarg value="-Xlint:deprecation" />
         </javac>
@@ -334,7 +335,8 @@ public class Sockso {
                 destdir="${dir.build.test}"
                 classpath="${dir.build}:${app.classpath}:${dev.classpath}"
                 target="1.5"
-                debug="on">
+                debug="on"
+                includeantruntime="true">
             <compilerarg value="-Xlint:unchecked" />
             <compilerarg value="-Xlint:deprecation" />
         </javac>
