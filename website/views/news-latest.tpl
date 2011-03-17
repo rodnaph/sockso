@@ -1,6 +1,15 @@
 
 <div class="post">
-    <h2>5th Fabruary</h2>
+    <h2>17th March</h2>
+    <p><a href="http://sockso.googlecode.com/files/sockso-1.3.{$downloadExtension}">Sockso 1.3</a>
+    -
+    Created ability to add servers to the new <a href="index.php?controller=community">Sockso Community</a>,
+    and you can now run behind Apache without needing a VirtualHost (thanks to LightGlitch!)
+    </p>
+</div>
+
+<div class="post">
+    <h2>5th February</h2>
     <p><a href="http://sockso.googlecode.com/files/sockso-1.2.7.{$downloadExtension}">Sockso 1.2.7</a>
     -
     Fix for broken javascript in 1.2.6.
