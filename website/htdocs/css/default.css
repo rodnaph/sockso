@@ -389,3 +389,26 @@ img.right {
 form.donate {
     text-align: center;
 }
+
+/* Community Section */
+
+.community table {
+    width: 550px;
+}
+
+.community thead th {
+    background-color: #ddd;
+    border-bottom: 4px #bbb solid;
+    font-size: 1.4em;
+    padding: 5px;
+}
+
+.community tbody td {
+    border-bottom: 1px #ccc solid;
+    padding: 4px;
+    margin-bottom: 2px;
+}
+
+.community .version {
+    text-align: center;
+}
