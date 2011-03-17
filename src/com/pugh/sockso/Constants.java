@@ -28,6 +28,7 @@ public class Constants {
     public static final String SERVER_HOST_LAST_UPDATED = "server.host.lastUpdated";
     public static final String SERVER_PORT = "server.port";
     public static final String SERVER_BASE_PATH = "server.basepath";
+    public static final String SERVER_KEY = "server.key";
     //
     //  www
     //
@@ -85,7 +86,6 @@ public class Constants {
     public static final long ONE_WEEK_IN_MILLIS = 60 * 60 * 24 * 7 * 1000;
 
     public static final String VERSION_CHECK_DISABLED = "version.checkDisabled";
-    public static final String VERSION_LATEST_URL = "http://sockso.pu-gh.com/version/latest";
 
     public static final String URL_CHAR_ENCODING = "UTF-8";
 
@@ -99,6 +99,17 @@ public class Constants {
 
     public static final String DEFAULT_ARTWORK_WIDTH = "covers.defaultWidth";
     public static final String DEFAULT_ARTWORK_HEIGHT = "covers.defaultHeight";
+
+    //**********************************************************
+    //**********************************************************
+    //
+    //  URLS
+    //
+    //**********************************************************
+    //**********************************************************
+
+    public static final String WEBSITE_URL = "http://sockso.pu-gh.com";
+    public static final String VERSION_LATEST_URL = WEBSITE_URL + "/version/latest";
 
     //**********************************************************
     //**********************************************************
@@ -146,5 +157,6 @@ public class Constants {
     //**********************************************************
 
     public static final String COMMUNITY_ENABLED = "community.enabled";
-    
+    public static final String COMMUNITY_PING_URL = "community.pingUrl";
+
 }

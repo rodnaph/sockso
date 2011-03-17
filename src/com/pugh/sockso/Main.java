@@ -273,6 +273,8 @@ public class Main {
         cm = new DBCollectionManager( db, p, indexer );
         indexer.addIndexListener( (DBCollectionManager) cm );
 
+        new CommunityUpdater( p ).start();
+
         new SessionCleaner( db ).init();
 
         final IpFinder ipFinder = new IpFinder( p, options );

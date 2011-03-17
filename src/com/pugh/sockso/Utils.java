@@ -14,24 +14,18 @@ import com.pugh.sockso.web.BadRequestException;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.Writer;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 
 import java.util.Random;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -133,7 +127,25 @@ public class Utils {
         return sb.toString();
 
     }
+
+    /**
+     *  Close a Writer impl catching any errors
+     *
+     *  @param out
+     *
+     */
     
+    public static void close( final OutputStream out ) {
+        
+        if ( out != null ) {
+            try { out.close(); }
+            catch ( final Exception e ) {
+                log.error( "Error closing output stream: " +e.getMessage() );
+            }
+        }
+        
+    }
+
     /**
      *  closes an sql statement and handles any errors that may occur
      * 
@@ -196,7 +208,7 @@ public class Utils {
      * 
      */
     
-    public static void close( final OutputStream s ) {
+    public static void close( final Writer s ) {
         
         if ( s == null ) return;
         
