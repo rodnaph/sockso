@@ -9,9 +9,12 @@
 
 package com.pugh.sockso.music;
 
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -254,5 +257,48 @@ public class Track extends MusicItem {
         return tracks;
 
     }
-    
+
+    /**
+     *  Returns the URL to use to stream this track, with things like the users
+     *  session on if that is required, etc...
+     *
+     *  @param p
+     *  @param user
+     *
+     *  @return
+     *
+     */
+
+    public String getStreamUrl( final Properties p, final User user ) {
+
+        final String description = removeSpecialChars( getArtist().getName() ) +
+                                    "-" +
+                                    removeSpecialChars( getName() );
+        
+        final String sessionArgs =
+            p.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(p.YES)
+                && p.get(Constants.STREAM_REQUIRE_LOGIN).equals(p.YES)
+                && user != null
+            ? "?sessionId=" +user.getSessionId()+ "&sessionCode=" +user.getSessionCode()
+            : "";
+
+        return p.getUrl( "/stream/" + getId() + "/" + description + sessionArgs );
+        
+    }
+
+    /**
+     *  Removes any non alpha-numeric characters from a string
+     *
+     *  @param string
+     *
+     *  @return
+     *
+     */
+
+    private String removeSpecialChars( final String string ) {
+
+        return string.replaceAll( "[^A-Za-z0-9]", "" );
+        
+    }
+
 }

@@ -19,22 +19,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <%java>
     String url = protocol +"://" + request.getHost();
-    String base = properties.getUrl("/");
-    if (base.startsWith("http://") || base.startsWith("https://")) {
-        url = "";
-    }
-    final String sessionArgs =
-        properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
-            && properties.get(Constants.STREAM_REQUIRE_LOGIN).equals(properties.YES)
-            && user != null
-        ? "?sessionId=" +user.getSessionId()+ "&amp;sessionCode=" +user.getSessionCode()
-        : "";
 </%java>
 <playlist version="1">
     <trackList>
         <%for Track track : tracks %>
             <track>
-                <location><% url %><% properties.getUrl("/stream/"+track.getId()) #n %><% sessionArgs #n %></location>
+                <location><% url %><% track.getStreamUrl(properties,user) #n %></location>
                 <creator><% track.getArtist().getName() %></creator>
                 <album><% track.getAlbum().getName() %></album>
                 <title><% track.getName() %></title>

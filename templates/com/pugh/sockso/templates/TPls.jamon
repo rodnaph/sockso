@@ -22,23 +22,17 @@ NumberOfEntries=<% tracks.size() %>
 
 <%java>
     int number = 1;
-    final String sessionArgs =
-        properties.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(properties.YES)
-            && properties.get(Constants.STREAM_REQUIRE_LOGIN).equals(properties.YES)
-            && user != null
-        ? "?sessionId=" +user.getSessionId()+ "&sessionCode=" +user.getSessionCode()
-        : "";
     String link = "";
 </%java>
 
 <%for Track track : tracks %>
 <%java>
-    link = properties.getUrl("/stream/"+track.getId()+"/"+track.getName());
+    link = track.getStreamUrl( properties, user );
     if (!link.startsWith("http://") || !link.startsWith("https://")) {
         link = protocol +"://"+request.getHost()+link;
     }
 </%java>
-File<% number %>=<% link #n %><% sessionArgs #n %>
+File<% number %>=<% link #n %>
 Title<% number %>=<% track.getName() %>
 Length<% number %>=-1
 <%java>

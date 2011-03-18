@@ -1,9 +1,13 @@
 
 package com.pugh.sockso.music;
 
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.web.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,16 +19,31 @@ import java.util.Date;
 import static org.easymock.EasyMock.*;
 
 public class TrackTest extends SocksoTestCase {
-    
-    public void testConstructors() {
+
+    private Track track;
+
+    private Properties p;
+
+    private User user;
+
+    @Override
+    public void setUp() {
         
-        final int artistId = -1, albumId = -1, trackId = -1;
-        final String artistName = "foo", albumName = "bar", trackName = "oof", trackPath = "rab";
+        final int artistId = 1, albumId = 1, trackId = 1;
+        final String artistName = "foo-%/", albumName = "bar", trackName = "oof%%^\\+", trackPath = "rab";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
         
-        assertNotNull( new Track( new Artist(artistId,artistName), new Album(artistId,artistName,albumId,albumName), trackId, trackName, trackPath, trackNumber, dateAdded ) );
-        
+        track = new Track(
+            new Artist( artistId, artistName ),
+            new Album( artistId, artistName, albumId, albumName ),
+            trackId, trackName, trackPath, trackNumber, dateAdded
+        );
+
+        p = new StringProperties();
+
+        user = new User( 1, "name",null, null, 123, "ABC", true );
+
     }
 
     public void testGetters() {
@@ -184,4 +203,33 @@ public class TrackTest extends SocksoTestCase {
         
     }
     
+    public void testGetStreamUrlIncludesSessionDataIfAuthIsRequiredWhenStreaming() {
+        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, p.YES );
+        p.set( Constants.STREAM_REQUIRE_LOGIN, p.YES );
+        String url = track.getStreamUrl( p, user );
+        assertContains( url, "sessionId=123" );
+        assertContains( url, "sessionCode=ABC" );
+    }
+
+    public void testGetStreamUrlDoesntIncludeSessionDataWhenNotRequired() {
+        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, p.NO );
+        p.set( Constants.STREAM_REQUIRE_LOGIN, p.NO );
+        String url = track.getStreamUrl( p, user );
+        assertNotContains( url, "sessionId=123" );
+        assertNotContains( url, "sessionCode=ABC" );
+    }
+
+    public void testGetStreamUrlReturnsUrlWithTrackId() {
+        assertContains( track.getStreamUrl(p,user), "/stream/" +track.getId() );
+    }
+
+    public void testGetStreamUrlReturnsUrlWithArtistNameAndTrackNameWithSpecialCharactersRemoved() {
+        assertEquals( track.getStreamUrl(p,user), "/stream/" +track.getId()+ "/foo-oof" );
+    }
+
+    public void testBasePathIsIncludedInGeneratedStreamUrls() {
+        p.set( Constants.SERVER_BASE_PATH, "/foo" );
+        assertContains( track.getStreamUrl(p,user), "/foo/stream/" );
+    }
+
 }
