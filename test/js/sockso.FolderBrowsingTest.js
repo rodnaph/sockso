@@ -2,12 +2,10 @@
 TestCase( 'sockso.FolderBrowsing' ).prototype = {
 
     setUp: function() {
-        
+        this.folders = new sockso.FolderBrowsing();
     },
     
-    tearDown: function() {
-        
-    },
+    tearDown: function() {},
 
     testTrackIsPlayedAfterPathResolved: function() {},
 
@@ -17,13 +15,15 @@ TestCase( 'sockso.FolderBrowsing' ).prototype = {
 
     testMediaFileIsDetectedFromSupportedExtensions: function() {},
 
-    testLoadingAFolderPopulatesItWithItsTracksAndSubfolders: function() {
-        var element = {};
-        var folders = new sockso.FolderBrowsing();
-        folders.ajax = function() {
-            return '';
-        };
-        folders.onToggleClicked({ target:element });
+    testLoadingAFolderPopulatesItWithItsTracksAndSubfolders: function() {},
+
+    testFilesWithDifferentExtensionsAreDetectedAsMediaFiles: function() {
+        assertTrue( this.folders.isMediaFile({ path: 'somefile.mp3' }) );
+        assertTrue( this.folders.isMediaFile({ path: 'somefile.flac' }) );
+    },
+    
+    textNonMediaFilesAreNotPickedUpAsMediaFiles: function() {
+        assertFalse( this.folders.isMediaFile({ path: 'somefile.doc' }) );
     }
 
 };

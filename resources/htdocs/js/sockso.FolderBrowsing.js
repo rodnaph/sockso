@@ -198,7 +198,7 @@ sockso.FolderBrowsing.prototype.onAddFileToPlaylist = function( responseText ) {
 sockso.FolderBrowsing.prototype.isMediaFile = function( file ) {
 
     var exts = new Array( 'mp3', 'ogg', 'wma', 'flac', 'aac' );
-    var ext = file.path.toLowerCase().substring( file.path.length - 3 );
+    var ext = file.path.toLowerCase().substring( file.path.lastIndexOf('.') + 1 );
 
     for ( var i=0; i<exts.length; i++ ) {
         if ( exts[i] == ext ) {
