@@ -75,6 +75,9 @@
             classname="com.google.ant.TestabilityTask"
             classpath="${dev.classpath}" />
 
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+             classpath="${dev.classpath}" />
+
     <target name="init">
         <mkdir dir="${dir.dist}" />
         <mkdir dir="${dir.build}" />
@@ -262,9 +265,17 @@ public class Sockso {
 
     </target>
 
-    <!-- updates the website with information like current version -->
+    <!-- updates the website (if it's configured) with information like current version -->
     <target name="website">
-        <echo file="website/views/controllers/version/latest.tpl">${sockso.version}</echo>
+        <if>
+            <not><equals arg1="${website.path}" arg2="" /></not>
+            <then>
+                <property name="template" value="${website.path}/views/controllers/version/latest.tpl" />
+                <echo message="Updating website with latest version ${sockso.version}" />
+                <echo message="Template: ${template}" />
+                <echo file="${template}">${sockso.version}</echo>
+            </then>
+        </if>
     </target>
 
     <!-- includes optional components into the distribution -->
