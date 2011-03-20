@@ -15,10 +15,3 @@ src/com/pugh/sockso/templates
 .DS_Store
 *.~*~
 .*
-website/conf/smut.conf
-website/views/controllers/version/latest.tpl
-website/htdocs/swf
-
-# used for local upload scripts
-website/*.sh
-website/exclude.txt
