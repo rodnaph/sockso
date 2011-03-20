@@ -280,7 +280,7 @@ public class Sockso {
 
     <!-- includes optional components into the distribution -->
     <target name="optionals">
-        <copy todir="${dir.dist}/lib-opt">
+        <copy todir="${dir.dist}/lib/opt">
             <fileset dir="${dir.lib-opt}" />
         </copy>
     </target>
@@ -435,7 +435,7 @@ public class Sockso {
 
     <!-- starts the js test server -->
     <target name="test-js-server">
-        <java jar="lib-dev/JsTestDriver-${jstestdriver.version}.jar" fork="true">
+        <java jar="${dir.lib-dev}/JsTestDriver-${jstestdriver.version}.jar" fork="true">
             <arg value="--port" />
             <arg value="${jstestdriver.port}" />
         </java>
@@ -451,7 +451,7 @@ public class Sockso {
             <isset property="tests" />
         </condition>
         -->
-        <java jar="lib-dev/JsTestDriver-${jstestdriver.version}.jar" fork="true">
+        <java jar="${dir.lib-dev}/JsTestDriver-${jstestdriver.version}.jar" fork="true">
             <arg value="--config" />
             <arg value="test/js/jsTestDriver.conf" />
             <arg value="--tests" />
