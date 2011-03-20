@@ -78,6 +78,8 @@ public class CommunityUpdater extends Thread {
 
         try {
 
+            String line;
+
             final String pingUrl = getPingUrl();
             final HttpURLConnection cnn = getUrlConnection( pingUrl );
             final String json = "{" +
@@ -96,7 +98,9 @@ public class CommunityUpdater extends Thread {
 
             in = new BufferedReader( new InputStreamReader(cnn.getInputStream()) );
 
-            log.debug( "Ping response: " + in.readLine() );
+            while ( (line = in.readLine()) != null ) {
+                log.debug( "Ping response: " +line );
+            }
 
         }
 
