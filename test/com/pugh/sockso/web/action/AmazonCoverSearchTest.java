@@ -39,7 +39,7 @@ public class AmazonCoverSearchTest extends SocksoTestCase {
     public void testGettingCoverFromAmazonResults() throws IOException {
 
         final AmazonCoverSearch s = new AmazonCoverSearch( null );
-        final BufferedReader in = new BufferedReader( new FileReader("test-data/amazon-result.html") );
+        final BufferedReader in = new BufferedReader( new FileReader("test/data/amazon-result.html") );
         final String expected = "http://ecx.images-amazon.com/images/I/51whwodX57L._SL160_AA115_.jpg";
 
         String line = "";

@@ -258,7 +258,7 @@ public class HttpRequestTest extends SocksoTestCase {
     
     private void testRequest( final String platform, final String browser ) throws Exception {
 
-        final String folder = "test-data/requests/" +platform+ "/" +browser+ "/";
+        final String folder = "test/data/requests/" +platform+ "/" +browser+ "/";
         final File getFile = new File( folder + "get.txt" );
         final File postFile = new File( folder + "post.txt" );
         final File multipartFile = new File( folder + "multipart.txt" );
@@ -289,7 +289,7 @@ public class HttpRequestTest extends SocksoTestCase {
         
         final UploadFile uploadedFile = multipartReq.getFile( "myFile" );
         
-        if ( !TestUtils.compareFiles( uploadedFile.getTemporaryFile(), new File("test-data/binary.bin") ) ) {
+        if ( !TestUtils.compareFiles( uploadedFile.getTemporaryFile(), new File("test/data/binary.bin") ) ) {
             fail( "Uploaded file not correct" );
         }
 

@@ -39,7 +39,7 @@ public class TestDatabase extends HSQLDatabase {
     /**
      *  Applies a named fixture to the database
      *
-     *  Fixtures need to be stored in the "test-data/fixtures" folder, and have
+     *  Fixtures need to be stored in the "test/data/fixtures" folder, and have
      *  the ".fix" extension.  The format of the file is...
      *
      *  table:field value,another field value
@@ -61,7 +61,7 @@ public class TestDatabase extends HSQLDatabase {
 
     public void fixture( final String name ) throws IOException, SQLException {
 
-        final File file = new File( "test-data/fixtures/" +name+ ".fix" );
+        final File file = new File( "test/data/fixtures/" +name+ ".fix" );
 
         if ( !file.exists() ) {
             throw new IOException( "Fixture file '" +file.getName()+ "' does not exist" );

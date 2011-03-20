@@ -362,8 +362,8 @@ public class Sockso {
              password="${mysql.pass}"
              classpath="${opt.classpath}"
              onerror="continue">
-            <transaction src="test-data/mysql/drop.sql"/>
-            <transaction src="test-data/mysql/create.sql"/>
+            <transaction src="test/data/mysql/drop.sql"/>
+            <transaction src="test/data/mysql/create.sql"/>
         </sql>
     </target>
 

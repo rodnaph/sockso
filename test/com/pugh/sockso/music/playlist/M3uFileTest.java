@@ -24,7 +24,7 @@ public class M3uFileTest extends SocksoTestCase {
     }
  
     public void testGetLines() throws Exception {
-        final File testFile = new File( "test-data/text.txt" );
+        final File testFile = new File( "test/data/text.txt" );
         final M3uFile f = new M3uFile( testFile );
         f.load();
         final String[] paths = f.getPaths();
