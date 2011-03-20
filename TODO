@@ -1,4 +1,3 @@
-
 1 - BUGS
 --------
 
@@ -38,6 +37,8 @@
 * remote administration, or admin when running as daemon
 * rescan command line argument (prob mysql only...)
 * allow uploading zip files with multiple tracks
+- HTML5 player for iPad support
+- API
 
 3 - MANUAL
 ----------
