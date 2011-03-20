@@ -11,7 +11,7 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 
-public class CommunityUpdater extends Thread {
+public class CommunityUpdater extends Thread implements PropertiesListener {
 
     private static final Logger log = Logger.getLogger( CommunityUpdater.class );
 
@@ -29,7 +29,23 @@ public class CommunityUpdater extends Thread {
     public CommunityUpdater( final Properties p ) {
         
         this.p = p;
+
+        p.addPropertiesListener( this );
         
+    }
+
+    /**
+     *  When properties are saved interrupt our wait to check if we need to
+     *  ping the community server.
+     *
+     *  @param p
+     *
+     */
+
+    public void propertiesSaved( final Properties p ) {
+
+        this.interrupt();
+
     }
 
     /**
