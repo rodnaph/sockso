@@ -21,9 +21,9 @@
     <property name="dir.docs.junit" value="${dir.docs}/junit" />
     <property name="dir.src" value="src" />
     <property name="dir.src.test" value="test" />
-    <property name="dir.lib" value="lib" />
-    <property name="dir.lib-dev" value="lib-dev" />
-    <property name="dir.lib-opt" value="lib-opt" />
+    <property name="dir.lib" value="lib/std" />
+    <property name="dir.lib-dev" value="lib/dev" />
+    <property name="dir.lib-opt" value="lib/opt" />
     <property name="dir.temp" value="ant-temp-dir" />
     <property name="dir.resources" value="resources" />
     <property name="dir.packages" value="packages" />
@@ -163,7 +163,7 @@ public class Sockso {
         <copy todir="${dir.dist}">
             <fileset dir="dist-files" />
         </copy>
-        <copy todir="${dir.dist}/lib">
+        <copy todir="${dir.dist}/lib/std">
             <fileset dir="${dir.lib}" />
         </copy>
         <!-- windows tray icon -->
