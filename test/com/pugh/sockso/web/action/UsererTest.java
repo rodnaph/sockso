@@ -132,8 +132,32 @@ public class UsererTest extends SocksoTestCase {
         assertFalse( user.isActive() );
     }
 
-    public void testUserLoginFailsWhenUserIsNotActive() {
+    public void testNoSessionCreatedForUserWhenTheyNeedToBeActivated() throws Exception {
+        p.set( Constants.WWW_USERS_REQUIRE_ACTIVATION, p.YES );
+        req.setArgument( "name", "foobar" );
+        req.setArgument( "pass1", "abc" );
+        req.setArgument( "pass2", "abc" );
+        req.setArgument( "email", "test@foo.com" );
+        u.registerUser();
+        User user = User.find( db, 0 );
+        assertEquals( "", user.getSessionCode() );
+        assertEquals( -1, user.getSessionId() );
+    }
 
+    public void testUserLoginFailsWhenUserIsNotActive() throws Exception {
+        boolean gotException = false;
+        try {
+            User user = new User( -1, "foo", "bar", "doo@dpp.com" );
+            user.setActive( false );
+            user.save( db );
+            u.loginUser( "foo", "bar" );
+        }
+        catch ( Exception e ) {
+            gotException = true;
+        }
+        finally {
+            assertTrue( gotException );
+        }
     }
 
     public void testLogout() throws IOException {

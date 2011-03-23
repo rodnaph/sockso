@@ -413,7 +413,9 @@ public class Userer extends WebAction {
         newUser.setActive( !p.get(Constants.WWW_USERS_REQUIRE_ACTIVATION).equals(p.YES) );
         newUser.save( db );
 
-        loginUser( name, pass1 );
+        if ( newUser.isActive() ) {
+            loginUser( name, pass1 );
+        }
 
         showUserRegistered( newUser );
 
@@ -525,7 +527,7 @@ public class Userer extends WebAction {
             try {
 
                 if ( auth.authenticate(name,pass) ) {
-                    
+
                     final User user = findOrCreateUser( name, pass );
                     final Session sess = new Session(
                         getDatabase(),
@@ -541,7 +543,7 @@ public class Userer extends WebAction {
 
             }
 
-            catch ( Exception e ) {
+            catch ( final Exception e ) {
                 throw new BadRequestException( e.getMessage() );
             }
             

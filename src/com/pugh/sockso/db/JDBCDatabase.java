@@ -327,14 +327,14 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         try {
 
             final String sql = " alter table users " +
-                               " add is_active char(1) not null default '1' ";
+                               " add is_active char(1) default '1' not null ";
 
             update( sql );
             
         }
 
         catch ( final SQLException e ) {
-            log.debug( e.getMessage() );
+            log.info( e.getMessage() );
         }
 
     }

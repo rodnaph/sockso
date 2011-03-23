@@ -36,6 +36,7 @@ import javax.swing.table.TableColumnModel;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.pugh.sockso.Constants;
 
 import org.apache.log4j.Logger;
 
@@ -93,9 +94,11 @@ public class UsersPanel extends JPanel {
         builder.setDefaultDialogBorder();
 
         builder.appendSeparator( "Options" );
-        builder.append( "Require login:", new BooleanOptionField(p,"users.requireLogin") );
+        builder.append( "Require login:", new BooleanOptionField(p,Constants.WWW_USERS_REQUIRE_LOGIN) );
         builder.nextLine();
-        builder.append( "Disable registering:", new BooleanOptionField(p,"users.disableRegistration") );
+        builder.append( "Disable registering:", new BooleanOptionField(p,Constants.WWW_USERS_DISABLE_REGISTRATION) );
+        builder.nextLine();
+        builder.append( "Require activation:", new BooleanOptionField(p,Constants.WWW_USERS_REQUIRE_ACTIVATION) );
         builder.nextLine();
         
         return builder.getPanel();

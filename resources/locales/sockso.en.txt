@@ -96,6 +96,7 @@ www.title.userUpdated=Profile Updated!
 www.title.recentUsers=Recent Users
 www.title.latestAlbums=Latest Albums
 www.title.sharePopup=Sockso - Sharing Music
+www.title.activationRequired=Activation Required!
 
 #
 #  web admin
@@ -119,6 +120,7 @@ www.text.login=If you've created an account you can put your info into the form 
 www.text.register=If you wanna be able to log in here, first thing you'll need to do is create yourself an account.  So whack your details into the form below and hit the <b>register</b> button to get going!
 www.text.registerComplete=Nice work %1, you've just created yourself an account!  You're now logged in and able to get on with all the musicy goodness!
 www.text.emptyPlaylist=Your playlist is currently empty.  To add tracks to it click the blue icons <img src="/file/skins/%1/images/add.png" /> next to songs, albums, etc...
+www.text.activationRequired=Thanks!  Your details have been stored but your account is awaiting activation.  The administrator should email you to let you know when your account is activated.
 
 #
 #  web labels
