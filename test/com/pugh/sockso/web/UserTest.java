@@ -41,6 +41,35 @@ public class UserTest extends SocksoTestCase {
         
     }
     
+    public void testNewUserObjectIsActiveByDefault() {
+        assertTrue( new User(1,"").isActive() );
+    }
+    
+    public void testUserCanBeMadeInactiveAndActive() {
+        User u = new User( 1, "" );
+        u.setActive( true );
+        assertTrue( u.isActive() );
+        u.setActive( false );
+        assertFalse( u.isActive() );
+    }
+
+    public void testNewUserCanBeSavedAsBeingActive() throws Exception {
+        Database db = new TestDatabase();
+        User u1 = new User( 1, "" );
+        u1.save( db );
+        User u2 = User.find( db, u1.getId() );
+        assertTrue( u2.isActive() );
+    }
+
+    public void testNewUserCanBeSavedAsBeingInactive() throws Exception {
+        Database db = new TestDatabase();
+        User u1 = new User( 1, "" );
+        u1.setActive( false );
+        u1.save( db );
+        User u2 = User.find( db, u1.getId() );
+        assertFalse( u2.isActive() );
+    }
+
     public void testConstructorWithPassAndEmail() {
         
         String name = "ashdjkas dhjaks dhkj ", email = "asdaas";

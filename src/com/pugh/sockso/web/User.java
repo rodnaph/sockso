@@ -26,6 +26,7 @@ public class User {
     private final String name, pass, email, sessionCode;
     private final boolean isAdmin;
 
+    private boolean isActive;
     private int id;
 
     public User( final int id, final String name ) {
@@ -62,6 +63,34 @@ public class User {
         this.sessionCode = sessionCode;
         this.isAdmin = isAdmin;
 
+        isActive = true;
+
+    }
+
+    /**
+     *  Sets user as being active/inactive
+     *
+     *  @param isActive
+     *
+     */
+    
+    public void setActive( final boolean isActive ) {
+
+        this.isActive = isActive;
+        
+    }
+
+    /**
+     *  Indicates if the user is active or not
+     *
+     *  @return
+     *
+     */
+
+    public boolean isActive() {
+
+        return isActive;
+
     }
 
     /**
@@ -78,14 +107,15 @@ public class User {
 
         try {
 
-            String sql = " insert into users ( name, pass, email, date_created, is_admin ) " +
-                         " values ( ?, ?, ?, current_timestamp, ? ) ";
+            String sql = " insert into users ( name, pass, email, date_created, is_admin, is_active ) " +
+                         " values ( ?, ?, ?, current_timestamp, ?, ? ) ";
 
             st = db.prepare( sql );
             st.setString( 1, name );
             st.setString( 2, Utils.md5(pass) );
             st.setString( 3, email );
             st.setInt( 4, isAdmin ? 1 : 0 );
+            st.setString( 5, isActive ? "1" : "0" );
             st.executeUpdate();
             
             Utils.close( st );
@@ -143,7 +173,7 @@ public class User {
      */
     public static User find( final Database db, final int id ) {
 
-        final String sql = " select id, name, email, is_admin " +
+        final String sql = " select id, name, email, is_admin, is_active " +
                            " from users " +
                            " where id = ? ";
 
@@ -157,12 +187,14 @@ public class User {
             rs = st.executeQuery();
 
             if ( rs.next() ) {
-                return new User(
+                final User user = new User(
                     id,
                     rs.getString( "name" ),
                     rs.getString( "email" ),
                     rs.getBoolean( "is_admin" )
                 );
+                user.setActive( rs.getString("is_active").equals("1") );
+                return user;
             }
 
         }
