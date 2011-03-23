@@ -121,6 +121,7 @@ public class HSQLDatabase extends JDBCDatabase {
         checkArtistsBrowseNameField();
         checkIndexerTableExists();
         checkUserAdminColumnExists();
+        checkUserIsActiveColumnExists();
 
     }
     

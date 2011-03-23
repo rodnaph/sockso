@@ -32,7 +32,9 @@ public class SQLiteDatabase extends JDBCDatabase {
             );
 
             createStructure();
-            
+
+            checkUserIsActiveColumnExists();
+
         }
         
         catch ( final Exception e ) {
