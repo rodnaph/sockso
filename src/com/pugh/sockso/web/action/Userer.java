@@ -388,6 +388,7 @@ public class Userer extends WebAction {
     
         final Request req = getRequest();
         final Locale locale = getLocale();
+        final Properties p = getProperties();
         
         final String name = req.getArgument( "name" ).trim();
         final String pass1 = req.getArgument( "pass1" );
@@ -397,7 +398,6 @@ public class Userer extends WebAction {
         final Database db = getDatabase();
         final Validater v = new Validater( db );
         
-        // run validation checks
         if ( !v.checkRequiredFields(new String[]{name,pass1,email}) )
             throw new BadRequestException( locale.getString("www.error.missingField") );
         if ( !pass1.equals(pass2) )
@@ -410,16 +410,11 @@ public class Userer extends WebAction {
             throw new BadRequestException( locale.getString("www.error.duplicateEmail") );
 
         User newUser = new User( -1, name, pass1, email );
+        newUser.setActive( !p.get(Constants.WWW_USERS_REQUIRE_ACTIVATION).equals(p.YES) );
         newUser.save( db );
-
-        // all seems ok, create new user
-        //User.create( db, name, pass1, email );
-        // log them in aswell
-        //final User newUser = loginUser( name, pass1 );
 
         loginUser( name, pass1 );
 
-        /// show comfirmation page
         showUserRegistered( newUser );
 
     }

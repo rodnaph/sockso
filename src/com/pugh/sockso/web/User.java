@@ -130,7 +130,7 @@ public class User {
             }
             
             id = rs.getInt( "new_id" );
-            
+
         }
 
         finally {
