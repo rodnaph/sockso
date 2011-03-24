@@ -279,6 +279,7 @@ con.err.errorDeletingUser=Error deleting user...
 con.err.directoryNotInColl=Sorry, that directory isn't in your collection
 con.err.pathNotExist=%1 does not exist...
 con.err.propertyDoesntExist=Property doesn't exist...
+con.err.invalidUserId=Invalid user ID...
 
 #
 #  console messages
@@ -289,6 +290,7 @@ con.msg.directoryDeleted=Directory removed!
 con.msg.propertySaved=Property saved!
 con.msg.propertyDeleted=Property deleted!
 con.msg.directoryAdded=Directory added!
+con.msg.userUpdated=User updated!
 
 #
 #  console command descriptions

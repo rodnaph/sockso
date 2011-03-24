@@ -39,6 +39,7 @@ public class CommandExecuter {
             new UserAdd( db, locale ),
             new UserDel( db, locale ),
             new UserAdmin( db, locale ),
+            new UserActive( db, locale ),
 
             new ColAdd( cm, locale ),
             new ColDel( cm, locale ),
