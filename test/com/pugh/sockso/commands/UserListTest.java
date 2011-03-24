@@ -26,6 +26,14 @@ public class UserListTest extends SocksoTestCase {
         assertContains( result, user.getEmail() );
     }
 
+    public void testInactiveUsersAreListedAsPending() throws Exception {
+        User user = new User( "foo", "", "foo@bar.com", true );
+        user.setActive( false );
+        user.save( db );
+        String result = cmd.execute( new String[] { "userlist" } );
+        assertContains( result, "PENDING" );
+    }
+
     public void testListingUsersIncludesAdminIfTheyAreAnAdmin() throws Exception {
         User user = new User( "foo", "", "foo@bar.com", true );
         user.save( db );
