@@ -9,6 +9,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.Constants;
 import com.pugh.sockso.web.*;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
@@ -326,8 +327,7 @@ public class Jsoner extends WebAction {
     
     protected void tracksForPath() throws BadRequestException, SQLException, IOException {
 
-        // check folder browsing is enabled
-        Utils.checkFeatureEnabled( getProperties(), "browse.folders.enabled" );
+        Utils.checkFeatureEnabled( getProperties(), Constants.WWW_BROWSE_FOLDERS_ENABLED );
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -339,7 +339,8 @@ public class Jsoner extends WebAction {
             final String path = req.getArgument( "path" );
             final String sql = " select t.id " +
                                 " from tracks t " +
-                                " where t.path like ? ";
+                                " where t.path like ? " +
+                                " order by t.path asc ";
             
             st = db.prepare( sql );
             st.setString( 1, path+ "%" );

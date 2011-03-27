@@ -8,6 +8,8 @@ import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
+import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.tests.TestRequest;
 import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.web.*;
@@ -19,6 +21,31 @@ import java.util.Vector;
 import java.util.ArrayList;
 
 public class JsonerTest extends SocksoTestCase {
+
+    private TestDatabase db;
+    
+    private Jsoner js;
+
+    private Properties p;
+
+    private TestResponse res;
+
+    private TestRequest req;
+
+    @Override
+    public void setUp() {
+        p = new StringProperties();
+        p.set( Constants.WWW_BROWSE_FOLDERS_ENABLED, p.YES );
+        db = new TestDatabase();
+        res = new TestResponse();
+        req = new TestRequest( "GET / HTTP/1.1" );
+        js = new Jsoner( null );
+        js.setRequest( req );
+        js.setResponse( res );
+        js.setLocale( new TestLocale() );
+        js.setProperties( p );
+        js.setDatabase( db );
+    }
     
     public void testConvertPath() {
         
@@ -157,6 +184,31 @@ public class JsonerTest extends SocksoTestCase {
 
         assertFalse( j.requiresLogin() );
 
+    }
+
+    protected String getTracksForPath() throws Exception {
+        db.fixture( "tracksForPath" );
+        req.setArgument( "path", "/music/" );
+        js.tracksForPath();
+        return res.getOutput();
+    }
+
+    public void testGettingTracksForAPathOutputsAllThatMatch() throws Exception {
+        String json = getTracksForPath();
+        assertContains( json, "'1'" );
+        assertContains( json, "'2'" );
+    }
+
+    public void testGettingTracksForAPathDoesntReturnTracksThatDontMatch() throws Exception {
+        String json = getTracksForPath();
+        assertNotContains( json, "'3'" );
+    }
+
+    public void testGettingTracksForAPathReturnsTheTracksOrderedByTheFullPath() throws Exception {
+        String json = getTracksForPath();
+        if ( json.indexOf("'2'") > json.indexOf("'1'") ) {
+            fail( "Track 2 should have been ordered before track 1" );
+        }
     }
 
 }
