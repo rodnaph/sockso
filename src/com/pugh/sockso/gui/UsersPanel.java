@@ -66,13 +66,49 @@ public class UsersPanel extends JPanel implements TableModelListener {
         
         isRefreshing = false;
 
+    }
+
+    /**
+     *  Initialise the users panel
+     *
+     */
+    
+    public void init() {
+
         setLayout( new BorderLayout() );
         add( getOptionsPane(), BorderLayout.NORTH );
         add( getAccountsPane(), BorderLayout.CENTER );
         
-        refreshUsers();
-
         model.addTableModelListener( this );
+
+        startAutoRefresh();
+        
+    }
+    
+    /**
+     *  Start the thread to auto-refresh the table data as long as the user
+     *  isn't editing the table
+     * 
+     */
+    
+    protected void startAutoRefresh() {
+
+        final long refreshTimeout = 1000 * 30;
+        
+        new Thread() {
+            @Override
+            public void run() {
+                while ( true ) {
+                    try {
+                        if ( !table.isEditing() ) {
+                            refreshUsers();
+                        }
+                        sleep( refreshTimeout );
+                    }
+                    catch ( final InterruptedException e ) {}
+                }
+            }
+        }.start();
         
     }
     
@@ -124,24 +160,16 @@ public class UsersPanel extends JPanel implements TableModelListener {
             }
         });
 
-        JButton refresh = new JButton( "Refresh", new ImageIcon(r.getImage("icons/16x16/refresh.png")) );
-        refresh.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent evt ) {
-                refreshUsers();
-            }
-        });
-
         JPanel accBtns = new JPanel( new FlowLayout(FlowLayout.LEFT) );
         accBtns.add( create );
         accBtns.add( delete );
-        accBtns.add( refresh );
         
         // create users table
         model = new MyTableModel();
         table = new JTable( model );
         TableColumnModel columns = table.getColumnModel();
         table.getSelectionModel().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        
+
         // set table column widths
         int[] widths = { 10, 150, 200, 90, 10, 10 };
         for ( int i=0; i<widths.length; i++ )
