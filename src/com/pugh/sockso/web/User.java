@@ -207,4 +207,58 @@ public class User {
 
     }
 
+    /**
+     *  Delete a user (and their associated data) by ID, return true on success,
+     *  or false on failure (ie. invalid user id)
+     *
+     *  @param db
+     *  @param id
+     *
+     *  @return
+     *
+     *  @throws SQLException
+     *
+     */
+
+    public static boolean delete( final Database db, final int id ) throws SQLException {
+        
+        PreparedStatement st = null;
+
+        try {
+            
+            String sql = " delete from playlist_tracks " +
+                         " where playlist_id in ( " +
+                            " select id " +
+                            " from playlists " +
+                            " where user_id = ? " +
+                         " ) ";
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            st.execute();
+            st.close();
+
+            sql = " delete from playlists " +
+                  " where user_id = ? ";
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            st.execute();
+            st.close();
+
+            sql = " delete from users " +
+                         " where id = ? ";
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            int affectedRows = st.executeUpdate();
+            st.close();
+
+            return ( affectedRows == 1 );
+
+        }
+
+        finally {
+            Utils.close( st );
+        }
+
+    }
+
 }

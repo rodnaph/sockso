@@ -145,5 +145,29 @@ public class UserTest extends SocksoTestCase {
         User u2 = User.find( db, u1.getId() );
         assertFalse( u2.isAdmin() );
     }
+
+    public void testAUserCanBeDeletedById() throws Exception {
+        User.delete( db, user.getId() );
+        assertNull( User.find(db,user.getId()) );
+    }
+
+    public void testAUsersPlaylistsAndItsTracksAreDeletedWhenTheyAreDeleted() throws Exception {
+        db.update( " insert into playlists ( name, user_id, date_created, date_modified ) values ( 'test', '" +user.getId()+ "', '2011-01-01 00:00:00', '2011-01-01 00:00:00' )" );
+        db.update( " insert into playlist_tracks ( playlist_id, track_id ) values ( 0, 1 )" );
+        db.update( " insert into playlist_tracks ( playlist_id, track_id ) values ( 0, 2 )" );
+        assertTableSize( db, "playlists", 1 );
+        assertTableSize( db, "playlist_tracks", 2 );
+        User.delete( db, user.getId() );
+        assertTableSize( db, "playlists", 0 );
+        assertTableSize( db, "playlist_tracks", 0 );
+    }
+
+    public void testTrueIsReturnedWhenAUserIsDeleted() throws Exception {
+        assertTrue( User.delete( db, user.getId() ) );
+    }
+
+    public void testFalseIsReturnedWhenNonExistantUserIdIsGivenToDelete() throws Exception {
+        assertFalse( User.delete( db, 9999 ) );
+    }
     
 }

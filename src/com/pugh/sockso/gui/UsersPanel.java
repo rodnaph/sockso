@@ -14,6 +14,7 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.gui.controls.BooleanOptionField;
 import com.pugh.sockso.resources.Resources;
+import com.pugh.sockso.web.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -126,9 +127,17 @@ public class UsersPanel extends JPanel {
             }
         });
 
+        JButton save = new JButton( "Save Changes", new ImageIcon(r.getImage("icons/16x16/save.png")) );
+        save.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent evt ) {
+                saveChanges();
+            }
+        });
+
         JPanel accBtns = new JPanel( new FlowLayout(FlowLayout.LEFT) );
         accBtns.add( create );
         accBtns.add( delete );
+        accBtns.add( save );
         
         // create users table
         model = new MyTableModel();
@@ -137,7 +146,7 @@ public class UsersPanel extends JPanel {
         table.getSelectionModel().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         
         // set table column widths
-        int[] widths = { 10, 150, 200, 100, 10 };
+        int[] widths = { 10, 150, 200, 90, 10, 10 };
         for ( int i=0; i<widths.length; i++ )
             columns.getColumn(i).setPreferredWidth( widths[i] );
 
@@ -150,47 +159,33 @@ public class UsersPanel extends JPanel {
     }
 
     /**
+     *  Saves any changes made to the users data table
+     *
+     */
+
+    protected void saveChanges() {
+
+        // @todo
+
+    }
+
+    /**
      *  if there is a user selected in the table, tries to
      *  delete it
      * 
      */
     
-    private void deleteSelectedUser() {
+    protected void deleteSelectedUser() {
        
         int row = table.getSelectedRow();
         
         if ( row != -1 ) {
             
-            PreparedStatement st = null;
-            
             try {
                 
                 int id = Integer.parseInt( (String) model.getValueAt(row,0) );
-                
-                String sql = " delete from playlist_tracks " +
-                             " where playlist_id in ( " +
-                                " select id " +
-                                " from playlists " +
-                                " where user_id = ? " +
-                             " ) ";
-                st = db.prepare( sql );
-                st.setInt( 1, id );
-                st.execute();
-                st.close();
-                
-                sql = " delete from playlists " +
-                      " where user_id = ? ";
-                st = db.prepare( sql );
-                st.setInt( 1, id );
-                st.execute();
-                st.close();
-                
-                sql = " delete from users " +
-                             " where id = ? ";
-                st = db.prepare( sql );
-                st.setInt( 1, id );
-                st.execute();
-                st.close();
+
+                User.delete( db, id );
                 
                 refreshUsers();
 
@@ -199,11 +194,7 @@ public class UsersPanel extends JPanel {
             catch ( SQLException e ) {
                 log.error( e );
             }
-            
-            finally {
-                Utils.close( st );
-            }
-            
+                        
         }
         
     }
@@ -223,7 +214,7 @@ public class UsersPanel extends JPanel {
         
         try {
             
-            final String sql = " select u.id, u.name, u.email, u.date_created, u.is_admin " +
+            final String sql = " select u.id, u.name, u.email, u.date_created, u.is_admin, u.is_active " +
                                " from users u " +
                                " order by u.name asc ";
             
@@ -240,6 +231,7 @@ public class UsersPanel extends JPanel {
                 model.setValueAt( rs.getString("email"), row - 1, 2 );
                 model.setValueAt( rs.getString("date_created"), row - 1, 3 );
                 model.setValueAt( rs.getString("is_admin"), row - 1, 4 );
+                model.setValueAt( rs.getString("is_active"), row - 1, 5 );
 
             }
             
@@ -260,7 +252,7 @@ public class UsersPanel extends JPanel {
 
 class MyTableModel extends DefaultTableModel {
     
-    private String[] columns = { "ID", "Name", "Email", "Date Created", "Admin" };
+    private String[] columns = { "ID", "Name", "Email", "Date Created", "Admin", "Active" };
     
     @Override
     public int getColumnCount() { return columns.length; }
