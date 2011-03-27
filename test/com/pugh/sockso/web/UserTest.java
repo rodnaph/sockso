@@ -169,5 +169,16 @@ public class UserTest extends SocksoTestCase {
     public void testFalseIsReturnedWhenNonExistantUserIdIsGivenToDelete() throws Exception {
         assertFalse( User.delete( db, 9999 ) );
     }
+
+    public void testUpdateWillSaveTheUserDetailsToTheDatabase() throws Exception {
+        User u2 = new User( user.getId(), "another", "foo@bar.com", false );
+        u2.setActive( false );
+        u2.update( db );
+        u2 = User.find( db, user.getId() );
+        assertEquals( "another", u2.getName() );
+        assertEquals( "foo@bar.com", u2.getEmail() );
+        assertFalse( u2.isAdmin() );
+        assertFalse( u2.isActive() );
+    }
     
 }

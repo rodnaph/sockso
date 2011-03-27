@@ -93,6 +93,30 @@ public class User {
 
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getSessionId() {
+        return sessionId;
+    }
+
+    public String getSessionCode() {
+        return sessionCode;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
     /**
      *  Saves a new user to the database
      *
@@ -139,28 +163,43 @@ public class User {
         
     }
 
-    public int getId() {
-        return id;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public int getSessionId() {
-        return sessionId;
-    }
-    
-    public String getSessionCode() {
-        return sessionCode;
-    }
+    /**
+     *  Update this users in the database
+     *
+     *  @param db
+     *
+     *  @throws SQLException
+     *
+     */
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public void update( final Database db ) throws SQLException {
+
+        PreparedStatement st = null;
+        
+        try {
+            
+            final String sql = " update users " +
+                               " set name = ?, " +
+                                   " email = ?, " +
+                                   " is_admin = ?, " +
+                                   " is_active = ? " +
+                               " where id = ? ";
+            
+            st = db.prepare( sql );
+            st.setString( 1, getName() );
+            st.setString( 2, getEmail() );
+            st.setBoolean( 3, isAdmin() );
+            st.setString( 4, isActive() ? "1" : "0" );
+            st.setInt( 5, getId() );
+
+            st.executeUpdate();
+            
+        }
+        
+        finally {
+            Utils.close( st );
+        }
+
     }
 
     /**
