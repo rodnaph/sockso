@@ -277,6 +277,9 @@ public class AppFrame extends JFrame implements PropertiesListener, Manager {
         
         final MusicPanel musicPanel = new MusicPanel( this, db, cm, r );
         musicPanel.init();
+
+        final UsersPanel usersPanel = new UsersPanel( this, db, p, r );
+        usersPanel.init();
         
         pane.addTab( locale.getString("gui.label.music"), new ImageIcon(r.getImage("icons/22x22/music.png")),
             musicPanel, locale.getString("gui.tooltip.music") );
@@ -285,7 +288,7 @@ public class AppFrame extends JFrame implements PropertiesListener, Manager {
             new CollectionPanel(this,db,cm,r,p), locale.getString("gui.tooltip.collection") );
         
         pane.addTab( locale.getString("gui.label.users"), new ImageIcon(r.getImage("icons/22x22/users.png")),
-            new UsersPanel(this,db,p,r), locale.getString("gui.tooltip.users") );
+            usersPanel, locale.getString("gui.tooltip.users") );
         
         pane.addTab( locale.getString("gui.label.general"), new ImageIcon(r.getImage("icons/22x22/general.png")),
             new GeneralPanel(this,db,p,r,sv,cm), locale.getString("gui.tooltip.general") );

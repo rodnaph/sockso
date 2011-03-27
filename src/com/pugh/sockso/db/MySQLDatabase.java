@@ -75,6 +75,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             checkArtistsBrowseNameField();
             checkIndexerTableExists();
             checkUserAdminColumnExists();
+            checkUserIsActiveColumnExists();
 
         }
         

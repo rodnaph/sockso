@@ -72,5 +72,9 @@ public class UserAddTest extends SocksoTestCase {
         assertEquals( message, "username exists" );
     }
 
+    public void testNewUsersAreAddedAsBeingActive() throws Exception {
+        execute( "useradd foo bar email@domain.com 0" );
+        assertTrue( User.find(db,0).isActive() );
+    }
 
 }

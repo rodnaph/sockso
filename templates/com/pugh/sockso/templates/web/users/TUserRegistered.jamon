@@ -18,10 +18,18 @@
     Vector<User> recentUsers = null;
 </%args>
 
-<& ../IHeader; properties=properties; locale=locale; user=user; &>
+<%java>
+    User tplUser = user.isActive() ? user : null;
+</%java>
 
-<h2><% locale.getString("www.title.registerComplete") %></h2>
+<& ../IHeader; properties=properties; locale=locale; user=tplUser; &>
 
-<p><% locale.getString("www.text.registerComplete", new String[] { user.getName() } ) #n %></p>
+<%if user.isActive() %>
+    <h2><% locale.getString("www.title.registerComplete") %></h2>
+    <p><% locale.getString("www.text.registerComplete", new String[] { user.getName() } ) #n %></p>
+<%else>
+    <h2><% locale.getString("www.title.activationRequired") %></h2>
+    <p><% locale.getString("www.text.activationRequired", new String[] { user.getName() } ) #n %></p>
+</%if>
 
-<& ../IFooter; user=user; locale=locale; properties=properties; recentUsers=recentUsers; &>
+<& ../IFooter; user=tplUser; locale=locale; properties=properties; recentUsers=recentUsers; &>

@@ -318,4 +318,26 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
 
     }
 
+    /**
+     * Creates the users.is_active column if it doesn't exist
+     *
+     */
+    protected void checkUserIsActiveColumnExists() {
+
+        try {
+
+            final String sql = " alter table users " +
+                               " add is_active char(1) default '1' not null ";
+
+            update( sql );
+            
+        }
+
+        catch ( final SQLException e ) {
+            log.info( e.getMessage() );
+        }
+
+    }
+
+
 }

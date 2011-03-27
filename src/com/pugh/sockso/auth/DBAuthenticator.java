@@ -47,6 +47,7 @@ public class DBAuthenticator implements Authenticator {
             String sql = " select u.id as id, u.pass as pass " +
                          " from users u " +
                          " where u.name = ? " +
+                             " and u.is_active = '1' " +
                          " limit 1 ";
             st = db.prepare( sql );
             st.setString( 1, name );

@@ -3,6 +3,7 @@ package com.pugh.sockso.commands;
 
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.web.User;
 
 import java.sql.SQLException;
 
@@ -42,11 +43,7 @@ public class UserDel extends BaseCommand {
 
         try {
 
-            final String sql = " delete from users " +
-                               " where id = " + db.escape(args[1]);
-            final int affectedRows = db.update( sql );
-
-            return affectedRows == 1
+            return User.delete( db, Integer.parseInt(args[1]) )
                 ? locale.getString( "con.msg.userDeleted" )
                 : locale.getString( "con.err.errorDeletingUser" );
 

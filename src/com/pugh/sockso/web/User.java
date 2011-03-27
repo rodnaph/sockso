@@ -26,6 +26,7 @@ public class User {
     private final String name, pass, email, sessionCode;
     private final boolean isAdmin;
 
+    private boolean isActive;
     private int id;
 
     public User( final int id, final String name ) {
@@ -62,6 +63,58 @@ public class User {
         this.sessionCode = sessionCode;
         this.isAdmin = isAdmin;
 
+        isActive = true;
+
+    }
+
+    /**
+     *  Sets user as being active/inactive
+     *
+     *  @param isActive
+     *
+     */
+    
+    public void setActive( final boolean isActive ) {
+
+        this.isActive = isActive;
+        
+    }
+
+    /**
+     *  Indicates if the user is active or not
+     *
+     *  @return
+     *
+     */
+
+    public boolean isActive() {
+
+        return isActive;
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getSessionId() {
+        return sessionId;
+    }
+
+    public String getSessionCode() {
+        return sessionCode;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
     /**
@@ -78,14 +131,15 @@ public class User {
 
         try {
 
-            String sql = " insert into users ( name, pass, email, date_created, is_admin ) " +
-                         " values ( ?, ?, ?, current_timestamp, ? ) ";
+            String sql = " insert into users ( name, pass, email, date_created, is_admin, is_active ) " +
+                         " values ( ?, ?, ?, current_timestamp, ?, ? ) ";
 
             st = db.prepare( sql );
             st.setString( 1, name );
             st.setString( 2, Utils.md5(pass) );
             st.setString( 3, email );
             st.setInt( 4, isAdmin ? 1 : 0 );
+            st.setString( 5, isActive ? "1" : "0" );
             st.executeUpdate();
             
             Utils.close( st );
@@ -100,7 +154,7 @@ public class User {
             }
             
             id = rs.getInt( "new_id" );
-            
+
         }
 
         finally {
@@ -109,28 +163,49 @@ public class User {
         
     }
 
-    public int getId() {
-        return id;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public int getSessionId() {
-        return sessionId;
-    }
-    
-    public String getSessionCode() {
-        return sessionCode;
-    }
+    /**
+     *  Update this users in the database
+     *
+     *  @param db
+     *
+     *  @throws SQLException
+     *
+     */
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public void update( final Database db ) throws SQLException {
+
+        PreparedStatement st = null;
+        
+        try {
+            
+            final String sql = " update users " +
+                               " set name = ?, " +
+                                   " email = ?, " +
+                                   " is_admin = ?, " +
+                                   " is_active = ? " +
+                               " where id = ? ";
+            
+            st = db.prepare( sql );
+            st.setString( 1, getName() );
+            st.setString( 2, getEmail() );
+            st.setInt( 3, isAdmin() ? 1 : 0 );
+            st.setString( 4, isActive() ? "1" : "0" );
+            st.setInt( 5, getId() );
+
+            log.debug( "Update user [" +getId()+ "]: " + sql );
+            log.debug( "Name: " +getName() );
+            log.debug( "Email: " +getEmail() );
+            log.debug( "Admin: " +(isAdmin() ? "1" : "0") );
+            log.debug( "Active: " +(isActive() ? "1" : "0") );
+            
+            st.executeUpdate();
+            
+        }
+        
+        finally {
+            Utils.close( st );
+        }
+
     }
 
     /**
@@ -143,7 +218,7 @@ public class User {
      */
     public static User find( final Database db, final int id ) {
 
-        final String sql = " select id, name, email, is_admin " +
+        final String sql = " select id, name, email, is_admin, is_active " +
                            " from users " +
                            " where id = ? ";
 
@@ -157,12 +232,14 @@ public class User {
             rs = st.executeQuery();
 
             if ( rs.next() ) {
-                return new User(
+                final User user = new User(
                     id,
                     rs.getString( "name" ),
                     rs.getString( "email" ),
                     rs.getBoolean( "is_admin" )
                 );
+                user.setActive( rs.getString("is_active").equals("1") );
+                return user;
             }
 
         }
@@ -172,6 +249,60 @@ public class User {
         }
 
         return null;
+
+    }
+
+    /**
+     *  Delete a user (and their associated data) by ID, return true on success,
+     *  or false on failure (ie. invalid user id)
+     *
+     *  @param db
+     *  @param id
+     *
+     *  @return
+     *
+     *  @throws SQLException
+     *
+     */
+
+    public static boolean delete( final Database db, final int id ) throws SQLException {
+        
+        PreparedStatement st = null;
+
+        try {
+            
+            String sql = " delete from playlist_tracks " +
+                         " where playlist_id in ( " +
+                            " select id " +
+                            " from playlists " +
+                            " where user_id = ? " +
+                         " ) ";
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            st.execute();
+            st.close();
+
+            sql = " delete from playlists " +
+                  " where user_id = ? ";
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            st.execute();
+            st.close();
+
+            sql = " delete from users " +
+                         " where id = ? ";
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            int affectedRows = st.executeUpdate();
+            st.close();
+
+            return ( affectedRows == 1 );
+
+        }
+
+        finally {
+            Utils.close( st );
+        }
 
     }
 

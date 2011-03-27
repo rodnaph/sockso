@@ -41,6 +41,35 @@ public class UserTest extends SocksoTestCase {
         
     }
     
+    public void testNewUserObjectIsActiveByDefault() {
+        assertTrue( new User(1,"").isActive() );
+    }
+    
+    public void testUserCanBeMadeInactiveAndActive() {
+        User u = new User( 1, "" );
+        u.setActive( true );
+        assertTrue( u.isActive() );
+        u.setActive( false );
+        assertFalse( u.isActive() );
+    }
+
+    public void testNewUserCanBeSavedAsBeingActive() throws Exception {
+        Database db = new TestDatabase();
+        User u1 = new User( 1, "" );
+        u1.save( db );
+        User u2 = User.find( db, u1.getId() );
+        assertTrue( u2.isActive() );
+    }
+
+    public void testNewUserCanBeSavedAsBeingInactive() throws Exception {
+        Database db = new TestDatabase();
+        User u1 = new User( 1, "" );
+        u1.setActive( false );
+        u1.save( db );
+        User u2 = User.find( db, u1.getId() );
+        assertFalse( u2.isActive() );
+    }
+
     public void testConstructorWithPassAndEmail() {
         
         String name = "ashdjkas dhjaks dhkj ", email = "asdaas";
@@ -115,6 +144,41 @@ public class UserTest extends SocksoTestCase {
         u1.save( db );
         User u2 = User.find( db, u1.getId() );
         assertFalse( u2.isAdmin() );
+    }
+
+    public void testAUserCanBeDeletedById() throws Exception {
+        User.delete( db, user.getId() );
+        assertNull( User.find(db,user.getId()) );
+    }
+
+    public void testAUsersPlaylistsAndItsTracksAreDeletedWhenTheyAreDeleted() throws Exception {
+        db.update( " insert into playlists ( name, user_id, date_created, date_modified ) values ( 'test', '" +user.getId()+ "', '2011-01-01 00:00:00', '2011-01-01 00:00:00' )" );
+        db.update( " insert into playlist_tracks ( playlist_id, track_id ) values ( 0, 1 )" );
+        db.update( " insert into playlist_tracks ( playlist_id, track_id ) values ( 0, 2 )" );
+        assertTableSize( db, "playlists", 1 );
+        assertTableSize( db, "playlist_tracks", 2 );
+        User.delete( db, user.getId() );
+        assertTableSize( db, "playlists", 0 );
+        assertTableSize( db, "playlist_tracks", 0 );
+    }
+
+    public void testTrueIsReturnedWhenAUserIsDeleted() throws Exception {
+        assertTrue( User.delete( db, user.getId() ) );
+    }
+
+    public void testFalseIsReturnedWhenNonExistantUserIdIsGivenToDelete() throws Exception {
+        assertFalse( User.delete( db, 9999 ) );
+    }
+
+    public void testUpdateWillSaveTheUserDetailsToTheDatabase() throws Exception {
+        User u2 = new User( user.getId(), "another", "foo@bar.com", false );
+        u2.setActive( false );
+        u2.update( db );
+        u2 = User.find( db, user.getId() );
+        assertEquals( "another", u2.getName() );
+        assertEquals( "foo@bar.com", u2.getEmail() );
+        assertFalse( u2.isAdmin() );
+        assertFalse( u2.isActive() );
     }
     
 }

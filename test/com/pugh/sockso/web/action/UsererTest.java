@@ -9,17 +9,20 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.Constants;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
+import com.pugh.sockso.auth.DBAuthenticator;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.tests.TestRequest;
 import com.pugh.sockso.web.*;
 
@@ -39,6 +42,11 @@ public class UsererTest extends SocksoTestCase {
     private Properties testProperties;
     private Locale testLocale;
     private User testUser;
+
+    private Database db;
+    private Properties p;
+    private TestRequest req;
+    private Userer u;
     
     @Override
     public void setUp() {
@@ -52,7 +60,18 @@ public class UsererTest extends SocksoTestCase {
         replay( testProperties );
         
         testUser = new User( -1, "foo" );
-        
+
+        db = new TestDatabase();
+        p = new StringProperties();
+        req = new TestRequest( "" );
+        u = new Userer();
+        u.addAuthenticator( new DBAuthenticator(db) );
+        u.setDatabase( db );
+        u.setRequest( req );
+        u.setProperties( p );
+        u.setResponse( new TestResponse() );
+        u.setLocale( new TestLocale() );
+
     }
     
     public void testRegisterUser() throws BadRequestException, IOException, SQLException {
@@ -90,6 +109,55 @@ public class UsererTest extends SocksoTestCase {
         verify( req );
         verify( db );
 
+    }
+
+    public void testNewUsersAreCreatedAsActiveByDefault() throws Exception {
+        req.setArgument( "name", "foobar" );
+        req.setArgument( "pass1", "abc" );
+        req.setArgument( "pass2", "abc" );
+        req.setArgument( "email", "test@foo.com" );
+        u.registerUser();
+        User user = User.find( db, 0 );
+        assertTrue( user.isActive() );
+    }
+
+    public void testUsersAreCreatedAsInactiveWhenActivationIsRequired() throws Exception {
+        p.set( Constants.WWW_USERS_REQUIRE_ACTIVATION, p.YES );
+        req.setArgument( "name", "foobar" );
+        req.setArgument( "pass1", "abc" );
+        req.setArgument( "pass2", "abc" );
+        req.setArgument( "email", "test@foo.com" );
+        u.registerUser();
+        User user = User.find( db, 0 );
+        assertFalse( user.isActive() );
+    }
+
+    public void testNoSessionCreatedForUserWhenTheyNeedToBeActivated() throws Exception {
+        p.set( Constants.WWW_USERS_REQUIRE_ACTIVATION, p.YES );
+        req.setArgument( "name", "foobar" );
+        req.setArgument( "pass1", "abc" );
+        req.setArgument( "pass2", "abc" );
+        req.setArgument( "email", "test@foo.com" );
+        u.registerUser();
+        User user = User.find( db, 0 );
+        assertEquals( "", user.getSessionCode() );
+        assertEquals( -1, user.getSessionId() );
+    }
+
+    public void testUserLoginFailsWhenUserIsNotActive() throws Exception {
+        boolean gotException = false;
+        try {
+            User user = new User( -1, "foo", "bar", "doo@dpp.com" );
+            user.setActive( false );
+            user.save( db );
+            u.loginUser( "foo", "bar" );
+        }
+        catch ( Exception e ) {
+            gotException = true;
+        }
+        finally {
+            assertTrue( gotException );
+        }
     }
 
     public void testLogout() throws IOException {

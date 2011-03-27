@@ -39,7 +39,7 @@ public class UserList extends BaseCommand {
 
         try {
 
-            final String sql = " select id, name, email, is_admin " +
+            final String sql = " select id, name, email, is_admin, is_active " +
                                " from users " +
                                " order by name asc ";
 
@@ -54,6 +54,8 @@ public class UserList extends BaseCommand {
                 sb.append( rs.getString("email") );
                 sb.append( "\t" );
                 sb.append( rs.getBoolean("is_admin") ? "ADMIN" : "" );
+                sb.append( "\t" );
+                sb.append( rs.getInt("is_active") == 1 ? "" : "PENDING" );
                 sb.append( "\n" );
             }
 

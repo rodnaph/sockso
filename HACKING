@@ -34,7 +34,7 @@ Configuration
 First make a copy of the file "sockso.properties-sample" and rename it to just
 "sockso.properties".  Then, as long as you're using Ant, pretty much everything
 should be ready to go.  If you're using an IDE then you'll probably need to
-point it to all the Jar files in the "lib", "lib-dev" and "lib-opt" directories or it'll
+point it to all the Jar files in the "lib/std", "lib/dev" and "lib/opt" directories or it'll
 complain about all the imports.  Otherwise try some of these useful Ant tasks...
 
 1) run - Builds a working Sockso distribution in the "dist" folder, and runs it.
@@ -45,7 +45,7 @@ complain about all the imports.  Otherwise try some of these useful Ant tasks...
 Source Layout
 -------------
 
-lib* - Java libraries
+lib/* - Java libraries
 resources - JS/CSS/Image resources for desktop application and web browser
 scripts - Various utility scripts for development
 src - Java source doe
