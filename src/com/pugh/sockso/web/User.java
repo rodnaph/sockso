@@ -188,10 +188,16 @@ public class User {
             st = db.prepare( sql );
             st.setString( 1, getName() );
             st.setString( 2, getEmail() );
-            st.setBoolean( 3, isAdmin() );
+            st.setInt( 3, isAdmin() ? 1 : 0 );
             st.setString( 4, isActive() ? "1" : "0" );
             st.setInt( 5, getId() );
 
+            log.debug( "Update user [" +getId()+ "]: " + sql );
+            log.debug( "Name: " +getName() );
+            log.debug( "Email: " +getEmail() );
+            log.debug( "Admin: " +(isAdmin() ? "1" : "0") );
+            log.debug( "Active: " +(isActive() ? "1" : "0") );
+            
             st.executeUpdate();
             
         }

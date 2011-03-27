@@ -38,6 +38,7 @@ import javax.swing.table.TableColumnModel;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.pugh.sockso.Constants;
+import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
@@ -165,7 +166,30 @@ public class UsersPanel extends JPanel {
 
     protected void saveChanges() {
 
-        // @todo
+        for ( int i=0; i<table.getRowCount(); i++ ) {
+            
+            User user = new User(
+                Integer.parseInt( model.getValueAt(i,0).toString() ),
+                (String) model.getValueAt( i, 1 ),
+                (String) model.getValueAt( i, 2 ),
+                model.getValueAt( i, 4 ).equals( "true")
+            );
+
+            user.setActive( model.getValueAt( i, 5 ).equals("1") );
+
+            try { user.update(db); }
+
+            catch ( final SQLException e ) {
+                log.error( e.getMessage() );
+                JOptionPane.showMessageDialog(
+                    parent,
+                    e.getMessage(),
+                    "Sockso",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+
+        }
 
     }
 
