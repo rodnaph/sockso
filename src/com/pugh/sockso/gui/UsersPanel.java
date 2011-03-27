@@ -39,10 +39,12 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.pugh.sockso.Constants;
 import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import org.apache.log4j.Logger;
 
-public class UsersPanel extends JPanel {
+public class UsersPanel extends JPanel implements TableModelListener {
 
     private static Logger log = Logger.getLogger( UsersPanel.class );
     
@@ -53,6 +55,7 @@ public class UsersPanel extends JPanel {
     
     private MyTableModel model;
     private JTable table;
+    private boolean isRefreshing;
     
     public UsersPanel( JFrame parent, Database db, Properties p, Resources r ) {
 
@@ -61,22 +64,15 @@ public class UsersPanel extends JPanel {
         this.p = p;
         this.r = r;
         
+        isRefreshing = false;
+
         setLayout( new BorderLayout() );
         add( getOptionsPane(), BorderLayout.NORTH );
         add( getAccountsPane(), BorderLayout.CENTER );
         
-        // start thread to keep users up to date
-        final int sixtySeconds = 1000 * 60;
-        new Thread() {
-            @Override
-            public void run() {
-                while ( true ) {
-                    refreshUsers();
-                    try { Thread.sleep(sixtySeconds); }
-                        catch ( final InterruptedException e ) {}   
-                }
-            }
-        }.start();
+        refreshUsers();
+
+        model.addTableModelListener( this );
         
     }
     
@@ -128,17 +124,17 @@ public class UsersPanel extends JPanel {
             }
         });
 
-        JButton save = new JButton( "Save Changes", new ImageIcon(r.getImage("icons/16x16/save.png")) );
-        save.addActionListener( new ActionListener() {
+        JButton refresh = new JButton( "Refresh", new ImageIcon(r.getImage("icons/16x16/refresh.png")) );
+        refresh.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent evt ) {
-                saveChanges();
+                refreshUsers();
             }
         });
 
         JPanel accBtns = new JPanel( new FlowLayout(FlowLayout.LEFT) );
         accBtns.add( create );
         accBtns.add( delete );
-        accBtns.add( save );
+        accBtns.add( refresh );
         
         // create users table
         model = new MyTableModel();
@@ -156,6 +152,21 @@ public class UsersPanel extends JPanel {
         pn.add( new JScrollPane(table), BorderLayout.CENTER );
         pn.add( accBtns, BorderLayout.SOUTH );
         return pn;
+
+    }
+
+    /**
+     *  Save the users changes when the table is changed
+     *
+     *  @param evt
+     *
+     */
+
+    public void tableChanged( final TableModelEvent evt ) {
+
+        if ( !isRefreshing ) {
+            saveChanges();
+        }
 
     }
 
@@ -230,6 +241,8 @@ public class UsersPanel extends JPanel {
     
     protected void refreshUsers() {
         
+        isRefreshing = true;
+
         for ( int i=model.getRowCount(); i>0; i-- )
             model.removeRow( i - 1 );
   
@@ -268,6 +281,7 @@ public class UsersPanel extends JPanel {
         finally {
             Utils.close( rs );
             Utils.close( st );
+            isRefreshing = false;
         }
         
     }
