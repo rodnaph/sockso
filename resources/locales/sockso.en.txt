@@ -38,6 +38,7 @@ www.error.nothingToDownload=You have to choose some stuff to download first, duf
 www.error.nothingToShare=You have to choose some stuff to share first, stoopid!
 www.error.passwordsDontMatch=The passwords don't match
 www.error.notAnAdmin=You need to be an administrator to do that
+www.error.loginFailed=your login failed because you either entered the wrong details, or your account is not active
 
 #
 #  json messages

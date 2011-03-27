@@ -549,10 +549,8 @@ public class Userer extends WebAction {
             
         }
 
-        // no authenticators passed...
-
         throw new BadRequestException(
-            getLocale().getString( "www.error.passwordIncorrect" )
+            getLocale().getString( "www.error.loginFailed" )
         );
         
     }
