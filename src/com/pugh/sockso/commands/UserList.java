@@ -55,7 +55,7 @@ public class UserList extends BaseCommand {
                 sb.append( "\t" );
                 sb.append( rs.getBoolean("is_admin") ? "ADMIN" : "" );
                 sb.append( "\t" );
-                sb.append( rs.getBoolean("is_active") ? "" : "PENDING" );
+                sb.append( rs.getInt("is_active") == 1 ? "" : "PENDING" );
                 sb.append( "\n" );
             }
 
