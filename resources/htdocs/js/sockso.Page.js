@@ -77,6 +77,11 @@ sockso.Page.prototype.initLayout = function() {
     var console = new sockso.AdminConsole();
     console.init();
 
+    var ajaxer = new sockso.Ajaxer({
+        page: this
+    });
+    ajaxer.init();
+
     // global objects
 
     window.player = player;
