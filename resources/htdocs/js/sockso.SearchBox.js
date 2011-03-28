@@ -8,13 +8,14 @@
  *
  */
 
-sockso.SearchBox = function() {
+sockso.SearchBox = function( options ) {
 
     var self = this;
     var results = null;
     var input = null;
     var searchInputTimeoutId = null;
     var keepFocusTimeoutId = null;
+    var ajaxer = options.ajaxer;
 
     var onInputKeyUp = function() {
 
@@ -92,6 +93,8 @@ sockso.SearchBox = function() {
 
         // show element
         results.show();
+
+        ajaxer.attach( results );
 
     };
 

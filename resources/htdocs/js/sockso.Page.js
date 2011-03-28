@@ -51,9 +51,18 @@ sockso.Page.prototype.initLayout = function() {
 
     var session = new sockso.Session();
 
+    // ajax loading pages
+
+    this.ajaxer = new sockso.Ajaxer({
+        page: this
+    });
+    this.ajaxer.init();
+
     // create the search box
 
-    var search = new sockso.SearchBox();
+    var search = new sockso.SearchBox({
+        ajaxer: this.ajaxer
+    });
     search.init( '#nav' );
 
     // create the player selection control
@@ -80,11 +89,6 @@ sockso.Page.prototype.initLayout = function() {
 
     var console = new sockso.AdminConsole();
     console.init();
-
-    this.ajaxer = new sockso.Ajaxer({
-        page: this
-    });
-    this.ajaxer.init();
 
     // global objects
 
