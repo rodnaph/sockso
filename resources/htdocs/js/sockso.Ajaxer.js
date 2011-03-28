@@ -2,10 +2,11 @@
 /**
  * Hijacks anchor links to load them via ajax
  *
+ * @param options
  */
 sockso.Ajaxer = function( options ) {
 
-    this.page = options.page || window.page;
+    this.page = options.page;
 
 };
 
@@ -15,12 +16,10 @@ sockso.Ajaxer = function( options ) {
  */
 sockso.Ajaxer.prototype.init = function() {
 
-
-    if ( !history.pushState ) { return; }
-
-    this.attach();
-
-    window.onpopstate = this.onPopState.bind( this );
+    if ( history.pushState ) {
+        this.attach();
+        window.onpopstate = this.onPopState.bind( this );
+    }
 
 };
 
@@ -60,6 +59,12 @@ sockso.Ajaxer.prototype.attach = function( container ) {
 
 };
 
+/**
+ * Load a new URL into the page
+ *
+ * @param href
+ *
+ */
 sockso.Ajaxer.prototype.loadUrl = function( href ) {
 
     var self = this;
@@ -77,6 +82,11 @@ sockso.Ajaxer.prototype.loadUrl = function( href ) {
         }
     });
 
+    history.pushState(
+        { url: href },
+        '', href
+    );
+
 };
 
 /**
@@ -88,29 +98,13 @@ sockso.Ajaxer.prototype.loadUrl = function( href ) {
 sockso.Ajaxer.prototype.onLoadUrl = function( html, href ) {
 
     var newContent = $( '#content', html );
-    var newTitle = $( 'title' ).html();
+    var newTitle = html.match( new RegExp('<title>(.*?)</title>') )[ 1 ];
 
-    $( '#content' )
-        .replaceWith( newContent );
+    $( '#content' ).replaceWith( newContent );
 
     this.attach( newContent );
     this.page.initContent();
-    this.setUrl( href, newTitle );
 
-};
-
-/**
- * Sets the page URL and title
- *
- * @param url
- * @param title
- */
-sockso.Ajaxer.prototype.setUrl = function( url, title ) {
-
-    history.pushState(
-        { url: url },
-        title,
-        url
-    );
+    document.title = newTitle;
 
 };

@@ -69,6 +69,8 @@ sockso.RelatedArtists = function( options ) {
 
         list.appendTo( '.artist-' +artistId );
 
+        options.ajaxer.attach( list );
+
         self.addPlayLink( list, relatedArtists );
 
     };

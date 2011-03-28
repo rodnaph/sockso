@@ -3,7 +3,11 @@
  * Encapsulates different kind of page functionality
  *
  */
-sockso.Page = function() {};
+sockso.Page = function() {
+
+    this.ajaxer = null; // sockso.Ajaxer
+
+};
 
 /**
  * Initializes global sockso stuff in the page layout
@@ -77,10 +81,10 @@ sockso.Page.prototype.initLayout = function() {
     var console = new sockso.AdminConsole();
     console.init();
 
-    var ajaxer = new sockso.Ajaxer({
+    this.ajaxer = new sockso.Ajaxer({
         page: this
     });
-    ajaxer.init();
+    this.ajaxer.init();
 
     // global objects
 
@@ -106,7 +110,8 @@ sockso.Page.prototype.initContent = function() {
     // Related/similair artists
 
     var related = new sockso.RelatedArtists({
-        properties: p
+        properties: p,
+        ajaxer: this.ajaxer
     });
     related.init();
 
