@@ -44,7 +44,9 @@ sockso.Page.prototype.init = function() {
         ajaxer: this.ajaxer
     });
 
-    this.imageflow = new sockso.ImageFlow();
+    this.imageflow = new sockso.ImageFlow({
+        ajaxer: this.ajaxer
+    });
 
     this.folders = new sockso.FolderBrowsing( this.player, this.playlist );
 
@@ -123,12 +125,6 @@ sockso.Page.prototype.initLayout = function() {
  * 
  */
 sockso.Page.prototype.initContent = function() {
-
-    var p = window.Properties;
-    var self = this;
-
-    // @TODO - find a way to put stuff like this on individual pages
-    // check if we need to init the uploads form
 
     this.uploadForm.init();
 

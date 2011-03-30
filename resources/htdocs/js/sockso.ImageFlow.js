@@ -22,13 +22,19 @@
  *      NOTE: This script has been modified for use in Sockso.
  *
  */
-sockso.ImageFlow = function() {};
+sockso.ImageFlow = function( options ) {
+
+    this.ajaxer = options.ajaxer;
+
+};
 
 /**
  * Initialise imageflow for this page
  *
  */
 sockso.ImageFlow.prototype.init = function() {
+
+    var self = this;
 
     // Configuration variables
     var conf_reflection_p = 0.5;         // Sets the height of the reflection in % of the source image
@@ -176,20 +182,7 @@ sockso.ImageFlow.prototype.init = function() {
                                     default:
                                             zIndex = zIndex + 1;
                                             image.onclick = function() {
-
-                                              // work out the type and id of the music item
-
-                                              var data = this.src.match( /^.*\/(\w+\d+)$/ );
-                                              if ( data.length > 1 ) {
-
-                                                  var type = ( data[1].substring( 0, 2 ) == 'ar' )
-                                                      ? 'artist' : 'album';
-                                                  var id = data[1].substring( 2 );
-
-                                                  document.location = Properties.getUrl( 'browse/' +type+ '/' +id);
-
-                                              }
-
+                                                $( '#imageflow a' ).click();
                                             };
                                             break;
                             }
@@ -376,6 +369,7 @@ sockso.ImageFlow.prototype.init = function() {
     // This function is called to stop dragging an object
     function dragstop()
     {
+            self.ajaxer.attach( '#imageflow' );
             dragobject = null;
             dragging = false;
     }
@@ -527,11 +521,12 @@ sockso.ImageFlow.prototype.init = function() {
                             .toggleClass( 'togglerHide' );
                     });
 
-               $( '<div></div>' )
-                    .addClass( 'imageflow_toggler' )
-                    .append( link )
-                    .append( wrap )
-                    .insertBefore( musiclist );
+               var newDiv = $( '<div></div>' )
+                                .addClass( 'imageflow_toggler' )
+                                .append( link )
+                                .append( wrap )
+
+               newDiv.insertBefore( musiclist );
 
             }
 

@@ -59,7 +59,7 @@ sockso.Ajaxer.prototype.attach = function( container ) {
  *
  */
 sockso.Ajaxer.prototype.onClick = function( evt ) {
-        
+
     var link = $( evt.target );
     var href = link.attr( 'href' );
 
