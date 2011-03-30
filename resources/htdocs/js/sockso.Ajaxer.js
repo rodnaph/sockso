@@ -79,12 +79,6 @@ sockso.Ajaxer.prototype.onClick = function( evt ) {
  */
 sockso.Ajaxer.prototype.loadUrl = function( href ) {
 
-    var extraArgs = 'format=ajax';
-    var ajaxHref = href;
-
-    ajaxHref += ( href.indexOf('&') !== -1 || href.indexOf('?') !== -1 ) ? '&' : '?';
-    ajaxHref += extraArgs;
-
     $.ajax({
         method: 'GET',
         url: href,
