@@ -380,6 +380,20 @@ h2 img.cover {
     right: 5px;
 }
 
+#flash-player a {
+    float: left;
+    margin-right: 3px;
+    padding: 0 4px 2px 4px;
+    background-color: #ccc;
+    border: 1px #aaa solid;
+    color: #777;
+    width: 10px;
+    height: 11px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 11px;
+}
+
 /* popup menus */
 
 .popup {

@@ -62,6 +62,90 @@ sockso.Player = function( options ) {
     };
 
     /**
+     *  Use the embedded XSPF player
+     *
+     *  @param playUrl
+     *  @param trackFilter
+     *
+     */
+    
+    this.playFlashEmbed = function( playUrl, trackFilter ) {
+
+        var xspfUrl = Properties.getUrl('/file/flash/xspf_player.swf' +
+            '?playlist_url=' + escape(Properties.getUrl('/xspf/' +playUrl + trackFilter))+
+            '&autoplay=1');
+        var toggle = $( '<a></a>' )
+                            .html( '-' )
+                            .click(function() {
+                                var newText = '-';
+                                var newHeight = 150;
+                                if ( toggle.html() == '-' ) {
+                                    newText = '+';
+                                    newHeight = 15;
+                                }
+                                toggle.html( newText )
+                                $( '#flash-player object' )
+                                    .attr( 'height', newHeight );
+                            });
+
+        $( '#flash-player' )
+            .empty()
+            .append( toggle )
+            .append($(
+                '<object type="application/x-shockwave-flash" width="400" height="150" data="' + xspfUrl +'">' +
+                    '<param name="movie" value="' +xspfUrl+ '" />' +
+                '</object>'
+            ))
+            .fadeIn();
+
+    };
+
+    /**
+     *  Plays using the JS Player
+     *
+     *  @param playUrl
+     *
+     */
+    this.playJsPlayer = function( playUrl ) {
+
+        var w = window.open( '', 'PlayerWin', 'width=590,height=270,toolbars=no' );
+        // load window first time
+        if ( !options.jspAllowReload || w.location.href == 'about:blank' ) {
+            w.location.href = Properties.getUrl('/player/js/' +playUrl);
+        }
+        // reload contents dynamically
+        else {
+            w.jsp_reload( playUrl );
+        }
+        w.focus();
+
+    };
+
+    /**
+     *  Plays using the popup flash/flex player
+     *
+     *  @param playUrl
+     *
+     */
+    
+    this.playFlashPopup = function( playUrl ) {
+
+        // default with and height for xspf player
+        var width = 410;
+        var height = 180;
+        // adjust dimensions for different players...
+        if ( self.playType == self.PLAY_FLEX ) {
+            width = 610;
+            height = 310;
+            playUrl += '&player=flexPlayer';
+        }
+        // now we can open the window...
+        var w = window.open( Properties.getUrl('/player/xspf/' + playUrl), 'PlayerWin', 'width=' +width+ ',height=' +height+ ',toolbars=no' );
+        w.focus();
+
+    };
+
+    /**
      *  plays a track/artist/etc with the correct play type the user is using
      *
      */
@@ -84,47 +168,17 @@ sockso.Player = function( options ) {
                 break;
 
             case self.PLAY_FLASH_EMBED:
-                var xspfUrl = Properties.getUrl('/file/flash/xspf_player.swf' +
-                    '?playlist_url=' + escape(Properties.getUrl('/xspf/' +playUrl + trackFilter))+
-                    '&autoplay=1');
-                $( '#flash-player' )
-                    .empty()
-                    .append($(
-                        '<object type="application/x-shockwave-flash" width="400" height="150" data="' + xspfUrl +'">' +
-                            '<param name="movie" value="' +xspfUrl+ '" />' +
-                        '</object>'
-                    ))
-                    .fadeIn();
+                this.playFlashEmbed( playUrl, trackFilter );
                 break;
 
             case self.PLAY_JSPLAYER:
-                var w = window.open( '', 'PlayerWin', 'width=590,height=270,toolbars=no' );
-                // load window first time
-                if ( !options.jspAllowReload || w.location.href == 'about:blank' ) {
-                    w.location.href = Properties.getUrl('/player/js/' +playUrl);
-                }
-                // reload contents dynamically
-                else {
-                    w.jsp_reload( playUrl );
-                }
-                w.focus();
+                this.playJsPlayer( playUrl );
                 break;
 
             case self.PLAY_FLEX:
             case self.PLAY_FLASH_POPUP:
             default:
-                // default with and height for xspf player
-                var width = 410;
-                var height = 180;
-                // adjust dimensions for different players...
-                if ( self.playType == self.PLAY_FLEX ) {
-                    width = 610;
-                    height = 310;
-                    playUrl += '&player=flexPlayer';
-                }
-                // now we can open the window...
-                var w = window.open( Properties.getUrl('/player/xspf/' + playUrl), 'PlayerWin', 'width=' +width+ ',height=' +height+ ',toolbars=no' );
-                w.focus();
+                this.playFlashPopup( playUrl );
                 break;
 
         }
