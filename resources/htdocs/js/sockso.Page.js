@@ -6,6 +6,48 @@
 sockso.Page = function() {
 
     this.ajaxer = null; // sockso.Ajaxer
+    this.session;
+    this.search;
+
+};
+
+sockso.Page.prototype.init = function() {
+
+    this.session = new sockso.Session();
+
+    // ajax loading pages
+
+    this.ajaxer = new sockso.Ajaxer({
+        page: this
+    });
+
+    this.search = new sockso.SearchBox({
+        ajaxer: this.ajaxer
+    });
+
+    this.player = new sockso.Player({
+        session: this.session
+    });
+
+    this.playlist = new sockso.Playlist({
+        parentId: 'playlist',
+        player: this.player,
+        session: this.session,
+        user: user
+    });
+
+    this.console = new sockso.AdminConsole();
+
+    this.uploadForm = new sockso.UploadForm( 'uploadForm' );
+
+    this.related = new sockso.RelatedArtists({
+        properties: Properties,
+        ajaxer: this.ajaxer
+    });
+
+    this.imageflow = new sockso.ImageFlow();
+
+    this.folders = new sockso.FolderBrowsing( this.player, this.playlist );
 
 };
 
@@ -49,51 +91,31 @@ sockso.Page.prototype.initLayout = function() {
         initBoldSkin();
     }
 
-    var session = new sockso.Session();
-
-    // ajax loading pages
-
-    this.ajaxer = new sockso.Ajaxer({
-        page: this
-    });
     this.ajaxer.init();
 
     // create the search box
 
-    var search = new sockso.SearchBox({
-        ajaxer: this.ajaxer
-    });
-    search.init( '#nav' );
+    this.search.init( '#nav' );
 
     // create the player selection control
     // needs to be accessed globally
 
-    var player = new sockso.Player({
-        session: session
-    });
-    player.init( '#nav' );
+    this.player.init( '#nav' );
 
     // create playlist control
 
-    var playlist = new sockso.Playlist({
-        parentId: 'playlist',
-        player: player,
-        session: session,
-        user: user
-    });
-    playlist.init();
-    playlist.load();
-    playlist.refresh();
+    this.playlist.init();
+    this.playlist.load();
+    this.playlist.refresh();
 
     // Admin console
 
-    var console = new sockso.AdminConsole();
-    console.init();
+    this.console.init();
 
     // global objects
 
-    window.player = player;
-    window.playlist = playlist;
+    window.player = this.player;
+    window.playlist = this.playlist;
 
 };
 
@@ -104,25 +126,20 @@ sockso.Page.prototype.initLayout = function() {
 sockso.Page.prototype.initContent = function() {
 
     var p = window.Properties;
+    var self = this;
 
     // @TODO - find a way to put stuff like this on individual pages
     // check if we need to init the uploads form
 
-    var form = new sockso.UploadForm( 'uploadForm' );
-    form.init();
+    this.uploadForm.init();
 
     // Related/similair artists
 
-    var related = new sockso.RelatedArtists({
-        properties: p,
-        ajaxer: this.ajaxer
-    });
-    related.init();
+    this.related.init();
 
     // Sharing links
 
     $( '.share-music' ).each(function() {
-
         var popup = new sockso.Sharer( $(this) );
         popup.init();
         popup.addStandardLinks();
@@ -132,13 +149,11 @@ sockso.Page.prototype.initContent = function() {
     // Imageflow
 
     if ( Properties.get("www.imageflow.disable") !== 'yes' && Properties.get("www.covers.disable") !== 'yes' ) {
-        var imageflow = new sockso.ImageFlow();
-        imageflow.init();
+        this.imageflow.init();
     }
 
     // Folder browsing
 
-    var folders = new sockso.FolderBrowsing( player, playlist );
-    folders.init();
+    this.folders.init();
 
 };

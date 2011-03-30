@@ -3,6 +3,7 @@ sockso.RelatedArtists = function( options ) {
 
     var self = new sockso.Base( options );
     var properties = options.properties;
+    var currentRequest = null;
 
     /**
      * Runs the widget
@@ -30,10 +31,15 @@ sockso.RelatedArtists = function( options ) {
      */
     self.getRelatedArtists = function( artistId, callback ) {
 
-        self.ajax({
+        if ( currentRequest ) {
+            currentRequest.abort();
+        }
+
+        currentRequest = $.ajax({
             type: 'GET',
             url: Properties.getUrl('/json/similarArtists/' +artistId),
             success: function( responseText ) {
+                currentRequest = null;
                 var artists = null;
                 eval( 'artists = ' +responseText );
                 callback( artists );
@@ -67,7 +73,9 @@ sockso.RelatedArtists = function( options ) {
 
         });
 
-        list.appendTo( '.artist-' +artistId );
+        $( '.artist-' +artistId )
+            .empty()
+            .append( list );
 
         options.ajaxer.attach( list );
 

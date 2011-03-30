@@ -84,13 +84,13 @@ sockso.Player = function( options ) {
                 break;
 
             case self.PLAY_FLASH_EMBED:
-                var xspfUrl = Properties.getUrl('/file/flash/xspf_player_slim.swf' +
+                var xspfUrl = Properties.getUrl('/file/flash/xspf_player.swf' +
                     '?playlist_url=' + escape(Properties.getUrl('/xspf/' +playUrl + trackFilter))+
                     '&autoplay=1');
                 $( '#flash-player' )
                     .empty()
                     .append($(
-                        '<object type="application/x-shockwave-flash" width="400" height="15" data="' + xspfUrl +'">' +
+                        '<object type="application/x-shockwave-flash" width="400" height="150" data="' + xspfUrl +'">' +
                             '<param name="movie" value="' +xspfUrl+ '" />' +
                         '</object>'
                     ))
@@ -140,9 +140,9 @@ sockso.Player = function( options ) {
 
         playOptions = $( '<select></select>' )
                         .addClass( 'play-options' )
+                        .append( createPlayOption(self.PLAY_FLASH_EMBED,'Embedded Flash Player') )
                         .append( createPlayOption(self.PLAY_FLASH_POPUP,'Popup Flash Player') )
                         .append( createPlayOption(self.PLAY_FLEX,'Flex Player') )
-                        .append( createPlayOption(self.PLAY_FLASH_EMBED,'Embedded Flash Player') )
                         .append( createPlayOption(self.PLAY_M3U,'M3U (iTunes,WMP,etc...)') )
                         .append( createPlayOption(self.PLAY_PLS,'Pls (Winamp,Shoutcast,etc...)') )
                         .append( createPlayOption(self.PLAY_XSPF,'XSPF') )
