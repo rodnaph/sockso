@@ -4,13 +4,12 @@
  *
  */
 sockso.Page = function() {
-
-    this.ajaxer = null; // sockso.Ajaxer
-    this.session;
-    this.search;
-
 };
 
+/**
+ * Initialise and wire up all the objects
+ *
+ */
 sockso.Page.prototype.init = function() {
 
     this.session = new sockso.Session();
