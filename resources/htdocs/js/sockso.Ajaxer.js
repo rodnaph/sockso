@@ -16,9 +16,12 @@ sockso.Ajaxer = function( options ) {
  */
 sockso.Ajaxer.prototype.init = function() {
 
-    if ( history.pushState ) {
+    if ( history && history.pushState ) {
         this.attach();
-        window.onpopstate = this.onPopState.bind( this );
+        $( window ).bind(
+            'popstate',
+            this.onPopState.bind( this )
+        );
     }
 
 };
@@ -31,8 +34,10 @@ sockso.Ajaxer.prototype.init = function() {
  */
 sockso.Ajaxer.prototype.onPopState = function( evt ) {
 
-    if ( evt.state ) {
-        this.loadUrl( evt.state.url );
+    var state = evt.originalEvent.state;
+
+    if ( state ) {
+        this.loadUrl( state.url );
     }
 
 };
@@ -44,18 +49,25 @@ sockso.Ajaxer.prototype.onPopState = function( evt ) {
  */
 sockso.Ajaxer.prototype.attach = function( container ) {
 
-    var self = this;
+    $( 'a:not([href^=javascript])', container )
+        .click( this.onClick.bind(this) );
 
-    $( 'a:not([href^=javascript])', container ).click(function() {
-        
-        var link = $( this );
-        var href = link.attr( 'href' );
+};
 
-        self.loadUrl( href );
+/**
+ * A link has been clicked
+ *
+ */
+sockso.Ajaxer.prototype.onClick = function( evt ) {
         
-        return false;
-        
-    });
+    var link = $( evt.target );
+    var href = link.attr( 'href' );
+
+    this.loadUrl( href );
+
+    history.pushState( {url:href}, '', href );
+
+    return false;
 
 };
 
@@ -67,7 +79,6 @@ sockso.Ajaxer.prototype.attach = function( container ) {
  */
 sockso.Ajaxer.prototype.loadUrl = function( href ) {
 
-    var self = this;
     var extraArgs = 'format=ajax';
     var ajaxHref = href;
 
@@ -77,15 +88,8 @@ sockso.Ajaxer.prototype.loadUrl = function( href ) {
     $.ajax({
         method: 'GET',
         url: href,
-        success: function( html ) {
-            self.onLoadUrl( html, href );
-        }
+        success: this.onLoadUrl.bind( this )
     });
-
-    history.pushState(
-        { url: href },
-        '', href
-    );
 
 };
 
@@ -93,9 +97,8 @@ sockso.Ajaxer.prototype.loadUrl = function( href ) {
  * A URL has been loaded, render it
  *
  * @param html
- * @param href
  */
-sockso.Ajaxer.prototype.onLoadUrl = function( html, href ) {
+sockso.Ajaxer.prototype.onLoadUrl = function( html ) {
 
     var newContent = $( '#content', html );
     var newTitle = html.match( new RegExp('<title>(.*?)</title>') )[ 1 ];
@@ -104,7 +107,17 @@ sockso.Ajaxer.prototype.onLoadUrl = function( html, href ) {
 
     this.attach( newContent );
     this.page.initContent();
+    this.setTitle( newTitle );
 
-    document.title = newTitle;
+};
+
+/**
+ * Sets the page title
+ *
+ * @param title
+ */
+sockso.Ajaxer.prototype.setTitle = function( title ) {
+
+    document.title = title;
 
 };
