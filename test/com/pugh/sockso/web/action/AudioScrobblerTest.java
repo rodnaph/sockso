@@ -1,11 +1,12 @@
 
-package com.pugh.sockso.web;
+package com.pugh.sockso.web.action;
 
 import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.MyHttpURLConnection;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.action.AudioScrobbler;
 
 import java.net.HttpURLConnection;

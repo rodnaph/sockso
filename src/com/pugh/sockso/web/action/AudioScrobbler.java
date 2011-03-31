@@ -58,13 +58,12 @@ public class AudioScrobbler {
 
     public String[] getSimilarArtists( final int artistId ) throws IOException, SQLException, BadRequestException {
 
-        final String artistName = getArtistName( artistId );
-        final String cacheKey = "web.action.AudioScrobbler.similar." +artistName;
+        final String cacheKey = "web.action.AudioScrobbler.similar." +artistId;
 
         if ( !cache.isCached(cacheKey) ) {
             cache.write(
                 cacheKey,
-                getSimilarArtists( artistName ),
+                getSimilarArtists( getArtistName(artistId) ),
                 CACHE_TIMEOUT_IN_SECONDS
             );
         }
