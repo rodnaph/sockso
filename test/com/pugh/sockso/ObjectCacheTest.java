@@ -1,7 +1,7 @@
 
-package com.pugh.sockso.web;
+package com.pugh.sockso;
 
-import com.pugh.sockso.web.ObjectCache;
+import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.tests.SocksoTestCase;
 
 public class ObjectCacheTest extends SocksoTestCase {

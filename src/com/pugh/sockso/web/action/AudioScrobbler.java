@@ -1,7 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
-import com.pugh.sockso.web.ObjectCache;
+import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.BadRequestException;
@@ -76,8 +76,9 @@ public class AudioScrobbler {
                 throw new BadRequestException( "unknown artist", 404 );
 
             final String artistName = rs.getString( "name" );
+            final String cacheKey = "web.action.AudioScrobbler.similar." +artistName;
 
-            if ( !cache.isCached(artistName) ) {
+            if ( !cache.isCached(cacheKey) ) {
 
                 log.debug( "Fetching similar artists for: " +artistName );
 
@@ -94,17 +95,15 @@ public class AudioScrobbler {
                     artists.add( info[2] );
                 }
 
-                log.debug( "Writing cache for similar artists on: " +artistName );
-
                 cache.write(
-                    artistName,
+                    cacheKey,
                     artists.toArray( new String[] {} ),
                     CACHE_TIMEOUT_IN_SECONDS
                 );
 
             }
 
-            return (String[]) cache.read( artistName );
+            return (String[]) cache.read( cacheKey );
 
         }
         

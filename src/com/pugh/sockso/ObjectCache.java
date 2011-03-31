@@ -1,10 +1,14 @@
 
-package com.pugh.sockso.web;
+package com.pugh.sockso;
 
 import java.util.Date;
 import java.util.Hashtable;
 
+import org.apache.log4j.Logger;
+
 public class ObjectCache {
+
+    private static final Logger log = Logger.getLogger( ObjectCache.class );
 
     private Hashtable<String,CachedObject> data;
 
@@ -30,7 +34,7 @@ public class ObjectCache {
 
         private int getTime() {
 
-            return ( (int) new Date().getTime() );
+            return (int) (new Date().getTime() / 1000);
 
         }
 
@@ -69,8 +73,11 @@ public class ObjectCache {
     public boolean isCached( final String key ) {
 
         final CachedObject object = readRaw( key );
+        final boolean isCached = ( object != null && !object.isExpired() );
 
-        return ( object != null && !object.isExpired() );
+        log.debug( "Cache " +(isCached ? "hit" : "miss")+ " for " +key );
+
+        return isCached;
         
     }
 
@@ -99,6 +106,11 @@ public class ObjectCache {
      */
     
     public void write( final String key, final Object value, final int timeout ) {
+
+        log.debug(
+            "Write key " +key+
+            ( timeout != -1 ? " expires in " +timeout+ " seconds" : "" )
+        );
 
         data.put( key, new CachedObject( value, timeout ) );
         

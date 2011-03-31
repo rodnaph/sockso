@@ -40,8 +40,6 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
 
     private static Logger log = Logger.getLogger(Server.class);
 
-    private final ObjectCache cache;
-
     /**
      *  Creates a new instance of a http server.  If the ip address given is null,
      *  then the server will try and work it out for itself.
@@ -63,7 +61,6 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
         this.r = r;
 
         threads = new Vector<ServerThread>();
-        cache = new ObjectCache();
 
     }
 
@@ -122,7 +119,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
 
         //log.debug( "Connection Received" );
 
-        ServerThread st = new ServerThread( this, client, db, p, r, dispatcher, cache );
+        ServerThread st = new ServerThread( this, client, db, p, r, dispatcher );
         threads.addElement( st );
         st.start();
 

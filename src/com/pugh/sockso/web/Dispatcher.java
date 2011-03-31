@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web;
 
+import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.auth.DBAuthenticator;
