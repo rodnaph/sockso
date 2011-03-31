@@ -51,7 +51,7 @@ public class Jsoner extends WebAction {
     private static final Logger log = Logger.getLogger( Jsoner.class );
     
     private final CollectionManager cm;
-    
+
     public Jsoner( final CollectionManager cm ) {
         
         this.cm = cm;
@@ -149,6 +149,7 @@ public class Jsoner extends WebAction {
     
     protected void similarArtists() throws BadRequestException, SQLException, IOException {
         
+        final AudioScrobbler scrobbler = new AudioScrobbler( getDatabase() );
         final Request req = getRequest();
         final int artistId = Integer.parseInt( req.getUrlParam(2) );
         
@@ -161,7 +162,7 @@ public class Jsoner extends WebAction {
             final ArrayList<Artist> artists = new ArrayList<Artist>();
             String artistSql = " '' ";
             
-            for ( final String artist : getScrobbledSimilarArtists(artistId) ) {
+            for ( final String artist : scrobbler.getSimilarArtists(artistId) ) {
                 artistSql += " , '" +db.escape(artist)+ "' ";
             }
 
@@ -201,64 +202,6 @@ public class Jsoner extends WebAction {
         
         getResponse().showJson( tpl.makeRenderer() );
 
-    }
-    
-    /**
-     *  queries audioscrobbler to get an array of similar artists
-     * 
-     *  @param artistId
-     * 
-     *  @return
-     * 
-     *  @throws java.sql.SQLException
-     *  @throws java.io.IOException
-     *  @throws BadRequestException
-     * 
-     */
-    
-    private String[] getScrobbledSimilarArtists( final int artistId ) throws SQLException, IOException, BadRequestException {
-        
-        ResultSet rs = null;
-        PreparedStatement st = null;
-        BufferedReader in = null;
-
-        try {
-            
-            final Database db = getDatabase();
-            final String sql = " select name " +
-                               " from artists " +
-                               " where id = ? ";
-            
-            st = db.prepare( sql );
-            st.setInt( 1, artistId );
-            rs = st.executeQuery();
-            
-            if ( !rs.next() )
-                throw new BadRequestException( "unknown artist", 404 );
-            
-            final URL url = new URL( "http://ws.audioscrobbler.com/1.0/artist/" +Utils.URLEncode(rs.getString("name"))+ "/similar.txt" );
-            final HttpURLConnection cnn = (HttpURLConnection) url.openConnection();
-            final ArrayList<String> artists = new ArrayList<String>();
-
-            String s = "";
-
-            in = new BufferedReader(new InputStreamReader(cnn.getInputStream()) );
-            
-            while ( (s = in.readLine()) != null ) {
-                final String[] info = s.split( "," );
-                artists.add( info[2] );
-            }
-            
-            return artists.toArray( new String[] {} );
-
-        }
-        
-        finally {
-            Utils.close( rs );
-            Utils.close( st );
-            Utils.close( in );
-        }
-        
     }
     
     /**
