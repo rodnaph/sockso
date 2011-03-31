@@ -58,59 +58,100 @@ public class AudioScrobbler {
 
     public String[] getSimilarArtists( final int artistId ) throws IOException, SQLException, BadRequestException {
 
-        ResultSet rs = null;
-        PreparedStatement st = null;
+        final String artistName = getArtistName( artistId );
+        final String cacheKey = "web.action.AudioScrobbler.similar." +artistName;
+
+        if ( !cache.isCached(cacheKey) ) {
+            cache.write(
+                cacheKey,
+                getSimilarArtists( artistName ),
+                CACHE_TIMEOUT_IN_SECONDS
+            );
+        }
+
+        return (String[]) cache.read( cacheKey );
+
+    }
+
+    /**
+     *  Fetches similar artists by artist name
+     *
+     *  @param artistName
+     *
+     *  @return
+     *
+     *  @throws IOException
+     *
+     */
+    
+    protected String[] getSimilarArtists( final String artistName ) throws IOException {
+
         BufferedReader in = null;
 
         try {
-            
+
+            log.debug( "Fetching similar artists for: " +artistName );
+
+            final String url = "http://ws.audioscrobbler.com/1.0/artist/" +Utils.URLEncode(artistName)+ "/similar.txt";
+            final HttpURLConnection cnn = getHttpURLConnection( url );
+            final ArrayList<String> artists = new ArrayList<String>();
+
+            String s = "";
+
+            in = new BufferedReader(new InputStreamReader(cnn.getInputStream()) );
+
+            while ( (s = in.readLine()) != null ) {
+                final String[] info = s.split( "," );
+                artists.add( info[2] );
+            }
+
+            return artists.toArray( new String[] {} );
+
+        }
+
+        finally {
+            Utils.close( in );
+        }
+
+    }
+
+    /**
+     *  Resolves an artist id to name, or throws an exception
+     *
+     *  @param artistId
+     *
+     *  @return
+     *
+     *  @throws SQLException
+     *  @throws BadRequestException
+     *
+     */
+
+    protected String getArtistName( final int artistId ) throws SQLException, BadRequestException {
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
+        try {
+
             final String sql = " select name " +
                                " from artists " +
                                " where id = ? ";
-            
+
             st = db.prepare( sql );
             st.setInt( 1, artistId );
             rs = st.executeQuery();
-            
+
             if ( !rs.next() )
                 throw new BadRequestException( "unknown artist", 404 );
 
-            final String artistName = rs.getString( "name" );
-            final String cacheKey = "web.action.AudioScrobbler.similar." +artistName;
-
-            if ( !cache.isCached(cacheKey) ) {
-
-                log.debug( "Fetching similar artists for: " +artistName );
-
-                final String url = "http://ws.audioscrobbler.com/1.0/artist/" +Utils.URLEncode(artistName)+ "/similar.txt";
-                final HttpURLConnection cnn = getHttpURLConnection( url );
-                final ArrayList<String> artists = new ArrayList<String>();
-
-                String s = "";
-
-                in = new BufferedReader(new InputStreamReader(cnn.getInputStream()) );
-
-                while ( (s = in.readLine()) != null ) {
-                    final String[] info = s.split( "," );
-                    artists.add( info[2] );
-                }
-
-                cache.write(
-                    cacheKey,
-                    artists.toArray( new String[] {} ),
-                    CACHE_TIMEOUT_IN_SECONDS
-                );
-
-            }
-
-            return (String[]) cache.read( cacheKey );
+            return rs.getString( "name" );
 
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
-            Utils.close( in );
         }
 
     }
