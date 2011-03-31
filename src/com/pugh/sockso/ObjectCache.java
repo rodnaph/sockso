@@ -13,44 +13,6 @@ public class ObjectCache {
     private Hashtable<String,CachedObject> data;
 
     /**
-     * Internal cache object that can be time expired
-     *
-     */
-    class CachedObject {
-
-        private final Object value;
-
-        private final int expiresAt;
-
-        public CachedObject( final Object value, final int timeout ) {
-
-            this.value = value;
-            
-            expiresAt = ( timeout != -1 )
-                ? getTime() + timeout
-                : -1;
-
-        }
-
-        private int getTime() {
-
-            return (int) (new Date().getTime() / 1000);
-
-        }
-
-        public boolean isExpired() {
-
-            return expiresAt != -1 && getTime() >= expiresAt;
-            
-        }
-
-        public Object getValue() {
-            return value;
-        }
-
-    }
-
-    /**
      *  Create a new object cache
      *
      */
