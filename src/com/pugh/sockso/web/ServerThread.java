@@ -34,6 +34,7 @@ public class ServerThread extends Thread {
     private final Properties p;
     private final Resources r;
     private final Dispatcher dispatcher;
+    private final ObjectCache cache;
 
     /**
      *  Creates a new instance of ServerThread
@@ -46,7 +47,9 @@ public class ServerThread extends Thread {
      *
      */
     
-    public ServerThread( final Server server, final Socket client, final Database db, final Properties p, final Resources r, final Dispatcher dispatcher ) {
+    public ServerThread( final Server server, final Socket client, final Database db,
+                         final Properties p, final Resources r, final Dispatcher dispatcher,
+                         final ObjectCache cache ) {
 
         this.sv = server;
         this.client = client;
@@ -54,6 +57,7 @@ public class ServerThread extends Thread {
         this.p = p;
         this.r = r;
         this.dispatcher = dispatcher;
+        this.cache = cache;
                 
     }
     

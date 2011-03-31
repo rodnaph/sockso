@@ -32,6 +32,7 @@ import com.pugh.sockso.web.Server;
 import com.pugh.sockso.web.SessionCleaner;
 import com.pugh.sockso.web.HttpServer;
 import com.pugh.sockso.web.HttpsServer;
+import com.pugh.sockso.web.ObjectCache;
 
 import java.io.File;
 import java.io.IOException;
@@ -283,7 +284,7 @@ public class Main {
         final int port = getSavedPort( p );
         final String protocol = getProtocol( options );
 
-        dispatcher = new Dispatcher( protocol, port, p, r, cm, db );
+        dispatcher = new Dispatcher( protocol, port, p, r, cm, db, new ObjectCache() );
         
         log.info( "Starting Web Server" );
         sv = getServer( port, options );

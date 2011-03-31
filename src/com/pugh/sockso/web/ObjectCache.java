@@ -1,5 +1,5 @@
 
-package com.pugh.sockso.web.action;
+package com.pugh.sockso.web;
 
 import java.util.Date;
 import java.util.Hashtable;

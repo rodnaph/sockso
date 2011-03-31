@@ -39,7 +39,7 @@ public class JsonerTest extends SocksoTestCase {
         db = new TestDatabase();
         res = new TestResponse();
         req = new TestRequest( "GET / HTTP/1.1" );
-        js = new Jsoner( null );
+        js = new Jsoner( null, null );
         js.setRequest( req );
         js.setResponse( res );
         js.setLocale( new TestLocale() );
@@ -66,7 +66,7 @@ public class JsonerTest extends SocksoTestCase {
     public void testShowTracks() throws IOException {
         
         final Vector<Track> tracks = new Vector<Track>();
-        final Jsoner j = new Jsoner( null );
+        final Jsoner j = new Jsoner( null, null );
         final Response res = new TestResponse();
         final Track track = TestUtils.getTrack();
         
@@ -80,7 +80,7 @@ public class JsonerTest extends SocksoTestCase {
     public void testShowSimilarArtists() throws IOException {
         
         final ArrayList<Artist> artists = new ArrayList<Artist>();
-        final Jsoner j = new Jsoner( null );
+        final Jsoner j = new Jsoner( null, null );
         final Response res = new TestResponse();
         final Artist artist = TestUtils.getArtist();
         
@@ -93,7 +93,7 @@ public class JsonerTest extends SocksoTestCase {
  
     public void testGetOrderedFiles() throws Exception {
         
-        final Jsoner j = new Jsoner( null );
+        final Jsoner j = new Jsoner( null, null );
         final File[] unordered = new File[] {
             new File( "first.mp3" ),
             new File( "second.mp3" ),
@@ -118,7 +118,7 @@ public class JsonerTest extends SocksoTestCase {
         p.set( Constants.WWW_TAGLINE, "THEtagline" );
 
         TestResponse res = new TestResponse();
-        Jsoner j = new Jsoner( null );
+        Jsoner j = new Jsoner( null, null );
         j.setProperties( p );
         j.setResponse( res );
         j.serverinfo();
@@ -145,7 +145,7 @@ public class JsonerTest extends SocksoTestCase {
         p.set( Constants.WWW_USERS_REQUIRE_LOGIN, Properties.YES );
 
         TestResponse res = new TestResponse();
-        Jsoner j = new Jsoner( null );
+        Jsoner j = new Jsoner( null, null );
         j.setResponse( res );
         j.setProperties( p );
         j.serverinfo();
@@ -163,7 +163,7 @@ public class JsonerTest extends SocksoTestCase {
         p.set( Constants.WWW_TAGLINE, "THE\"tagline" );
 
         TestResponse res = new TestResponse();
-        Jsoner j = new Jsoner( null );
+        Jsoner j = new Jsoner( null, null );
         j.setProperties( p );
         j.setResponse( res );
         j.serverinfo();
@@ -179,7 +179,7 @@ public class JsonerTest extends SocksoTestCase {
     public void testLoginNotRequiredWhenServerInfoRequested() {
         
         Request req = new TestRequest( "GET /json/serverinfo HTTP/1.1" );
-        Jsoner j = new Jsoner( null );
+        Jsoner j = new Jsoner( null, null );
         j.setRequest( req );
 
         assertFalse( j.requiresLogin() );

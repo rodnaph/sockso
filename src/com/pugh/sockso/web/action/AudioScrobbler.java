@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.web.ObjectCache;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.BadRequestException;
@@ -15,9 +16,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 public class AudioScrobbler {
 
+    private final int ONE_HOUR_IN_SECONDS = 60 * 60;
+    private final int CACHE_TIMEOUT_IN_SECONDS = ONE_HOUR_IN_SECONDS;
+
+    private final Logger log = Logger.getLogger( AudioScrobbler.class );
+
     private Database db;
+
+    private ObjectCache cache;
 
     /**
      *  Creates a new AudioScrobbler object
@@ -26,10 +36,11 @@ public class AudioScrobbler {
      *
      */
 
-    public AudioScrobbler( final Database db ) {
+    public AudioScrobbler( final Database db, final ObjectCache cache ) {
         
         this.db = db;
-        
+        this.cache = cache;
+
     }
 
     /**
@@ -46,7 +57,7 @@ public class AudioScrobbler {
      */
 
     public String[] getSimilarArtists( final int artistId ) throws IOException, SQLException, BadRequestException {
-        
+
         ResultSet rs = null;
         PreparedStatement st = null;
         BufferedReader in = null;
@@ -64,20 +75,36 @@ public class AudioScrobbler {
             if ( !rs.next() )
                 throw new BadRequestException( "unknown artist", 404 );
 
-            final String url = "http://ws.audioscrobbler.com/1.0/artist/" +Utils.URLEncode(rs.getString("name"))+ "/similar.txt";
-            final HttpURLConnection cnn = getHttpURLConnection( url );
-            final ArrayList<String> artists = new ArrayList<String>();
+            final String artistName = rs.getString( "name" );
 
-            String s = "";
+            if ( !cache.isCached(artistName) ) {
 
-            in = new BufferedReader(new InputStreamReader(cnn.getInputStream()) );
-            
-            while ( (s = in.readLine()) != null ) {
-                final String[] info = s.split( "," );
-                artists.add( info[2] );
+                log.debug( "Fetching similar artists for: " +artistName );
+
+                final String url = "http://ws.audioscrobbler.com/1.0/artist/" +Utils.URLEncode(artistName)+ "/similar.txt";
+                final HttpURLConnection cnn = getHttpURLConnection( url );
+                final ArrayList<String> artists = new ArrayList<String>();
+
+                String s = "";
+
+                in = new BufferedReader(new InputStreamReader(cnn.getInputStream()) );
+
+                while ( (s = in.readLine()) != null ) {
+                    final String[] info = s.split( "," );
+                    artists.add( info[2] );
+                }
+
+                log.debug( "Writing cache for similar artists on: " +artistName );
+
+                cache.write(
+                    artistName,
+                    artists.toArray( new String[] {} ),
+                    CACHE_TIMEOUT_IN_SECONDS
+                );
+
             }
-            
-            return artists.toArray( new String[] {} );
+
+            return (String[]) cache.read( artistName );
 
         }
         

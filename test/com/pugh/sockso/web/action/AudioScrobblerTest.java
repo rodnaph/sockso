@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.web.ObjectCache;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.MyHttpURLConnection;
 import com.pugh.sockso.tests.SocksoTestCase;
@@ -52,7 +53,7 @@ class MyAudioScrobbler extends AudioScrobbler {
     private String data;
 
     public MyAudioScrobbler( Database db ) {
-        super( db );
+        super( db, new ObjectCache() );
     }
 
     public void setUrlResponse( String data ) {

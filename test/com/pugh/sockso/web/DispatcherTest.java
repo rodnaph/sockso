@@ -42,7 +42,7 @@ public class DispatcherTest extends TestCase {
 
     public void testConstructor() {
 
-        final Dispatcher d = new Dispatcher( "http", 4444, null, null, null, null );
+        final Dispatcher d = new Dispatcher( "http", 4444, null, null, null, null, null );
         
         assertNotNull( d );
         
@@ -54,7 +54,7 @@ public class DispatcherTest extends TestCase {
         expect( req.getUrlParam(0) ).andReturn( "--DOES-NOT-EXIST--" );
         replay( req );
 
-        final Dispatcher d = new Dispatcher( "http", 4444, new StringProperties(), null, null, null );
+        final Dispatcher d = new Dispatcher( "http", 4444, new StringProperties(), null, null, null, null );
         final WebAction a = d.getAction( req );
         
         assertNull( a );
@@ -110,7 +110,7 @@ public class DispatcherTest extends TestCase {
             expect( req.getUrlParam(1) ).andReturn( parts[2] );
         replay( req );
         
-        final Dispatcher d = new Dispatcher( "http", 4444, new StringProperties(), null, null, null );
+        final Dispatcher d = new Dispatcher( "http", 4444, new StringProperties(), null, null, null, null );
         
         assertEquals( handler, d.getAction( req ).getClass() );
 
@@ -121,7 +121,7 @@ public class DispatcherTest extends TestCase {
         final String host = "some.host.com";
         final int port = 1234;
         p.set( Constants.SERVER_HOST, host );
-        final Dispatcher d = new Dispatcher( "http", port, p, null, null, null );
+        final Dispatcher d = new Dispatcher( "http", port, p, null, null, null, null );
         assertEquals( host + ":" + port, d.getHost() );
     }
     

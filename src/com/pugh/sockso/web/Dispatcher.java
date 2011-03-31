@@ -50,8 +50,11 @@ public class Dispatcher {
     private final Resources r;
     private final CollectionManager cm;
     private final Database db;
+    private final ObjectCache cache;
     
-    public Dispatcher( final String protocol, final int port, final Properties p, final Resources r, final CollectionManager cm, final Database db ) {
+    public Dispatcher( final String protocol, final int port, final Properties p,
+                       final Resources r, final CollectionManager cm, final Database db,
+                       final ObjectCache cache ) {
 
         this.protocol = protocol;
         this.port = port;
@@ -59,6 +62,7 @@ public class Dispatcher {
         this.r = r;
         this.cm = cm;
         this.db = db;
+        this.cache = cache;
         
     }
     
@@ -98,7 +102,7 @@ public class Dispatcher {
             action = new Streamer();
         
         else if ( command.equals("json") )
-            action = new Jsoner( cm );
+            action = new Jsoner( cm, cache );
         
         else if ( command.equals("user") ) {
             final Userer u = new Userer();

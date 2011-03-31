@@ -9,6 +9,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.web.ObjectCache;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.web.*;
 import com.pugh.sockso.Utils;
@@ -52,9 +53,12 @@ public class Jsoner extends WebAction {
     
     private final CollectionManager cm;
 
-    public Jsoner( final CollectionManager cm ) {
+    private final ObjectCache cache;
+
+    public Jsoner( final CollectionManager cm, final ObjectCache cache ) {
         
         this.cm = cm;
+        this.cache = cache;
         
     }
 
@@ -149,7 +153,7 @@ public class Jsoner extends WebAction {
     
     protected void similarArtists() throws BadRequestException, SQLException, IOException {
         
-        final AudioScrobbler scrobbler = new AudioScrobbler( getDatabase() );
+        final AudioScrobbler scrobbler = new AudioScrobbler( getDatabase(), cache );
         final Request req = getRequest();
         final int artistId = Integer.parseInt( req.getUrlParam(2) );
         
