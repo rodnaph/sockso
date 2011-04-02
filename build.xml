@@ -132,7 +132,7 @@ public class Sockso {
         </delete>
         <!-- pack javascript -->
         <exec executable="${php.exe}">
-            <arg value="${dir.scripts}/pack-javascript.php" />
+            <arg value="${dir.scripts}/pack-resources.php" />
             <arg value="${sockso.version}" />
         </exec>
         <!-- create locale javascript files -->
