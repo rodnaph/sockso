@@ -1,6 +1,8 @@
 
 package com.pugh.sockso.commands;
 
+import java.util.Vector;
+
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CollectionManager;
@@ -117,8 +119,36 @@ public class CommandExecuter {
      */
 
     protected String[] getArgs( final String command ) {
+    	
+    	Vector<String> args = new Vector<String>();
+    	
+    	String arg = new String();
+		boolean previousEscape = false;
+    	for ( char c: command.toCharArray() ) {
+    		
+    		if ( Character.isWhitespace(c)) {
+    			if ( previousEscape )
+    				arg += c;
+    			else {
+    				args.add(new String(arg));
+    				arg = "";
+    			}
+    			continue;
+    		}
+    		
+    		if ( c == '\\' && !previousEscape) {
+    			previousEscape = true;
+    			continue;
+    		}
+    		
+    		arg += c;
+    		
+    		previousEscape = false;		
+    	}
+    	if (arg.length() > 0)
+    		args.add(arg);
 
-        return command.split( " " );
+        return args.toArray(new String[0]);
 
     }
 
