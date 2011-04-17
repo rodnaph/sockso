@@ -16,6 +16,11 @@ public class TrackFileFilterTest extends SocksoTestCase {
         assertFalse( filter.accept(new File("/some/dir/.hiddenFile.pdf")) );
     }
 
+    public void testHiddenFoldersAreIgnored() {
+        FileFilter filter = new TrackFileFilter();
+        assertFalse( filter.accept(new Directory( "/some/folder/.hidden" )) );
+    }
+
     public void testTrackFilesAreAccepted() {
         FileFilter filter = new TrackFileFilter();
         assertTrue( filter.accept(new File("file.mp3")) );
@@ -28,4 +33,16 @@ public class TrackFileFilterTest extends SocksoTestCase {
         assertTrue( filter.accept(new File("/folder/file.MP3")) );
     }
 
+}
+
+class Directory extends File {
+
+    public Directory( final String name ) {
+        super( name );
+    }
+
+    public boolean isDirectory() {
+        return true;
+    }
+    
 }

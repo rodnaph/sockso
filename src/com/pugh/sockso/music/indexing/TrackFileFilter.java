@@ -21,9 +21,9 @@ public class TrackFileFilter implements FileFilter {
 
         final String ext = Utils.getExt( file.getName() ).toLowerCase();
 
-        return file.isDirectory() ||                                                // is a directory
+        return (file.isDirectory() ||                                                // is a directory
             ( ext.equals("mp3") || ext.equals("wma") || ext.equals("ogg")           // OR is an audio file
-              || ext.equals("asf") || ext.equals("flac") || ext.equals("m4a") )
+              || ext.equals("asf") || ext.equals("flac") || ext.equals("m4a") ))
             && !file.getName().substring( 0, 1 ).equals( "." );                     // AND not hidden file
         
     }
