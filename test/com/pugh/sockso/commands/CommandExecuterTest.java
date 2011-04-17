@@ -8,6 +8,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestLocale;
+import com.pugh.sockso.web.User;
 
 public class CommandExecuterTest extends SocksoTestCase {
 
@@ -64,6 +65,12 @@ public class CommandExecuterTest extends SocksoTestCase {
 
     public void testCommandDescriptionListedInUsageReturned() throws Exception {
         assertContains( cmd.execute("help"), "Sets a property" );
+    }
+
+    public void testABackslashCanBeUsedToEscapeSpaces() throws Exception {
+        cmd.execute( "useradd r\\ od pass rod@pu-gh.com 1" );
+        User user = User.find( db, 0 );
+        assertEquals( "r od", user.getName() );
     }
 
 }

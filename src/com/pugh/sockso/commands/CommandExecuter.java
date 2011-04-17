@@ -121,32 +121,37 @@ public class CommandExecuter {
     protected String[] getArgs( final String command ) {
     	
     	Vector<String> args = new Vector<String>();
-    	
+
     	String arg = new String();
-		boolean previousEscape = false;
+        boolean previousEscape = false;
+
     	for ( char c: command.toCharArray() ) {
-    		
-    		if ( Character.isWhitespace(c)) {
-    			if ( previousEscape )
-    				arg += c;
-    			else {
-    				args.add(new String(arg));
-    				arg = "";
-    			}
-    			continue;
-    		}
-    		
-    		if ( c == '\\' && !previousEscape) {
-    			previousEscape = true;
-    			continue;
-    		}
-    		
-    		arg += c;
-    		
-    		previousEscape = false;		
+
+            if ( Character.isWhitespace(c)) {
+                if ( previousEscape ) {
+                    arg += c;
+                }
+                else {
+                    args.add(new String(arg));
+                    arg = "";
+                }
+                continue;
+            }
+
+            if ( c == '\\' && !previousEscape) {
+                previousEscape = true;
+                continue;
+            }
+
+            arg += c;
+
+            previousEscape = false;
+
     	}
-    	if (arg.length() > 0)
-    		args.add(arg);
+
+    	if (arg.length() > 0) {
+            args.add(arg);
+        }
 
         return args.toArray(new String[0]);
 
