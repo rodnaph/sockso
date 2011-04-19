@@ -1,54 +1,54 @@
 /*
  * OggTag.java
- * 
+ *
  * Created on Jun 9, 2007, 1:28:56 AM
- * 
+ *
  *  NB: This code was originally taken from the example code provided
  *  with the jorbis library: http://www.jcraft.com/jorbis/
- * 
+ *
  */
 
 package com.pugh.sockso.music.tag;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
-
-import com.jcraft.jogg.StreamState;
-import com.jcraft.jogg.SyncState;
-import com.jcraft.jogg.Page;
-import com.jcraft.jogg.Packet;
-import com.jcraft.jorbis.Comment;
-import com.jcraft.jorbis.Info;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.log4j.Logger;
+
+import com.jcraft.jogg.Packet;
+import com.jcraft.jogg.Page;
+import com.jcraft.jogg.StreamState;
+import com.jcraft.jogg.SyncState;
+import com.jcraft.jorbis.Comment;
+import com.jcraft.jorbis.Info;
 
 public class OggTag extends AudioTag {
 
     private static final Logger log = Logger.getLogger( OggTag.class );
-    
+
     private State state = null;
     private static int CHUNKSIZE = 4096;
 
     public void parse( final File file ) throws IOException {
 
         InputStream in = null;
-        
+
         try {
-            
-            in = new FileInputStream( file ); 
+
+            in = new FileInputStream( file );
             state = new State();
 
             read( in );
 
             for ( int i=0; i<state.vc.comments; i++ ) {
-                
+
                 final String c = (String) state.vc.getComment( i );
                 final String[] parts = c.split( "=" );
                 final String name = parts.length > 0 ? parts[0].toLowerCase() : "";
                 final String value = parts.length > 1 ? parts[1] : "";
-                
+
                 if ( name.equals("tracknumber") )
                     setTrackNumber( value );
                 else if ( name.equals("artist") )
@@ -57,7 +57,9 @@ public class OggTag extends AudioTag {
                     albumTitle = value;
                 else if ( name.equals("title") )
                     trackTitle = value;
-                
+                else if ( name.equalsIgnoreCase( "date" ) )
+                    albumYear = value;
+
             }
 
         }
@@ -65,9 +67,9 @@ public class OggTag extends AudioTag {
         finally {
             try{in.close();} catch( final Exception e ){}
         }
-        
+
     }
-  
+
     private void read( final InputStream in ) {
 
         state.in = in;
@@ -109,19 +111,19 @@ public class OggTag extends AudioTag {
         state.vc = new Comment();
         state.vc.init();
 
-        if ( state.os.pagein(og) < 0 ) { 
+        if ( state.os.pagein(og) < 0 ) {
             log.error( "Error reading first page of Ogg bitstream data." );
             return;
         }
 
         final Packet header_main = new Packet();
 
-        if ( state.os.packetout(header_main) != 1) { 
+        if ( state.os.packetout(header_main) != 1) {
             log.error( "Error reading initial header packet." );
             return;
         }
 
-        if ( state.vi.synthesis_headerin(state.vc, header_main) < 0 ) { 
+        if ( state.vi.synthesis_headerin(state.vc, header_main) < 0 ) {
             log.error( "This Ogg bitstream does not contain Vorbis data." );
             return;
         }
@@ -130,7 +132,7 @@ public class OggTag extends AudioTag {
         state.mainbuf = new byte[ state.mainlen ];
         System.arraycopy(
             header_main.packet_base,
-            header_main.packet, 
+            header_main.packet,
             state.mainbuf,
             0,
             state.mainlen
@@ -174,8 +176,8 @@ public class OggTag extends AudioTag {
             }
 
             index = state.oy.buffer( CHUNKSIZE );
-            buffer = state.oy.data; 
-            
+            buffer = state.oy.data;
+
             try {
                 bytes = state.in.read( buffer, index, CHUNKSIZE );
             }
@@ -188,13 +190,13 @@ public class OggTag extends AudioTag {
                 log.debug("EOF before end of vorbis headers.");
                 return;
             }
-            
+
             state.oy.wrote(bytes);
-            
+
         }
 
         log.debug(state.vi);
-        
+
     }
 
 }
@@ -203,7 +205,7 @@ public class OggTag extends AudioTag {
 class State {
 
     private static final Logger log = Logger.getLogger( State.class );
-    
+
     private static int CHUNKSIZE = 4096;
 
     SyncState oy;
@@ -214,7 +216,7 @@ class State {
     int serial, mainlen, booklen, prevW;
     byte[] mainbuf, bookbuf;
     String lasterror;
-    
+
     final Page og = new Page();
 
     public int blocksize( Packet p ) {
@@ -246,10 +248,10 @@ class State {
         }
 
         while ( oy.pageout(og) <= 0 ) {
-            
+
             index = oy.buffer( CHUNKSIZE );
-            buffer = oy.data; 
-            
+            buffer = oy.data;
+
             try {
                 bytes = in.read( buffer, index, CHUNKSIZE );
             }
@@ -257,21 +259,21 @@ class State {
                 log.error( e );
                 return 0;
             }
-            
+
             if ( bytes > 0 ) {
                 oy.wrote( bytes );
                 if ( bytes == 0 || bytes == -1 ) {
                     return 0;
                 }
             }
-            
+
             os.pagein( og );
         }
-        
+
         return fetch_next_packet(p);
-        
+
     }
-    
+
 }
 
 

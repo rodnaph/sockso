@@ -1,95 +1,94 @@
 
 package com.pugh.sockso.db;
 
-import com.pugh.sockso.Constants;
-import com.pugh.sockso.Properties;
-import com.pugh.sockso.Utils;
-
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import java.io.File;
-
 import org.apache.log4j.Logger;
+
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
+import com.pugh.sockso.Utils;
 
 public abstract class JDBCDatabase extends AbstractDatabase implements Database {
 
     private static final Logger log = Logger.getLogger( JDBCDatabase.class );
-    
+
     /**
      *  queries the db
-     * 
+     *
      */
-    
+
     public ResultSet query( final String sql ) throws SQLException {
-        
+
         return query( sql, true );
-        
+
     }
-    
+
     /**
      *  performs a query to fetch a ResultSet, and closes the statement object
      *  if we've been told to do so
-     * 
+     *
      *  @param sql
      *  @param closeStatement
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected ResultSet query( final String sql, final boolean closeStatement ) throws SQLException {
-        
+
         Statement st = null;
         ResultSet rs = null;
-        
+
         log.debug( sql );
-        
+
         try {
             st = getConnection().createStatement();
             rs = st.executeQuery( sql );
         }
-        
+
         finally {
             if ( closeStatement ) {
                 Utils.close( st );
             }
         }
-        
+
         return rs;
-        
+
     }
-    
+
     /**
      *  updates the db
-     * 
+     *
      */
-    
+
     public int update( final String sql ) throws SQLException {
-        
+
         Statement st = null;
-        
+
         log.debug( sql );
-        
+
         try {
-            
+
             final Connection cnn = getConnection();
-            
+
             st = cnn.createStatement();
 
             return st.executeUpdate( sql );
 
         }
-        
+
         finally {
             Utils.close( st );
         }
-        
+
     }
 
     /**
@@ -100,7 +99,7 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
      * @return
      *
      */
-    
+
     protected boolean safeUpdate( final String sql ) {
 
         try {
@@ -119,32 +118,32 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
 
     /**
      *  returns a prepared statement for the specified sql
-     * 
+     *
      *  @param sql
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     public PreparedStatement prepare( final String sql ) throws SQLException {
-        
+
         final Connection cnn = getConnection();
-        
+
         return cnn.prepareStatement( sql );
-        
+
     }
 
     /**
      *  this method sets a property to a given value, checking whether it currently
      *  exists and all that boring stuff
-     * 
+     *
      *  @param name
      *  @param value
-     * 
+     *
      */
-    
+
     protected boolean setProperty( final String name, final String value ) {
 
         try {
@@ -157,7 +156,7 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
             }
 
             return true;
-            
+
         }
 
         catch ( final SQLException e ) {
@@ -167,25 +166,25 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         return false;
 
     }
-    
+
     /**
      *  checks if a property exists and returns a boolean
-     * 
+     *
      *  @param name
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected boolean propertyExists( final String name ) throws SQLException {
 
         PreparedStatement st = null;
         ResultSet rs = null;
-        
+
         try {
-       
+
             final String sql = " select 1 " +
                                " from properties p " +
                                " where p.name = ? ";
@@ -197,97 +196,97 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
             return rs.next();
 
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-        
+
     }
 
     /**
      *  tries to update a property to a new value, returns a boolean indicating success
-     * 
+     *
      *  @param name
      *  @param value
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected boolean updateProperty( final String name, final String value ) throws SQLException {
 
         PreparedStatement st = null;
         ResultSet rs = null;
-        
+
         try {
-        
+
             final String sql = " update properties " +
                                " set value = ? " +
                                " where name = ? ";
-            
+
             st = prepare( sql );
             st.setString( 1, value );
             st.setString( 2, name );
-            
+
             return st.execute();
 
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-        
+
     }
-    
+
     /**
      *  tries to create a new property, returns a boolean indicating success
-     * 
+     *
      *  @param name
      *  @param value
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected boolean createProperty( final String name, final String value ) throws SQLException {
-        
+
         PreparedStatement st = null;
         ResultSet rs = null;
-        
+
         try {
-        
+
             final String sql = " insert into properties ( name, value ) " +
                                " values ( ?, ? ) ";
-            
+
             st = prepare( sql );
             st.setString( 1, name );
             st.setString( 2, value );
-            
+
             return st.execute();
-            
+
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-        
+
     }
 
     /**
      *  sets default properties for the application.  this should really only
      *  be called once when the database is first created.
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected void setDefaultProperties() throws SQLException {
 
         update( "insert into properties ( name, value ) values ( '" +Constants.SERVER_PORT+ "', '4444' )" );
@@ -304,17 +303,31 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         update( "insert into properties ( name, value ) values ( '" +Constants.APP_START_MINIMIZED+ "', '" + Properties.NO + "' )" );
 
     }
-    
+
     /**
      *  returns the path to the database
-     * 
+     *
      *  @return absolute path
-     * 
+     *
      */
 
     protected static String getDefaultDatabasePath( final String dbType ) {
 
         return new File( Utils.getApplicationDirectory() ).getAbsolutePath() + "/database" +dbType;
+
+    }
+
+
+    /**
+     * Checks the albums.year column
+     *
+     */
+    protected void checkAlbumYearColumnExists() {
+
+        final String sql = " alter table albums " +
+                           " add year varchar(20) null";
+
+        safeUpdate ( sql );
 
     }
 
@@ -330,7 +343,7 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
                                " add is_active char(1) default '1' not null ";
 
             update( sql );
-            
+
         }
 
         catch ( final SQLException e ) {

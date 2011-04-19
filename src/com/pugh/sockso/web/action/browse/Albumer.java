@@ -1,6 +1,12 @@
 
 package com.pugh.sockso.web.action.browse;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
@@ -11,55 +17,48 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.WebAction;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.io.IOException;
-import java.util.Vector;
-
 /**
  *  shows an album and it's tracks
  *
  */
 
 public class Albumer extends WebAction {
-    
+
     /**
      *  browses an album
-     * 
+     *
      *  @param req the request object
      *  @param res the response object
-     * 
+     *
      *  @throws IOException
      *  @throws SQLException
      *  @throws BadRequestException
-     * 
+     *
      */
-    
+
     public void handleRequest() throws IOException, SQLException, BadRequestException {
-        
+
         final Request req = getRequest();
         final int id = Integer.parseInt( req.getUrlParam(2)  );
         final Album album = getAlbum ( id );
         final Vector<Track> tracks = getAlbumTracks( id );
-        
+
         showAlbum( album, tracks );
-        
+
     }
-    
+
     /**
      *  shows the album page listing it's tracks
-     * 
+     *
      *  @param album
      *  @param tracks
-     * 
+     *
      *  @throws java.io.IOException
-     * 
+     *
      */
-    
+
     protected void showAlbum( final Album album, final Vector<Track> tracks ) throws IOException, SQLException {
-        
+
         final TAlbum tpl = new TAlbum();
 
         tpl.setAlbum( album );
@@ -71,22 +70,22 @@ public class Albumer extends WebAction {
 
     /**
      *  fetches the tracks from an album
-     * 
+     *
      *  @param albumId
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected Vector<Track> getAlbumTracks( final int albumId ) throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
-        
+
         try {
-            
+
             final Database db = getDatabase();
             final String sql = Track.getSelectFromSql() +
                   " where t.album_id = ? " +
@@ -96,39 +95,39 @@ public class Albumer extends WebAction {
             rs = st.executeQuery();
 
             return Track.createVectorFromResultSet( rs );
-            
+
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-            
+
     }
-    
+
     /**
      *  fetches an album by id, if it's not found then a BadRequestException
      *  is thrown
-     * 
+     *
      *  @param id
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
      *  @throws com.pugh.sockso.web.BadRequestException
-     * 
+     *
      */
-    
+
     protected Album getAlbum( final int id ) throws SQLException, BadRequestException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
-        
+
         try {
-            
+
             final Database db = getDatabase();
             final String sql = " select ar.id as artistId, ar.name as artistName, " +
-                        " al.id as albumId, al.name as albumName, " +
+                        " al.id as albumId, al.name as albumName, al.year as albumYear, " +
                         " al.date_added, ( " +
                             " select count(*) " +
                             " from play_log l " +
@@ -149,17 +148,17 @@ public class Albumer extends WebAction {
 
             return new Album(
                 new Artist( rs.getInt("artistId"), rs.getString("artistName") ),
-                rs.getInt("albumId"), rs.getString("albumName"),
+                rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear"),
                 rs.getDate("date_added"), -1, rs.getInt("playCount")
             );
 
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
 
     }
-    
+
 }

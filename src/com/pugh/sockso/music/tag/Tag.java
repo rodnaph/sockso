@@ -6,9 +6,9 @@ import java.io.IOException;
 
 /**
  *  Specified the interface a tag needs to implement
- * 
+ *
  *  @author rod
- * 
+ *
  */
 
 public interface Tag {
@@ -23,38 +23,47 @@ public interface Tag {
 
     /**
      *  returns the name of the artist
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public String getArtist();
-    
+
     /**
      *  returns the name of the album
      *
      *  @return
-     * 
+     *
      */
-    
+
     public String getAlbum();
-    
+
     /**
      *  returns the name of the track
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public String getTrack();
-    
+
     /**
      *  returns the track number
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public int getTrackNumber();
-    
+
+    /**
+     * returns the album year
+     *
+     * @return
+     *
+     */
+
+    public String getAlbumYear();
+
 }

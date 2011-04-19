@@ -1,69 +1,69 @@
 
 package com.pugh.sockso.db;
 
-import com.pugh.sockso.Options;
-
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.DriverManager;
-
-import org.apache.log4j.Logger;
 
 import joptsimple.OptionSet;
 
+import org.apache.log4j.Logger;
+
+import com.pugh.sockso.Options;
+
 /**
  *  provides an interface to a mysql sockso database
- * 
+ *
  */
 
 public class MySQLDatabase extends JDBCDatabase implements Database {
 
     private static final Logger log = Logger.getLogger( MySQLDatabase.class );
-    
+
     private Connection cnn;
-    
+
     /**
      *  connects to the database, throws exception on error
-     * 
+     *
      *  @param options
-     * 
+     *
      *  @throws com.pugh.sockso.db.DatabaseConnectionException
-     * 
+     *
      */
-    
+
     public void connect( final OptionSet options ) throws DatabaseConnectionException {
-        
+
         final String dbHost = options.has(Options.OPT_DBHOST) ? options.valueOf(Options.OPT_DBHOST).toString() : "localhost";
         final String dbUser = options.has(Options.OPT_DBUSER) ? options.valueOf(Options.OPT_DBUSER).toString() : "root";
         final String dbPass = options.has(Options.OPT_DBPASS) ? options.valueOf(Options.OPT_DBPASS).toString() : "";
         final String dbName = options.has(Options.OPT_DBNAME) ? options.valueOf(Options.OPT_DBNAME).toString() : "sockso";
-        
+
         connect( dbHost, dbUser, dbPass, dbName );
-        
+
     }
-    
+
     /**
      *  Connect using the specified credentials
-     * 
+     *
      *  @param dbHost
      *  @param dbUser
      *  @param dbPass
      *  @param dbName
-     * 
+     *
      */
-    
+
     public void connect( final String dbHost, final String dbUser, final String dbPass, final String dbName ) throws DatabaseConnectionException {
 
         try {
 
             // connect to server
-            
+
             Class.forName( "com.mysql.jdbc.Driver" );
             cnn = DriverManager.getConnection(
                 "jdbc:mysql://" + dbHost, dbUser, dbPass
             );
-            
+
             // select database and make sure schema is ok
 
             update( " use " + dbName );
@@ -78,42 +78,42 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             checkUserIsActiveColumnExists();
 
         }
-        
+
         catch ( final Exception e ) {
             throw new DatabaseConnectionException( e.getMessage() );
         }
-        
+
     }
 
     /**
      *  queries, don't close statement for mysql connection
-     * 
+     *
      *  @param sql
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
 
     @Override
     public ResultSet query( final String sql ) throws SQLException {
-        
+
         return query( sql, false );
-        
+
     }
 
     /**
      *  ensures that the database structure is present
-     * 
+     *
      */
-    
+
     protected void createStructure() {
-       
+
         String sql = "";
-        
+
         try {
-            
+
             sql = " create table tracks ( " +
                       " id int unsigned not null auto_increment, " +
                       " artist_id int unsigned not null, " +
@@ -128,7 +128,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " unique ( artist_id, album_id, name ) " +
                   " ) character set utf8 ";
             update( sql );
-            
+
             sql = " create table play_log ( " +
                       " id int unsigned not null auto_increment, " +
                       " track_id int unsigned null, " +
@@ -164,7 +164,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " primary key ( id ) " +
                   " ) character set utf8 ";
             update( sql );
-            
+
             sql = " create table artists ( " +
                       " id int unsigned not null auto_increment, " +
                       " name varchar(255) not null, " +
@@ -173,17 +173,18 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " unique ( name ) " +
                   " ) character set utf8 ";
             update( sql );
-            
+
             sql = " create table albums ( " +
                       " id int unsigned not null auto_increment, " +
                       " artist_id int unsigned not null, " +
                       " name varchar(255) not null, " +
+                      " year varchar(20) null, " +
                       " date_added datetime not null, " +
                       " primary key ( id ), " +
                       " unique ( artist_id, name ) " +
                   " ) character set utf8 ";
             update( sql );
-            
+
             sql = " create table request_log ( " +
                       " id int unsigned not null auto_increment, " +
                       " user_id int unsigned null, " +
@@ -196,7 +197,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " primary key ( id ) " +
                   " ) character set utf8 ";
             update( sql );
-            
+
             sql = " create table sessions ( " +
                       " id int unsigned not null auto_increment, " +
                       " code char(10) not null, " +
@@ -205,7 +206,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " primary key ( id ) " +
                   " ) character set utf8 ";
             update( sql );
-            
+
             sql = " create table users ( " +
                       " id int unsigned not null auto_increment," +
                       " name varchar(50) not null unique, " +
@@ -232,11 +233,11 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             setDefaultProperties();
 
         }
-        
+
         catch ( final SQLException e ) {
             log.error( e );
         }
-        
+
     }
 
     /**
@@ -266,7 +267,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
 
     /**
      *  Checks the file used to store indexing info exists
-     * 
+     *
      */
 
     private void checkIndexerTableExists() {
@@ -302,35 +303,35 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
 
     /**
      *  returns the raw jdbc connection
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public Connection getConnection() {
         return cnn;
     }
 
     /**
      *  escapes a string for use in a query
-     * 
+     *
      *  @param str
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public String escape( final String str ) {
 
         return str.replaceAll( "'", "\\\\'" );
 
     }
-    
+
     /**
      *  closes the database connection
-     * 
+     *
      */
-    
+
     public void close() {
 
         try {
@@ -345,11 +346,11 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
 
     /**
      *  returns the random function
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public String getRandomFunction() {
 
         return "rand";

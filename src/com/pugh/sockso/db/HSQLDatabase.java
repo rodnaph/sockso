@@ -1,29 +1,28 @@
 /*
  * HSQLDatabase.java
- * 
+ *
  * Created on Jul 21, 2007, 12:38:02 PM
- * 
+ *
  * An implementation of the database class using HSQLDB
- * 
+ *
  */
 
 package com.pugh.sockso.db;
 
-import com.pugh.sockso.Constants;
-import com.pugh.sockso.Utils;
-import com.pugh.sockso.music.encoders.Encoders;
-
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import joptsimple.OptionSet;
 
 import org.apache.log4j.Logger;
+
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Utils;
+import com.pugh.sockso.music.encoders.Encoders;
 
 public class HSQLDatabase extends JDBCDatabase {
 
@@ -33,54 +32,54 @@ public class HSQLDatabase extends JDBCDatabase {
 
     private Connection connection;
     private String connectionString;
-    
+
     /**
-     * 
+     *
      *  @throws com.pugh.sockso.db.DatabaseConnectionException
-     * 
+     *
      */
-    
+
     public HSQLDatabase() {
-        
+
         this( getDefaultDatabasePath("") );
-        
+
     }
-    
+
     /**
      *  constructor
-     * 
+     *
      *  @param dataPath the path to the data
-     * 
+     *
      */
-    
+
     public HSQLDatabase( final String dataPath ) {
-        
+
         this( dataPath, "jdbc:hsqldb:file:" + dataPath );
 
     }
 
     /**
      *  Constructor that allows specifying the connection string
-     * 
+     *
      *  @param dataPath
      *  @param connectionString
-     * 
+     *
      */
 
     public HSQLDatabase( final String dataPath, final String connectionString ) {
-        
+
         this.dataPath = dataPath;
         this.connectionString = connectionString;
 
     }
-   
+
     /**
      *  connects to the database
-     * 
+     *
      *  @param options
-     * 
+     *
      */
-    
+
     public void connect( final OptionSet options ) throws DatabaseConnectionException {
 
         // load the driver and establish a connection
@@ -122,16 +121,17 @@ public class HSQLDatabase extends JDBCDatabase {
         checkIndexerTableExists();
         checkUserAdminColumnExists();
         checkUserIsActiveColumnExists();
+        checkAlbumYearColumnExists();
 
     }
-    
+
     /**
      *  sets the default properties for the database
-     * 
+     *
      */
-    
+
     private void setDefaultSettings() {
-        
+
         try {
 
             update( " set write_delay 0 " );
@@ -147,22 +147,22 @@ public class HSQLDatabase extends JDBCDatabase {
 
     /**
      *  returns the db connection
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public Connection getConnection() {
-        
+
         return connection;
-        
+
     }
 
     /**
      * Checks the users.is_admin column
-     * 
+     *
      */
-    
+
     private void checkUserAdminColumnExists() {
 
         final String sql = " alter table users " +
@@ -190,7 +190,7 @@ public class HSQLDatabase extends JDBCDatabase {
 
     /**
      *  Checks we've added and populated the artists prefix field
-     * 
+     *
      */
 
     private void checkArtistsBrowseNameField() {
@@ -215,72 +215,72 @@ public class HSQLDatabase extends JDBCDatabase {
 
     /**
      *  checks the field to mark tracks as having been scrobbled exists
-     * 
+     *
      */
-    
+
     private void checkScrobbledLogField() {
-        
+
         try {
-            
+
             final String sql = " alter table play_log " +
                                " add scrobbled bit default 0 ";
-            
+
             update( sql );
-            
+
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
-        
+
     }
-    
+
     /**
      *  adds a user_id field to the play log table (we can then do stats
      *  per user)
-     * 
+     *
      */
-    
+
     private void checkPlayLogUserId() {
 
         try {
-            
+
             final String sql = " alter table play_log " +
                                " add user_id int null ";
-            
+
             update( sql );
-            
+
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
 
     }
-    
+
     /**
      *  for uploads, the property used to be called uploads.requireLogin, but it
      *  was actually being used with reverse meaning.  so this checks if it's
      *  set and if it is migrates it's setting over to the better named
      *  uploads.allowAnonymous property
-     * 
+     *
      */
-    
+
     private void checkOldRequireLoginProperty() {
-       
+
         PreparedStatement st = null;
         ResultSet rs = null;
-        
+
         try {
-            
+
             String sql = " select value " +
                          " from properties " +
                          " where name = ? ";
-            
+
             st = prepare( sql );
             st.setString( 1, "uploads.requireLogin" );
             rs = st.executeQuery();
-            
+
             if ( rs.next() ) {
                 setProperty(
                     Constants.WWW_UPLOADS_ALLOW_ANONYMOUS,
@@ -290,42 +290,42 @@ public class HSQLDatabase extends JDBCDatabase {
                       " where name = 'uploads.requireLogin' ";
                 update( sql );
             }
-            
+
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-        
+
     }
-    
+
     /**
      *  the tracks.addedBy field was added for the uploads upgrade, but turned
      *  out to never actually be used.
-     * 
+     *
      */
-    
+
     private void checkRemoveTracksAddedByField() {
-        
+
         try {
-            
+
             final String sql = " alter table tracks " +
                                " drop column addedBy ";
             update( sql );
-            
+
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
-        
+
     }
-    
+
    /**
     *  there was a bug with a fix that was adding too many backslashes
     *  to collection paths.  the bug has been fixed, but this undoes the
@@ -343,7 +343,7 @@ public class HSQLDatabase extends JDBCDatabase {
            final String separator = System.getProperty( "file.separator" );
            String sql = " select id, path " +
                         " from collection ";
-           
+
            st = prepare( sql );
            rs = st.executeQuery();
 
@@ -374,40 +374,40 @@ public class HSQLDatabase extends JDBCDatabase {
     /**
      *  checks there's an index on the play_log table otherwise
      *  some queries (ie. popular) will be slooooooow.
-     * 
+     *
      */
-    
+
     private void checkPlayLogTrackIndex() {
-        
+
         try {
-        
+
             final String sql = " create index ix_play_log_track_id " +
                          " on play_log ( track_id ) ";
             update( sql );
 
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
-        
+
     }
-    
+
     /**
      *  checks all paths in the collection folder have a trailing slash
-     * 
+     *
      */
-    
+
     private void checkCollectionPathBackslashes() {
-        
+
         final String separator = System.getProperty( "file.separator" );
-       
+
         try {
-            
+
             String sql = " select id, path " +
                                " from collection ";
             final ResultSet rs = query( sql );
-            
+
             while ( rs.next() )
                 if ( !rs.getString("path").matches(".*\\" +separator+ "$") ) {
                     sql = " update collection " +
@@ -417,28 +417,28 @@ public class HSQLDatabase extends JDBCDatabase {
                 }
 
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
 
     }
-    
+
     /**
      *  checks the request logging schema is in place, and also that any old lame
      *  properties have been mapped across to the new encoding properties
-     * 
+     *
      */
-    
+
     private void checkLogRequestsUpgrade() {
-        
+
         String sql = "";
         ResultSet rs = null;
-        
+
         try {
 
             // first try and transfer any old encoding properties
-            
+
             sql = " select p.value as value " +
                         " from properties p " +
                         " where p.name = 'player.lame.use' ";
@@ -460,9 +460,9 @@ public class HSQLDatabase extends JDBCDatabase {
                 setProperty( "player.lame.bitrate", "" );
 
             }
-            
+
             // then create request_log table
-            
+
             sql = " create table request_log ( " +
                             " id integer not null identity, " +
                             " user_id integer null," +
@@ -475,29 +475,29 @@ public class HSQLDatabase extends JDBCDatabase {
                             " primary key ( id ) " +
                          " ) ";
             update( sql );
-            
+
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
-        
+
         finally {
             Utils.close( rs );
         }
-        
+
     }
 
     /**
      *  checks to make sure the upgrade to having users
      *  and sessions has been made
-     * 
+     *
      */
-    
+
     protected void checkUserSessionsUpgrade() {
-        
+
         String sql = "";
-        
+
         try {
 
             sql = " alter table playlists " +
@@ -527,18 +527,18 @@ public class HSQLDatabase extends JDBCDatabase {
             update( sql );
 
         }
-        
+
         catch ( final SQLException e ) {
             log.debug( e );
         }
-        
+
     }
 
     /**
      *  shuts down the database and closes the connection
-     * 
+     *
      */
-    
+
     public void close() {
 
         log.info( "Shutting Down" );
@@ -546,23 +546,23 @@ public class HSQLDatabase extends JDBCDatabase {
         try {
             update( "shutdown" );
         }
-        
+
         catch ( final SQLException e ) {
             log.error( e );
         }
-        
+
     }
-    
+
     /**
      *  checks if the database structure exists, and if it doesn't then
      *  goes ahead and tries to create it
-     * 
+     *
      */
-    
+
     private void checkDefaultStructure() {
-                
+
         log.debug( "Checking Database Existence" );
-        
+
         // check if database exists already
         if ( new File(dataPath+".script").exists() ) return;
 
@@ -590,13 +590,14 @@ public class HSQLDatabase extends JDBCDatabase {
                     " id integer not null identity, " +
                     " artist_id integer not null, " +
                     " name varchar(255) not null, " +
+                    " year varchar(20) null," +
                     " date_added timestamp not null, " +
                     " unique( artist_id, name ), " +
                     " primary key ( id ) " +
                 " ) "
             );
             log.debug( "Created 'albums' table" );
-            
+
             // tracks
             update(
                 " create table tracks ( " +
@@ -614,7 +615,7 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'tracks' table" );
-            
+
             // properties
             update(
                 " create table properties ( " +
@@ -626,7 +627,7 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'properties' table" );
-            
+
             // collection
             update(
                 " create table collection ( " +
@@ -637,7 +638,7 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'collection' table" );
-            
+
             // play log
             update(
                 " create table play_log ( " +
@@ -648,7 +649,7 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'play_log' table" );
-            
+
             // playlists
             update(
                 " create table playlists ( " +
@@ -661,7 +662,7 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'playlists' table" );
-            
+
             // tracks for playlists
             update(
                 " create table playlist_tracks ( " +
@@ -672,7 +673,7 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'playlist_tracks' table" );
-            
+
             setDefaultProperties();
 
             log.debug( "Created Default Properties" );
@@ -685,15 +686,15 @@ public class HSQLDatabase extends JDBCDatabase {
         }
 
     }
-    
+
     /**
      *  quotes a string for safe inclusion in sql
-     * 
+     *
      *  @param str the string to quote
      *  @return the safely escaped string
-     * 
+     *
      */
-    
+
     public String escape( final String str ) {
 
         return str.replaceAll( "'", "''" );
@@ -702,15 +703,15 @@ public class HSQLDatabase extends JDBCDatabase {
 
     /**
      *  returns the random function
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public String getRandomFunction() {
 
         return "rand";
 
     }
-    
+
 }
