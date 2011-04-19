@@ -30,7 +30,6 @@ public class Mp3Tag extends AudioTag {
     public void parse( final File file ) {
 
         try {
-            System.out.println("Reading file: " + file);
 
             MP3File f = (MP3File) AudioFileIO.read( file );
             if ( f.hasID3v2Tag() )
@@ -38,9 +37,7 @@ public class Mp3Tag extends AudioTag {
             if ( f.hasID3v1Tag() )
                 parseID3v1Tag( f );
 
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
+        } catch ( Exception e ) {}
 
     }
 
