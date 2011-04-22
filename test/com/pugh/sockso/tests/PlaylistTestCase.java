@@ -1,6 +1,11 @@
 
 package com.pugh.sockso.tests;
 
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.replay;
+
+import java.util.Vector;
+
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
@@ -10,16 +15,12 @@ import com.pugh.sockso.web.Server;
 import com.pugh.sockso.web.User;
 import com.pugh.sockso.web.action.playlist.PlaylistTemplate;
 
-import java.util.Vector;
-
-import static org.easymock.EasyMock.*;
-
 public class PlaylistTestCase extends SocksoTestCase {
 
     protected String renderPlaylist( final Class tplClass, final Properties p, final User user ) throws Exception {
 
         final Vector<Track> tracks = new Vector<Track>();
-        final Track track = new Track( new Artist(1,""), new Album(null,1,""), 1, "", "", 1, null );
+        final Track track = new Track( new Artist(1,""), new Album(null,1,"",""), 1, "", "", 1, null );
         final Server server = createNiceMock( Server.class );
         final Request req = createNiceMock( Request.class );
 
