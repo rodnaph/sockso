@@ -1,9 +1,6 @@
-/*
- * Mp3Tag.java
- *
- * Created on Jun 9, 2007, 1:34:34 AM
- *
- * code originally taken from limewire: http://limewire.com
+
+/**
+ * Uses jaudiotagger to read mps v1 & v2 tags
  *
  */
 
