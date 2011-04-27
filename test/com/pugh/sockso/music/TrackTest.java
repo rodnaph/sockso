@@ -1,22 +1,26 @@
 
 package com.pugh.sockso.music;
 
-import com.pugh.sockso.Constants;
-import com.pugh.sockso.Properties;
-import com.pugh.sockso.StringProperties;
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.web.BadRequestException;
-import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.web.User;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.util.Vector;
 import java.util.Date;
+import java.util.Vector;
 
-import static org.easymock.EasyMock.*;
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
+import com.pugh.sockso.StringProperties;
+import com.pugh.sockso.db.Database;
+import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.User;
 
 public class TrackTest extends SocksoTestCase {
 
@@ -28,15 +32,15 @@ public class TrackTest extends SocksoTestCase {
 
     @Override
     public void setUp() {
-        
+
         final int artistId = 1, albumId = 1, trackId = 1;
-        final String artistName = "foo-%/", albumName = "bar", trackName = "oof%%^\\+", trackPath = "rab";
+        final String artistName = "foo-%/", albumName = "bar", albumYear="baz", trackName = "oof%%^\\+", trackPath = "rab";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
-        
+
         track = new Track(
             new Artist( artistId, artistName ),
-            new Album( artistId, artistName, albumId, albumName ),
+            new Album( artistId, artistName, albumId, albumName, albumYear ),
             trackId, trackName, trackPath, trackNumber, dateAdded
         );
 
@@ -47,22 +51,22 @@ public class TrackTest extends SocksoTestCase {
     }
 
     public void testGetters() {
-        
+
         final int artistId = -1, albumId = -1, trackId = -1;
-        final String artistName = "foo", albumName = "bar", trackName = "oof", trackPath = "rab";
+        final String artistName = "foo", albumName = "bar", albumYear = "baz", trackName = "oof", trackPath = "rab";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
         final Artist artist = new Artist(artistId,artistName);
-        final Album album = new Album( artistId, artistName, albumId, albumName );
+        final Album album = new Album( artistId, artistName, albumId, albumName, albumYear );
         final Track track = new Track( artist, album, trackId, trackName, trackPath, trackNumber, dateAdded );
-        
+
         assertEquals( artist, track.getArtist() );
         assertEquals( album, track.getAlbum() );
         assertEquals( trackPath, track.getPath() );
         assertEquals( trackNumber, track.getNumber() );
-        
+
     }
-    
+
     public void testSetPlayCount() {
 
         final int playCount = 456;
@@ -71,11 +75,11 @@ public class TrackTest extends SocksoTestCase {
         assertEquals( 0, track.getPlayCount() );
         track.setPlayCount( playCount );
         assertEquals( playCount, track.getPlayCount() );
-        
+
     }
 
     public void testCreateFromResultSet() {
-        
+
         final ResultSet rs = createNiceMock( ResultSet.class );
         replay( rs );
 
@@ -83,17 +87,17 @@ public class TrackTest extends SocksoTestCase {
             final Track track = Track.createFromResultSet( rs );
             assertNotNull( track );
         }
-        
+
         catch ( SQLException e ) {
             fail( e.getMessage() );
         }
-        
+
     }
-    
+
     public void testCreateVectorFromResultSet() throws SQLException {
 
         final String albumName = "my album name";
-        
+
         // set up result set to return the info for 1 track
         final ResultSet rs = createMock( ResultSet.class );
         expect( rs.next() ).andReturn( true );
@@ -107,7 +111,7 @@ public class TrackTest extends SocksoTestCase {
         expect( rs.getDate("dateAdded") ).andReturn( null ).times( 1 );
         expect( rs.next() ).andReturn( false );
         replay( rs );
-        
+
         try {
             final Vector<Track> tracks = Track.createVectorFromResultSet( rs );
             assertNotNull( tracks );
@@ -116,25 +120,25 @@ public class TrackTest extends SocksoTestCase {
             assertEquals( albumName, track.getAlbum().getName() );
             verify( rs );
         }
-        
+
         catch ( SQLException e ) {
             fail( e.getMessage() );
         }
-        
+
     }
-    
+
     public void testGetSelectSql() {
 
         final String sql = Track.getSelectSql();
-        
+
         assertNotNull( sql );
         assertTrue( sql.length() > 0 );
         assertTrue( sql.matches(".*select.*") );
-        
+
     }
 
     public void testGetSelectFromSql() {
-        
+
         final String sql = Track.getSelectFromSql();
 
         assertNotNull( sql );
@@ -143,45 +147,45 @@ public class TrackTest extends SocksoTestCase {
         assertTrue( sql.matches(".*from tracks.*") );
 
     }
-    
+
     public void testTracks() throws SQLException {
-        
+
         final ResultSet rs = createMock( ResultSet.class );
         expect( rs.next() ).andReturn( false );
         rs.close();
         replay( rs );
-        
+
         final PreparedStatement st = createMock( PreparedStatement.class );
         expect( st.executeQuery() ).andReturn( rs );
         st.close();
         replay( st );
-        
+
         final Database db = createMock( Database.class );
         expect( db.prepare((String)anyObject()) ).andReturn( st );
         replay( db );
-                
+
         try {
             final Vector<Track> tracks = Track.getTracks( db, "ar", -1 );
             verify( rs );
             verify( db );
         }
-        
+
         catch ( BadRequestException e ) {
             fail ( e.getMessage() );
         }
-        
+
         catch ( SQLException e ) {
             fail( e.getMessage() );
         }
-        
+
     }
-    
+
     public void getTracksFromPlayArgs() throws SQLException {
-        
+
         ResultSet rs = createMock( ResultSet.class );
         expect( rs.next() ).andReturn( false );
         replay( rs );
-        
+
         Database db = createMock( Database.class );
         expect( db.query((String)anyObject()) ).andReturn( rs );
         replay( db );
@@ -192,17 +196,17 @@ public class TrackTest extends SocksoTestCase {
             verify( rs );
             verify( db );
         }
-        
+
         catch ( BadRequestException e ) {
             fail ( e.getMessage() );
         }
-        
+
         catch ( SQLException e ) {
             fail( e.getMessage() );
         }
-        
+
     }
-    
+
     public void testGetStreamUrlIncludesSessionDataIfAuthIsRequiredWhenStreaming() {
         p.set( Constants.WWW_USERS_REQUIRE_LOGIN, p.YES );
         p.set( Constants.STREAM_REQUIRE_LOGIN, p.YES );

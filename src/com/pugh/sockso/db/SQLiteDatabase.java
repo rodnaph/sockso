@@ -12,18 +12,18 @@ import org.apache.log4j.Logger;
 public class SQLiteDatabase extends JDBCDatabase {
 
     private static final Logger log = Logger.getLogger( SQLiteDatabase.class );
-    
+
     private Connection cnn;
 
     /**
      *  connects to the database
-     * 
+     *
      *  @param options
-     * 
+     *
      */
-    
+
     public void connect( final OptionSet options ) throws DatabaseConnectionException {
-        
+
         try {
 
             Class.forName( "org.sqlite.JDBC" );
@@ -36,7 +36,7 @@ public class SQLiteDatabase extends JDBCDatabase {
             checkUserIsActiveColumnExists();
 
         }
-        
+
         catch ( final Exception e ) {
             throw new DatabaseConnectionException( e.getMessage() );
         }
@@ -45,15 +45,15 @@ public class SQLiteDatabase extends JDBCDatabase {
 
     /**
      *  ensures that the database structure is present
-     * 
+     *
      */
-    
+
     protected void createStructure() {
-       
+
         String sql = "";
-        
+
         try {
-            
+
             sql = " create table tracks ( " +
                       " id integer not null primary key autoincrement, " +
                       " artist_id integer not null, " +
@@ -67,7 +67,7 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " unique ( artist_id, album_id, name ) " +
                   " ) ";
             update( sql );
-            
+
             sql = " create table play_log ( " +
                       " id integer not null primary key autoincrement, " +
                       " track_id integer null, " +
@@ -100,7 +100,7 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " unique ( path ) " +
                   " ) ";
             update( sql );
-            
+
             sql = " create table artists ( " +
                       " id integer not null primary key autoincrement, " +
                       " name text not null, " +
@@ -108,16 +108,17 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " unique ( name ) " +
                   " ) ";
             update( sql );
-            
+
             sql = " create table albums ( " +
                       " id integer not null primary key autoincrement, " +
                       " artist_id integer not null, " +
                       " name text not null, " +
+                      " year text null, " +
                       " date_added datetime not null, " +
                       " unique ( artist_id, name ) " +
                   " ) ";
             update( sql );
-            
+
             sql = " create table request_log ( " +
                       " id integer not null primary key autoincrement, " +
                       " user_id integer null, " +
@@ -129,7 +130,7 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " cookies text not null " +
                   " ) ";
             update( sql );
-            
+
             sql = " create table sessions ( " +
                       " id integer not null primary key autoincrement, " +
                       " code text not null, " +
@@ -137,7 +138,7 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " date_created datetime not null " +
                   " ) ";
             update( sql );
-            
+
             sql = " create table users ( " +
                       " id integer not null primary key autoincrement," +
                       " name text not null unique, " +
@@ -163,66 +164,66 @@ public class SQLiteDatabase extends JDBCDatabase {
             setDefaultProperties();
 
         }
-        
+
         catch ( final SQLException e ) {
             log.error( e );
         }
-        
+
     }
-    
+
     /**
      *  returns the jdbc connection handle
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public Connection getConnection() {
-        
+
         return cnn;
-        
+
     }
 
     /**
      *  escapes a string for use in a query
-     * 
+     *
      *  @param str
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public String escape( final String str ) {
-        
+
         return str.replaceAll( "'", "''" );
-        
+
     }
 
     /**
      *  closes the db connection
-     * 
+     *
      */
-    
+
     public void close() {
 
         try {
             cnn.close();
         }
         catch ( final Exception e ) {}
-        
+
     }
-    
+
     /**
      *  returns the random function
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public String getRandomFunction() {
 
         return "random";
 
     }
-    
+
 }
