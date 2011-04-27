@@ -27,7 +27,7 @@ public class FeederTest extends SocksoTestCase {
     public void testShowLatest() throws Exception {
         
         final Artist artist = new Artist( 1, "artistFoo" );
-        final Album album = new Album( artist, 2, "albumBar" );
+        final Album album = new Album( artist, 2, "albumBar", "year");
         final Track track = new Track( artist, album, 3, "track name", "/path", 1, new Date() );
         final Vector<Track> tracks = new Vector<Track>();
         final Server sv = createNiceMock( Server.class );
