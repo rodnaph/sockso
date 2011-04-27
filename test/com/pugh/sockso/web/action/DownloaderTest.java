@@ -25,7 +25,7 @@ public class DownloaderTest extends SocksoTestCase {
         d.setProperties( p );
         
         final Artist artist = new Artist( 1, "artist" );
-        final Album album = new Album( artist, 2, "album" );
+        final Album album = new Album( artist, 2, "album", "year" );
         final Track track = new Track( artist, album, 3, "track", "", 4, new Date() );
         final String path = d.getTrackZipPath( track );
         
@@ -37,12 +37,12 @@ public class DownloaderTest extends SocksoTestCase {
     }
 
     private Track getTrack( final String artistName ) {
-        return getTrack( artistName, "album" );
+        return getTrack( artistName, "album", "year" );
     }
     
-    private Track getTrack( final String artistName, final String albumName ) {
+    private Track getTrack( final String artistName, final String albumName, final String albumYear ) {
         final Artist artist = new Artist( 1, artistName );
-        final Album album = new Album( artist, 1, albumName );
+        final Album album = new Album( artist, 1, albumName, albumYear);
         return new Track( artist, album, 1, "track", "", 1, null );
     }
 
@@ -64,8 +64,8 @@ public class DownloaderTest extends SocksoTestCase {
     
     public void testGettingFilenameWhenDifferentAlbumsUsesMultipleAlbums() {
         Vector<Track> tracks = new Vector<Track>();
-        tracks.add( getTrack("artist","album1") );
-        tracks.add( getTrack("artist","album2") );
+        tracks.add( getTrack("artist","album1","year") );
+        tracks.add( getTrack("artist","album2","year") );
         Downloader d = new Downloader();
         assertEquals( "artist-various_albums.zip", d.getFileName(tracks) );
     }

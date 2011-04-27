@@ -318,6 +318,20 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
 
     }
 
+
+    /**
+     * Checks the albums.year column
+     *
+     */
+    protected void checkAlbumYearColumnExists() {
+
+        final String sql = " alter table albums " +
+                           " add year varchar(20) null";
+
+        safeUpdate ( sql );
+
+    }
+
     /**
      * Creates the users.is_active column if it doesn't exist
      *

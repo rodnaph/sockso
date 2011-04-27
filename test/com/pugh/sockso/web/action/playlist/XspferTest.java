@@ -30,7 +30,7 @@ public class XspferTest extends PlaylistTestCase {
         final TXspf tpl = new TXspf();
         final Vector<Track> tracks = new Vector<Track>();
         final Artist artist = new Artist( 1, "artist" );
-        final Album album = new Album( artist, 1, "album" );
+        final Album album = new Album( artist, 1, "album", "year" );
         final Track track = new Track(
             artist, album, 1, "track", "", 2, null
         );

@@ -57,6 +57,8 @@ public class OggTag extends AudioTag {
                     albumTitle = value;
                 else if ( name.equals("title") )
                     trackTitle = value;
+                else if ( name.equalsIgnoreCase( "date" ) )
+                    albumYear = value;
                 
             }
 

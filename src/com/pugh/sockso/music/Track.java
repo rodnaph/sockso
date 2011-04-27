@@ -123,9 +123,9 @@ public class Track extends MusicItem {
     
     public static String getSelectSql() {
         return " select ar.id as artistId, ar.name as artistName, " +
-                            " al.id as albumId, al.name as albumName, " +
-                            " t.id as trackId, t.name as trackName, t.path as trackPath, " +
-                            " t.track_no as trackNo, t.date_added as dateAdded ";
+               " al.id as albumId, al.name as albumName, al.year as albumYear, " +
+               " t.id as trackId, t.name as trackName, t.path as trackPath, " +
+               " t.track_no as trackNo, t.date_added as dateAdded ";
     }
 
     /**
