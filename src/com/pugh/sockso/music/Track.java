@@ -85,7 +85,7 @@ public class Track extends MusicItem {
         final Artist artist = new Artist( rs.getInt("artistId"), rs.getString("artistName") );
 
         return new Track(
-            artist, new Album( artist, rs.getInt("albumId"), rs.getString("albumName") ),
+            artist, new Album( artist, rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear") ),
             rs.getInt("trackId"), rs.getString("trackName"), rs.getString("trackPath"),
             rs.getInt("trackNo"), rs.getDate("dateAdded")
         );

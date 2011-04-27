@@ -695,7 +695,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *
      */
     
-    private int addAlbum( final int artistId, String name ) {
+    private int addAlbum( final int artistId, String name, String year ) {
 
         if ( name.equals("") )
             name = "Unknown Album";
