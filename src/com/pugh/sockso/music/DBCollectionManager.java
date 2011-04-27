@@ -153,10 +153,10 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         final Tag tag = AudioTag.getTag( file );
 
-        log.debug( tag.getArtist() + " - " + tag.getAlbum() + " - " + tag.getTrack() );
+        log.debug( tag.getArtist() + " - " + tag.getAlbum() + " - " + tag.getAlbumYear() + " - " + tag.getTrack() );
 
         final int artistId = addArtist( tag.getArtist() );
-        final int albumId = addAlbum( artistId, tag.getAlbum() );
+        final int albumId = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
         addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
 
     }
@@ -208,7 +208,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     protected void checkAlbumTagInfo( final int artistId, final Tag tag, final Track track ) throws SQLException {
         
         // need to ignore case because that's how the DB does it
-        if ( !track.getAlbum().getName().toLowerCase().equals(tag.getAlbum().toLowerCase()) ) {
+        if ( !track.getAlbum().getName().toLowerCase().equals(tag.getAlbum().toLowerCase()) ||
+             !track.getAlbum().getYear().toLowerCase().equals(tag.getAlbumYear().toLowerCase()) ) {
 
             ResultSet rs = null;
             PreparedStatement st = null;
@@ -229,7 +230,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
                 final int newAlbumId = rs.next()
                     ? rs.getInt( "id" )
-                    : addAlbum( artistId, tag.getAlbum() );
+                    : addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
 
                 Utils.close( rs );
                 Utils.close( st );
@@ -242,6 +243,18 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                 st = db.prepare( sql );
                 st.setInt( 1, newAlbumId );
                 st.setInt( 2, track.getId() );
+                st.execute();
+                
+                Utils.close( rs );
+                Utils.close( st );
+
+                sql = " update albums " +
+                      " set year = ? " +
+                      " where id = ? ";
+
+                st = db.prepare( sql );
+                st.setString( 1, tag.getAlbumYear() );
+                st.setInt( 2, newAlbumId );
                 st.execute();
 
             }
@@ -695,8 +708,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             try {
                 
                 st = db.prepare(
-                    " insert into albums ( artist_id, name, date_added ) " +
-                    " values ( ?, ?, current_timestamp ) "
+                        " insert into albums ( artist_id, name, year, date_added ) " +
+                        " values ( ?, ?, ?, current_timestamp ) "
                 );
                 st.setInt( 1, artistId );
                 st.setString( 2, name );

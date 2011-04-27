@@ -57,4 +57,13 @@ public interface Tag {
     
     public int getTrackNumber();
     
+    /**
+     * returns the album year
+     *
+     * @return
+     *
+     */
+
+    public String getAlbumYear();
+
 }
