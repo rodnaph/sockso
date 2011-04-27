@@ -47,18 +47,18 @@
     <%else>
         <% locale.getString("www.text.loggedInAs") %> <% user.getName() %>
         :
-        <a href="<% properties.getUrl("/") #n %>" title="<% locale.getString("www.link.editUser") %>"><img src="<% properties.getUrl("<skin>/images/profile.png") #n %>" alt="<% locale.getString("www.link.editUser") %>" /></a>
-        <a id="scrobbleLogLink" href="<% properties.getUrl("/user/scrobbleLog") #n %>" title="<% locale.getString("www.link.scrobbleLog") %>"><img src="<% properties.getUrl("<skin>/images/audioscrobbler.png") #n %>" alt="<% locale.getString("www.link.scrobbleLog") %>" /></a>
+        <a class="noajax" href="<% properties.getUrl("/user/edit") #n %>" title="<% locale.getString("www.link.editUser") %>"><img src="<% properties.getUrl("<skin>/images/profile.png") #n %>" alt="<% locale.getString("www.link.editUser") %>" /></a>
+        <a class="noajax" id="scrobbleLogLink" href="<% properties.getUrl("/user/scrobbleLog") #n %>" title="<% locale.getString("www.link.scrobbleLog") %>"><img src="<% properties.getUrl("<skin>/images/audioscrobbler.png") #n %>" alt="<% locale.getString("www.link.scrobbleLog") %>" /></a>
     </%if>
 
     <%if properties.get(Constants.WWW_UPLOADS_ENABLED).equals(properties.YES) && (user != null || properties.get(Constants.WWW_UPLOADS_ALLOW_ANONYMOUS).equals(properties.YES)) %>
-        <a href="<% properties.getUrl("/upload") #n %>" title="<% locale.getString("www.link.upload") %>"><img src="<% properties.getUrl("/<skin>/images/upload.png") #n %>" alt="<% locale.getString("www.link.upload") %>" /></a>
+        <a class="noajax" href="<% properties.getUrl("/upload") #n %>" title="<% locale.getString("www.link.upload") %>"><img src="<% properties.getUrl("/<skin>/images/upload.png") #n %>" alt="<% locale.getString("www.link.upload") %>" /></a>
     </%if>
 
     <%if user != null %>
-        <a id="logoutLink" href="<% properties.getUrl("/user/logout") #n %>" title="<% locale.getString("www.link.logout") %>"><img src="<% properties.getUrl("/<skin>/images/logout.png") #n %>" alt="<% locale.getString("www.link.logout") %>" /></a>
+        <a id="logoutLink" class="noajax" href="<% properties.getUrl("/user/logout") #n %>" title="<% locale.getString("www.link.logout") %>"><img src="<% properties.getUrl("/<skin>/images/logout.png") #n %>" alt="<% locale.getString("www.link.logout") %>" /></a>
         <%if user.isAdmin() %>
-            <a class="admin-console-link" href="<% properties.getUrl("/admin/console") #n %>" title="<% locale.getString("www.link.adminConsole") %>"><img src="<% properties.getUrl("/<skin>/images/adminConsole.png") #n %>" alt="Admin Console" /></a>
+            <a class="admin-console-link noajax" href="<% properties.getUrl("/admin/console") #n %>" title="<% locale.getString("www.link.adminConsole") %>"><img src="<% properties.getUrl("/<skin>/images/adminConsole.png") #n %>" alt="Admin Console" /></a>
         </%if>
     </%if>
 
