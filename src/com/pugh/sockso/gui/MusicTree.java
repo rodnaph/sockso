@@ -179,7 +179,7 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
         try {
 
             final Artist artist = new Artist( item.getId(), item.getName() );
-            final String sql = " select al.id, al.name " +
+            final String sql = " select al.id, al.name, al.year " +
                                " from albums al " +
                                " where al.artist_id = ? " +
                                " order by al.name asc ";
@@ -191,7 +191,7 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
             node.removeAllChildren();
 
             while ( rs.next() ) {
-                final Album album = new Album( artist, rs.getInt("id"), rs.getString("name") );
+                final Album album = new Album( artist, rs.getInt("id"), rs.getString("name"), rs.getString("year") );
                 final MusicTreeNode child = new MusicTreeNode( album );
                 child.add( new DefaultMutableTreeNode() );
                 node.add( child );

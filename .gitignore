@@ -15,3 +15,4 @@ src/com/pugh/sockso/templates
 .DS_Store
 *.~*~
 .*
+bin/

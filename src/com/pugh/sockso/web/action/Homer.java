@@ -151,7 +151,7 @@ public class Homer extends WebAction {
                         " on ar.id = t.artist_id " +
                         " inner join albums al " +
                         " on al.id = t.album_id " +
-                    " group by artistId, artistName, albumId, albumName, trackId, " +
+                        " group by artistId, artistName, albumId, albumName, albumYear, trackId, " +
                         " trackName, trackPath, trackNo, dateAdded " +
                     " limit ? ";
             
@@ -190,7 +190,7 @@ public class Homer extends WebAction {
         try {
             
             final Database db = getDatabase();
-            final String sql = " select al.id as albumId, al.name as albumName, " +
+            final String sql = " select al.id as albumId, al.name as albumName, al.year as albumYear, " +
                         " ar.id as artistId, ar.name as artistName, " +
                         " max(l.date_played) as mostRecent " +
                   " from play_log l " +
@@ -200,7 +200,7 @@ public class Homer extends WebAction {
                       " on al.id = t.album_id " +
                       " inner join artists ar " +
                       " on ar.id = al.artist_id " +
-                  " group by albumId, albumName, artistId, artistName " +
+                  " group by albumId, albumName, albumYear, artistId, artistName " +
                   " order by mostRecent desc " +
                   " limit ? ";
 
@@ -211,8 +211,9 @@ public class Homer extends WebAction {
             final Vector<Album> recentAlbums = new Vector<Album>();
             while ( rs.next() )
                 recentAlbums.add( new Album(
-                    rs.getInt("artistId"), rs.getString("artistName"),
-                    rs.getInt("albumId"), rs.getString("albumName")
+                        rs.getInt("artistId"), rs.getString("artistName"),
+                        rs.getInt("albumId"), rs.getString("albumName"),
+                        rs.getString("albumYear")
                 ));
             
             return recentAlbums;

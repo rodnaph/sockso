@@ -30,13 +30,13 @@ public class TrackTest extends SocksoTestCase {
     public void setUp() {
         
         final int artistId = 1, albumId = 1, trackId = 1;
-        final String artistName = "foo-%/", albumName = "bar", trackName = "oof%%^\\+", trackPath = "rab";
+        final String artistName = "foo-%/", albumName = "bar", albumYear="baz", trackName = "oof%%^\\+", trackPath = "rab";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
         
         track = new Track(
             new Artist( artistId, artistName ),
-            new Album( artistId, artistName, albumId, albumName ),
+            new Album( artistId, artistName, albumId, albumName, albumYear ),
             trackId, trackName, trackPath, trackNumber, dateAdded
         );
 
@@ -49,11 +49,11 @@ public class TrackTest extends SocksoTestCase {
     public void testGetters() {
         
         final int artistId = -1, albumId = -1, trackId = -1;
-        final String artistName = "foo", albumName = "bar", trackName = "oof", trackPath = "rab";
+        final String artistName = "foo", albumName = "bar", albumYear = "baz", trackName = "oof", trackPath = "rab";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
         final Artist artist = new Artist(artistId,artistName);
-        final Album album = new Album( artistId, artistName, albumId, albumName );
+        final Album album = new Album( artistId, artistName, albumId, albumName, albumYear );
         final Track track = new Track( artist, album, trackId, trackName, trackPath, trackNumber, dateAdded );
         
         assertEquals( artist, track.getArtist() );

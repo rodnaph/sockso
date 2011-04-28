@@ -151,7 +151,7 @@ public class ArtisterTest extends SocksoTestCase {
         final Artister b = new Artister();
         final Vector<Album> albums = new Vector<Album>();
         final Artist artist = new Artist( 1, "my artist", new Date(), 1, 1 );
-        final Album album = new Album( artist, 1, "foo" );
+        final Album album = new Album( artist, 1, "foo", "year" );
 
         albums.add( album );
         

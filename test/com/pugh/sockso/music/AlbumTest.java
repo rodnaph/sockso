@@ -10,14 +10,14 @@ public class AlbumTest extends SocksoTestCase {
     public void testConstructor() {
 
         final int id = 123, artistId = 456, trackCount = 789, playCount = 159;
-        final String name = "some name", artistName = "another";
+        final String name = "some name", artistName = "another", year = "1984";
         final Date theDate = new Date();
 
-        assertNotNull( new Album( artistId, artistName, id, name ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name, trackCount ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name, theDate, trackCount, playCount ) );
+        assertNotNull( new Album( artistId, artistName, id, name, year ) );
+        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year ) );
+        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year ) );
+        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year, trackCount ) );
+        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year, theDate, trackCount, playCount ) );
 
     }
 
@@ -26,7 +26,7 @@ public class AlbumTest extends SocksoTestCase {
         final int id = 123;
         final String name = "qwe rty";
         final Artist artist = new Artist( id, name );
-        final Album album = new Album( artist, -1, "" );
+        final Album album = new Album( artist, -1, "", "");
         
         assertEquals( artist, album.getArtist() );
         
@@ -35,7 +35,7 @@ public class AlbumTest extends SocksoTestCase {
     public void testGetTrackCount() {
 
         final int trackCount = 148;
-        final Album album = new Album( new Artist(-1,""), -1, "", trackCount );
+        final Album album = new Album( new Artist(-1,""), -1, "", "", trackCount );
 
         assertEquals( trackCount, album.getTrackCount() );
         
@@ -44,7 +44,7 @@ public class AlbumTest extends SocksoTestCase {
     public void testGetPlayCount() {
 
         final int playCount = 148;
-        final Album album = new Album( new Artist(-1,""), -1, "", new Date(), -1, playCount );
+        final Album album = new Album( new Artist(-1,""), -1, "", "", new Date(), -1, playCount );
 
         assertEquals( playCount, album.getPlayCount() );
         
@@ -53,7 +53,7 @@ public class AlbumTest extends SocksoTestCase {
     public void testGetDateAdded() {
 
         final Date theDate = new Date();
-        final Album album = new Album( new Artist(-1,""), -1, "", theDate, -1, -1 );
+        final Album album = new Album( new Artist(-1,""), -1, "", "", theDate, -1, -1 );
 
         assertEquals( theDate, album.getDateAdded() );
         

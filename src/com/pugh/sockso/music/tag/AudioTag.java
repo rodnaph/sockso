@@ -26,12 +26,14 @@ public abstract class AudioTag implements Tag {
     private static final Logger log = Logger.getLogger( AudioTag.class );
     
     protected String artistTitle = "", albumTitle = "", trackTitle = "";
+    protected String albumYear = "";
     protected int trackNumber = 0;
 
     public String getArtist() { return artistTitle; }
     public String getAlbum() { return albumTitle; }
     public String getTrack() { return trackTitle; }
     public int getTrackNumber() { return trackNumber; }
+    public String getAlbumYear() { return albumYear; }
 
     /**
      *  this method should be used when trying to read the tags from an
@@ -66,11 +68,13 @@ public abstract class AudioTag implements Tag {
         if ( tag.artistTitle == null ) tag.artistTitle = "";
         if ( tag.albumTitle == null ) tag.albumTitle = "";
         if ( tag.trackTitle == null ) tag.trackTitle = "";
+        if ( tag.albumYear == null ) tag.albumYear = "";
 
         // remove leading/trailing space
         tag.albumTitle = tag.albumTitle.trim();
         tag.artistTitle = tag.artistTitle.trim();
         tag.trackTitle = tag.trackTitle.trim();
+        tag.albumYear = tag.albumYear.trim();
 
         // set defaults if we have nothing
         if ( tag.artistTitle.equals("") ) tag.artistTitle = guessArtist( file );

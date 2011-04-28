@@ -49,7 +49,9 @@ sockso.Ajaxer.prototype.onPopState = function( evt ) {
  */
 sockso.Ajaxer.prototype.attach = function( container ) {
 
-    $( 'a:not([href^=javascript])', container )
+    $( 'a', container )
+        .not( '[href^=javascript]' )
+        .not( '.noajax' )
         .click( this.onClick.bind(this) );
 
 };

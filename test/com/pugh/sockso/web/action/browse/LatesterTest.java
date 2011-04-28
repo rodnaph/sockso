@@ -79,7 +79,7 @@ public class LatesterTest extends SocksoTestCase {
         final Vector<Artist> artists = new Vector<Artist>();
         final Vector<Album> albums = new Vector<Album>();
         final Artist artist = new Artist( 1, "my artist" );
-        final Album album = new Album( artist, 1, "my album" );
+        final Album album = new Album( artist, 1, "my album", "year" );
         final Track track = new Track( artist, null, 1, "my track", "", 1, null );
 
         tracks.add( track );
