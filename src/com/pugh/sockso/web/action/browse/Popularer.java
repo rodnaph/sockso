@@ -90,7 +90,7 @@ public class Popularer extends WebAction {
                             " on al.id = t.album_id " +
                             " left outer join play_log l " +
                             " on l.track_id = t.id " +
-                        " group by artistId, artistName, albumId, albumName, trackId, " +
+                        " group by artistId, artistName, albumId, albumName, albumYear, trackId, " +
                             " trackName, trackPath, trackNo, dateAdded " +
                         " having count(l.id) > 0 " +
                         " order by count(l.id) desc " +
