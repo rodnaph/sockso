@@ -445,7 +445,7 @@ public class UsererTest extends SocksoTestCase {
         
         final Date theDate = new Date();
         final Artist artist = new Artist( 1, "myArtist" );
-        final Album album = new Album( artist, 2, "myAlbum" );
+        final Album album = new Album( artist, 2, "myAlbum", "year" );
         final Track track = new Track( artist, album, 3 , "myTrack", "" , 4, theDate );
         
         tracks.add( track );

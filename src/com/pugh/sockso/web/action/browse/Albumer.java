@@ -128,7 +128,7 @@ public class Albumer extends WebAction {
             
             final Database db = getDatabase();
             final String sql = " select ar.id as artistId, ar.name as artistName, " +
-                        " al.id as albumId, al.name as albumName, " +
+                        " al.id as albumId, al.name as albumName, al.year as albumYear, " +
                         " al.date_added, ( " +
                             " select count(*) " +
                             " from play_log l " +
@@ -149,7 +149,7 @@ public class Albumer extends WebAction {
 
             return new Album(
                 new Artist( rs.getInt("artistId"), rs.getString("artistName") ),
-                rs.getInt("albumId"), rs.getString("albumName"),
+                rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear"),
                 rs.getDate("date_added"), -1, rs.getInt("playCount")
             );
 

@@ -45,6 +45,7 @@ public class Mp3Tag extends AudioTag {
         artistTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_ARTIST );
         albumTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_ALBUM );
         trackTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_TITLE );
+        albumYear = v2tag.getFirst( ID3v24Frames.FRAME_ID_YEAR );
         String trackN = v2tag.getFirst( ID3v24Frames.FRAME_ID_TRACK );
 
         try {
@@ -65,6 +66,8 @@ public class Mp3Tag extends AudioTag {
                 albumTitle = new String ( tag.getAlbum().get(0).toString() );
             if ( trackTitle.equals( "" ) )
                 trackTitle = new String ( tag.getTitle().get(0).toString() );
+            if ( albumYear.equals( "" ) )
+                albumYear = new String ( tag.getYear().get(0).toString() );
             if ( trackNumber == 0 )
                 try {
                     String trackN = new String ( tag.getTrack().get(0).toString() );

@@ -122,6 +122,7 @@ public class HSQLDatabase extends JDBCDatabase {
         checkIndexerTableExists();
         checkUserAdminColumnExists();
         checkUserIsActiveColumnExists();
+        checkAlbumYearColumnExists();
 
     }
     
@@ -590,6 +591,7 @@ public class HSQLDatabase extends JDBCDatabase {
                     " id integer not null identity, " +
                     " artist_id integer not null, " +
                     " name varchar(255) not null, " +
+                    " year varchar(20) null, " +
                     " date_added timestamp not null, " +
                     " unique( artist_id, name ), " +
                     " primary key ( id ) " +
