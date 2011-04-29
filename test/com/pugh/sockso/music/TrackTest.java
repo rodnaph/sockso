@@ -93,6 +93,7 @@ public class TrackTest extends SocksoTestCase {
     public void testCreateVectorFromResultSet() throws SQLException {
 
         final String albumName = "my album name";
+        final String albumYear = "1984";
         
         // set up result set to return the info for 1 track
         final ResultSet rs = createMock( ResultSet.class );
@@ -101,6 +102,7 @@ public class TrackTest extends SocksoTestCase {
         expect( rs.getString("artistName") ).andReturn( albumName );
         expect( rs.getInt("albumId") ).andReturn( -1 );
         expect( rs.getString("albumName") ).andReturn( albumName );
+        expect( rs.getString("albumYear") ).andReturn( albumYear );
         expect( rs.getInt("trackId") ).andReturn( -1 );
         expect( rs.getString((String)anyObject()) ).andReturn( "1" ).times( 2 );
         expect( rs.getInt("trackNo") ).andReturn( 1 ).times( 1 );
@@ -114,6 +116,7 @@ public class TrackTest extends SocksoTestCase {
             assertEquals( 1, tracks.size() );
             final Track track = tracks.elementAt( 0 );
             assertEquals( albumName, track.getAlbum().getName() );
+            assertEquals( albumYear, track.getAlbum().getYear() );
             verify( rs );
         }
         
