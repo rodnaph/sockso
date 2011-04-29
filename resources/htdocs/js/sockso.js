@@ -96,12 +96,15 @@ sockso.util.getMusicElement = function getMusicElement( item, includePlaylistLin
         .append( addToPlaylist )
         .append( remove );
 
-   if ( Properties.get('www.disableDownloads') != 'yes' )
-        element.append( sockso.util.getActionNode('download',Properties.getUrl('/download/'+item.id),'Download \''+name+'\'') );
+    if ( Properties.get('www.disableDownloads') != 'yes' ) {
+        sockso.util.getActionNode('download',Properties.getUrl('/download/'+item.id),'Download \''+name+'\'')
+                   .addClass( 'noajax' )
+                   .appendTo( element );
+    }
 
-   element.append( link );
+    element.append( link );
 
-   return element;
+    return element;
 
 };
 

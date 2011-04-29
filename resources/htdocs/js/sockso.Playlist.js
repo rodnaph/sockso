@@ -132,6 +132,7 @@ sockso.Playlist = function( options ) {
         parentId = options.parentId,
         player = options.player,
         session = options.session,
+        ajaxer = options.ajaxer,
         items = [],
         contents = null,
         empty = null,
@@ -153,6 +154,7 @@ sockso.Playlist = function( options ) {
         if ( contents ) {
             empty.remove();
             var elem = self.getMusicElement( item ).hide();
+            ajaxer.attach( elem );
             contents.append( elem );
             elem.fadeIn( 'slow' );
         }
@@ -329,12 +331,12 @@ sockso.Playlist = function( options ) {
         session.get( 'playlist', function(data) {
             
             if ( data ) {
-                var items = data.split( SPLIT_PLITEM );
-                for ( var i=0; i<items.length; i++ ) {
-                    var item = items[ i ];
+                var sessionItems = data.split( SPLIT_PLITEM );
+                for ( var i=0; i<sessionItems.length; i++ ) {
+                    var item = sessionItems[ i ];
                     var parts = item.split( SPLIT_PLVARS );
                     if ( parts.length == 3 ) {
-                        self.add( new sockso.MusicItem(parts[0],parts[1],parts[2]) );
+                        items.push( new sockso.MusicItem(parts[0],parts[1],parts[2]) );
                     }
                 }
             }
@@ -393,9 +395,9 @@ sockso.Playlist = function( options ) {
         
         else {
             $.each( items, function(i,item) {
-                contents.append(
-                    self.getMusicElement( item )
-                );
+                var elem = self.getMusicElement( item );
+                ajaxer.attach( elem );
+                contents.append( elem );
             });
         }
 

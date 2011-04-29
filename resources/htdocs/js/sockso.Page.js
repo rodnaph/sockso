@@ -32,6 +32,7 @@ sockso.Page.prototype.init = function() {
         parentId: 'playlist',
         player: this.player,
         session: this.session,
+        ajaxer: this.ajaxer,
         user: user
     });
 
