@@ -713,9 +713,10 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                 );
                 st.setInt( 1, artistId );
                 st.setString( 2, name );
+                st.setString(3, year);
                 st.execute();
                 
-                log.debug( "Added Album: " + name );
+                log.debug( "Added Album: " + name + " " + year );
                 
             }
             catch ( final Exception e ) {}
