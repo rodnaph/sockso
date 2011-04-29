@@ -16,7 +16,7 @@ sockso.Ajaxer = function( options ) {
  */
 sockso.Ajaxer.prototype.init = function() {
 
-    if ( history && history.pushState ) {
+    if ( this.isSupported() ) {
         this.attach();
         $( window ).bind(
             'popstate',
@@ -27,10 +27,20 @@ sockso.Ajaxer.prototype.init = function() {
 };
 
 /**
+ * Indicates if pushState is supported
+ *
+ * @return boolean
+ */
+sockso.Ajaxer.prototype.isSupported = function() {
+
+    return history && history.pushState;
+
+};
+
+/**
  * Handler for when a window history state has been popped
  *
  * @param evt
- *
  */
 sockso.Ajaxer.prototype.onPopState = function( evt ) {
 
@@ -49,10 +59,12 @@ sockso.Ajaxer.prototype.onPopState = function( evt ) {
  */
 sockso.Ajaxer.prototype.attach = function( container ) {
 
-    $( 'a', container )
-        .not( '[href^=javascript]' )
-        .not( '.noajax' )
-        .click( this.onClick.bind(this) );
+    if ( this.isSupported() ) {
+        $( 'a', container )
+            .not( '[href^=javascript]' )
+            .not( '.noajax' )
+            .click( this.onClick.bind(this) );
+    }
 
 };
 
@@ -62,7 +74,7 @@ sockso.Ajaxer.prototype.attach = function( container ) {
  */
 sockso.Ajaxer.prototype.onClick = function( evt ) {
 
-    var link = $( evt.target );
+    var link = $( this.originalScope );
     var href = link.attr( 'href' );
 
     this.loadUrl( href );

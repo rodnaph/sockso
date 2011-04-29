@@ -109,7 +109,10 @@ sockso.util.getMusicElement = function getMusicElement( item, includePlaylistLin
 };
 
 /**
- * Bind the function to be called with the specified scope
+ * Bind the function to be called with the specified scope.  The original scope
+ * the function would have called in is set on the new scope by using the
+ * property "originalScope".  This can be useful when binding to events with
+ * jQuery.
  *
  * @param scope Object
  *
@@ -120,6 +123,7 @@ Function.prototype.bind = function( scope ) {
     var self = this;
 
     return function() {
+        scope.originalScope = this;
         return self.apply( scope, arguments );
     };
     
