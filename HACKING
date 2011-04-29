@@ -65,6 +65,10 @@ Or to run a single test case...
 
 $> ant test-single -Dclass=com.pugh.sockso.StringProperties
 
+NB: Running the Java unit tests requires MySQL installed, running and accessible
+by the mysql.* settings from sockso.properties (this user will need create/drop
+permissions).
+
 For the Javascript tests Sockso uses JsTestDriver, so first you need to start
 up the test server in one shell...
 
