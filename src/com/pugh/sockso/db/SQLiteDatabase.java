@@ -113,6 +113,7 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " id integer not null primary key autoincrement, " +
                       " artist_id integer not null, " +
                       " name text not null, " +
+                      " year text null, " +
                       " date_added datetime not null, " +
                       " unique ( artist_id, name ) " +
                   " ) ";

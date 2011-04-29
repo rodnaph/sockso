@@ -148,7 +148,7 @@ public class Latester extends WebAction {
 
         while ( rs.next() )
             albums.addElement(
-                new Album( null, rs.getInt("id"), rs.getString("name") )
+                new Album( null, rs.getInt("id"), rs.getString("name"), "" )
             );
 
         return albums;

@@ -162,7 +162,7 @@ public class HomerTest extends SocksoTestCase {
         final Homer h = new Homer();
 
         final Artist artist = new Artist( 1, "my ARtiST" );
-        final Album album = new Album( artist, 1, "MY alBBuuMM" );
+        final Album album = new Album( artist, 1, "MY alBBuuMM", "year" );
         final Track track = new Track( artist, album, 1, "TRRRAck", "", 1, null );
         
         recentlyPlayedTracks.add( track );

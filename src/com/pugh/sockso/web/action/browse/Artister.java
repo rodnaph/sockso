@@ -83,15 +83,15 @@ public class Artister extends WebAction {
             
             final Database db = getDatabase();
             final String sql = " select ar.id as artistId, ar.name as artistName, " +
-                            " al.id as albumId, al.name as albumName, count(t.id) as trackCount " +
+                        " al.id as albumId, al.name as albumName, al.year as albumYear, count(t.id) as trackCount " +
                         " from albums al " +
                             " inner join artists ar " +
                             " on ar.id = al.artist_id " +
                             " left outer join tracks t " +
                             " on t.album_id = al.id " +
                         " where al.artist_id = ? " +
-                        " group by artistId, artistName, albumId, albumName " +
-                        " order by al.name asc ";
+                        " group by artistId, artistName, albumId, albumYear, albumName " +
+                        " order by al.year desc, al.name asc ";
             st = db.prepare( sql );
             st.setInt( 1, artistId );
             rs = st.executeQuery();
@@ -102,8 +102,7 @@ public class Artister extends WebAction {
                 albums.addElement(
                     new Album(
                         new Artist( rs.getInt("artistId"), rs.getString("artistName") ),
-                        rs.getInt("albumId"), rs.getString("albumName"), rs.getInt("trackCount")
-                    
+                        rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear"), rs.getInt("trackCount")                  
                     )
                 
                 );

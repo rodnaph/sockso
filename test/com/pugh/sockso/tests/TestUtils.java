@@ -168,7 +168,7 @@ public class TestUtils {
     
     public static Album getAlbum() {
         
-        return new Album( getArtist(), 123, "foo" );
+        return new Album( getArtist(), 123, "foo", "bar" );
         
     }
     

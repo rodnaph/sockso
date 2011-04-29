@@ -151,7 +151,7 @@ public class AlbumerTest extends SocksoTestCase {
         final Albumer b = new Albumer();
         final Vector<Track> tracks = new Vector<Track>();
         final Artist artist = new Artist( 1, "my artist", new Date(), 1, 1 );
-        final Album album = new Album( artist, 1, "foo", new Date(), 1, 1 );
+        final Album album = new Album( artist, 1, "foo", "year", new Date(), 1, 1 );
         final Track track = new Track( artist, album, 1, "myTrack", "", 1, null );
 
         tracks.add( track );

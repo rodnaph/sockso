@@ -34,6 +34,7 @@
     <li class="album musicitem" id="al<% album.getId() %>">
         <& IMusicLinks; type="al"; id=album.getId(); name=album.getName(); locale=locale; properties=properties; &>
         <span class="link"><a href="<% properties.getUrl("/browse/album/"+album.getId()) #n %>"><% Utils.u2e(album.getName()) #n %></a></span>
+        <%if album.getYear().length() > 0 %><span class="info">(<% album.getYear() %>)</span></%if>
         <span class="info">(<% album.getTrackCount() %> track<%if album.getTrackCount() != 1 %>s</%if>)</span>
     </li>
 </%for>

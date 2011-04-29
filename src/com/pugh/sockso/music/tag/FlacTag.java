@@ -43,6 +43,7 @@ public class FlacTag extends AudioTag {
                 artistTitle = getComment( comment, "ARTIST" );
                 albumTitle = getComment( comment, "ALBUM" );
                 trackTitle = getComment( comment, "TITLE" );
+                albumYear = getComment( comment, "DATE" );
                 setTrackNumber( getComment(comment,"TRACKNUMBER") );
 
             }
