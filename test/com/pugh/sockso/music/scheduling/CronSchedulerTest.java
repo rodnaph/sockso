@@ -230,11 +230,14 @@ public class CronSchedulerTest extends SocksoTestCase {
 
     }
 
-    public void testFalseReturnedWhenCrontabIsInvalid() throws Exception {
-        
-        p.set( Constants.SCHED_CRON_TAB, "* * * *" ); // only 4
-        assertFalse( s.shouldRunAt(df.parse("2009-09-09 12:00:00")) );
-        
+    public void testFalseReturnedWhenCrontabIsInvalid() {
+        try {
+            p.set( Constants.SCHED_CRON_TAB, "* * * *" ); // only 4
+            assertFalse( s.shouldRunAt(df.parse("2009-09-09 12:00:00")) );
+        }
+        catch ( Exception e ) {
+            fail( "Unexpected exception: " +e.getMessage() );
+        }
     }
 
 }
