@@ -76,6 +76,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             checkIndexerTableExists();
             checkUserAdminColumnExists();
             checkUserIsActiveColumnExists();
+            checkAlbumYearColumnExists();
 
         }
         
@@ -178,7 +179,6 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " id int unsigned not null auto_increment, " +
                       " artist_id int unsigned not null, " +
                       " name varchar(255) not null, " +
-                      " year varchar(20) null, " +
                       " date_added datetime not null, " +
                       " primary key ( id ), " +
                       " unique ( artist_id, name ) " +
