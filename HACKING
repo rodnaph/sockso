@@ -39,7 +39,7 @@ complain about all the imports.  Otherwise try some of these useful Ant tasks...
 
 1) run - Builds a working Sockso distribution in the "dist" folder, and runs it.
 2) package - Makes nice packages for Sockso.
-3) test-all - Run all the unit tests
+3) test - Run all the Java unit tests
 4) test-single -Dclass=CLASSNAME - Run a specific class's tests
 
 Source Layout
@@ -48,7 +48,7 @@ Source Layout
 lib/* - Java libraries
 resources - JS/CSS/Image resources for desktop application and web browser
 scripts - Various utility scripts for development
-src - Java source doe
+src - Java source code
 templates - Jamon templates
 test - Test cases
 www - The Sockso website
