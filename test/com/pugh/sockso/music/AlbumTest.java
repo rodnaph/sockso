@@ -57,6 +57,18 @@ public class AlbumTest extends SocksoTestCase {
 
         assertEquals( theDate, album.getDateAdded() );
         
-    }    
+    }
+
+    public void testGettingTheYearReturnsIt() {
+        assertEquals( "2001", new Album(1,"",1,"","2001").getYear() );
+    }
+
+    public void testOnlyYearPartOfDateIsReturnedForYearIfItIncludesOtherInfo() {
+        assertEquals( "2001", new Album(1,"",1,"","2001-02-01").getYear() );
+    }
+
+    public void testEmptyStringReturnedWhenDateIsNull() {
+        assertEquals( "", new Album(1,"",1,"",null).getYear() );
+    }
     
 }
