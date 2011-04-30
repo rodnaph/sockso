@@ -37,7 +37,7 @@ public class Album extends MusicItem {
         this.trackCount = trackCount;
         this.playCount = playCount;
         this.dateAdded = ( dateAdded != null ) ? new Date(dateAdded.getTime()) : null;
-        this.year = year;
+        this.year = ( year != null ) ? year : "";
     }
     
     public Artist getArtist() { return artist; }
