@@ -170,6 +170,10 @@ pre {
 	line-height: 1.8em;
 }
 
+.content-loading {
+    opacity: 0.5;
+}
+
 /* Sidebar */
 
 #sidebar {
