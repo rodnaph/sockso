@@ -37,13 +37,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.InputStream;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+
+import java.util.logging.LogManager;
 
 public class Main {
     
@@ -74,6 +78,7 @@ public class Main {
         Runtime.getRuntime().addShutdownHook( new Shutdown() );
 
         initLogger( getLogPropsFile("default") );
+        initJavaLogger();
 
         //
         //  do initial setup, we're gonna need to parse the command line
@@ -631,5 +636,22 @@ public class Main {
         PropertyConfigurator.configure( propsFile );
 
     }
+
+    /**
+     *  Inits loggers using java.util.logging
+     *
+     */
+     
+    private static void initJavaLogger() throws IOException {
     
+        final String propsFile = "log/javalogging.properties";
+        final InputStream is = new FileInputStream( new File(propsFile) );
+        
+        LogManager.getLogManager()
+                  .readConfiguration( is );
+
+        Utils.close( is );
+        
+    }
+
 }
