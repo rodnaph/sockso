@@ -50,8 +50,8 @@ API Ideas
 ---------
 
 All endpoints return JSON, and will start off being read-only.  The endpoints
-that are marked as "paged" return 100 items at a time maximum, and the page can
-be specified with the "page=?" parameter.  Requests should be GET.
+that are marked as "paged" return 100 items at a time maximum, but this can
+be adjusted using "limit" and "offset" parameters.  Requests should be GET.
 
 /api - (server info, same as /json/serverinfo)
 /api/artists - array of all artists ordered a-z (paged)
