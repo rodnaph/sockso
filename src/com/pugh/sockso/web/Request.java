@@ -114,8 +114,8 @@ public interface Request {
     public String[] getPlayParams( final int skipNumArgs );
     
     /**
-     *  returns a named parameter from the arguments passed via http
-     *  (only POST at the moment)
+     *  returns a named parameter from the arguments passed via http (GET and POST)
+     *  POST params take precedence over any matching GET params)
      * 
      *  @param name name of the argument
      *  @return string value
