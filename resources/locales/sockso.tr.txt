@@ -1,0 +1,316 @@
+
+#
+#  web errors
+#
+www.error.title=Ööööeeh...
+www.error.stackTrace=Yığıt dökümü
+www.error.desc=Sockso der ki...
+www.error.unknownRequest=istediğiniz şeyin nasıl yapılacağını bilmiyor.
+www.error.unknownUser=bu kullanıcı adı kayıtlı değil
+www.error.passwordIncorrect=şifreniz yanlış
+www.error.duplicateUsername=bu kullanıcı zaten var
+www.error.duplicateEmail=bu email zaten var
+www.error.passwordsDontMatch=şifreleriniz uyuşmuyor
+www.error.invalidEmail=emailiniz geçersiz
+www.error.missingField=bir alanı atladınız
+www.error.registrationDisabled=kullanıcı kaydı kapalı
+www.error.alreadyLoggedIn=zaten giriş yapmışsınız!
+www.error.downloadsDisabled=indirme kapalı
+www.error.noAnonymousUploads=müzik yükleyebilmek için giriş yapmış olmanız gerekir.
+www.error.uploadsNotEnabled=yükleme kapalı
+www.error.noUploadsDirectory=yükleme dizini ayarlanmamış
+www.error.uploadsDirNotWritable=yükleme dizini yazılabilir değil
+www.error.noFileUploaded=dosya yüklemediniz
+www.error.unsupportedAudioFormat=sockso bu ses formatını desteklememektedir (sadece mp3, ogg ve wma)
+www.error.cantCreateTrackFolder=yükleme dizinini yaratamıyor
+www.error.browseFoldersNotEnabled=dizin gezinme kapalı
+www.error.invalidCollectionId=geçersiz koleksiyon numarası
+www.error.folderDoesntExist=dizin yok
+www.error.trackNotFound=parça bulunamadı
+www.error.fileNotFound=dosya bulunamadı
+www.error.couldNotCreateUniqueFilename=benzersiz dosya adı yaratılamadı
+www.error.coversDisabled=kapaklar kapalı
+www.error.remoteErrorDesc=Kusura bakmayın, öyle bir sayfa yok. Görünüşe göre <a href="%1%2">%2</a> güncel olmayan bir bağlantı...  bunu bildirirseniz site sahibi güncelleyebilir.
+www.error.localErrorDesc=Kusura bakmayın, öyle bir sayfa yok.  Sockso'da bozuk bir bağlantıyı izlemişsiniz sanki, bunun bir böcek olduğunu düşünüyorsanız lütfen <a href="http://forums.pu-gh.com">bildirin</a>.
+www.error.noRefererErrorDesc=Kusura bakmayın, öyle bir sayfa yok.  Ya yanlış bir URL'yi kopyalayıp yapıştırdınız ya da güncel olmayan bir yer imini izlediniz.
+www.error.nothingToPlay=Önce çalacak birşeyler seçmeniz gerek!
+www.error.nothingToDownload=İndirecek birşeyler seçmeniz gerek!
+www.error.nothingToShare=Paylaşacak birşeyler seçmeniz gerek!
+www.error.passwordsDontMatch=Şifreler uyuşmuyor!
+www.error.notAnAdmin=Bunu yapabilmek için yönetici olmanız gerek.
+www.error.loginFailed=yanlış bilgiler girdiğiniz ya da hesabınız etkin olmadığı için giriş yapamadınızç
+
+#
+#  json messages
+#
+www.json.error.unknown=Bilinmeyen hata
+www.json.error.noName=Ad belirtilmedi
+www.json.error.noArguments=Argüman belirtilmedi
+www.json.error.notLoggedIn=Giriş yapmamışsınız
+
+#
+#  web links
+#
+www.link.login=Giriş yap
+www.link.logout=Çıkış
+www.link.register=Kayıt
+www.link.home=Ev
+www.link.browse=Gözat
+www.link.latest=En son
+www.link.popular=Tutulan
+www.link.playlists=Çalma listeleri
+www.link.random=Rastgele
+www.link.play=Çal
+www.link.clear=Temizle
+www.link.download=İndir
+www.link.share=Paylaş
+www.link.save=Sakla
+www.link.upload=Yükle
+www.link.randomizePlaylist=Çalma listesini karıştır
+www.link.misc=Çeşitli
+www.link.folders=Dizinler
+www.link.playRandom=Rastgele çal
+www.link.editUser=Düzenle
+www.link.scrobbleLog=Scrobble Log
+
+#
+#  web titles
+#
+www.title.playlist=Çalma listesi
+www.title.recentlyPlayedTracks=En son çalınan parçalar
+www.title.topArtists=En çok çalınan sanatçılar
+www.title.about=Hakkında
+www.title.sitePlaylists=Site çalma listeleri
+www.title.userPlaylists=Kullanıcı çalma listeleri
+www.title.mostPopularTracks=En çok çalınan parçalar
+www.title.latestTracks=En son parçalar
+www.title.latestArtists=En son sanatçılar
+www.title.share=Paylaş
+www.title.login=Giriş yap
+www.title.register=Kaydoluyor
+www.title.registerComplete=Kayıt Tamamlandı!
+www.title.upload=Müzik Yükle
+www.title.uploadComplete=Yükleme Tamamlandı
+www.title.recentlyPlayedAlbums=Son zamanlarda çalınan albümler
+www.title.editProfile=Profiliniz
+www.title.userUpdated=Profil Güncellendi!
+www.title.recentUsers=Son kullanıcılar
+www.title.latestAlbums=Son albümler
+www.title.sharePopup=Sockso - Müziği Paylaşmak
+www.title.activationRequired=Etkinleştirme Gerekli!
+
+#
+#  web admin
+#
+www.admin.title.console=Sockso - Yönetici Konsolu
+
+#
+#  web text
+#
+www.text.loggedInAs=Giriş yapılan kullanıcı
+www.text.noResults=Hiç birşey bulunamadı...
+www.text.uploadComplete=Parça için teşekkürler, artık koleksiyonda!
+www.text.noCover=Kapak bulunamadı...
+www.text.userUpdated=Bilgileriniz güncellendi.
+www.text.confirmLogout=Çıkış yapmak istediğinize emin misiniz?
+www.text.confirmScrobbleLog=Scrobble logunuzu indirdiğinizde bütün parçalar dinlenmiş olarak işaretlenecek.  İndirmek istediğinize emin misiniz?
+www.text.recentUsersInfo=(Son 5 dakika içinde şarkı dinleyen kullanıcılar)
+www.text.about=<a href="http://sockso.pu-gh.com">Sockso</a> herkes için <a href="http://www.gnu.org/licenses/gpl.txt">özgür</a>, <a href="http://sockso.pu-gh.com/source">açık kaynak kodlu</a>, kişisel bir medya sunucusudur!
+www.text.share=Müzik paylaşmak için, sitenize aşağıdaki linki kopyalayıp yapıştırarak bır flash çalıcı koyabilirsiniz...
+www.text.login=Kayıt yaptıysanız aşağıdaki forma bilgilerinizi girerek giriş yapabilirsiniz.  Yoksa <a href="%1">kayıt sayfası</a>na gitmeye başlayabilirsiniz!
+www.text.register=Giriş yapabilmek istiyorsanız, ilk yapmanız gereken kendinize bir hesap yaratmaktır.  Bilgilerinizi aşağıdaki forma girin ve <b>kaydol</b> düğmesine basın!
+www.text.registerComplete=Tebrikler %1, şimdi kendine yeni bir hesap yarattınız!  Şimdi giriş yaptınız ve istediğiniz kadar müzik dinleyebilirsiniz!
+www.text.emptyPlaylist=Çalma listeniz şu anda boş.  Listeye şarkı, albüm ve saire eklemek için yanlarındaki mavi <img src="/file/skins/%1/images/add.png" /> simgesine tıklayınız...
+www.text.activationRequired=Teşekkürler! Bilgileriniz kaydedildi ve etkinleştirme için onay bekliyor.  Yönetici size etkinleştirilmesini email ile bildirecektir.
+
+#
+#  web labels
+#
+www.label.dateAdded=Ekleme tarihi
+www.label.playCount=Çalma
+www.label.trackCount=Parçalar
+www.label.username=Ad
+www.label.password=Şifre
+www.label.passwordRepeat=Şifreyi tekrarlayın
+www.label.login=Giriş
+www.label.email=Email
+www.label.register=Kaydol
+www.label.upload=Yükle
+www.label.trackToUpload=Dosya
+www.label.artist=Sanatçı
+www.label.album=Albüm
+www.label.track=Parça adı
+www.label.deletePlaylist=Çalma listesini sil
+www.label.save=Kaydet
+
+#
+#  www confirm prompts
+#
+www.confirm.deletePlaylist=Bu çalma listesini silmek istediğinize emin misiniz?
+www.confirm.playlistName=Bu çalma listesine ne ad vermek istiyorsunuz?
+
+#
+#  gui window titles
+#
+gui.window.main= Sockso - Kolleksiyon Yöneticisi
+gui.window.reports= Sockso - Raporlar
+gui.window.console= Sockso - Konsol
+
+#
+#  gui labels
+#
+gui.label.portForward=NAT ayarla (deneysel!)
+gui.label.exit=Çık
+gui.label.hide=Sakla
+gui.label.options=Seçenekler
+gui.label.gettingIPAddress=IP Adresi alınıyor
+gui.label.yourAddress=Adresiniz
+gui.label.music=Müzik
+gui.label.collection=Kolleksiyon
+gui.label.users=Kullanıcılar
+gui.label.myComputer=Bilgisayarım
+gui.label.internetAddress=Internet Adresi (varsayılan)
+gui.label.refresh=Yenile
+gui.label.addFolder=Dizin ekle
+gui.label.removeFolder=Çıkar
+gui.label.username=Kullanıcı adı
+gui.label.password=Şifre
+gui.label.passwordRepeat=Şifreyi tekrarla
+gui.label.email=Email
+gui.label.createUser=Kullanıcı adı
+gui.label.cancel=İptal
+gui.label.general=Genel
+gui.label.testNat=NAT ayarlarını denetle (biraz sürebilir)
+gui.label.browse=Gözat
+gui.label.encoders=Kodlayıcılar
+gui.label.encTypeNone=Yok
+gui.label.encTypeBuiltin=Tümleşik
+gui.label.encTypeCustom=Özel
+gui.label.encNoneSelected=Hiç biri seçili değil
+gui.label.encoder=Kodlayıcı
+gui.label.bitrate=Bit oranı
+gui.label.command=Komut
+gui.label.webServer=Web Sunucu
+gui.label.port=Port
+gui.label.basepath=Sunucu Yolu
+gui.label.wwwTitle=Başlık
+gui.label.wwwTagline=Slogan
+gui.label.disableDownloads=İndirmeleri kapat
+gui.label.scanOnStartup=Başlangıçta tara
+gui.label.scanInterval=Tarama aralığı (dakika)
+gui.label.uploads=Yüklemeler
+gui.label.enableUploads=Yüklemeleri etkinleştir
+gui.label.anonymousUploads=Giriş yapmaya gerek yok
+gui.label.uploadsDirectory=Dizin
+gui.label.general=Genel
+gui.label.startMinimized=Küçültülmüş olarak başla
+gui.label.confirmExit=Çıkışı onayla
+gui.label.natSetup=NAT Ayarı
+gui.label.logging=Kayıt tutma
+gui.label.enableRequestLog=İstekleri kaydet
+gui.label.exportRequestLogAs=İstek kayıtlarını ver
+gui.label.export=Ver
+gui.label.import=Al
+gui.label.consoleCommandGo=Çalıştır
+gui.label.showReportsWindow=Raporlar
+gui.label.showConsoleWindow=Konsol
+gui.label.enableFolderBrowsing=Dizin gözatmayı etkinleştir
+gui.label.clearRequestLog=Sil(%1 kayıt)
+gui.label.tracks=Parçalar
+gui.label.playlists=Çalma listeleri
+gui.label.userPlaylists=Kullanıcı Çalma Listeleri
+gui.label.rescanCollection=Şimdi tara
+gui.label.isAdmin=Yönetici?
+gui.label.community=Topluluk
+gui.label.communityEnabled=Sunucumu Sockso topluluk sitesinde listele
+
+#
+#  gui errors
+#
+gui.error.browserNotFound=Web tarayıcı bulunamadı
+gui.error.missingField=Gerekli bir alanı atladınız
+gui.error.invalidEmail=Bu geçerli bir email değil
+gui.error.passwordsDontMatch=Şifreleriniz uyuşmuyor
+gui.error.duplicateUsername=Bu kullanıcı adı zaten mevcut
+gui.error.duplicateEmail=Bu email zaten mevcut
+
+#
+#  gui titles
+#
+gui.title.creatingUser=Yeni bir kullanıcı yaratılıyor
+gui.title.options=Seçenekler
+
+#
+#  gui tooltips
+#
+gui.tooltip.music=Müziğiniz/Çalma listeleriniz
+gui.tooltip.collection=Kolleksiyonunuzu yönetin
+gui.tooltip.users=Kullanıcı erişimini denetleyin
+gui.tooltip.general=Genel seçenekler
+gui.tooltip.encoders=Kodlama seçenekleri
+
+#
+#  gui messages
+#
+gui.message.natTestOk=NAT denemesi tamam! Kurulumunuz düzgün görünüyor!
+gui.message.natTestFailed=NAT denemesi başarısız...
+gui.message.exportComplete=Verme tamamlandı!
+gui.message.confirmClearRequestLog=Bunun geri dönüşü yok, istek kayıtlarını silmek istediğinize emin misiniz?
+gui.message.requestLogCleared=İstek kayıtları silindi!
+gui.message.playlistImported=Çalma listesi alındı!
+gui.message.playlistImportFailed=Alma başarısız...
+
+#
+#  gui reports
+#
+gui.reports.refresh=Raporu yenile
+gui.reports.browsers.title=Tarayıcılar
+gui.reports.browsers.titleLong=Kullanıcının tarayıcıları
+gui.reports.requestsPerDay.title=Günlük istek sayısı
+gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.yAxis=# İstekler
+
+#
+#  console errors
+#
+con.err.usernameExists=Kullanıcı adı zaten var
+con.err.emailExists=Email zaten var
+con.err.errorCreatingUser=Kullanıcı yaratma hatası...
+con.err.errorDeletingUser=Kullanıcı silme hatası...
+con.err.directoryNotInColl=Kusura bakmayın, bu dizin koleksiyonunuzda değil...
+con.err.pathNotExist=%1 yok...
+con.err.propertyDoesntExist=Özellik yok...
+con.err.invalidUserId=Geçersiz kullanıcı kimliği...
+
+#
+#  console messages
+#
+con.msg.userCreated=Kullanıcı yaratıldı!
+con.msg.userDeleted=Kullanıcı silindi!
+con.msg.directoryDeleted=Dizin çıkarıldı!
+con.msg.propertySaved=Özellik saklandı!
+con.msg.propertyDeleted=Özellik silindi!
+con.msg.directoryAdded=Dizin eklendi!
+con.msg.userUpdated=Kullanıcı güncellendi!
+
+#
+#  console command descriptions
+#
+con.desc.addDirectory=koleksiyonunuza bir dizin ekler
+con.desc.removeDirectory=koleksiyonunuzdan bir dizin çıkarır
+con.desc.listDirectories=koleksiyondaki dizinlerı listeler
+con.desc.exit=uygulamadan çıkar
+con.desc.listProperties=uygulama özelliklerini listeler
+con.desc.setProperty=özelliği ayarlar
+con.desc.listUsers=kayıtlı kullanıcıları listeler
+con.desc.addUser=sisteme bir kullanıcı ekler
+con.desc.deleteUser=kullanıcıyı siler
+con.desc.commands=Komutlar:
+con.desc.delProperty=bir özelliği siler
+con.desc.version=şu anki sürümü gösterir
+con.desc.rescanCollection=koleksiyonu şimdi tara
+
+#
+#  misc messages
+#
+misc.msg.updateAvailable=Sockso'nun yeni bir sürümü çıktı (%1)
