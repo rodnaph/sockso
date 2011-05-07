@@ -648,6 +648,10 @@ li.playlist:hover a.delete {
 /******** END playlists *******/
 /******** related info ********/
 
+div.related {
+    padding: 0 20px 0 20px;
+}
+
 div.related ul {
     margin: 40px 0 40px 0;
     padding: 0;
