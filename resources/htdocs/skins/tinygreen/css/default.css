@@ -1,0 +1,838 @@
+body {
+	margin: 0;
+	padding: 0;	
+	background: #f4f4f4 url(../images/top_bg.jpg) repeat-x;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #666666;
+}
+
+body.plain {
+    background-image: none;
+}
+
+h1, h2, h3 {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+
+h1 {
+	font-weight: normal;
+	font-size: 237%;
+}
+
+a {
+	
+	text-decoration: none;
+	color: #1777B1;
+}
+
+a:hover {
+	border-bottom: none;
+	color: #FF7400;
+}
+
+img {
+	border: 3px solid #7F7772;
+}
+
+img.left {
+	float: left;
+	margin: 6px 15px 0 0;
+}
+
+img.right {
+	float: right;
+	margin: 6px 0 0 15px;
+}
+
+img.cover {
+    width: 115px;
+    height: 115px;
+}
+
+pre {
+    padding: 10px;
+    border: 1px #ccc dashed;
+}
+
+.bg1 { }
+.bg2 { background: url(../images/content_top_po.jpg) no-repeat left bottom;}
+.bg3, h2 { background: url(../images/about.jpg) no-repeat left bottom; }
+.bg4, h3 {}
+.bg5 {  }
+.bg7 { }
+
+.feature {
+}
+
+.feature .image {
+	padding: 0 0 0 40px;
+}
+
+.feature .title {
+}
+
+.feature .content {
+	padding: 0 0 0 40px;
+}
+
+.box {
+	float: left;
+	width: 250px;
+}
+
+.box .title, h3, h2 {
+	height: 40px;
+	padding: 20px 0 0 20px;
+	text-transform: lowercase;
+	font-size: 167%;
+}
+
+.box .content {
+}
+
+.list {
+	margin-left: 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+.list li {
+	padding-left: 10px;
+	background: url(../images/img07.gif) no-repeat left center;
+}
+
+/* Header */
+
+#header {
+	width: 1000px;
+	height: 204px;
+	margin: 0 auto;
+	background: url(../images/top.jpg) no-repeat;
+}
+
+#header h1, #header p {
+	margin: 0;
+	margin: 0;
+	font-weight: normal;
+	color: #000000;
+}
+
+#header h1 {
+	float: left;
+	padding: 58px 0 0 12px;
+	text-transform: lowercase;
+	line-height: 72px;
+	font-size: 72px;
+}
+
+#header p {
+	float: right;
+	padding: 102px 0 0 0;
+	text-transform: uppercase;
+	font: bold 11px "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+#header p a {
+	font-size: 167%;
+}
+
+#header a {
+	border: none;
+	color: #000000;
+}
+
+/* Page */
+
+#page {
+	margin:0 auto;
+	width:1000px;
+	background:url(../images/content_bottom.jpg) right bottom no-repeat;
+}
+
+/* Content */
+
+#content {
+	float: right;
+	width: 756px;
+	min-height:350px !important;
+	height:350px;
+	height:auto;
+	margin-top:34px;
+	background:url(../images/content_middle.jpg) repeat-y;
+}
+
+#content h2 {
+	width:756px;
+	height:43px;
+	background:url(../images/title_sprite.jpg) no-repeat;
+	margin:0;
+	padding:0;
+	color:#FFF;text-shadow:1px 1px 2px #2C6D5E; font-weight:lighter; text-indent:35px; line-height:35px;
+}
+
+#content p, #content ul, #content ol {
+	line-height: 1.8em;
+}
+
+.content-loading {
+    opacity: 0.5;
+}
+
+/* Sidebar */
+
+#sidebar {
+	float: left;
+	width: 244px;	
+	margin-bottom: 30px;
+	background:url(../images/content_bottom_po.jpg) left bottom no-repeat;
+}
+
+#sidebar ul {
+	width: 244px;
+	margin-top:50px;
+	padding: 0;
+	list-style: none;
+	float:left;
+	background:url(../images/content_repeaty_po.jpg) repeat-y;
+}
+
+#sidebar ul ul {
+	margin-top:10px;
+	padding: 0;
+	list-style: none;
+	float:left;	
+}
+
+#sidebar li {
+	float:left;
+	margin-bottom:10px;
+}
+
+#sidebar li ul {
+    padding-top: 10px;
+}
+
+#sidebar li li {
+    margin-left: 20px;
+}
+
+#sidebar li li.first {
+	border-top-color: #FFFFFF;
+}
+
+#sidebar h2 {
+	width:204px;
+	height: 55px;
+	padding: 0 0 0 40px;
+	text-transform: lowercase;
+	text-indent:-9999em;
+	margin-top:-18px;
+	
+}
+
+#sidebar p {
+	width:220px;
+	margin-left:20px;
+}
+
+#sidebar a {
+	border: none;
+}
+
+#sidebar a:hover {
+	border-bottom: 1px dotted #666666;
+}
+
+/*============ recent users ================*/
+
+#sidebar li.recentUsers ul {
+    padding-top: 0;
+}
+
+#sidebar li.recentUsers ul li {
+  display: inline;
+}
+
+/* Footer */
+
+#footer {
+	/*display:none !important;*/
+	clear: both;
+	height: 108px;
+	padding: 20px 0 0 0;
+	text-indent:-9999em;
+	background:url(../images/footer_repeatx.jpg) bottom repeat-x;
+}
+
+#footer #legal{ display:none;}
+
+#footer p {	
+	margin: 0;	
+	font-size: 85%;
+	width:162px;
+	height:108px;
+	float:right;
+	margin-right:135px;
+	text-indent:-9999em;
+	background:url(../images/footer_logo.jpg) no-repeat;
+}
+
+#footer a {
+	border: none;
+	color: #CCCCCC;
+	display:none;
+}
+
+#footer a:hover {
+	color: #FFFFFF;
+}
+
+#legal p {
+	text-indent:-9999em;
+}
+
+#legal strong {
+	display: block;
+	padding: 20px 0 0 0;
+	background: url(../images/logo.png) no-repeat center top;
+	text-transform: lowercase;
+	letter-spacing: 3px;
+	font-size: 182%;
+	font-weight: normal;
+}
+
+#links {
+}
+
+#nav { width:1010px; margin-top:-53px;}
+#nav a {
+    font-size: 1.2em;
+    margin-right: 15px;
+	text-decoration:none;
+}
+
+#nav a
+{
+	height:25px;
+	float:left;
+	padding-left:20px;
+	margin-left:30px;
+	background:url(../images/nav_li_bg.jpg) left center no-repeat;
+}
+#nav a:active,a:link,a:visited
+{
+	color:#666;
+	text-decoration:none;
+}
+#nav a:hover
+{
+	color:#000;
+}
+
+
+li.playlist { list-style-image: url(../images/playlist.png); }
+li.artist { list-style-image: url(../images/artist.png); }
+li.album { list-style-image: url(../images/album.png); }
+li.track { list-style-image: url(../images/track.png); }
+li.empty { list-style-type: none; }
+
+/* IE6 fix to space list items a little more */
+* html #content li { margin-bottom: 6px; }
+/* IE6 fix to space content more */
+* html #content { padding-left: 20px; padding-top: 20px; }
+* html #sidebar { padding-top: 20px; }
+
+.albumArt{ width:756px;}
+
+.albumArt h2{ width:756px; height:43px; padding:0; margin:0; margin-top:35px; margin-left:1px; color:#FFF;text-shadow:1px 1px 2px #2C6D5E; font-weight:lighter; text-indent:35px; line-height:35px; background:url(../images/title_sprite.jpg) no-repeat;}
+
+div.albumArt ul {
+    list-style-type: none;
+}
+div.albumArt ul li {
+    float: left;
+    height: 150px;
+    margin-right: 10px;
+}
+
+.section {
+    float: left;
+    width: 45%;
+}
+.section h2 { 
+background:#1ec18c !important;
+	color:#FFF;
+	 width:406px !important;
+	 height:35px !important;
+	 color:#FFF;text-shadow:1px 1px 2px #2C6D5E; font-weight:lighter; text-indent:35px; line-height:35px;  
+}
+
+.section h3 {
+    background:#1ec18c;
+	color:#FFF;
+	padding:0;
+	width:376px;
+	height:35px;
+	line-height:35px;
+	padding-left:30px;
+	text-shadow:1px 1px 2px #2C6D5E;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:lighter;
+}
+
+img {
+    border: none;
+}
+
+#letters{ width:725px; height:30px; float:left; margin-left:22px; margin-top:12px; font-size:14px;}
+#letters a{height:30px;float:left; padding:0 4px; line-height:30px;}
+#letters a:actived,a:link,a:visited{}
+#letters a:hover{ color:#FFF; background:#0C9; font-size:18px;}
+
+/* artist/album info */
+
+h3.info {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0px 0px 5px 50px;
+    
+}
+
+/* the search box */
+
+#search-input {    
+    width: 180px;
+	height:33px;
+	border:none;
+	margin-left:55px;	
+	margin-top:-5px;
+    background-image: url(../images/search_bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+.input{ font-size:16px; color:#FFF;}
+#search-results {
+    position: absolute;
+    border: 1px #ccc solid;
+    border-top: 1px #ccc solid;
+    background-color: #eee;
+    width: 300px;
+    padding: 6px;
+    z-index: 100;
+}
+#search-results li {
+    margin-bottom: 4px;
+	list-style:none;
+}
+
+/* player type options */
+
+#play-options {
+    display: none;/*隐藏播放器选择功能*/
+}
+
+h2 .links, h2 img.cover {
+   float: left;
+   width: auto;
+}
+h2 .info {
+    font-size: 0.5em;
+    position: relative;
+    left: 20px;
+}
+h2 img.cover {
+    position: relative;
+    top: -10px;
+    left: 10px;
+    border: 1px #ccc solid;
+}
+
+.clearer {
+    clear: both;
+}
+
+#flash-player {
+    position: absolute;
+    position: fixed;
+    top: 5px;
+    right: 5px;
+}
+
+#flash-player a {
+    float: left;
+    margin-right: 3px;
+    padding: 0 4px 2px 4px;
+    background-color: #ccc;
+    border: 1px #aaa solid;
+    color: #777;
+    width: 10px;
+    height: 11px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 11px;
+}
+
+/* popup menus */
+
+.popup {
+	position: absolute;
+        top: 0px;
+        left: 0px;
+	background-color: #eee;
+	border: 1px #aaa solid;
+}
+.popup a {
+	display: block;
+	padding: 2px 7px 2px 8px;
+	border: none;
+}
+.popup a:hover {
+	border: none;
+}
+.popup a img {
+    margin-right: 5px;
+}
+
+/* login info box */
+
+#login-info {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 10px;
+}
+
+/* forms */
+
+fieldset {
+    border: none;
+	min-height:184px;
+	height:184px;
+}
+
+fieldset label {
+    clear: left;
+    float: left;
+    width: 20%;
+    text-align: right;
+    padding: 2px 10px 8px 2px;
+    font-weight: bold;
+    color: #000;
+}
+
+fieldset input {
+    float: left;
+    margin: 2px 2px 8px 2px;
+    border: 2px #ccc solid;
+    width: 50%;
+    padding: 2px;
+}
+
+fieldset input.submit {
+    clear: left;
+    margin-left: 22%;
+    font-weight: bold;
+    padding: 7px;
+    font-size: 14px;
+    width: 100px;
+}
+
+form h3 {
+    clear: both;
+}
+
+/******* image flow ***********/
+
+#images{
+	visibility:hidden;
+}
+#captions{
+    color: #333;
+	position:relative; 
+	text-align:center;
+	z-index:10000;
+}
+#scrollbar{
+	visibility:hidden;
+	position:relative; 
+	border-bottom:1px solid #888;
+	z-index:10001;
+}
+#slider{
+	position:absolute;
+	margin-top:-7px;
+	margin-left:-7px;
+	z-index:10002;
+	background-image:url(../images/slider.png);
+	background-repeat:no-repeat;
+	width:14px;
+	height:14px;	
+}
+#imageflow{
+	text-align:left;
+}
+#imageflow img.cover { 
+	position:absolute; 
+	top:0px;
+	border:none;
+}
+.imageflow_toggler {
+    display: block;
+    text-align: right;
+}
+.imageflow_toggler a.toggler {
+    padding: 0 20px 0 20px;
+    height: 16px;
+    font-size: 0.9em;
+    border: none;
+    background-image: url(../images/imageflow/show.png);
+    background-repeat: no-repeat;
+    background-position: left;
+}
+.imageflow_toggler a.togglerHide {
+    background-image: url(../images/imageflow/hide.png);
+}
+
+/******* folder browsing ***********/
+
+#folders {
+    margin-top: 40px;
+}
+#folders li.folder {
+    list-style-image: url(../images/folder.png);
+}
+#folders li.folderOpen {
+    list-style-image: url(../images/folder_open.png);
+}
+#folders li.audioFile {
+    list-style-image: url(../images/track.png);
+}
+#folders ul.collapsed {
+    display: none;
+}
+#folders li.empty {
+    list-style-image: none;
+    position: relative;
+    left: -25px;
+}
+#folders li span.links span.actions {
+    margin-left: 10px;
+}
+#folders li span.links span.actions {
+    visibility: hidden;
+}
+#folders li span.links:hover span.actions {
+    visibility: visible;
+}
+
+/* IE6 Hack - make all folder playing icons visible as it
+   doesn't support li:hover */
+* html #folders li span.links span.actions { visibility: visible; }
+
+/******** playlists ***********/
+
+li.playlist a.delete {
+    margin-left: 3px;
+    visibility: hidden;
+}
+
+li.playlist:hover a.delete {
+    visibility: visible;
+}
+
+/* IE6 Fix to always display delete links */
+* html li.playlist a.delete { visibility: visible; }
+
+/******** END playlists *******/
+/******** related info ********/
+
+div.related ul {
+    margin: 40px 0 40px 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+div.related li {
+    display: inline;
+    font-size: 10px;
+    padding-right: 10px;
+}
+
+/******** END related info ****/
+/*================ jsplayer =========================*/
+
+.jsplayer {
+}
+.jsplayer .jwplayer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.jsplayer .artwork {
+    border: 1px #ccc solid;
+    width: 115px;
+    height: 115px;
+    float: left;
+    margin: 10px 10px 10px 20px;
+}
+.jsplayer .playlist {
+    float: left;
+    width: 420px;
+    height: 200px;
+    margin: 0 5px 0 5px;
+    list-style-type: none;
+    border: 1px #ccc solid;
+    padding: 0;
+    overflow: scroll;
+}
+.jsplayer .playlist li {
+    border-bottom: 1px aaa solid;
+    margin: 0;
+    padding: 0;
+}
+.jsplayer .playlist li.current {
+    background-image: url(../images/play.png);
+    background-repeat: no-repeat;
+    background-position: 1%;
+    background-color: #ccc;
+    font-weight: bold;
+}
+.jsplayer .playlist li a {
+    padding: 2px 10px 2px 20px;
+    display: block;
+    border: none;
+}
+.jsplayer .playlist li a:hover {
+    background-color: #cdf;
+    background-image: url(../images/play.png);
+    background-repeat: no-repeat;
+    background-position: 98%;
+}
+.jsplayer .playlist li.current a:hover {
+    background: inherit;
+}
+.jsplayer .controls {
+    clear: left;
+    float: left;
+    padding: 0 15px 0 15px;
+}
+.jsplayer .info {
+    float: left;
+    margin-left: 10px;
+    padding-top: 9px;
+    font-weight: bold;
+    color: #000;
+}
+
+/*======== music info ==============*/
+
+div.musicInfo {
+	padding-top:20px;
+	padding-bottom:20px;
+	padding-right:20px;
+    
+}
+div.musicInfo img.cover {
+    float: left;
+    margin-right: 15px;
+	margin-left:15px;
+}
+div.musicInfo .text {
+    float: left;
+}
+div.musicInfo .text span {
+    display: block;
+    padding-bottom: 10px;
+}
+div.musicInfo .text span a {
+	margin-left:15px;
+}
+div.musicInfo .text span h2 {
+    background-image: none;
+    margin: 0;
+    padding: 0;
+    height: 30px;
+}
+div.musicInfo .info {
+    clear: left;
+    font-size: 10px;
+    color: #000;
+    padding: 8px 0 0 20px;
+}
+
+/*========  playlist ================*/
+
+li#playlist {
+    list-style-image: none;
+}
+
+.playlist .controls {    
+    text-align: center;
+    white-space: nowrap;
+}
+.controls{ margin-left:10px; width:210px;}
+
+.playlist .controls a {
+    margin-right: 8px;
+    padding-right: 16px;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.playlist .controls a.clear { background-image: url(../images/clear.png); }
+.playlist .controls a.play { background-image: url(../images/play.png); }
+.playlist .controls a.download { background-image: url(../images/download.png); display:none; }
+.playlist .controls a.share { background-image: url(../images/share.png); }
+.playlist .controls a.save { background-image: url(../images/save.png); }
+
+
+.playlist .contents li {
+    margin-bottom: 4px;
+	width:220px;
+	list-style: none;
+}
+
+.playlist .user-controls {
+    clear: left;
+    margin-top: 10px;
+}
+
+/*=============== admin console ================*/
+
+.admin-console {
+    background-image: url(../images/img02.gif);
+    background-repeat: repeat;
+    padding: 20px;
+}
+
+.admin-console-input, .admin-console-submit {
+    border: 2px #ccc solid;
+    padding: 3px;
+}
+
+.admin-console-input {
+    width: 350px;
+}
+
+.admin-console-output {
+    background-color: #fff;
+    border: 5px #ccc solid;
+    height: 440px;
+    width: 720px;
+    margin: 0 0 10px 0;
+    font-family: courier;
+    overflow: scroll;
+    color: #000;
+}
+
+fieldset input.admin-console-submit {
+    margin-left: 20px;
+    clear: none;
+}
+
+.admin-console form,
+.admin-console p {
+    margin: 0;
+}
