@@ -148,6 +148,7 @@ pre {
 #page {
 	margin:0 auto;
 	width:1000px;
+        margin-top:-53px;
 	background:url(../images/content_bottom.jpg) right bottom no-repeat;
 }
 
@@ -306,7 +307,7 @@ pre {
 #links {
 }
 
-#nav { width:1010px; margin-top:-53px;}
+#nav { width:1010px;}
 #nav a {
     font-size: 1.2em;
     margin-right: 15px;
