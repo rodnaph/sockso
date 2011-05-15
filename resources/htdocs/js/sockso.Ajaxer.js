@@ -7,6 +7,7 @@
 sockso.Ajaxer = function( options ) {
 
     this.page = options.page;
+    this.loadingClass = 'content-loading';
 
 };
 
@@ -93,6 +94,8 @@ sockso.Ajaxer.prototype.onClick = function( evt ) {
  */
 sockso.Ajaxer.prototype.loadUrl = function( href ) {
 
+    $( '#content' ).addClass( this.loadingClass );
+
     $.ajax({
         method: 'GET',
         url: href,
@@ -116,6 +119,8 @@ sockso.Ajaxer.prototype.onLoadUrl = function( html ) {
     this.attach( newContent );
     this.page.initContent();
     this.setTitle( newTitle );
+
+    $( '#content' ).removeClass( this.loadingClass );
 
 };
 

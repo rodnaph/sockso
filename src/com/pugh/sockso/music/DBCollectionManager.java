@@ -319,6 +319,18 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                 st.setInt( 2, track.getId() );
                 st.execute();
 
+                Utils.close( rs );
+                Utils.close( st );
+
+                sql = " update albums " +
+                      " set artist_id = ? " +
+                      " where id = ? ";
+
+                st = db.prepare( sql );
+                st.setInt( 1, newArtistId );
+                st.setInt( 2, track.getAlbum().getId() );
+                st.execute();
+
                 return newArtistId;
             
             }

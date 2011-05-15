@@ -39,9 +39,25 @@ public class Album extends MusicItem {
         this.dateAdded = ( dateAdded != null ) ? new Date(dateAdded.getTime()) : null;
         this.year = ( year != null ) ? year : "";
     }
-    
+
+    /**
+     * Returns the year for this album
+     *
+     * @return
+     */
+    public String getYear() {
+
+        if ( year == null ) {
+            return "";
+        }
+
+        return ( year.length() > 4 )
+            ? year.substring( 0, 4 )
+            : year;
+
+    }
+
     public Artist getArtist() { return artist; }
-    public String getYear() { return (year.length() > 4)?year.substring(0,4):year; }
     public int getTrackCount() { return trackCount; }
     public Date getDateAdded() { return new Date(dateAdded.getTime()); }
     public int getPlayCount() { return playCount; }

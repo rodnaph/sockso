@@ -47,7 +47,7 @@
     <%else>
         <% locale.getString("www.text.loggedInAs") %> <% user.getName() %>
         :
-        <a class="noajax" href="<% properties.getUrl("/user/edit") #n %>" title="<% locale.getString("www.link.editUser") %>"><img src="<% properties.getUrl("<skin>/images/profile.png") #n %>" alt="<% locale.getString("www.link.editUser") %>" /></a>
+        <a href="<% properties.getUrl("/user/edit") #n %>" title="<% locale.getString("www.link.editUser") %>"><img src="<% properties.getUrl("<skin>/images/profile.png") #n %>" alt="<% locale.getString("www.link.editUser") %>" /></a>
         <a class="noajax" id="scrobbleLogLink" href="<% properties.getUrl("/user/scrobbleLog") #n %>" title="<% locale.getString("www.link.scrobbleLog") %>"><img src="<% properties.getUrl("<skin>/images/audioscrobbler.png") #n %>" alt="<% locale.getString("www.link.scrobbleLog") %>" /></a>
     </%if>
 

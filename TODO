@@ -46,3 +46,24 @@
 * improve "artwork" page
 * add page about the "API"
 
+API Ideas
+---------
+
+All endpoints return JSON, and will start off being read-only.  The endpoints
+that are marked as "paged" return 100 items at a time maximum, but this can
+be adjusted using "limit" and "offset" parameters.  Requests should be GET.
+
+/api - (server info, same as /json/serverinfo)
+/api/artists - array of all artists ordered a-z (paged)
+/api/artists/123 - artist info (with albums)
+/api/artists/123/tracks - array of tracks for artist
+
+/api/albums - array of all albums ordered a-z (paged)
+/api/albums/123 - album info (with artist)
+/api/albums/123/tracks - array of tracks for album
+
+/api/tracks - array of all tracks ordered a-z (paged)
+/api/tracks/123 - track info, artist and album
+
+/api/playlists - array of all playlists, newest first (paged)
+/api/playlists/123 - array of music items for playlist (track, album or artist)

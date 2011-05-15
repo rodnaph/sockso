@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.easymock.EasyMock.*;
 
@@ -187,6 +188,38 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         
         verify( p );
         
+    }
+    
+    public void testCheckArtistTagInfo() throws IOException, SQLException {
+
+        final TestDatabase db = new TestDatabase();
+        final DBCollectionManager cm = new DBCollectionManager( db, p, indexer );
+        final String artistName = "My Artist";
+        
+        int firstArtistId = 0, secondArtistId = 0;
+
+        db.fixture( "checkArtistTagChange" );
+
+        Tag newTag = createMock( Tag.class );
+        expect( newTag.getArtist() ).andReturn( artistName ).times(2);
+        replay( newTag );
+        
+        ResultSet rs = db.query( "select * from albums where id = 1" );
+        
+        while (rs.next())
+            firstArtistId = rs.getInt( "artist_id" );
+
+        Track track = cm.getTrack( 3 );
+        cm.checkArtistTagInfo( newTag, track );
+        track = cm.getTrack( 3 );
+        
+        rs = db.query( "select * from albums where id = 3" );
+        
+        while (rs.next())
+            secondArtistId = rs.getInt( "artist_id" ); 
+
+        assertEquals( firstArtistId, secondArtistId );
+ 
     }
 
     public void testGetTrack() throws Exception {
