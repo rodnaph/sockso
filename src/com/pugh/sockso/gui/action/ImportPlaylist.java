@@ -12,6 +12,7 @@ import com.pugh.sockso.music.playlist.PlaylistFile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JFileChooser;
@@ -63,14 +64,7 @@ public class ImportPlaylist implements ActionListener {
 
                 final File file = fc.getSelectedFile();
                 final String playlistName = getPlaylistName( file );
-                final PlaylistFile playlistFile = PlaylistFile.getPlaylistFile( file.getAbsoluteFile() );
-
-                if ( playlistFile == null ) {
-                    throw new Exception( "Unsupported playlist type" );
-                }
-
-                final Track[] tracks = getTracksFromPlaylist( playlistFile );
-                final int playlistId = cm.savePlaylist( playlistName, tracks );
+                final int playlistId = importPlaylist( file, playlistName );
                 final Locale locale = r.getCurrentLocale();
 
                 if ( playlistId == -1 ) {
@@ -99,6 +93,35 @@ public class ImportPlaylist implements ActionListener {
 
         }
 
+    }
+
+    /**
+     *  Import a playlist from the specified file with the specified name
+     * 
+     *  @param file
+     *  @param playlistName
+     * 
+     *  @return
+     * 
+     *  @throws SQLException
+     *  @throws Exception
+     *  @throws IOException 
+     * 
+     */
+    
+    protected int importPlaylist(final File file, final String playlistName) throws SQLException, Exception, IOException {
+        
+        final PlaylistFile playlistFile = PlaylistFile.getPlaylistFile( file.getAbsoluteFile() );
+        
+        if ( playlistFile == null ) {
+            throw new Exception( "Unsupported playlist type" );
+        }
+        
+        final Track[] tracks = getTracksFromPlaylist( playlistFile );
+        final int playlistId = cm.savePlaylist( playlistName, tracks );
+        
+        return playlistId;
+        
     }
 
     /**
