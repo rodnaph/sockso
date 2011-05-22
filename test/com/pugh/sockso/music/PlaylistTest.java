@@ -9,11 +9,20 @@
 
 package com.pugh.sockso.music;
 
+import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.User;
 import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.tests.TestDatabase;
 
 public class PlaylistTest extends SocksoTestCase {
 
+    private TestDatabase db;
+    
+    @Override
+    public void setUp() {
+        db = new TestDatabase();
+    }
+    
     public void testConstructor() {
         assertNotNull( new Playlist(1,"foo") );
         assertNotNull( new Playlist(1,"foo",1) );
@@ -40,6 +49,16 @@ public class PlaylistTest extends SocksoTestCase {
         assertTrue( sql.matches(".*"+playlistId+".*") );
         assertTrue( sql.matches(".*"+orderBySql+".*") );
         
+    }
+    
+    public void testFindReturnsPlaylistThatMatchesTheIdSpecified() throws Exception {
+        db.fixture( "singlePlaylist" );
+        Playlist playlist = Playlist.find( db, 1 );
+        assertEquals( playlist.getName(), "Foo Bar" );
+    }
+    
+    public void testFindReturnsNullWhenTheSpecifiedPlaylistDoesNotExist() throws Exception {
+        assertNull( Playlist.find(db,123) );
     }
     
 }
