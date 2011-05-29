@@ -223,6 +223,8 @@ gui.label.rescanCollection=Scan Now
 gui.label.isAdmin=Admin?
 gui.label.community=Community
 gui.label.communityEnabled=List my server in the Sockso community
+gui.label.scanEntireCollection=Entire collection
+gui.label.scanSelectFolder=Select folder
 
 #
 #  gui errors
@@ -233,6 +235,7 @@ gui.error.invalidEmail=That is not a valid email address
 gui.error.passwordsDontMatch=Your passwords don't match
 gui.error.duplicateUsername=That username already exists
 gui.error.duplicateEmail=That email already exists
+gui.error.directoryNotInCollection=That folder is not in your collection
 
 #
 #  gui titles

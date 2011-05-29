@@ -46,7 +46,7 @@ public class CommandExecuter {
             new ColAdd( cm, locale ),
             new ColDel( cm, locale ),
             new ColList( db ),
-            new ColScan( cm ),
+            new ColScan( cm, db ),
 
             new PropSet( p, locale ),
             new PropDel( p, locale ),

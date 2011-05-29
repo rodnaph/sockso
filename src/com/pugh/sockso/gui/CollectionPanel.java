@@ -12,6 +12,7 @@ import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.music.*;
 import com.pugh.sockso.*;
+import com.pugh.sockso.gui.controls.RescanButton;
 
 import java.io.File;
 
@@ -225,22 +226,11 @@ public class CollectionPanel extends JPanel implements CollectionManagerListener
     
     private JPanel getMiscButtonPane() {
        
-        final Locale locale = r.getCurrentLocale();
+        final RescanButton rescan = new RescanButton( r, cm, parent, db );
+        final FlowLayout layout = new FlowLayout( FlowLayout.RIGHT );
+        final JPanel panel = new JPanel( layout );
         
-        final JButton rescan = new JButton(
-            locale.getString("gui.label.rescanCollection"),
-            new ImageIcon( r.getImage("icons/16x16/rescan.png") )
-        );
-        rescan.addActionListener(new ActionListener() {
-            public void actionPerformed( final ActionEvent evt ) {
-                new Thread() {
-                    @Override
-                    public void run() { cm.checkCollection(); }
-                }.start();
-            }
-        });
-        
-        final JPanel panel = new JPanel( new FlowLayout(FlowLayout.RIGHT) );
+        rescan.init();
         panel.add( rescan );
         
         return panel;
