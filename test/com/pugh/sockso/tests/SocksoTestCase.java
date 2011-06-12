@@ -2,7 +2,14 @@
 package com.pugh.sockso.tests;
 
 import com.pugh.sockso.Main;
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -179,6 +186,87 @@ public class SocksoTestCase extends TestCase {
             fail( "'" +haystack+ "' contains the string '" +needle+ "'" );
         }
 
+    }
+    
+    /**
+     *  Asserts the specified file contains the specified string
+     * 
+     *  @param file
+     *  @param needle 
+     * 
+     */
+    
+    protected void assertFileContains( final File file, final String needle ) throws IOException {
+
+        final String data = readFile( file );
+        
+        if ( !data.contains(needle) ) {
+            fail( "File '" +file.getName()+ "' does not contain '" +needle+ "'" );
+        }
+        
+    }
+    
+    /**
+     *  Read a file and return its data as a String
+     * 
+     *  @param file
+     * 
+     *  @return
+     * 
+     *  @throws IOException 
+     * 
+     */
+    
+    protected String readFile( final File file ) throws IOException {
+        
+        final StringBuffer data = new StringBuffer();
+            
+        BufferedReader in = null;
+        String line = null;
+        
+        try {
+        
+            in = new BufferedReader(
+                new InputStreamReader( new FileInputStream(file) )
+            );
+
+            while ( (line = in.readLine()) != null ) {
+                data.append( line );
+            }
+            
+            return data.toString();
+            
+        }
+        
+        finally {
+            Utils.close( in );
+        }
+
+    }
+    
+    /**
+     *  Asserts that two files are not identical
+     * 
+     *  @todo it would be quicker to read through both files byte by byte and
+     *  stop and the first mismatch, but this will do for now unless speed
+     *  issues crop up.
+     * 
+     *  @param file1
+     *  @param file2
+     * 
+     *  @throws IOException 
+     * 
+     */
+    
+    protected void assertFilesNotEqual( final File file1, final File file2 ) throws IOException {
+        
+        final String data1 = readFile( file1 );
+        final String data2 = readFile( file2 );
+                
+        if ( data1.equals(data2) ) {
+            fail( "File '" +file1.getName()+ "' is the same as '" +file2.getName()+ "'" );
+        }
+        
     }
 
 }

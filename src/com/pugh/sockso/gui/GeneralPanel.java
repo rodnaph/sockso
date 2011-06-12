@@ -1,11 +1,3 @@
-/*
- * GeneralPanel.java
- * 
- * Created on Aug 19, 2007, 3:37:53 PM
- * 
- * General options and configuration
- * 
- */
 
 package com.pugh.sockso.gui;
 
@@ -14,21 +6,22 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.db.DBExporter;
-import com.pugh.sockso.resources.Resources;
-import com.pugh.sockso.resources.Locale;
-import com.pugh.sockso.web.Server;
-import com.pugh.sockso.web.action.Nater;
+import com.pugh.sockso.gui.action.RequestLogClear;
+import com.pugh.sockso.gui.action.RequestLogExport;
+import com.pugh.sockso.gui.action.RequestLogChangeListener;
 import com.pugh.sockso.gui.controls.UploadDirectoryOptionField;
 import com.pugh.sockso.gui.controls.NumberOptionField;
 import com.pugh.sockso.gui.controls.TextOptionField;
 import com.pugh.sockso.gui.controls.BooleanOptionField;
+import com.pugh.sockso.resources.Resources;
+import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.web.Server;
+import com.pugh.sockso.web.action.Nater;
 import com.pugh.sockso.music.CollectionManager;
 
-import java.io.File;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.FileWriter;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,14 +41,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 
 import org.apache.log4j.Logger;
 
-public class GeneralPanel extends JPanel {
+public class GeneralPanel extends JPanel implements RequestLogChangeListener {
 
     private static Logger log = Logger.getLogger( Logger.class );
     
@@ -94,19 +86,39 @@ public class GeneralPanel extends JPanel {
     private void createComponents() {
         
         exportRequestLogFormats = new JComboBox( DBExporter.Format.values() );
-
-        exportRequestLogButton = new JButton( locale.getString("gui.label.export"), new ImageIcon(r.getImage("icons/16x16/export.png")) );
-        exportRequestLogButton.addActionListener( getExportRequestLogAction() );
+        
+        RequestLogExport exportAction = new RequestLogExport( parent, db, locale, exportRequestLogFormats );
+        exportAction.addListener( this );
+        
+        exportRequestLogButton = new JButton(
+            locale.getString("gui.label.export"),
+            new ImageIcon( r.getImage("icons/16x16/export.png") )
+        );
+        exportRequestLogButton.addActionListener( exportAction );
 
         clearRequestLog = new JButton( getClearRequestLogButtonText(), new ImageIcon(r.getImage("icons/16x16/remove.png")) );
-        clearRequestLog.addActionListener( getClearRequestLogAction() );
+        clearRequestLog.addActionListener(
+            new RequestLogClear( parent, db, locale )
+        );
+
+    }
+
+    /**
+     *  Handler for when the request log has changed
+     * 
+     */
+    public void requestLogChanged() {
+
+        clearRequestLog.setText( getClearRequestLogButtonText() );
 
     }
     
     private String getClearRequestLogButtonText() {
+        
         return locale.getString(
             "gui.label.clearRequestLog", new String[] { getRequestLogSize() }
         );
+        
     }
     
     /**
@@ -282,100 +294,6 @@ public class GeneralPanel extends JPanel {
         
         JOptionPane.showMessageDialog( parent, result );
 
-    }
- 
-    /**
-     *  returns the action to perform when clicking the clear request log button
-     * 
-     *  @return
-     * 
-     */
-    
-    private ActionListener getClearRequestLogAction() {
-        return new ActionListener() {
-            public void actionPerformed( ActionEvent evt ) {
-                
-                // make sure user really wants to clear log
-                final int result = JOptionPane.showConfirmDialog(
-                    parent,
-                    locale.getString("gui.message.confirmClearRequestLog"),
-                    "Sockso",
-                    JOptionPane.YES_NO_OPTION
-                );
-
-                if ( result == JOptionPane.OK_OPTION ) {
-                    try {
-                        final String sql = " delete from request_log ";
-                        db.update( sql );
-                        clearRequestLog.setText( getClearRequestLogButtonText() );
-                        JOptionPane.showMessageDialog(
-                            parent,
-                            locale.getString("gui.message.requestLogCleared"),
-                            "Sockso",
-                            JOptionPane.INFORMATION_MESSAGE
-                        );
-                    }
-                    catch ( SQLException e ) {
-                        JOptionPane.showMessageDialog(
-                            parent,
-                            e.getMessage(),
-                            "Sockso",
-                            JOptionPane.ERROR_MESSAGE
-                        );
-                        log.error( e );
-                    }
-                }
-                
-            }
-        };
-    }
-    
-    /**
-     *  returns the action to execute when the export request
-     *  log button is clicked.  this prompts the user for a
-     *  file to save to then dumps the current request log there.
-     * 
-     *  @return the action listener
-     * 
-     */
-    
-    private ActionListener getExportRequestLogAction() {
-        return new ActionListener() {
-            public void actionPerformed( ActionEvent evt ) {
-                
-                final JFileChooser chooser = new JFileChooser();      
-                final int result = chooser.showSaveDialog( parent );
-                
-                if ( result == JFileChooser.APPROVE_OPTION ) {
-
-                    final DBExporter exporter = new DBExporter( db );
-                    final DBExporter.Format format = (DBExporter.Format) exportRequestLogFormats.getSelectedItem();
-                    final String sql = " select * " +
-                                       " from request_log " +
-                                       " order by date_of_request desc ";
-
-                    final File saveFile = chooser.getSelectedFile();
-                    
-                    try {
-                        
-                        final FileWriter writer = new FileWriter( saveFile );
-                        final String data = exporter.export( sql, format );
-
-                        writer.write( data );
-                        writer.close();
-
-                        JOptionPane.showMessageDialog( parent, locale.getString("gui.message.exportComplete") );
-
-                    }
-                    
-                    catch ( Exception e ) {
-                        JOptionPane.showMessageDialog( parent, e.getMessage() );
-                    }
-
-                }
-                
-            }
-        };
     }
     
 }
