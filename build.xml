@@ -355,16 +355,20 @@ public class Sockso {
 
     <!-- init before we do tests -->
     <target name="init-tests">
-        <!-- create mysql test database -->
-        <sql driver="com.mysql.jdbc.Driver"
-             url="jdbc:mysql://${mysql.host}"
-             userid="${mysql.user}"
-             password="${mysql.pass}"
-             classpath="${opt.classpath}"
-             onerror="continue">
-            <transaction src="test/data/mysql/drop.sql"/>
-            <transaction src="test/data/mysql/create.sql"/>
-        </sql>
+        <if>
+            <equals arg1="${mysql.enabled}" arg2="1" />
+            <then>
+                <sql driver="com.mysql.jdbc.Driver"
+                     url="jdbc:mysql://${mysql.host}"
+                     userid="${mysql.user}"
+                     password="${mysql.pass}"
+                     classpath="${opt.classpath}"
+                     onerror="continue">
+                    <transaction src="test/data/mysql/drop.sql"/>
+                    <transaction src="test/data/mysql/create.sql"/>
+                </sql>
+            </then>
+        </if>
     </target>
 
     <!-- tests a particular class -->
