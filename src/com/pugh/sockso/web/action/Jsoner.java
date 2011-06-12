@@ -284,18 +284,9 @@ public class Jsoner extends WebAction {
             final Database db = getDatabase();
             final Request req = getRequest();
             final String path = req.getArgument( "path" );
-            final String sql = " select t.id " +
-                                " from tracks t " +
-                                " where t.path like ? " +
-                                " order by t.path asc ";
-            
-            st = db.prepare( sql );
-            st.setString( 1, path+ "%" );
-
-            rs = st.executeQuery();
             
             final TTracksForPath tpl = new TTracksForPath();
-            tpl.setTracks( rs );
+            tpl.setTracks( Track.getTracksFromPath(db,path) );
             getResponse().showJson( tpl.makeRenderer() );
             
         }

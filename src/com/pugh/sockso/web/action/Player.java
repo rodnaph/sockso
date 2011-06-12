@@ -9,6 +9,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
@@ -46,7 +47,7 @@ public class Player extends WebAction {
             showJsPlayer(
                 req.getUrlParam( 2 ).equals( "random" )
                     ? getRandomTracks()
-                    : Track.getTracksFromPlayArgs( getDatabase(), playArgs )
+                    : getRequestedTracks( playArgs )
             );
         }
         
@@ -55,8 +56,13 @@ public class Player extends WebAction {
         
             String extraArgs = "";
 
-            if ( req.hasArgument("orderBy") )
+            if ( req.hasArgument("orderBy") ) {
                 extraArgs += "&orderBy=" +req.getArgument("orderBy");
+            }
+            
+            if ( req.hasArgument("path") ) {
+                extraArgs += "&path=" + Utils.URLEncode(req.getArgument("path") );
+            }
 
             showXspfPlayer( getXspfPlayer(), extraArgs, playArgs );
 

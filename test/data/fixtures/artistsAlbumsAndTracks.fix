@@ -1,0 +1,12 @@
+
+collection:1,/music
+
+artists:1,A Artist,now(),A Artist
+artists:2,Empty Artist,now(),Empty Artist
+
+albums:1,1,A Album,1984,now()
+albums:2,1,Empty Album,1984,now()
+
+tracks:1,1,1,First Track,/music/folder/track.mp3,180,now(),1,1
+tracks:2,1,1,Second Track,/music/track.mp3,180,now(),1,1
+tracks:3,2,2,Third Track,/music/folder/track.mp3,180,now(),1,1

@@ -9,10 +9,36 @@ import com.pugh.sockso.templates.TXspf;
 import com.pugh.sockso.templates.TPls;
 import com.pugh.sockso.templates.TM3u;
 import com.pugh.sockso.tests.PlaylistTestCase;
+import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestRequest;
+import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.User;
 
 public class PlaylisterTest extends PlaylistTestCase {
 
+    private Playlister pl;
+    private TestResponse res;
+    private Properties p;
+    
+    @Override
+    protected void setUp() throws Exception {
+        
+        TestDatabase db = new TestDatabase();
+        
+        p = new StringProperties();
+        res = new TestResponse();
+        
+        db.fixture( "artistsAlbumsAndTracks" );
+        
+        pl = new Xspfer( "xspf" );
+        pl.setDatabase( db );
+        pl.setResponse( res );
+        pl.setProperties( p );
+        
+
+    }
+    
     public void testRenderPlaylists() throws Exception {
         
         final Properties p = new StringProperties();
@@ -64,6 +90,58 @@ public class PlaylisterTest extends PlaylistTestCase {
 
         }
 
+    }
+    
+    public void testTracksSpecifedByIdAreIncludedInPlaylist() throws Exception {
+        
+        Request req = new TestRequest( "GET /xspf/tr1/tr3 HTTP/1.1" );
+        pl.setRequest( req );
+        
+        pl.handleRequest();
+        
+        assertContains( res.getOutput(), "First Track" );
+        assertContains( res.getOutput(), "Third Track" );
+        assertNotContains( res.getOutput(), "Second Track" );
+        
+    }
+
+    public void testAllTracksFromAlbumsSpecifedByIdAreIncludedInPlaylist() throws Exception {
+        
+        Request req = new TestRequest( "GET /xspf/al1 HTTP/1.1" );
+        pl.setRequest( req );
+        
+        pl.handleRequest();
+        
+        assertContains( res.getOutput(), "First Track" );
+        assertContains( res.getOutput(), "Second Track" );
+        assertNotContains( res.getOutput(), "Third Track" );
+        
+    }
+
+    public void testTracksThatMatchPathSpecifiedAreIncludedInPlaylist() throws Exception {
+        
+        p.set( Constants.WWW_BROWSE_FOLDERS_ENABLED, p.YES );
+        
+        Request req = new TestRequest( "GET /xspf/?path=/music/folder HTTP/1.1" );
+        pl.setRequest( req );
+        
+        pl.handleRequest();
+        
+        assertContains( res.getOutput(), "First Track" );
+        assertContains( res.getOutput(), "Third Track" );
+        assertNotContains( res.getOutput(), "Second Track" );
+
+    }
+    
+    public void testTracksNotReturnedByPathWhenFolderBrowsingNotEnabled() throws Exception {
+        
+        Request req = new TestRequest( "GET /xspf/?path=/music/folder HTTP/1.1" );
+        pl.setRequest( req );
+        
+        pl.handleRequest();
+        
+        assertNotContains( res.getOutput(), "First Track" );
+        assertNotContains( res.getOutput(), "Third Track" );
     }
 
 }

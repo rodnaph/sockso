@@ -14,11 +14,8 @@ public class TestRequest extends HttpRequest implements Request {
 
     private String resource;
 
-    private Hashtable<String,String> args;
-
     public TestRequest( final String resource ) {
         super( null );
-        this.args = new Hashtable<String,String>();
         this.resource = resource;
         try { readStatusLine(resource); }
         catch ( Exception e ) {}
@@ -43,30 +40,8 @@ public class TestRequest extends HttpRequest implements Request {
         return "";
     }
 
-    public String[] getPlayParams( boolean skipOne ) {
-        return new String[] {};
-    }
-
-    public String[] getPlayParams( int skip ) {
-        return new String[] {};
-    }
-
-    public String[] getPlayParams() {
-        return new String[] {};
-    }
-
-    public String getArgument( String name ) {
-        return hasArgument( name )
-            ? args.get( name )
-            : "";
-    }
-
-    public boolean hasArgument( String name ) {
-        return args.containsKey( name );
-    }
-
     public void setArgument( final String name, final String value ) {
-        args.put( name, value );
+        arguments.put( name, value );
     }
 
     public UploadFile getFile( String file ) {

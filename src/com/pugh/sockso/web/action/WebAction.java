@@ -19,6 +19,7 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 import com.pugh.sockso.web.User;
@@ -204,6 +205,78 @@ public abstract class WebAction {
             Utils.close( st );
         }
 
+    }
+    
+    /**
+     *  Returns all tracks specified in the request, either by the passed in
+     *  playArgs (eg. 'tr1/tr2'), or by a path parameter if folder browsing
+     *  is enabled.
+     * 
+     *  @param playArgs
+     * 
+     *  @return
+     * 
+     *  @throws SQLException
+     *  @throws BadRequestException 
+     * 
+     */
+    
+    protected Vector<Track> getRequestedTracks( final String[] playArgs ) throws SQLException, BadRequestException {
+        
+        final Vector<Track> allTracks = new Vector<Track>();
+        final Vector<Track> urlParamTracks = getUrlParamTracks( playArgs );
+        final Vector<Track> pathTracks = getPathTracks();
+        
+        allTracks.addAll( urlParamTracks );
+        allTracks.addAll( pathTracks );
+        
+        return allTracks;
+        
+    }
+
+    /**
+     *  Returns any tracks specified by the "folder=XXX" parameter
+     * 
+     *  @return 
+     * 
+     */
+    
+    protected Vector<Track> getPathTracks() throws SQLException {
+
+        if ( Utils.isFeatureEnabled(getProperties(),Constants.WWW_BROWSE_FOLDERS_ENABLED) ) {
+            final String path = getRequest().getArgument( "path" );
+            if ( path.length() > 0 ) {
+                return Track.getTracksFromPath( getDatabase(), path );
+            }
+        }
+        
+        return new Vector<Track>();
+        
+    }
+
+    /**
+     *  Returns tracks specified via url params (eg. "tr1/ar3/pl6")
+     * 
+     *  @param args
+     * 
+     *  @return
+     * 
+     *  @throws SQLException
+     *  @throws BadRequestException 
+     * 
+     */
+    
+    protected Vector<Track> getUrlParamTracks( final String[] args ) throws SQLException, BadRequestException {
+        
+        final Database db = getDatabase();
+        final Request req = getRequest();
+        final String orderBySql = req.getArgument("orderBy").equals("random")
+                ? " order by rand() "
+                : "";
+        final Vector<Track> tracks = Track.getTracksFromPlayArgs( db, args, orderBySql );
+        
+        return tracks;
+        
     }
 
 }

@@ -25,7 +25,7 @@ public class HttpRequest implements Request {
 
     private final Server server;
     protected final Hashtable<String,String> cookies;
-    private final Hashtable<String,String> arguments;
+    protected final Hashtable<String,String> arguments;
     private final Hashtable<String,String> headers;
     private final Hashtable<String,UploadFile> files;
 

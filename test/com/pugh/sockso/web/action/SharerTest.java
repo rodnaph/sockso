@@ -34,7 +34,7 @@ public class SharerTest extends SocksoTestCase {
         Properties p = new StringProperties();
         p.set( "www.skin", skin );
 
-        Request req = new TestRequest( "/" );
+        Request req = new TestRequest( "GET / HTTP/1.1" );
 
         Sharer s = new Sharer();
         s.setResponse( res );

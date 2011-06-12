@@ -539,13 +539,13 @@ form h3 {
     position: relative;
     left: -25px;
 }
-#folders li span.links span.actions {
+#folders .actions {
     margin-left: 10px;
 }
-#folders li span.links span.actions {
+#folders .actions {
     visibility: hidden;
 }
-#folders li span.links:hover span.actions {
+#folders a:hover > .actions {
     visibility: visible;
 }
 

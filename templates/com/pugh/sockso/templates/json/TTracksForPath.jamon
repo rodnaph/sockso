@@ -1,11 +1,13 @@
 
 <%import>
+    com.pugh.sockso.music.Track;
     java.sql.ResultSet;
     java.sql.SQLException;
+    java.util.Vector;
 </%import>
 
 <%args>
-    ResultSet tracks = null;
+    Vector<Track> tracks = null;
 </%args>
 
 <%java>
@@ -13,8 +15,7 @@
 </%java>
 
 [
-    <%java>try {</%java>
-    <%while tracks.next() %>
+    <%for Track track : tracks %>
         <%if !firstItem %>,</%if><%java>firstItem = false;</%java>
         <%doc>
             The quotes around the track id are important here for the case
@@ -22,7 +23,6 @@
             integer to the Array constructor, it uses it to init the size
             of the array rather than as a single element.
         </%doc>
-        '<% tracks.getInt("id") %>'
-    </%while>
-    <%java>} catch ( SQLException e ) {}</%java>
+        '<% track.getId() %>'
+    </%for>
 ]

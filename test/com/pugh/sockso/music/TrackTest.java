@@ -7,6 +7,7 @@ import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.web.User;
 
 import java.sql.PreparedStatement;
@@ -233,6 +234,13 @@ public class TrackTest extends SocksoTestCase {
     public void testBasePathIsIncludedInGeneratedStreamUrls() {
         p.set( Constants.SERVER_BASE_PATH, "/foo" );
         assertContains( track.getStreamUrl(p,user), "/foo/stream/" );
+    }
+    
+    public void testGettingTracksForAPathReturnsThoseInThatFolderAndSubFolders() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "tracksForPath" );
+        Vector<Track> tracks = Track.getTracksFromPath( db, "/music" );
+        assertEquals( 2, tracks.size() );
     }
 
 }

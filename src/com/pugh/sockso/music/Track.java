@@ -257,6 +257,45 @@ public class Track extends MusicItem {
         return tracks;
 
     }
+    
+    /**
+     *  Returns all tracks found where their path is below the one specified
+     * 
+     *  @param db
+     *  @param path
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+    
+    public static Vector<Track> getTracksFromPath( final Database db, final String path ) throws SQLException {
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+        
+        try {
+        
+            final String sql = getSelectFromSql() +
+                                " where t.path like ? " +
+                                " order by t.path asc ";
+            
+            st = db.prepare( sql );
+            st.setString( 1, path+ "%" );
+
+            rs = st.executeQuery();
+            
+            return createVectorFromResultSet( rs );
+            
+        }
+        
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
+        
+    }
 
     /**
      *  Returns the URL to use to stream this track, with things like the users

@@ -97,19 +97,13 @@ sockso.FolderBrowsing.prototype.decodeEntities = function( str ) {
  */
 sockso.FolderBrowsing.prototype.getPath = function( folder ) {
 
-    if ( !folder.hasClass('folder') ) {
-        return this.getPath( folder.parent() );
-    }
-
-    var link = $( 'span a', folder );
+    var link = $( 'a', folder )[ 0 ];
     var id = folder.attr( 'id' );
-    var name = encodeURIComponent(this.decodeEntities( link.html() ));
-
-    if ( !id ) { id = ''; }
+    var name = encodeURIComponent(this.decodeEntities( link.firstChild.nodeValue ));
 
     return id.match( /^collection-\d+$/ )
         ? ''
-        : this.getPath(folder.parent()) + '/' + name;
+        : this.getPath(folder.parent().parent()) + '/' + name;
 
 };
 
@@ -227,7 +221,9 @@ sockso.FolderBrowsing.prototype.getFolderItem = function( folder ) {
             .html( folder.name );
 
     var play = this.getTrackAction( 'play', function() {
-        self.getTracksForFolder( folder, self.playFolder.bind(self) );
+        var extraArgs = 'path=' +folder.path;
+        self.player.play( '', extraArgs );
+        return false;
     }, 'Play folder' );
 
     var download = null;
@@ -240,15 +236,12 @@ sockso.FolderBrowsing.prototype.getFolderItem = function( folder ) {
         .addClass( 'actions' )
         .append( play )
         .append( download );
-
-    var links = $( '<span></span>' )
-        .addClass( 'links' )
-        .append( link )
-        .append( actions );
+        
+    link.append( actions );
 
     return $( '<li></li>' )
         .addClass( 'folder' )
-        .append( links )
+        .append( link )
         .append( $('<ul></ul>') );
 
 };
@@ -354,18 +347,6 @@ sockso.FolderBrowsing.prototype.getTracksForFolder = function( folder, handler )
             handler( playUrl );
         }
     });
-
-};
-
-/**
- *  takes a play url to play
- *
- *  @param playUrl
- *
- */
-sockso.FolderBrowsing.prototype.playFolder = function( playUrl ) {
-
-    this.player.play( playUrl );
 
 };
 
@@ -482,12 +463,9 @@ sockso.FolderBrowsing.prototype.init = function() {
                     .click( self.onToggleClicked.bind(self) )
                     .html( elem.html().replace(/\\/g,'/') );
        var children = $('<ul></ul>');
-       var links = $( '<span></span>' )
-                    .addClass( 'links' )
-                    .append( link );
 
        elem.empty()
-            .append( links )
+            .append( link )
             .append( children );
 
 
@@ -543,12 +521,6 @@ sockso.FolderBrowsing.prototype.onToggleClicked = function( event ) {
     var elem = $( event.target );
     var folder = elem.parent();
 
-    // if we're on a folder node we need to go
-    // up another level in the DOM
-    if ( folder.hasClass('links') ) {
-        folder = folder.parent();
-    }
-
     if ( !folder.hasClass('loaded') ) {
         this.loadFolder( folder );
     }
@@ -558,6 +530,8 @@ sockso.FolderBrowsing.prototype.onToggleClicked = function( event ) {
         folder.toggleClass( 'folderOpen' );
         $( children ).toggleClass( 'collapsed' );
     }
+    
+    return false;
 
 };
 

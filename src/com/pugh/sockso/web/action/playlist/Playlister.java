@@ -1,14 +1,8 @@
-/*
- * Playlister.java
- * 
- * Created on Jun 18, 2007, 11:55:15 PM
- * 
- * Abstract class for all playlist generators to implement
- * 
- */
 
 package com.pugh.sockso.web.action.playlist;
 
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
@@ -23,6 +17,12 @@ import java.sql.SQLException;
 
 import java.util.Vector;
 
+/**
+ * Handles creating playlists (eg. M3u, Pls, etc...)
+ * 
+ * Abstract class for all playlist generators to implement
+ * 
+ */
 public abstract class Playlister extends WebAction {
     
     protected abstract PlaylistTemplate getPlaylistTemplate();
@@ -81,9 +81,7 @@ public abstract class Playlister extends WebAction {
      *  creates a custom playlist based on "TY123" type url
      *  arguments (where TY is the filter type, and 123 the id)
      * 
-     *  @param req the request object
-     *  @param res the response object
-     *  @param args the url arguments
+     *  @param playArgs the url arguments
      * 
      *  @throws SQLException
      *  @throws BadRequestException
@@ -91,19 +89,14 @@ public abstract class Playlister extends WebAction {
      * 
      */
     
-    public void createPlaylist( final String[] args ) throws SQLException, BadRequestException, IOException {
-        
-        final Database db = getDatabase();
-        final Request req = getRequest();
-        final String orderBySql = req.getArgument("orderBy").equals("random")
-                ? " order by rand() "
-                : "";
-        final Vector<Track> tracks = Track.getTracksFromPlayArgs( db, args, orderBySql );
+    public void createPlaylist( final String[] playArgs ) throws SQLException, BadRequestException, IOException {
 
-        showPlaylist( tracks );
+        showPlaylist(
+            getRequestedTracks( playArgs )
+        );
 
     }
-
+    
     /**
      *  shows a playlist with the specified tracks
      *
