@@ -237,7 +237,7 @@ sockso.Html5Player = function() {
      */
     
     this.start = function () {
-        this.refresh.refresh();
+        this.refresh();
         this.playItem(0);    	
     },
 
