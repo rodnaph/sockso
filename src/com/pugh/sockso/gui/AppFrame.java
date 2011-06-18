@@ -1,11 +1,3 @@
-/**
- * AppFrame.java
- *
- * Created on May 10, 2007, 12:00 AM
- *
- * The main frame for the GUI
- * 
- */
 
 package com.pugh.sockso.gui;
 
@@ -335,6 +327,8 @@ public class AppFrame extends JFrame implements PropertiesListener, Manager {
         
         if ( latestVersion != null && !latestVersion.equals(Sockso.VERSION) ) {
             
+            Splash.closeNow();
+
             final Locale locale = r.getCurrentLocale();
             final String message = locale.getString(
                 "misc.msg.updateAvailable",

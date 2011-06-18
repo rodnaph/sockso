@@ -1,11 +1,3 @@
-/*
- * Splash.java
- * 
- * Created on Jun 27, 2007, 12:11:18 AM
- * 
- * The splash screen.
- * 
- */
 
 package com.pugh.sockso.gui;
 
@@ -39,7 +31,9 @@ public class Splash extends JWindow {
      */
     
     public static void start( Resources r ) {
+        
         instance = new Splash( r );
+        
     }
     
     /**
@@ -52,9 +46,20 @@ public class Splash extends JWindow {
             public void run() {
                 try { Thread.sleep( 2000 ); }
                 catch ( InterruptedException e ) {}
-                instance.dispose();
+                closeNow();
             }
         }.start();
+    }
+    
+    /**
+     *  Closes the splash window
+     * 
+     */
+    
+    public static void closeNow() {
+        
+        instance.dispose();
+        
     }
 
 }
