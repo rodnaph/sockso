@@ -1,11 +1,3 @@
-/*
- * Main.java
- *
- * Created on May 8, 2007, 12:21 PM
- *
- * @TODO remove init overlap between admin and default startup modes
- * 
- */
 
 package com.pugh.sockso;
 
@@ -144,11 +136,6 @@ public class Main {
             actionQuery( options );
         }
 
-        // admin mode, GUI or console
-        else if ( options.has(Options.OPT_ADMIN) ) {
-            actionAdmin( options );
-        }
-        
         // default is start sockso normally
         else {
             actionDefault( options );
@@ -156,47 +143,6 @@ public class Main {
 
     }
 
-    /**
-     *  starts sockso in admin mode, this means there's no web server running.
-     *  this requires using a database that supports multiple connections.
-     * 
-     *  @param options
-     * 
-     *  @throws java.lang.Exception
-     * 
-     */
-    
-    private static void actionAdmin( final OptionSet options ) throws Exception {
-
-        final boolean useGui = getUseGui( options );
-        final String localeString = getLocale( options );
-        
-        log.info( "Initializing Resources (" + locale + ")" );
-        r = getResources( options );
-        r.init( localeString );
-
-        locale = r.getCurrentLocale();
-        
-        if ( useGui ) {
-            Splash.start( r );
-        }
-
-        log.info( "Loading Properties" );
-        p = new DBProperties( db );
-        p.init();
-
-        log.info( "Starting Collection Manager" );
-        cm = new DBCollectionManager( db, p, getIndexer() );
-
-        final IpFinder ipFinder = new IpFinder( p, options );
-        ipFinder.init();
-
-        // show GUI or console?
-        manager = getManager( useGui, ipFinder );
-        manager.open();
-        
-    }
-    
     /**
      *  performs a database query and outputs the results
      * 
