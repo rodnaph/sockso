@@ -666,18 +666,11 @@ div.related li {
 }
 
 /******** END related info ****/
-/*================ jsplayer / html5player =========================*/
+/*================ html5player =========================*/
 
-.jsplayer, .html5player {
+.html5player {
 }
 
-.jsplayer .jwplayer {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
-
-.jsplayer .artwork,
 .html5player .artwork {
     border: 1px #ccc solid;
     width: 115px;
@@ -685,7 +678,7 @@ div.related li {
     float: left;
     margin: 10px 10px 10px 20px;
 }
-.jsplayer .playlist,
+
 .html5player .playlist {
     float: left;
     width: 420px;
@@ -696,13 +689,13 @@ div.related li {
     padding: 0;
     overflow: scroll;
 }
-.jsplayer .playlist li,
+
 .html5player .playlist li {
     border-bottom: 1px aaa solid;
     margin: 0;
     padding: 0;
 }
-.jsplayer .playlist li.current,
+
 .html5player .playlist li.current {
     background-image: url(../images/play.png);
     background-repeat: no-repeat;
@@ -710,30 +703,30 @@ div.related li {
     background-color: #ccc;
     font-weight: bold;
 }
-.jsplayer .playlist li a,
+
 .html5player .playlist li a {
     padding: 2px 10px 2px 20px;
     display: block;
     border: none;
 }
-.jsplayer .playlist li a:hover,
+
 .html5player .playlist li a:hover {
     background-color: #cdf;
     background-image: url(../images/play.png);
     background-repeat: no-repeat;
     background-position: 98%;
 }
-.jsplayer .playlist li.current a:hover,
+
 .html5player .playlist li.current a:hover {
     background: inherit;
 }
-.jsplayer .controls,
+
 .html5player .controls {
     clear: left;
     float: left;
     padding: 0 15px 0 15px;
 }
-.jsplayer .info,
+
 .html5player .info {
     float: left;
     margin-left: 10px;

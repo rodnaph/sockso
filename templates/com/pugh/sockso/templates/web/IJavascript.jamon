@@ -24,7 +24,7 @@
             "sockso.Locale", "sockso.Properties", "sockso.Player", "sockso.Playlist",
             "sockso.SearchBox", "sockso.UploadForm", "sockso.User", "sockso.RelatedArtists",
             "sockso.Sharer", "sockso.ImageFlow", "sockso.FolderBrowsing", "sockso.AdminConsole",
-            "sockso.Page", "sockso.Ajaxer",
+            "sockso.Page", "sockso.Ajaxer", "sockso.Html5Player",
 
             "init"
 
