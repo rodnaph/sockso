@@ -14,6 +14,7 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.playlist.XspfPlayer;
+import com.pugh.sockso.templates.web.THtml5Player;
 import com.pugh.sockso.templates.web.TJsPlayer;
 import com.pugh.sockso.templates.web.TXspfPlayer;
 import com.pugh.sockso.templates.web.TFlexPlayer;
@@ -51,6 +52,14 @@ public class Player extends WebAction {
             );
         }
         
+        else if ( type.equals( "html5" )) {
+        	showHtml5Player(
+        		req.getUrlParam( 2 ).equals( "random" )
+        			? getRandomTracks()
+        			: getRequestedTracks( playArgs )
+        	);
+        }
+        
         // default to XSPF player
         else {
         
@@ -84,6 +93,26 @@ public class Player extends WebAction {
     protected void showJsPlayer( final Vector<Track> tracks ) throws IOException, SQLException, BadRequestException {
 
         final TJsPlayer tpl = new TJsPlayer();
+        
+        tpl.setTracks( tracks );
+        tpl.setProperties( getProperties() );
+        
+        getResponse().showHtml( tpl.makeRenderer() );
+
+    }
+    
+    /**
+     *  shows the HTML 5 player
+     * 
+     *  @param tracks
+     * 
+     *  @throws IOException
+     * 
+     */
+    
+    protected void showHtml5Player( final Vector<Track> tracks ) throws IOException {
+
+        final THtml5Player tpl = new THtml5Player();
         
         tpl.setTracks( tracks );
         tpl.setProperties( getProperties() );

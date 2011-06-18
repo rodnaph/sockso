@@ -13,7 +13,7 @@ PlayerTest.prototype.testInit = function() {
     this.player.init( 'body' );
 
     assertTrue( $('#play-options select').length == 1 );
-    assertTrue( $('#play-options select option').length == 7 );
+    assertTrue( $('#play-options select option').length == 8 );
 
     assertTrue( $('#flash-player').length == 1 );
 

@@ -1,0 +1,74 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Track;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Properties properties = null;
+    Vector<Track> tracks = null;
+</%args>
+
+<%java>
+    final String skin = properties.get( "www.skin", "original" );
+</%java>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+
+<& IHeaderIncludes; properties=properties&>
+
+<script type="text/javascript" src="<% properties.getUrl("/file/js/jquery.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Hashtable.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Properties.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Html5Player.js") #n %>"></script>
+<script type="text/javascript">
+
+// duplicated here because of IE bug
+if ( !window.Properties ) {
+    Properties = new sockso.Properties();
+}
+Properties.setData({'<% Utils.escapeJs(Constants.SERVER_BASE_PATH) %>':'<% Utils.escapeJs(properties.get(Constants.SERVER_BASE_PATH,"/")) %>'});
+
+var html5player;
+
+$(document).ready( function() {
+
+	html5player = new sockso.Html5Player();
+	html5player.init( 'html5player', '<% skin %>' );
+
+    <%for final Track track : tracks %>
+        html5player.addTrack({
+            id: '<% track.getId() %>',
+            artist: {
+                id: '<% track.getArtist().getId() %>',
+                name: '<% Utils.escapeJs(track.getArtist().getName()) %>'
+            },
+            album: {
+                id: '<% track.getAlbum().getId() %>',
+                name: '<% Utils.escapeJs(track.getAlbum().getName()) %>'
+            },
+            name: '<% Utils.escapeJs(track.getName()) %>'
+        });
+    </%for>
+    
+    html5player.start();
+
+});
+
+</script>
+
+</head>
+
+<body class="plain">
+
+<div id="html5player"></div>
+
+</body>
+</html>

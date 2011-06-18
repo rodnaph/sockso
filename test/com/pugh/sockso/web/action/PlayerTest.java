@@ -12,6 +12,8 @@ import com.pugh.sockso.web.action.playlist.XspfPlayer;
 
 import java.util.Vector;
 
+import javax.swing.JSplitPane;
+
 import static org.easymock.EasyMock.*;
 
 public class PlayerTest extends SocksoTestCase {
@@ -47,7 +49,7 @@ public class PlayerTest extends SocksoTestCase {
         verify( req );
         
     }
-
+    
     public void testShowXspfPlayer() throws Exception {
         
         final TestResponse res = new TestResponse();
@@ -93,6 +95,22 @@ public class PlayerTest extends SocksoTestCase {
         player.setProperties( new StringProperties() );
         player.setResponse( res );
         player.showJsPlayer( tracks );
+        
+        final String data = res.getOutput();
+        
+        assertTrue( data.length() > 0 );
+        
+    }
+
+    public void testShowHtml5Player() throws Exception {
+        
+        final TestResponse res = new TestResponse();
+        final Player player = new Player();
+        final Vector<Track> tracks = new Vector<Track>();
+        
+        player.setProperties( new StringProperties() );
+        player.setResponse( res );
+        player.showHtml5Player( tracks );
         
         final String data = res.getOutput();
         
