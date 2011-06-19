@@ -93,6 +93,7 @@ public class Constants {
     public static final String COVERS_ALBUM_FILE = "covers.album.file";
     public static final String COVERS_ARTIST_FILE = "covers.artist.file";
     public static final String COVERS_XSPF_DISPLAY = "covers.xspf.display";
+    public static final String COVERS_FILE_FALLBACK = "covers.file.fallback";
 
     public static final String COVERS_DISABLED = "www.covers.disable";
     public static final String COVERS_DISABLE_REMOTE_FETCHING = "www.covers.disableRemoteFetching";

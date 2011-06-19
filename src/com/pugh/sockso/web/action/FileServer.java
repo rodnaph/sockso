@@ -9,40 +9,38 @@
 
 package com.pugh.sockso.web.action;
 
-import com.pugh.sockso.web.*;
-import com.pugh.sockso.resources.Resources;
-import com.pugh.sockso.resources.Locale;
-import com.pugh.sockso.Utils;
-import com.pugh.sockso.Constants;
-import com.pugh.sockso.Properties;
-import com.pugh.sockso.db.Database;
-
-import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import java.awt.Font;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.awt.geom.AffineTransform;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
-import java.util.Date;
-import java.util.Vector;
-import java.util.HashSet;
-
-import java.text.SimpleDateFormat;
-
 import org.apache.log4j.Logger;
+
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
+import com.pugh.sockso.Utils;
+import com.pugh.sockso.db.Database;
+import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.resources.Resources;
+import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.Request;
+import com.pugh.sockso.web.Response;
 
 public class FileServer extends WebAction {
 
@@ -174,7 +172,7 @@ public class FileServer extends WebAction {
         final Properties p = getProperties();
         
         // only cache if not in dev mode
-        if ( !p.get(Constants.DEV_ENABLED).equals(p.YES) ) {
+        if ( !p.get(Constants.DEV_ENABLED).equals(Properties.YES) ) {
             res.addHeader( "Date", formatter.format(dateNow) );
             res.addHeader( "Last-Modified", formatter.format(dateModified) );
             res.addHeader( "Expires", formatter.format(dateExpires) );
@@ -207,7 +205,7 @@ public class FileServer extends WebAction {
         final String itemName = req.getUrlParam( 2 );
         
         // check feature isn't disabled
-        if ( p.get(Constants.COVERS_DISABLED).equals(p.YES) )
+        if ( p.get(Constants.COVERS_DISABLED).equals(Properties.YES) )
             throw new BadRequestException( locale.getString("www.error.coversDisabled"), 404 );
         
         // got a cache hit?
@@ -227,7 +225,7 @@ public class FileServer extends WebAction {
         // 2. try searching amazon for a cover image to use (but only if this
         //    feature has not been disabled)
         
-        if ( !p.get(Constants.COVERS_DISABLE_REMOTE_FETCHING).equals(p.YES) ) {
+        if ( !p.get(Constants.COVERS_DISABLE_REMOTE_FETCHING).equals(Properties.YES) ) {
         
             final Database db = getDatabase();
             final CoverSearch search = new AmazonCoverSearch( db );
@@ -357,7 +355,7 @@ public class FileServer extends WebAction {
         serveCover(
             resizedImage,
             itemName,
-            p.get(Constants.COVERS_CACHE_LOCAL).equals(p.YES)
+            p.get(Constants.COVERS_CACHE_LOCAL).equals(Properties.YES)
         );
 
     }
@@ -532,6 +530,7 @@ public class FileServer extends WebAction {
         
         final Vector<File> files = new Vector<File>();
         final String[] exts = { "jpg", "png", "gif" };
+        final Properties p = getProperties();
 
         for ( final File track : trackDirs ) {
 
@@ -550,10 +549,35 @@ public class FileServer extends WebAction {
                     files.add( new File(path) );
                 }
             }
+            
+            // Should we fallback and search for the first image
+            // file in the track folder, regardless of its name ?
+            if (p != null && p.get(Constants.COVERS_FILE_FALLBACK).equals(Properties.YES)) {
+            	final File[]fallbackFiles = track.getParentFile().listFiles(new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						if (f.isFile()) {
+							for (final String ext : exts) {
+								if (f.getName().endsWith(ext)) {
+									return true;
+								}
+							}
+						}
+						return false;
+					}
+				});
+            	
+                if (fallbackFiles != null && fallbackFiles.length > 0) {
+                	log.debug("Found " + fallbackFiles.length + " fallback cover files."
+                			+ " Picking first: " + fallbackFiles[0].getAbsolutePath());
+                	files.add(fallbackFiles[0]);                    	
+                }
+            }
 
+            
         }
 
-        return files.toArray( new File[] {} );
+        return files.toArray( new File[0] );
         
     }
     
