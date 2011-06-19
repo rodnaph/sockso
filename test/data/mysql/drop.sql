@@ -1,2 +1,2 @@
 
-drop database sockso_test;
+drop database if exists sockso_test;
