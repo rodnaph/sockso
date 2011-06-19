@@ -11,6 +11,7 @@ sockso.Html5Player = function() {
 
     var self = this,
         playlist = [],
+        reloadWhenFinished = false,
         playing = null,
         artworkDiv = null,
         controlsDiv = null,
@@ -129,6 +130,10 @@ sockso.Html5Player = function() {
 
         if ( playing != -1 && playing < playlist.length - 1 ) {
             self.playItem( playing + 1 );
+        } else if (reloadWhenFinished && playing >= playlist.length - 1) {
+        	// We're in random mode, refresh the page
+        	// in order to get more random tracks
+        	window.location.reload();
         }
 
     };
@@ -167,7 +172,7 @@ sockso.Html5Player = function() {
      *  
      */
 
-    this.init = function( playerDivId, skin ) {
+    this.init = function( playerDivId, skin, random ) {
 
         /**
          *  Creates and returns a control for the controls panel
@@ -194,12 +199,14 @@ sockso.Html5Player = function() {
         }
        
         skin = skin || 'original';
+        reloadWhenFinished = random || false;
 
         audioElt = $('<audio></audio>')
         			.attr( 'controls', 'controls')
         			.attr( 'autoplay', 'autoplay')
 					.text( 'Your browser doesn\'t support HTML 5 <audio> element.' )
-					.error ( function () { html5player.playNextItem(); } );
+					.error ( function () { html5player.playNextItem(); } )
+        			.bind ( 'ended', function () { html5player.playNextItem(); } );
         
         var audioDiv = $( '<div></div>' )
         			.addClass( 'audio' )

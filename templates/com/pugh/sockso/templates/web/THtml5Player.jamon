@@ -10,6 +10,7 @@
 <%args>
     Properties properties = null;
     Vector<Track> tracks = null;
+    boolean random = false;
 </%args>
 
 <%java>
@@ -41,7 +42,7 @@ var html5player;
 $(document).ready( function() {
 
 	html5player = new sockso.Html5Player();
-	html5player.init( 'html5player', '<% skin %>' );
+	html5player.init( 'html5player', '<% skin %>', <% Boolean.toString(random) %> );
 
     <%for final Track track : tracks %>
         html5player.addTrack({
