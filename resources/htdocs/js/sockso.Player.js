@@ -109,6 +109,7 @@ sockso.Player = function( options ) {
     this.playHtml5Player = function( playUrl ) {
 
         var w = window.open( '', 'PlayerWin', 'width=590,height=310,toolbars=no' );
+        
         // load window first time
         if ( !options.jspAllowReload || w.location.href == 'about:blank' ) {
             w.location.href = Properties.getUrl('/player/html5/' +playUrl);
@@ -117,6 +118,7 @@ sockso.Player = function( options ) {
         else {
             w.jsp_reload( playUrl );
         }
+        
         w.focus();
 
     };

@@ -42,7 +42,7 @@ var html5player;
 $(document).ready( function() {
 
 	html5player = new sockso.Html5Player();
-	html5player.init( 'html5player', '<% skin %>', <% Boolean.toString(random) %> );
+	html5player.init( 'html5player', '<% skin %>', HTML5PLAYER_MODE_<%if random %>RANDOM<%else>NORMAL</%if> );
 
     <%for final Track track : tracks %>
         html5player.addTrack({

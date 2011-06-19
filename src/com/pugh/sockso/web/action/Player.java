@@ -1,11 +1,3 @@
-/*
- * Player.java
- * 
- * Created on Aug 8, 2007, 9:11:55 PM
- * 
- * Shows an embedded play with some music.
- * 
- */
 
 package com.pugh.sockso.web.action;
 
@@ -15,7 +7,6 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.playlist.XspfPlayer;
 import com.pugh.sockso.templates.web.THtml5Player;
-import com.pugh.sockso.templates.web.TJsPlayer;
 import com.pugh.sockso.templates.web.TXspfPlayer;
 import com.pugh.sockso.templates.web.TFlexPlayer;
 
@@ -43,22 +34,13 @@ public class Player extends WebAction {
         final String[] playArgs = req.getPlayParams( true );
         final String type = req.getUrlParam( 1 );
 
-        // use the JS player
-        if ( type.equals("js") ) {
-            showJsPlayer(
+        if ( type.equals( "html5" )) {
+            showHtml5Player(
                 req.getUrlParam( 2 ).equals( "random" )
                     ? getRandomTracks()
-                    : getRequestedTracks( playArgs )
+                    : getRequestedTracks( playArgs ),
+                req.getUrlParam( 2 ).equals( "random" )
             );
-        }
-        
-        else if ( type.equals( "html5" )) {
-        	showHtml5Player(
-        		req.getUrlParam( 2 ).equals( "random" )
-        			? getRandomTracks()
-        			: getRequestedTracks( playArgs ),
-        		req.getUrlParam( 2 ).equals( "random" )
-        	);
         }
         
         // default to XSPF player
@@ -80,28 +62,6 @@ public class Player extends WebAction {
 
     }
 
-    /**
-     *  shows the jsplayer
-     * 
-     *  @param playArgs
-     * 
-     *  @throws IOException
-     *  @throws SQLException
-     *  @throws BadRequestException
-     * 
-     */
-    
-    protected void showJsPlayer( final Vector<Track> tracks ) throws IOException, SQLException, BadRequestException {
-
-        final TJsPlayer tpl = new TJsPlayer();
-        
-        tpl.setTracks( tracks );
-        tpl.setProperties( getProperties() );
-        
-        getResponse().showHtml( tpl.makeRenderer() );
-
-    }
-    
     /**
      *  shows the HTML 5 player
      * 
