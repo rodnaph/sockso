@@ -1,11 +1,3 @@
-/*
- * FileServer.java
- * 
- * Created on May 27, 2007, 12:52:14 AM
- * 
- * implements a basic file server for sending files via http
- * 
- */
 
 package com.pugh.sockso.web.action;
 
@@ -389,10 +381,21 @@ public class FileServer extends WebAction {
         );
     }
 
-    public BufferedImage scale( Image p_image, double p_dScaleFactor ) {
+    /**
+     *  Scale the image by the specified factor
+     * 
+     *  @param image
+     *  @param dScaleFactor
+     * 
+     *  @return 
+     * 
+     */
+    
+    public BufferedImage scale( Image image, double dScaleFactor ) {
+        
         // calculate new width and height
-        int iWidth = ( int ) ( p_image.getWidth(null)*p_dScaleFactor );
-        int iHeight = ( int ) ( p_image.getHeight(null)*p_dScaleFactor );
+        int iWidth = ( int ) ( image.getWidth(null)*dScaleFactor );
+        int iHeight = ( int ) ( image.getHeight(null)*dScaleFactor );
      
         // create a BufferedImage instance
         BufferedImage bufferedImage = new BufferedImage( iWidth, iHeight, BufferedImage.TYPE_INT_RGB );
@@ -406,20 +409,33 @@ public class FileServer extends WebAction {
         g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
      
         // Apply scalefactor
-        g.drawImage( p_image, 0, 0, iWidth, iHeight, null );
+        g.drawImage( image, 0, 0, iWidth, iHeight, null );
      
         return bufferedImage;
+        
     }
 
-    public double calcScalingFactor(
-        int srcWidth, int srcHeight,
-        int targetWidth, int targetHeight
-    ) {
-        boolean tall = (srcHeight > srcWidth);
-        double factor =
+    /**
+     *  Calculate the factor to scale the image by
+     * 
+     *  @param srcWidth
+     *  @param srcHeight
+     *  @param targetWidth
+     *  @param targetHeight
+     * 
+     *  @return 
+     * 
+     */
+    
+    public double calcScalingFactor( int srcWidth, int srcHeight, int targetWidth, int targetHeight ) {
+        
+        final boolean tall = (srcHeight > srcWidth);
+        final double factor =
            (double) (tall ? targetHeight : targetWidth)
 	   / (double) (tall ? srcHeight : srcWidth);
-        return factor; 
+        
+        return factor;
+        
     }
 
 
