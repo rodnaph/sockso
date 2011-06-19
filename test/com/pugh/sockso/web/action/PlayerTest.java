@@ -86,22 +86,6 @@ public class PlayerTest extends SocksoTestCase {
         
     }
 
-    public void testShowJsPlayer() throws Exception {
-        
-        final TestResponse res = new TestResponse();
-        final Player player = new Player();
-        final Vector<Track> tracks = new Vector<Track>();
-        
-        player.setProperties( new StringProperties() );
-        player.setResponse( res );
-        player.showJsPlayer( tracks );
-        
-        final String data = res.getOutput();
-        
-        assertTrue( data.length() > 0 );
-        
-    }
-
     public void testShowHtml5Player() throws Exception {
         
         final TestResponse res = new TestResponse();
@@ -110,7 +94,7 @@ public class PlayerTest extends SocksoTestCase {
         
         player.setProperties( new StringProperties() );
         player.setResponse( res );
-        player.showHtml5Player( tracks );
+        player.showHtml5Player( tracks, false );
         
         final String data = res.getOutput();
         

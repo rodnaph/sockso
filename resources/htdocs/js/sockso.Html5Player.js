@@ -1,6 +1,9 @@
 
 var html5player = null;
 
+var HTML5PLAYER_MODE_NORMAL = 1;
+var HTML5PLAYER_MODE_RANDOM = 2;
+
 /**
  *  A javascript player using the HTML 5 <audio> tag.
  *  Playlist management is similar to the JS player
@@ -11,6 +14,7 @@ sockso.Html5Player = function() {
 
     var self = this,
         playlist = [],
+        mode = false,
         playing = null,
         artworkDiv = null,
         controlsDiv = null,
@@ -130,6 +134,12 @@ sockso.Html5Player = function() {
         if ( playing != -1 && playing < playlist.length - 1 ) {
             self.playItem( playing + 1 );
         }
+        
+        else if (mode == HTML5PLAYER_MODE_RANDOM && playing >= playlist.length - 1) {
+            // We're in random mode, refresh the page
+            // in order to get more random tracks
+            window.location.reload();
+        }
 
     };
 
@@ -163,11 +173,11 @@ sockso.Html5Player = function() {
      *  Initializes the player using the specified element id
      *  
      *  @param playerDivId Container DIV id
-     *  @param skin
-     *  
+     *  @param skin String for skin
+     *  @param mode HTML5PLAYER_MODE_*
      */
 
-    this.init = function( playerDivId, skin ) {
+    this.init = function( playerDivId, skin, mode ) {
 
         /**
          *  Creates and returns a control for the controls panel
@@ -194,12 +204,14 @@ sockso.Html5Player = function() {
         }
        
         skin = skin || 'original';
+        mode = mode || HTML5PLAYER_MODE_NORMAL;
 
         audioElt = $('<audio></audio>')
         			.attr( 'controls', 'controls')
         			.attr( 'autoplay', 'autoplay')
 					.text( 'Your browser doesn\'t support HTML 5 <audio> element.' )
-					.error ( function () { html5player.playNextItem(); } );
+					.error ( function () { html5player.playNextItem(); } )
+        			.bind ( 'ended', function () { html5player.playNextItem(); } );
         
         var audioDiv = $( '<div></div>' )
         			.addClass( 'audio' )
