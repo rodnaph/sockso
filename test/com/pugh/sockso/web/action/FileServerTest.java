@@ -87,6 +87,8 @@ public class FileServerTest extends SocksoTestCase {
     public void testGetLocalCoverFilesAlbum() {
         
         final FileServer fs = new FileServer( null );
+        fs.setProperties(new StringProperties());
+        
         final String coverFileName = "album",
                      folder = "/home/music/album",
                      file = folder+ "/track.mp3";
@@ -104,6 +106,8 @@ public class FileServerTest extends SocksoTestCase {
     public void testGetLocalCoverFilesArtist() {
 
         final FileServer fs = new FileServer( null );
+        fs.setProperties(new StringProperties());
+        
         final String coverFileName = "artist",
                      folder = "/home/music/album",
                      file = folder+ "/track.mp3";
@@ -122,6 +126,7 @@ public class FileServerTest extends SocksoTestCase {
     public void testGetlocalCoverFilesFallbackAlbum() {
     	
     	final FileServer fs = new FileServer( null );
+        fs.setProperties( new StringProperties() );
     	
     	final String coverFileName = "album",
     		folder = "test/data/covers/artist - album",
@@ -139,7 +144,6 @@ public class FileServerTest extends SocksoTestCase {
         
         // Fallback property set to NO should behave identically
         // as set to NULL
-        fs.setProperties(new StringProperties());
         fs.getProperties().set(Constants.COVERS_FILE_FALLBACK, Properties.NO);
         files = fs.getLocalCoverFiles(trackDirs, coverFileName, false);
     	assertNotNull( files );
@@ -157,6 +161,8 @@ public class FileServerTest extends SocksoTestCase {
     public void testGetLocalCoverFilesFallbackArtist() {
 
         final FileServer fs = new FileServer( null );
+        fs.setProperties(new StringProperties());
+        
         final String coverFileName = "artist",
                      folder = "test/data/covers/artist - album",
                      file = folder+ "/track.mp3";
@@ -172,7 +178,6 @@ public class FileServerTest extends SocksoTestCase {
 
         // Fallback property set to NO should behave identically
         // as set to NULL
-        fs.setProperties(new StringProperties());
         fs.getProperties().set(Constants.COVERS_FILE_FALLBACK, Properties.NO);
         files = fs.getLocalCoverFiles( trackDirs, coverFileName, true );
         assertNotNull( files );

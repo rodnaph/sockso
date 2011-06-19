@@ -568,25 +568,10 @@ public class FileServer extends WebAction {
             
             // Should we fallback and search for the first image
             // file in the track folder, regardless of its name ?
-            if (p != null && p.get(Constants.COVERS_FILE_FALLBACK).equals(Properties.YES)) {
-            	final File[]fallbackFiles = track.getParentFile().listFiles(new FileFilter() {
-					@Override
-					public boolean accept(File f) {
-						if (f.isFile()) {
-							for (final String ext : exts) {
-								if (f.getName().endsWith(ext)) {
-									return true;
-								}
-							}
-						}
-						return false;
-					}
-				});
-            	
-                if (fallbackFiles != null && fallbackFiles.length > 0) {
-                	log.debug("Found " + fallbackFiles.length + " fallback cover files."
-                			+ " Picking first: " + fallbackFiles[0].getAbsolutePath());
-                	files.add(fallbackFiles[0]);                    	
+            if ( p.get(Constants.COVERS_FILE_FALLBACK).equals(Properties.YES) ) {
+                final File fallbackFile = checkForFallbackFile( exts, track );
+                if ( fallbackFile != null ) {
+                    files.add( fallbackFile );
                 }
             }
 
@@ -595,6 +580,43 @@ public class FileServer extends WebAction {
 
         return files.toArray( new File[0] );
         
+    }
+    
+    /**
+     *  Checks for a file in the track directory to use as a fallback
+     * 
+     *  @param files
+     *  @param exts
+     *  @param track 
+     * 
+     */
+    protected File checkForFallbackFile( final String[] exts, final File track ) {
+        
+        final File[]fallbackFiles = track.getParentFile().listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                
+                if (f.isFile()) {
+                    for (final String ext : exts) {
+                        if (f.getName().endsWith(ext)) {
+                            return true;
+                        }
+                    }
+                }
+                
+                return false;
+                
+            }
+        });
+
+        if ( fallbackFiles != null && fallbackFiles.length > 0 ) {
+            log.debug("Found " + fallbackFiles.length + " fallback cover files."
+                            + " Picking first: " + fallbackFiles[0].getAbsolutePath());
+            return fallbackFiles[ 0 ];
+        }
+        
+        return null;
+
     }
     
     /**
