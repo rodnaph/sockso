@@ -110,7 +110,7 @@ public class PlayerTest extends SocksoTestCase {
         
         player.setProperties( new StringProperties() );
         player.setResponse( res );
-        player.showHtml5Player( tracks );
+        player.showHtml5Player( tracks, false );
         
         final String data = res.getOutput();
         

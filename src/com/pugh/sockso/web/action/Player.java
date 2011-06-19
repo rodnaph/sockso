@@ -56,7 +56,8 @@ public class Player extends WebAction {
         	showHtml5Player(
         		req.getUrlParam( 2 ).equals( "random" )
         			? getRandomTracks()
-        			: getRequestedTracks( playArgs )
+        			: getRequestedTracks( playArgs ),
+        		req.getUrlParam( 2 ).equals( "random" )
         	);
         }
         
@@ -105,17 +106,19 @@ public class Player extends WebAction {
      *  shows the HTML 5 player
      * 
      *  @param tracks
+     *  @param random
      * 
      *  @throws IOException
      * 
      */
     
-    protected void showHtml5Player( final Vector<Track> tracks ) throws IOException {
+    protected void showHtml5Player( final Vector<Track> tracks, boolean random ) throws IOException {
 
         final THtml5Player tpl = new THtml5Player();
         
         tpl.setTracks( tracks );
         tpl.setProperties( getProperties() );
+        tpl.setRandom( random );
         
         getResponse().showHtml( tpl.makeRenderer() );
 
