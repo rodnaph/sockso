@@ -5,26 +5,44 @@
  */
 
 sockso.Base = function( options ) {
+    
+    $.extend( this, options );
 
-    var self = this;
-    var user = options.user || null;
+};
+
+$.extend( sockso.Base.prototype, {
 
     /**
      * Returns the current user
      *
      */
-    self.getUser = function() {
+    getUser: function() {
 
-        return user;
+        return this.user;
 
-    };
+    },
+    
+    /**
+     * Returns the specified handler bound to this object
+     * 
+     */
+    bind: function( handler, options ) {
+        
+        var self = this;
+        
+        return function() {
+            return self[ handler ].apply(
+                self,
+                options || arguments
+            );
+        }
+        
+    },
 
     /**
      * Provide the jquery ajax method (this can then be overridden)
      * 
      */
-    self.ajax = $.ajax;
+    ajax: $.ajax
 
-    return self;
-
-};
+});

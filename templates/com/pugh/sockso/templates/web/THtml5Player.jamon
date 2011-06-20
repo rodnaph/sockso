@@ -26,6 +26,7 @@
 
 <script type="text/javascript" src="<% properties.getUrl("/file/js/jquery.js") #n %>"></script>
 <script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.js") #n %>"></script>
+<script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Base.js") #n %>"></script>
 <script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Hashtable.js") #n %>"></script>
 <script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Properties.js") #n %>"></script>
 <script type="text/javascript" src="<% properties.getUrl("/file/js/sockso.Html5Player.js") #n %>"></script>

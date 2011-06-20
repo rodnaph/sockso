@@ -12,16 +12,21 @@ var HTML5PLAYER_MODE_RANDOM = 2;
  */
 sockso.Html5Player = function() {
 
-    var self = this,
-        playlist = [],
-        mode = false,
-        playing = null,
-        artworkDiv = null,
-        controlsDiv = null,
-        playlistDiv = null,
-        infoDiv = null,
-    	audioElt = null;
+    this.playlist = [];
+    this.mode = false;
+    this.playing = null;
+    this.artworkDiv = null;
+    this.controlsDiv = null;
+    this.playlistDiv = null;
+    this.infoDiv = null;
+    this.audioElt = null;
 
+};
+
+sockso.Html5Player.prototype = new sockso.Base();
+
+$.extend( sockso.Html5Player.prototype, {
+    
     /**
      *  selects the specified item as being the current playing
      *
@@ -29,13 +34,13 @@ sockso.Html5Player = function() {
      *
      */
 
-    function selectItem( item ) {
+    selectItem: function( item ) {
 
         // set playlist styling
-        $( 'li', playlistDiv ).removeClass( 'current' );
+        $( 'li', this.playlistDiv ).removeClass( 'current' );
         $( '#item' +item.id ).addClass( 'current' );
 
-        artworkDiv
+        this.artworkDiv
             .empty()
             .append(
                 $( '<img></img>' )
@@ -44,20 +49,22 @@ sockso.Html5Player = function() {
                     })
             );
 
-        infoDiv.html( item.artist.name+ ' - ' +item.name );
+        this.infoDiv.html( item.artist.name+ ' - ' +item.name );
 
-    }
+    },
 
     /**
      *  redraws the playlist on the page
      *
      */
+    
+    refresh: function() {
 
-    this.refresh = function() {
+        var self = this;
 
-        playlistDiv.empty();
+        this.playlistDiv.empty();
 
-        $.each( playlist, function(i,item) {
+        $.each( this.playlist, function(i,item) {
 
             $( '<li></li>' )
                 .attr({ id: 'item' +item.id })
@@ -65,15 +72,13 @@ sockso.Html5Player = function() {
                     $( '<a></a>' )
                         .html( item.artist.name+ ' - ' +item.name )
                         .attr({ href: 'javascript:;' })
-                        .click(function() {
-                            self.playItem( i );
-                        })
+                        .click( self.bind('playItem',[i]) )
                 )
-                .appendTo( playlistDiv );
+                .appendTo( self.playlistDiv );
 
         });
 
-    };
+    },
 
     /**
      *  plays the item in the playlist at the specified index
@@ -82,21 +87,19 @@ sockso.Html5Player = function() {
      *
      */
 
-    this.playItem = function( index ) {
+    playItem: function( index ) {
 
-        var item = playlist[ index ];
+        var item = this.playlist[ index ];
 
         if ( item ) {
 
-            selectItem( item );
-            
-            audioElt.attr('src', Properties.getUrl('/stream/' + item.id));
-
-            playing = index;
+            this.selectItem( item );
+            this.audioElt.attr('src', Properties.getUrl('/stream/' + item.id));
+            this.playing = index;
 
         }
 
-    };
+    },
 
     /**
      *  Returns the index of the currently playing item
@@ -105,56 +108,56 @@ sockso.Html5Player = function() {
      *   
      */
 
-    this.getCurrentItem = function() {
+    getCurrentItem: function() {
         
-        return playing;
+        return this.playing;
 
-    };
+    },
 
     /**
      *  plays the previous item
      *
      */
 
-    this.playPrevItem = function() {
+    playPrevItem: function() {
 
-        if ( playing != -1 && playing > 0 ) {
-            self.playItem( playing - 1 );
+        if ( this.playing != -1 && this.playing > 0 ) {
+            this.playItem( this.playing - 1 );
         }
         
-    };
+    },
 
     /**
      *  plays the next item
      *
      */
 
-    this.playNextItem = function() {
+    playNextItem: function() {
 
-        if ( playing != -1 && playing < playlist.length - 1 ) {
-            self.playItem( playing + 1 );
+        if ( this.playing != -1 && this.playing < this.playlist.length - 1 ) {
+            this.playItem( this.playing + 1 );
         }
         
-        else if (mode == HTML5PLAYER_MODE_RANDOM && playing >= playlist.length - 1) {
+        else if (this.mode == HTML5PLAYER_MODE_RANDOM && this.playing >= this.playlist.length - 1) {
             // We're in random mode, refresh the page
             // in order to get more random tracks
             window.location.reload();
         }
 
-    };
+    },
 
     /**
      *  stops anything currently playing
      *
      */
 
-    this.stopPlaying = function() {
+    stopPlaying: function() {
 
-        audioElt.get(0).pause();
+        this.audioElt.get(0).pause();
     	$( '#playlist li' ).removeClass( 'current' );
-        playing = -1;
+        this.playing = -1;
 
-    };
+    },
 
     /**
      *  Adds a track to the playlist
@@ -163,11 +166,33 @@ sockso.Html5Player = function() {
      *
      */
 
-    this.addTrack = function( track ) {
+    addTrack: function( track ) {
 
-        playlist.push( track );
+        this.playlist.push( track );
 
-    };
+    },
+
+    /**
+     *  Creates and returns a control for the controls panel
+     *  
+     *  @param onClick Click handler
+     *  @param imgName name of image for control
+     *  
+     *  @return jQuery
+     *  
+     */
+
+    makeControl: function( onClick, imgName ) {
+
+        return $( '<a></a>' )
+                    .click( onClick.bind(this) )
+                    .attr({ href: 'javascript:;' })
+                    .append(
+                        $( '<img></img>')
+                            .attr({ src: Properties.getUrl('/<skin>/images/html5player/' +imgName+ '.png') })
+                    );
+
+    },
 
     /**
      *  Initializes the player using the specified element id
@@ -177,80 +202,61 @@ sockso.Html5Player = function() {
      *  @param mode HTML5PLAYER_MODE_*
      */
 
-    this.init = function( playerDivId, skin, mode ) {
+    init: function( playerDivId, skin, mode ) {
 
-        /**
-         *  Creates and returns a control for the controls panel
-         *  
-         *  @param onclick Click handler
-         *  @param imgName name of image for control
-         *  
-         *  @return jQuery
-         *  
-         */
+        var self = this;
 
-        function getControl( onclick, imgName ) {
-            
-            return $( '<a></a>' )
-                        .click(function() {
-                            onclick.call( self );
-                        })
-                        .attr({ href: 'javascript:;' })
-                        .append(
-                            $( '<img></img>')
-                                .attr({ src: Properties.getUrl('/<skin>/images/html5player/' +imgName+ '.png') })
-                        );
-
-        }
-       
         skin = skin || 'original';
         mode = mode || HTML5PLAYER_MODE_NORMAL;
 
-        audioElt = $('<audio></audio>')
+        this.audioElt = $('<audio></audio>')
         			.attr( 'controls', 'controls')
         			.attr( 'autoplay', 'autoplay')
 					.text( 'Your browser doesn\'t support HTML 5 <audio> element.' )
-					.error ( function () { html5player.playNextItem(); } )
-        			.bind ( 'ended', function () { html5player.playNextItem(); } );
+					.error ( this.bind('playNextItem') )
+        			.bind ( 'ended', this.bind('playNextItem') );
         
         var audioDiv = $( '<div></div>' )
         			.addClass( 'audio' )
-        			.append( audioElt );
+        			.append( this.audioElt );
 
-        artworkDiv = $( '<div></div>' )
+        this.artworkDiv = $( '<div></div>' )
                         .addClass( 'artwork' );
 
-        playlistDiv = $( '<div></div>' )
+        this.playlistDiv = $( '<div></div>' )
                         .addClass( 'playlist' );
 
-        controlsDiv = $( '<div></div>' )
+        this.controlsDiv = $( '<div></div>' )
                         .addClass( 'controls' )
-                        .append( getControl( self.playPrevItem, 'prev' ) )
-                        .append( getControl( self.stopPlaying, 'stop' ) )
-                        .append( getControl( self.playNextItem, 'next' ) );
+                        .append( this.makeControl( self.playPrevItem, 'prev' ) )
+                        .append( this.makeControl( self.stopPlaying, 'stop' ) )
+                        .append( this.makeControl( self.playNextItem, 'next' ) );
 
-        infoDiv = $( '<div></div>' )
+        this.infoDiv = $( '<div></div>' )
                     .addClass( 'info' )
                     .html( 'Click a track to start playing!' );
         
         
         $( '#' + playerDivId )
             .addClass( 'html5player' )
-            .append( artworkDiv )
-            .append( playlistDiv )
-            .append( controlsDiv )
-            .append( infoDiv )
+            .append( this.artworkDiv )
+            .append( this.playlistDiv )
+            .append( this.controlsDiv )
+            .append( this.infoDiv )
             .append( audioDiv );
-    };
+            
+    },
     
     /**
      * Starts pkaying, once tracks have been
      * added
      */
     
-    this.start = function () {
+    start: function () {
+        
         this.refresh();
         this.playItem(0);    	
+        
     },
 
     /**
@@ -260,33 +266,35 @@ sockso.Html5Player = function() {
      *  
      */
 
-    this.update = function( tracks ) {
+    update: function( tracks ) {
 
+        var self = this;
         var currentItem = null;
 
         // if we're playing something store it
-        if ( playing != -1 ) {
-            currentItem = playlist[ playing ];
+        if ( this.playing != -1 ) {
+            currentItem = this.playlist[ this.playing ];
         }
 
         // refresh playlist
-        playlist = tracks;
-        self.refresh();
+        this.playlist = tracks;
+        this.refresh();
 
         // if we have a saved item try and reload it
         if ( currentItem != null ) {
-            $.each( playlist, function(i,item) {
+            $.each( this.playlist, function(i,item) {
                 if ( currentItem.id == item.id ) {
-                    selectItem( item ); // found!
-                    playing = i;
+                    self.selectItem( item ); // found!
+                    self.playing = i;
                     return false;
                 }
             });
         }
 
-    };
+    }
 
-};
+});
+
 
 /**
  *  attach reloader function to window
@@ -295,8 +303,8 @@ sockso.Html5Player = function() {
 
 window.jsp_reload = function( playUrl ) {
 
-    var url = Properties.getUrl('/json/tracks/' +playUrl);
+    var url = Properties.getUrl( '/json/tracks/' +playUrl );
 
-    $.getJSON( url, {}, jsplayer.update );
+    $.getJSON( url, {}, html5player.update.bind(html5player) );
 
 };
