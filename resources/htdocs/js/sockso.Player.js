@@ -116,7 +116,7 @@ sockso.Player = function( options ) {
         }
         // reload contents dynamically
         else {
-            w.jsp_reload( playUrl );
+            w.html5player_reload( playUrl );
         }
         
         w.focus();

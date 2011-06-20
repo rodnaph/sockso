@@ -121,7 +121,7 @@ $.extend( sockso.Html5Player.prototype, {
 
     playPrevItem: function() {
 
-        if ( this.playing != -1 && this.playing > 0 ) {
+        if ( this.isPrevItem() ) {
             this.playItem( this.playing - 1 );
         }
         
@@ -134,16 +134,36 @@ $.extend( sockso.Html5Player.prototype, {
 
     playNextItem: function() {
 
-        if ( this.playing != -1 && this.playing < this.playlist.length - 1 ) {
+        if ( this.isNextItem() ) {
             this.playItem( this.playing + 1 );
         }
         
-        else if (this.mode == HTML5PLAYER_MODE_RANDOM && this.playing >= this.playlist.length - 1) {
-            // We're in random mode, refresh the page
-            // in order to get more random tracks
+        else if ( this.mode == HTML5PLAYER_MODE_RANDOM ) {
             window.location.reload();
         }
 
+    },
+
+    /**
+     * Indicates if there is a next item to play
+     * 
+     */
+    isNextItem: function() {
+        
+        return this.playing != -1 &&
+            this.playing < this.playlist.length - 1;
+
+    },
+    
+    /**
+     * Indicates if there is a previous item to play
+     * 
+     */
+    isPrevItem: function() {
+        
+        return this.playing != -1
+            && this.playing > 0;
+        
     },
 
     /**
@@ -255,7 +275,7 @@ $.extend( sockso.Html5Player.prototype, {
     start: function () {
         
         this.refresh();
-        this.playItem(0);    	
+        this.playItem( 0 );    	
         
     },
 
@@ -301,7 +321,7 @@ $.extend( sockso.Html5Player.prototype, {
  *
  */
 
-window.jsp_reload = function( playUrl ) {
+window.html5player_reload = function( playUrl ) {
 
     var url = Properties.getUrl( '/json/tracks/' +playUrl );
 
