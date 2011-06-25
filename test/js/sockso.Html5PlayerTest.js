@@ -1,7 +1,7 @@
 
-JSPlayer = TestCase( 'sockso.Html5Player' );
+Html5Player = TestCase( 'sockso.Html5Player' );
 
-JSPlayer.prototype.getHtml5Player = function() {
+Html5Player.prototype.getHtml5Player = function() {
 
     var playerId = 'socksoHtml5Player';
 
@@ -17,7 +17,7 @@ JSPlayer.prototype.getHtml5Player = function() {
 
 };
 
-JSPlayer.prototype.testInit = function() {
+Html5Player.prototype.testInit = function() {
 
     var player = this.getHtml5Player();
 
@@ -32,7 +32,7 @@ JSPlayer.prototype.testInit = function() {
 
 };
 
-JSPlayer.prototype.getTrack = function(id) {
+Html5Player.prototype.getTrack = function(id) {
 	
 	var id = id || '123';
 
@@ -51,7 +51,81 @@ JSPlayer.prototype.getTrack = function(id) {
 
 }
 
-JSPlayer.prototype.testPlayPrevNext = function() {
+
+Html5Player.prototype.testKeyHandlerVolume = function() {
+    
+    var player = this.getHtml5Player();
+    
+    assertEquals(player.volumeIndex, HTML5PLAYER_VOLUME_STEPS.length-1);
+
+    player.keyHandler({
+        keyCode: 's'.charCodeAt(0),
+        data: { player: player }
+     });
+    player.keyHandler({
+        keyCode: 's'.charCodeAt(0),
+        data: { player: player }
+     });
+    player.keyHandler({
+        keyCode: 'S'.charCodeAt(0),
+        data: { player: player }
+     });
+    
+    assertEquals(player.volumeIndex, HTML5PLAYER_VOLUME_STEPS.length-4);
+    
+    player.keyHandler({
+        keyCode: 'W'.charCodeAt(0),
+        data: { player: player }
+     });
+    player.keyHandler({
+        keyCode: 'w'.charCodeAt(0),
+        data: { player: player }
+     });
+    
+    assertEquals(player.volumeIndex, HTML5PLAYER_VOLUME_STEPS.length-2);
+
+}
+
+Html5Player.prototype.testKeyHandlerPrevNext = function() {
+    
+    var player = this.getHtml5Player();
+    
+    player.addTrack( this.getTrack('123') );
+    player.addTrack( this.getTrack('456') );
+    player.addTrack( this.getTrack('789') );
+    
+    player.start();
+    
+    assertEquals( 1, $('#item123.current').length);
+    
+    player.keyHandler({
+       keyCode: 'd'.charCodeAt(0),
+       data: { player: player }
+    });
+    
+    assertEquals( 1, $('#item456.current').length);
+    
+    player.keyHandler({
+        keyCode: 'a'.charCodeAt(0),
+        data: { player: player }
+     });
+    
+    assertEquals( 1, $('#item123.current').length);
+    
+    player.keyHandler({
+        keyCode: 'D'.charCodeAt(0),
+        data: { player: player }
+     });
+    player.keyHandler({
+        keyCode: 'D'.charCodeAt(0),
+        data: { player: player }
+     });
+    
+    assertEquals( 1, $('#item789.current').length);
+
+}
+
+Html5Player.prototype.testPlayPrevNext = function() {
 
     var player = this.getHtml5Player();
     var track = this.getTrack();
@@ -112,7 +186,7 @@ JSPlayer.prototype.testPlayPrevNext = function() {
 
 };
 
-JSPlayer.prototype.testStopPlaying = function() {
+Html5Player.prototype.testStopPlaying = function() {
 
     var player = this.getHtml5Player();
     var track = this.getTrack();
@@ -126,7 +200,7 @@ JSPlayer.prototype.testStopPlaying = function() {
 
 };
 
-JSPlayer.prototype.testPlayItem = function() {
+Html5Player.prototype.testPlayItem = function() {
 
     var player = this.getHtml5Player();
     var track = this.getTrack();
