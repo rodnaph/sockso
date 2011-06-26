@@ -91,8 +91,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         }
 
-        catch ( final Exception e ) {
-            log.debug( e );
+        catch ( final Throwable t ) {
+            log.debug( "indexChanged error on file '" + evt.getFile().getAbsolutePath() + "'", t );
         }
 
     }
