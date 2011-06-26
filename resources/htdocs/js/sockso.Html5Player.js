@@ -267,29 +267,29 @@ $.extend( sockso.Html5Player.prototype, {
 
     keyHandler: function (event) {
 
-        switch (event.keyCode || event.which) {
+        var keyCode = event.keyCode || event.which;
+        var key = String.fromCharCode( keyCode )
+                        .toLowerCase();
+
+        switch ( key ) {
         
-        case ' '.charCodeAt(0):
+        case ' ':
             event.data.player.togglePause();
             break;
         
-        case 'd'.charCodeAt(0):
-        case 'D'.charCodeAt(0):
+        case 'd':
             event.data.player.playNextItem();
             break;
         
-        case 'a'.charCodeAt(0):
-        case 'A'.charCodeAt(0):
+        case 'a':
             event.data.player.playPrevItem();
             break;
         
-        case 'w'.charCodeAt(0):
-        case 'W'.charCodeAt(0):
+        case 'w':
             event.data.player.volumeUp();
             break;
         
-        case 's'.charCodeAt(0):
-        case 'S'.charCodeAt(0):
+        case 's':
             event.data.player.volumeDown();
             break;
         }
