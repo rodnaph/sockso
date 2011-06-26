@@ -265,7 +265,7 @@ $.extend( sockso.Html5Player.prototype, {
      *  reliable cross-browser way.
      */
 
-    keyHandler: function (event) {
+    keyHandler: function ( event ) {
 
         var keyCode = event.keyCode || event.which;
         var key = String.fromCharCode( keyCode )
@@ -274,23 +274,23 @@ $.extend( sockso.Html5Player.prototype, {
         switch ( key ) {
         
         case ' ':
-            event.data.player.togglePause();
+            this.togglePause();
             break;
         
         case 'd':
-            event.data.player.playNextItem();
+            this.playNextItem();
             break;
         
         case 'a':
-            event.data.player.playPrevItem();
+            this.playPrevItem();
             break;
         
         case 'w':
-            event.data.player.volumeUp();
+            this.volumeUp();
             break;
         
         case 's':
-            event.data.player.volumeDown();
+            this.volumeDown();
             break;
         }
 
@@ -347,7 +347,9 @@ $.extend( sockso.Html5Player.prototype, {
             .append( this.infoDiv )
             .append( audioDiv );
         
-        $( document ).bind( 'keypress', {player: this}, this.keyHandler );
+        $( document ).bind(
+            'keypress', {}, this.bind( 'keyHandler' )
+        );
         
     },
     
