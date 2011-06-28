@@ -11,6 +11,8 @@ import org.kc7bfi.jflac.metadata.VorbisComment;
 
 import org.apache.log4j.Logger;
 
+import com.pugh.sockso.Utils;
+
 /**
  *  class to read tag information from flac files
  *
@@ -29,24 +31,29 @@ public class FlacTag extends AudioTag {
     
     public void parse( final File file ) throws IOException {
         
-        final FileInputStream in = new FileInputStream( file );
-        final FLACDecoder dec = new FLACDecoder( in );
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream( file );
+            final FLACDecoder dec = new FLACDecoder( in );
 
-        Metadata[] metadata = dec.readMetadata( dec.readStreamInfo() );
-        
-        // look for the vorbis comment
-        for ( final Metadata item : metadata ) {            
-            if ( item.getClass().equals(VorbisComment.class) ) {
+            Metadata[] metadata = dec.readMetadata( dec.readStreamInfo() );
 
-                final VorbisComment comment = (VorbisComment) item;
+            // look for the vorbis comment
+            for ( final Metadata item : metadata ) {
+                if ( item.getClass().equals(VorbisComment.class) ) {
 
-                artistTitle = getComment( comment, "ARTIST" );
-                albumTitle = getComment( comment, "ALBUM" );
-                trackTitle = getComment( comment, "TITLE" );
-                albumYear = getComment( comment, "DATE" );
-                setTrackNumber( getComment(comment,"TRACKNUMBER") );
+                    final VorbisComment comment = (VorbisComment) item;
 
+                    artistTitle = getComment( comment, "ARTIST" );
+                    albumTitle = getComment( comment, "ALBUM" );
+                    trackTitle = getComment( comment, "TITLE" );
+                    albumYear = getComment( comment, "DATE" );
+                    setTrackNumber( getComment(comment,"TRACKNUMBER") );
+
+                }
             }
+        } finally {
+            Utils.close(in);
         }
         
     }
