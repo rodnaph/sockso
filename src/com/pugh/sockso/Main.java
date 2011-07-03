@@ -579,7 +579,9 @@ public class Main {
 
     private static void initLogger( final String propsFile ) {
         
-        PropertyConfigurator.configure( propsFile );
+        if ( new File(propsFile).exists() ) {
+            PropertyConfigurator.configure( propsFile );
+        }
 
     }
 
@@ -590,13 +592,18 @@ public class Main {
      
     private static void initJavaLogger() throws IOException {
     
-        final String propsFile = "log/javalogging.properties";
-        final InputStream is = new FileInputStream( new File(propsFile) );
+        final File propsFile = new File( "log/javalogging.properties" );
         
-        LogManager.getLogManager()
-                  .readConfiguration( is );
+        if ( propsFile.exists() ) {
+            
+            final InputStream is = new FileInputStream( propsFile );
+        
+            LogManager.getLogManager()
+                      .readConfiguration( is );
 
-        Utils.close( is );
+            Utils.close( is );
+            
+        }
         
     }
 
