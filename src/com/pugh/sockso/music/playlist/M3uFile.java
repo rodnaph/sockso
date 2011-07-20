@@ -155,7 +155,7 @@ public class M3uFile extends PlaylistFile {
         File f = new File(line);
         if (!f.isAbsolute()) {
             log.debug( "Relative path found: " +line );
-            f = new File(this.file,line);
+            f = new File(this.file.getParentFile(),line);
             line = f.getAbsolutePath();
         }
         log.debug( "Adding path: " +line );
