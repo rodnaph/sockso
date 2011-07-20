@@ -125,8 +125,7 @@ public class M3uFile extends PlaylistFile {
         
         for ( final String line : lines ) {
             if ( !line.matches("^#EXT.*") && !line.equals("") ) {
-                log.debug( "Adding path: " +line );
-                paths.add( line );
+                loadPath( line );
             }
         }
 
@@ -145,12 +144,24 @@ public class M3uFile extends PlaylistFile {
         
         for ( final String line : lines ) {
             if ( !line.equals("") ) {
-                log.debug( "Adding path: " +line );
-                paths.add( line );
+                loadPath( line );
             }
         }
         
     }
+    
+    private void loadPath(String line) {
+        
+        File f = new File(line);
+        if (!f.isAbsolute()) {
+            log.debug( "Relative path found: " +line );
+            f = new File(this.file,line);
+            line = f.getAbsolutePath();
+        }
+        log.debug( "Adding path: " +line );
+        paths.add( line );
+    }
+    
     
     /**
      *  returns the paths from this file (absolute)
