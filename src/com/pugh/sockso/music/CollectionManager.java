@@ -10,6 +10,8 @@ package com.pugh.sockso.music;
 import com.pugh.sockso.web.User;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public interface CollectionManager {
 
@@ -52,6 +54,23 @@ public interface CollectionManager {
     public boolean removeDirectory( final String path );
 
     /**
+     *  Import a playlist from the specified file with the specified name
+     * 
+     *  @param file
+     * 
+     *  @return
+     * 
+     *  @throws SQLException
+     *  @throws Exception
+     *  @throws IOException 
+     * 
+     */
+    
+     public int importPlaylist(final File file) throws SQLException, Exception, IOException;
+     
+     public int importPlaylist(final File file, final boolean addToCollection) throws SQLException, Exception, IOException;
+     
+    /**
      *  saves a playlist to the collection
      * 
      *  @param name the name of the playlist
@@ -60,7 +79,7 @@ public interface CollectionManager {
      * 
      */
     
-    public int savePlaylist( final String name, final Track[] tracks );
+     public int savePlaylist( final String name, final Track[] tracks );
 
     /**
      *  saves a playlist for a user to the collection
@@ -73,6 +92,30 @@ public interface CollectionManager {
      */
     
     public int savePlaylist( final String name, final Track[] tracks, final User user );
+    
+    /**
+     *  saves a playlist for a user to the collection
+     * 
+     *  @param name the name of the playlist
+     *  @param tracks the tracks for the playlist
+     *  @param user the user to save for
+     *  @return id of playlist
+     * 
+     */
+    
+    public int savePlaylist( final String name, final Track[] tracks, final File file );
+    
+    /**
+     *  saves a playlist for a user to the collection
+     * 
+     *  @param name the name of the playlist
+     *  @param tracks the tracks for the playlist
+     *  @param user the user to save for
+     *  @return id of playlist
+     * 
+     */
+    
+    public int savePlaylist( final String name, final Track[] tracks, final User user, final File file );
 
     /**
      *  tries to remove a playlist from the collection, returns a boolean

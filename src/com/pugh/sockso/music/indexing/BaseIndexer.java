@@ -66,7 +66,7 @@ public abstract class BaseIndexer implements Indexer {
         isIndexing = false;
         
     }
-
+    
     /**
      *  Returns a FileFilter for the specific type of files that are to be
      *  indexed - BUT should also return directories assuming these are to
@@ -121,7 +121,7 @@ public abstract class BaseIndexer implements Indexer {
             log.debug( "scan() finished: " +(System.currentTimeMillis() - start) );
 
             fireIndexEvent(
-                new IndexEvent( IndexEvent.COMPLETE, -1, new File("") )
+                new IndexEvent(this, IndexEvent.COMPLETE, -1, new File("") )
             );
 
             isIndexing = false;
@@ -184,14 +184,15 @@ public abstract class BaseIndexer implements Indexer {
 
                 final String path = rs.getString( "file_path" );
                 final int id = rs.getInt( "file_id" );
-                final File file = new File( path );
+                if (path != null) {
+                    final File file = new File( path );
 
-                if ( checkExists(file,id) ) {
-                    if ( checkModified(file,id,rs.getDate("index_last_modified")) ) {
-                        markFileModified( id, rs.getInt("index_id") );
+                    if ( checkExists(file,id) ) {
+                        if ( checkModified(file,id,rs.getDate("index_last_modified")) ) {
+                            markFileModified( id, rs.getInt("index_id") );
+                        }
                     }
                 }
-
             }
 
         }
@@ -224,9 +225,16 @@ public abstract class BaseIndexer implements Indexer {
 
             rs = getFiles();
             
+            log.debug( "Updating cache ... ");
             while ( rs.next() ) {
-                cache.add( rs.getString("file_path") );
+                String path = rs.getString( "file_path" );
+                log.debug( "Add to cache: " + rs.getString( "file_id" )+", "+ path );
+                if (path != null) {
+                    cache.add( path );
+                    log.debug( "Added to cache: " + path );
+                }
             }
+            log.debug( "Finish updating cache ... ");
 
         }
                 
@@ -277,7 +285,7 @@ public abstract class BaseIndexer implements Indexer {
 
             else if ( !cache.exists(file.getAbsolutePath()) ) {
                 fireIndexEvent(
-                    new IndexEvent( IndexEvent.UNKNOWN, directoryId, file )
+                    new IndexEvent(this, IndexEvent.UNKNOWN, directoryId, file )
                 );
             }
 
@@ -316,7 +324,8 @@ public abstract class BaseIndexer implements Indexer {
 
         final String sql = getFilesSql();
         final PreparedStatement st = db.prepare( sql );
-
+        st.setString(1, this.getClass().getName());
+        
         return st.executeQuery();
 
     }
@@ -340,10 +349,11 @@ public abstract class BaseIndexer implements Indexer {
             String sql = "";
 
             if ( indexId == 0 ) {
-                sql = " insert into indexer ( id, last_modified ) " +
-                      " values ( ?, current_timestamp ) ";
+                sql = " insert into indexer ( last_modified, fid, type ) " +
+                      " values ( current_timestamp, ?, ? ) ";
                 st = db.prepare( sql );
                 st.setInt( 1, fileId );
+                st.setString(2, this.getClass().getName());
             }
 
             else {
@@ -351,6 +361,7 @@ public abstract class BaseIndexer implements Indexer {
                       " set last_modified = current_timestamp " +
                       " where id = ? ";
                 st = db.prepare( sql );
+                st.setString(2, this.getClass().getName());
                 st.setInt( 1, indexId );
             }
 
@@ -390,7 +401,7 @@ public abstract class BaseIndexer implements Indexer {
 
         if ( !file.exists() ) {
             fireIndexEvent(
-                new IndexEvent( IndexEvent.MISSING, id, file )
+                new IndexEvent(this, IndexEvent.MISSING, id, file )
             );
             return false;
         }
@@ -417,7 +428,7 @@ public abstract class BaseIndexer implements Indexer {
 
         if ( lastModified == null || lastModified.getTime() < file.lastModified() ) {
             fireIndexEvent(
-                new IndexEvent( IndexEvent.CHANGED, id, file )
+                new IndexEvent(this, IndexEvent.CHANGED, id, file )
             );
             return true;
         }

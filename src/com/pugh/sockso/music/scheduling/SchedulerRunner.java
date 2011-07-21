@@ -5,6 +5,7 @@ import com.pugh.sockso.Properties;
 import com.pugh.sockso.music.indexing.Indexer;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -20,20 +21,20 @@ public class SchedulerRunner extends Thread {
 
     private static final Logger log = Logger.getLogger( SchedulerRunner.class );
 
-    private final Indexer indexer;
+    private final List<Indexer> indexers;
 
     private final Properties p;
 
     /**
      *  Creates a new scheduler to run the specified indexer
      *
-     *  @param indexer
+     *  @param indexers
      *
      */
 
-    public SchedulerRunner( final Indexer indexer, final Properties p ) {
+    public SchedulerRunner( final List<Indexer> indexers, final Properties p ) {
 
-        this.indexer = indexer;
+        this.indexers = indexers;
         this.p = p;
 
     }
@@ -54,7 +55,9 @@ public class SchedulerRunner extends Thread {
             log.debug( "Checking schedule (" +scheduler.getClass().getSimpleName()+ ")" );
 
             if ( scheduler.shouldRunAt(now.getTime()) ) {
-                indexer.scan();
+                for (Indexer indexer : indexers) {
+                    indexer.scan();
+                }
             }
 
             try { Thread.sleep(ONE_MINUTE); }

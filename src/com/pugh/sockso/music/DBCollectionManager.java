@@ -16,6 +16,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.indexing.IndexEvent;
 import com.pugh.sockso.music.indexing.IndexListener;
+import com.pugh.sockso.music.playlist.PlaylistFile;
 import com.pugh.sockso.music.tag.InvalidTagException;
 import com.pugh.sockso.music.tag.Tag;
 import com.pugh.sockso.music.tag.AudioTag;
@@ -30,6 +31,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -40,18 +43,18 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     private final Database db;
     private final Properties p;
     private final Vector<CollectionManagerListener> listeners;
-    private final Indexer indexer;
+    private final List<Indexer> indexers;
 
     /**
      *  constructor
      *
      */
     
-    public DBCollectionManager( final Database db, final Properties p, final Indexer indexer ) {
+    public DBCollectionManager( final Database db, final Properties p, final List<Indexer> indexers ) {
 
         this.db = db;
         this.p = p;
-        this.indexer = indexer;
+        this.indexers = indexers;
 
         listeners = new Vector<CollectionManagerListener>();
 
@@ -68,27 +71,57 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         try {
 
-            switch ( evt.getType() ) {
+            //TODO change this to a more generic way
+            String indexerName = evt.getSource().getClass().getName();
+            if ( indexerName.equals("com.pugh.sockso.music.indexing.TrackIndexer")) {
 
-                case IndexEvent.UNKNOWN:
-                    addFile( evt.getFileId(), evt.getFile() );
-                    break;
+                switch ( evt.getType() ) {
 
-                case IndexEvent.CHANGED:
-                    checkTrack( getTrack(evt.getFileId()), evt.getFile() );
-                    break;
+                    case IndexEvent.UNKNOWN:
+                        addFile( evt.getFileId(), evt.getFile() );
+                        break;
 
-                case IndexEvent.MISSING:
-                    removeTrack( evt.getFileId() );
-                    break;
+                    case IndexEvent.CHANGED:
+                        checkTrack( getTrack(evt.getFileId()), evt.getFile() );
+                        break;
 
-                case IndexEvent.COMPLETE:
-                    removeEmptyArtistsAndAlbums();
-                    fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Collection Updated!" );
-                    break;
+                    case IndexEvent.MISSING:
+                        removeTrack( evt.getFileId() );
+                        break;
 
+                    case IndexEvent.COMPLETE:
+                        removeEmptyArtistsAndAlbums();
+                        fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Collection Updated!" );
+                        break;
+
+                }
             }
+            else if ( indexerName.equals("com.pugh.sockso.music.indexing.PlaylistIndexer")) {
+                switch ( evt.getType() ) {
 
+                    case IndexEvent.UNKNOWN:
+                        //Insert Playlist 
+                        importPlaylist(evt.getFile(), true);
+                        break;
+
+                    case IndexEvent.CHANGED:
+                        //Check Playlist tracks
+                        updatePlaylist(evt.getFileId(),evt.getFile());
+                        break;
+
+                    case IndexEvent.MISSING:
+                        //Remove Playlist
+                        removePlaylist(evt.getFileId());
+                        break;
+
+                    case IndexEvent.COMPLETE:
+                        //Remove Empty Playlists
+                        removeEmptyPlaylists();
+                        fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Playlist Collection Updated!" );
+                        break;
+                
+                }
+            }
         }
 
         catch ( final Throwable t ) {
@@ -172,7 +205,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     public void scanDirectory( final int collectionId, final File directory ) {
 
         try {
-            indexer.scanDirectory( collectionId, directory );
+            for (Indexer indexer : indexers) {
+                indexer.scanDirectory( collectionId, directory );
+            }
         }
         catch ( final Exception e ) {
             log.error( e );
@@ -189,8 +224,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     
     public void checkCollection() {
 
-        indexer.scan();
-
+        for (Indexer indexer : indexers) {
+            indexer.scan();
+        }
     }
 
     /**
@@ -617,10 +653,11 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
             // add to database
             int collectionId = addDirectoryToDb( dir );
-
-            indexer.scanDirectory( collectionId, dir );
-            
+            for (Indexer indexer : indexers) {
+                indexer.scanDirectory( collectionId, dir );
+            }            
             removeEmptyArtistsAndAlbums();
+            removeEmptyPlaylists();
             
             fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Update Finished" );
 
@@ -910,6 +947,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                 Utils.close( st );
 
                 removeEmptyArtistsAndAlbums();
+                removeEmptyPlaylists();
                 fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Directory Removed" );
                 
                 return true;
@@ -959,8 +997,18 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     public int savePlaylist( final String name, final Track[] tracks ) {
         
-        return savePlaylist( name, tracks, null );
+        return savePlaylist( name, tracks, null, null );
         
+    }
+    
+    public int savePlaylist( final String name, final Track[] tracks, User user ) {
+        
+        return savePlaylist( name, tracks, user, null );
+    }
+    
+    public int savePlaylist( final String name, final Track[] tracks, File file ) {
+        
+        return savePlaylist( name, tracks, null, file );
     }
 
     /**
@@ -971,7 +1019,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      * 
      */
     
-    public int savePlaylist( final String name, final Track[] tracks, final User user ) {
+    public int savePlaylist( final String name, final Track[] tracks, final User user, final File file ) {
         
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -996,14 +1044,18 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
             // create playlist
 
-            sql = " insert into playlists ( name, user_id, date_created, date_modified ) " +
-                    " values ( ?, ?, current_timestamp, current_timestamp ) ";
+            sql = " insert into playlists ( name, user_id, path, date_created, date_modified ) " +
+                    " values ( ?, ?, ?, current_timestamp, current_timestamp ) ";
             st = db.prepare( sql );
             st.setString( 1, name );
             if ( user == null )
                 st.setNull( 2, Types.INTEGER );
             else
                 st.setInt( 2, user.getId() );
+            if ( file == null )
+                st.setNull( 3, Types.VARCHAR );
+            else
+                st.setString( 3, file.getAbsolutePath() );
             st.execute();
 
             Utils.close( rs );
@@ -1103,4 +1155,191 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         
     }
     
+    
+    /**
+     *  Import a playlist from the specified file with the specified name
+     * 
+     *  @param file
+     * 
+     *  @return
+     * 
+     *  @throws SQLException
+     *  @throws Exception
+     *  @throws IOException 
+     * 
+     */
+    
+    public int importPlaylist(final File file) throws SQLException, Exception, IOException {
+        return importPlaylist(file, false);
+    }
+    
+    public int importPlaylist(final File file, final boolean addToCollection) throws SQLException, Exception, IOException {
+        
+        final PlaylistFile playlistFile = PlaylistFile.getPlaylistFile( file.getAbsoluteFile() );
+        
+        if ( playlistFile == null ) {
+            throw new Exception( "Unsupported playlist type" );
+        }
+        
+        final String playlistName = getPlaylistName(file);
+        final Track[] tracks = getTracksFromPlaylist( playlistFile );
+        int playlistId = 0;
+        if (addToCollection) 
+            playlistId = savePlaylist( playlistName, tracks, file );
+        else
+            playlistId = savePlaylist( playlistName, tracks );
+        
+        return playlistId;
+        
+    }
+
+    /**
+     *  Updates the tracks of a playlist 
+     * 
+     *  @param id
+     *  @param file
+     * 
+     *  @return
+     * 
+     */
+    public void updatePlaylist( final int id, final File file ) throws SQLException, Exception, IOException {
+        
+        final PlaylistFile playlistFile = PlaylistFile.getPlaylistFile( file.getAbsoluteFile() );
+        
+        if ( playlistFile == null ) {
+            throw new Exception( "Unsupported playlist type" );
+        }
+        
+        ResultSet rs = null;
+        PreparedStatement st = null;
+        String sql = " select name " +
+                     " from playlists p " +
+                     " where id = ? ";
+        st = db.prepare( sql );
+        st.setInt( 1, id );
+        rs = st.executeQuery();
+        if ( rs.next() ) {
+            final String playlistName = rs.getString("name");
+            final Track[] tracks = getTracksFromPlaylist( playlistFile );
+            savePlaylist( playlistName, tracks, file );
+        }
+        else {
+            log.debug( "Playlist does not exist: " + id + ", "+file.getAbsolutePath());
+        }
+    }
+    
+    /**
+     *  Looks through the tracks in the playlist and tries to find them in the
+     *  collection.
+     *
+     *  @param playlistFile
+     *
+     *  @return
+     *
+     *  @throws SQLException
+     *
+     */
+
+    protected Track[] getTracksFromPlaylist( final PlaylistFile playlistFile ) throws SQLException {
+
+        final ArrayList<Track> tracks = new ArrayList<Track>();
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
+        try {
+
+            for ( final String path : playlistFile.getPaths() ) {
+
+                final String sql = Track.getSelectFromSql() +
+                                   " where t.path = ? ";
+                st = db.prepare( sql );
+                st.setString( 1, path );
+                rs = st.executeQuery();
+
+                if ( rs.next() ) {
+                    tracks.add( Track.createFromResultSet(rs) );
+                }
+
+            }
+
+        }
+
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
+
+        return tracks.toArray( new Track[]{} );
+
+    }
+    
+    /**
+     *  returns a newName to use for the playlist.  this will be the filename
+     *  without the extension, and a number added on to the end if there
+     *  are duplicates in the database already (eg. "playlist (2)")
+     * 
+     *  @param file
+     * 
+     *  @return
+     * 
+     */
+
+    protected String getPlaylistName( final File file ) throws SQLException {
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
+        try {
+
+            String newName = file.getName();
+
+            // remove extension
+            newName = newName.substring( 0, newName.indexOf(".") );
+
+            final String sql = " select p.name " +
+                               " from playlists p ";
+            st = db.prepare( sql );
+            rs = st.executeQuery();
+
+            int clashes = 0;
+
+            while ( rs.next() ) {
+                final String name = rs.getString( "name" );
+                if ( name.equals(newName) || name.matches("^" +newName+ " \\(\\d+\\)") )
+                    clashes++;
+            }
+
+            if ( clashes > 0 )
+                newName += " (" +clashes+ ")";
+
+            return newName;
+
+        }
+
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
+    }    
+    
+    /**
+     *  removes any artists and albums from the collection that don't
+     *  have any tracks associated with them
+     * 
+     *  @throws SQLException
+     * 
+     */
+    
+    protected void removeEmptyPlaylists() throws SQLException {
+                
+        String sql = null;
+
+        // remove any artists left without tracks
+        sql = " delete from playlists " +
+                " where id not in ( select playlist_id " +
+                                    " from playlist_tracks ) ";
+        db.update( sql );
+
+    }
 }

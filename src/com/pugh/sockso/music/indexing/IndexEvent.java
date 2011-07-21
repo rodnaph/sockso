@@ -15,26 +15,40 @@ public class IndexEvent {
     public static final int CHANGED = 3;
     public static final int COMPLETE = 4;
 
+    private final Indexer src;
     private final int type, fileId;
     private final File file;
 
     /**
      *  Constructor
      * 
+     *  @param src
      *  @param type
      *  @param fileId
      *  @param file
      * 
      */
 
-    public IndexEvent( final int type, final int fileId, final File file ) {
-        
+    public IndexEvent( final Indexer src, final int type, final int fileId, final File file ) {
+        this.src = src;
         this.type = type;
         this.fileId = fileId;
         this.file = file;
         
     }
 
+    /**
+     *  Returns the event source 
+     * 
+     *  @return
+     * 
+     */
+
+    public Indexer getSource() {
+
+        return src;
+
+    }
     /**
      *  Returns the event type
      * 
@@ -84,7 +98,7 @@ public class IndexEvent {
     @Override
     public String toString() {
 
-        return "IndexEvent, type: " +type+ ", fileId: " +fileId+ ", file: " +file.getAbsolutePath();
+        return "IndexEvent, src: " +src.getClass().getName()+ ", type: " +type+ ", fileId: " +fileId+ ", file: " +file.getAbsolutePath();
 
     }
 

@@ -11,7 +11,9 @@ import com.pugh.sockso.gui.AppFrame;
 import com.pugh.sockso.gui.Splash;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.music.DBCollectionManager;
+import com.pugh.sockso.music.Playlist;
 import com.pugh.sockso.music.indexing.Indexer;
+import com.pugh.sockso.music.indexing.PlaylistIndexer;
 import com.pugh.sockso.music.indexing.TrackIndexer;
 import com.pugh.sockso.music.scheduling.SchedulerRunner;
 import com.pugh.sockso.resources.FileResources;
@@ -32,6 +34,8 @@ import java.io.FileReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -55,7 +59,7 @@ public class Main {
     private static Manager manager;
     private static Resources r;
     private static Locale locale;
-    private static Indexer indexer;
+    private static List<Indexer> indexers;
     private static SchedulerRunner sched;
 
     /**
@@ -214,15 +218,17 @@ public class Main {
         p.init();
 
         log.info( "Creating Indexer" );
-        indexer = getIndexer();
+        indexers = getIndexer();
 
         log.info( "Starting Scheduler" );
-        sched = new SchedulerRunner( indexer, p );
+        sched = new SchedulerRunner( indexers, p );
         sched.start();
 
         log.info( "Starting Collection Manager" );
-        cm = new DBCollectionManager( db, p, indexer );
-        indexer.addIndexListener( (DBCollectionManager) cm );
+        cm = new DBCollectionManager( db, p, indexers );
+        for (Indexer indexer : indexers) {
+            indexer.addIndexListener( (DBCollectionManager) cm );
+        }
 
         new CommunityUpdater( p ).start();
 
@@ -400,9 +406,12 @@ public class Main {
      *
      */
 
-    protected static Indexer getIndexer() {
+    protected static List<Indexer> getIndexer() {
 
-        return new TrackIndexer( db );
+        List<Indexer> l = new ArrayList<Indexer>();
+        l.add(new TrackIndexer( db ));
+        l.add(new PlaylistIndexer(db));
+        return l;
         
     }
 
@@ -494,7 +503,7 @@ public class Main {
 
             shutdownStarted = true;
 
-            if ( indexer != null ) {
+            if ( indexers != null ) {
                 // @TODO
             }
 

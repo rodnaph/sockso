@@ -10,7 +10,7 @@ import java.io.FileFilter;
  * 
  */
 
-public class TrackIndexer extends BaseIndexer {
+public class PlaylistIndexer extends BaseIndexer {
 
     
     /**
@@ -20,7 +20,7 @@ public class TrackIndexer extends BaseIndexer {
      * 
      */
 
-    public TrackIndexer( final Database db ) {
+    public PlaylistIndexer( final Database db ) {
         
         super( db );
    
@@ -37,11 +37,11 @@ public class TrackIndexer extends BaseIndexer {
 
     protected String getFilesSql() {
 
-        return " select t.id as file_id, t.path as file_path, " +
+        return " select p.id as file_id, p.path as file_path, " +
                    " i.last_modified as index_last_modified, i.id as index_id " +
-               " from tracks t " +
+               " from playlists p " +
                    " left outer join indexer i " +
-                   " on (i.fid = t.id and i.type = ? )";
+                   " on (i.fid = p.id and i.type = ? )";
 
     }
 
@@ -68,7 +68,7 @@ public class TrackIndexer extends BaseIndexer {
 
     protected FileFilter getFileFilter() {
 
-        return new TrackFileFilter();
+        return new PlaylistFileFilter();
 
     }
 
