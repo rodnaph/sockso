@@ -5,6 +5,7 @@ import com.pugh.sockso.music.Playlist;
 import com.pugh.sockso.templates.api.TPlaylists;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
+import com.pugh.sockso.web.User;
 
 import java.io.IOException;
 
@@ -33,6 +34,13 @@ public class PlaylistsAction extends BaseApiAction {
         (
             req.getParamCount() == 3
             && ( req.getUrlParam(2).equals("site") || req.getUrlParam(2).equals("user") )
+        )
+            ||
+        (
+            req.getParamCount() == 4
+            && req.getUrlParam( 1 ).equals( "playlists" )
+            && req.getUrlParam( 2 ).equals( "user" )
+            && isInteger(req.getUrlParam(3) )
         );
 
     }
@@ -61,7 +69,7 @@ public class PlaylistsAction extends BaseApiAction {
         else if ( req.getUrlParam(2).equals("user") ) {
             showPlaylists(Playlist.findAllForUser(
                 getDatabase(),
-                getUser(),
+                getPlaylistUser(),
                 getLimit(),
                 getOffset()
             ));
@@ -75,6 +83,24 @@ public class PlaylistsAction extends BaseApiAction {
             ));
         }
         
+    }
+    
+    /**
+     *  Returns the user to get playlists for.  This could be the current user
+     *  or the user specified in the URL
+     * 
+     *  @return 
+     * 
+     */
+    
+    protected User getPlaylistUser() {
+        
+        final Request req = getRequest();
+        
+        return req.getParamCount() == 4
+            ? User.find( getDatabase(), Integer.parseInt(req.getUrlParam(3)) )
+            : getUser();
+
     }
     
     /**

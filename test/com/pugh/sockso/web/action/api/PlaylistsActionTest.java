@@ -28,6 +28,8 @@ public class PlaylistsActionTest extends SocksoTestCase {
         assertTrue( action.canHandle(getRequest("/api/playlists?offset=100")) );
         assertTrue( action.canHandle(getRequest("/api/playlists/site")) );
         assertTrue( action.canHandle(getRequest("/api/playlists/user")) );
+        assertTrue( action.canHandle(getRequest("/api/playlists/user/123")) );
+        assertTrue( action.canHandle(getRequest("/api/playlists/user/123?limit=123")) );
     }
     
     public void testActionDoesntHandleNonPlaylistUrls() {
@@ -69,6 +71,14 @@ public class PlaylistsActionTest extends SocksoTestCase {
         action.setUser( null );
         action.handleRequest();
         assertNotContains( res.getOutput(), "A Playlist" );
+        assertNotContains( res.getOutput(), "Foo Foo" );
+        assertNotContains( res.getOutput(), "Bar Bar" );
+    }
+    
+    public void testPlaylistsOnlyForSpecifiedUserAreListedWhenAUserIsSpecified() throws Exception {
+        action.setRequest( getRequest("/api/playlists/user/1") );
+        action.handleRequest();
+        assertContains( res.getOutput(), "A Playlist" );
         assertNotContains( res.getOutput(), "Foo Foo" );
         assertNotContains( res.getOutput(), "Bar Bar" );
     }
