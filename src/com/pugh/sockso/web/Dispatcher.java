@@ -10,6 +10,7 @@ import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.resources.Resources;
 
 import com.pugh.sockso.web.action.AdminAction;
+import com.pugh.sockso.web.action.Api;
 import com.pugh.sockso.web.action.Downloader;
 import com.pugh.sockso.web.action.Feeder;
 import com.pugh.sockso.web.action.FileServer;
@@ -21,7 +22,7 @@ import com.pugh.sockso.web.action.Sharer;
 import com.pugh.sockso.web.action.Streamer;
 import com.pugh.sockso.web.action.Uploader;
 import com.pugh.sockso.web.action.Userer;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import com.pugh.sockso.web.action.admin.Console;
 
@@ -76,12 +77,12 @@ public class Dispatcher {
      * 
      */
     
-    public WebAction getAction( final Request req ) {
+    public BaseAction getAction( final Request req ) {
 
         final String command = req.getUrlParam( 0 );
         final String host = getHost();
 
-        WebAction action = null;
+        BaseAction action = null;
         
         if ( command.equals("file") )
             action = new FileServer( r );
@@ -99,9 +100,14 @@ public class Dispatcher {
         else if ( command.equals("pls") )
             action = new Plser( protocol );
         
-        else if ( command.equals("stream") )
+        else if ( command.equals("stream") ) {
             action = new Streamer();
+        }
         
+        else if ( command.equals("api") ) {
+            action = new Api();
+        }
+
         else if ( command.equals("json") )
             action = new Jsoner( cm, cache );
         
@@ -130,9 +136,10 @@ public class Dispatcher {
             action = getAdminAction( req );
         }
         
-        else if ( command.equals("nat") )
+        else if ( command.equals("nat") ) {
             action = new Nater();
-        
+        }
+                
         if ( action != null ) {
             action.setDatabase( db );
             action.setProperties( p );
@@ -151,7 +158,7 @@ public class Dispatcher {
      * 
      */
     
-    protected WebAction getBrowseAction( final Request req ) {
+    protected BaseAction getBrowseAction( final Request req ) {
         
         final String command = req.getUrlParam( 1 );
         

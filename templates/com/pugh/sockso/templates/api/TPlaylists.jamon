@@ -1,0 +1,30 @@
+<%import>
+    com.pugh.sockso.Utils;
+    com.pugh.sockso.music.Playlist;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Vector<Playlist> playlists = null;
+</%args>
+
+<%java>
+    boolean firstItem = true;
+</%java>
+[
+    <%for final Playlist playlist : playlists %>
+
+        <%if !firstItem %>,</%if>
+        <%java>firstItem = false;</%java>
+
+        {
+            "id": <% playlist.getId() %>,
+            "name": "<% Utils.escapeJs(playlist.getName()) %>",
+
+            <%if playlist.getUser() != null %>
+                , "user": { "id": <% playlist.getUser().getId() %>, "name": "<% playlist.getUser().getName() %>" }
+            </%if>
+        }
+
+    </%for>
+]

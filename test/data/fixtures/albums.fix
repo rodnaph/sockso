@@ -1,0 +1,8 @@
+
+collection:1,/music
+
+artists:1,A Artist,now(),A Artist
+
+albums:1,1,Zan Album,1984,now()
+albums:2,1,Another Album,1984,now()
+albums:3,1,Beta Third,1990,now()

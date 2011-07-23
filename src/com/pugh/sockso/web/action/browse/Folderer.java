@@ -7,7 +7,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Collection;
 import com.pugh.sockso.templates.web.browse.TFolders;
 import com.pugh.sockso.web.BadRequestException;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  * 
  */
 
-public class Folderer extends WebAction {
+public class Folderer extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Folderer.class  );
 

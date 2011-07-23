@@ -9,7 +9,7 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.templates.web.browse.TLatest;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * 
  */
 
-public class Latester extends WebAction {
+public class Latester extends BaseAction {
     
     private static final Logger log = Logger.getLogger( Latester.class  );
         

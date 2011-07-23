@@ -12,9 +12,14 @@
     boolean firstItem = true;
 </%java>
 
-[
+
+ [
     <%for MusicItem item : items %>
     <%if !firstItem %>,</%if><%java>firstItem = false;</%java>
-    new MusicItem( '<% item.getType().substring(0,2).toLowerCase() %><% item.getId() %>', '<% Utils.u2e(Utils.escapeJs(item.getName())) #n %>' )
+    {
+        "id": "<% item.getType().substring(0,2).toLowerCase() %><% item.getId() %>",
+        "name": "<% Utils.u2e(item.getName()) #n %>"
+    }
     </%for>
 ]
+

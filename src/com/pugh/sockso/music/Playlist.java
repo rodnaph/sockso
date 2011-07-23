@@ -1,21 +1,16 @@
-/*
- * Playlist.java
- * 
- * Created on May 17, 2007, 9:50:09 PM
- * 
- * Represents a playlist
- * 
- */
 
 package com.pugh.sockso.music;
 
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
+import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import java.util.Vector;
 
 public class Playlist extends MusicItem {
     
@@ -42,6 +37,24 @@ public class Playlist extends MusicItem {
     
     public int getTrackCount() {
         return trackCount;
+    }
+    
+    /**
+     *  Returns the tracks for the playlist
+     * 
+     *  @param db
+     * 
+     *  @return 
+     * 
+     *  @throws SQLException
+     *  @throws BadRequestException
+     * 
+     */
+    
+    public Vector<Track> getTracks( final Database db ) throws SQLException, BadRequestException {
+        
+        return Track.getTracks( db, "pl", getId() );
+        
     }
     
     /**
@@ -75,6 +88,157 @@ public class Playlist extends MusicItem {
     }
     
     /**
+     *  Returns a list of playlists for the user with given limit and offset for the results.
+     *  
+     *  @param db database object to use
+     *  @param limit max number of elements in the result
+     *  @param offset offset for pagination
+     * 
+     *  @throws SQLException
+     *  
+     */
+    
+    public static Vector<Playlist> findAll( final Database db, int limit, int offset ) throws SQLException {
+        
+        return findPlaylistsForSql( db, limit, offset,  "" );
+                    
+    }
+    
+    /**
+     *  Finds and returns playlists that match some specified sql where clause
+     * 
+     *  @param db
+     *  @param limit
+     *  @param offset
+     *  @param whereSql
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+    
+    protected static Vector<Playlist> findPlaylistsForSql( final Database db, final int limit, final int offset, final String whereSql ) throws SQLException {
+    	
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+    	try {
+
+            final Vector<Playlist> lists = new Vector<Playlist>();
+            
+            String sql = getSelectFromSql() +
+                        whereSql +
+                         " order by p.id desc ";
+
+            if ( limit != -1 ) {
+                sql += " limit " +limit+
+                       " offset " +offset;
+            }
+
+            st = db.prepare( sql );
+            rs = st.executeQuery();
+            
+            while ( rs.next() ) {
+                lists.add( createFromResultSet(rs) );
+            }
+            
+            return lists;
+    	
+    	}
+        
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+    	}
+    	
+    }
+    
+    /**
+     *  Finds all playlists for a user
+     * 
+     *  @param db
+     *  @param user
+     *  @param limit
+     *  @param offset
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+    
+    public static Vector<Playlist> findAllForUser( final Database db, final User user, final int limit, final int offset ) throws SQLException {
+        
+        return user != null
+            ? findPlaylistsForSql( db, limit, offset, " where p.user_id = '" +user.getId()+ "' " )
+            : new Vector<Playlist>();
+        
+    }
+    
+    /**
+     *  Finds all site playlists
+     * 
+     *  @param db
+     *  @param limit
+     *  @param offset
+     * 
+     *  @return
+     * 
+     *  @throws Exception 
+     * 
+     */
+    
+    public static Vector<Playlist> findAllForSite( final Database db, final int limit, final int offset ) throws SQLException {
+        
+        return findPlaylistsForSql( db, limit, offset, " where p.user_id = -1 " );
+        
+    }
+    
+    /**
+     *  Returns the 'SELECT (fields) FROM (joins) ' sql snippet for querying playlists
+     * 
+     *  @return 
+     * 
+     */
+    
+    protected static String getSelectFromSql() {
+        
+        return " select p.id, p.name, u.id as userId, u.name as userName " +
+               " from playlists p " +
+                   " left outer join users u " +
+                   " on u.id = p.user_id ";
+        
+    }
+    
+    /**
+     *  Creates a playlist object from a result set created using standard sql
+     *  select snippet
+     * 
+     *  @param rs
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+    
+    protected static Playlist createFromResultSet( final ResultSet rs ) throws SQLException {
+        
+        final User user = rs.getString( "userId" ) != null
+            ? new User( rs.getInt("userId"), rs.getString("userName") )
+            : null;
+        
+        return new Playlist(
+            rs.getInt( "id" ),
+            rs.getString( "name" ),
+            -1,
+            user
+        );
+
+    }
+
+    /**
      *  Finds a playlist by id, or returns null if it doesn't exist
      * 
      *  @param db
@@ -91,19 +255,15 @@ public class Playlist extends MusicItem {
         
         try {
             
-            final String sql = " select id, name " +
-                               " from playlists " +
-                               " where id = ? ";
+            final String sql = getSelectFromSql() +
+                               " where p.id = ? ";
             
             st = db.prepare( sql );
             st.setInt( 1, id );
             rs = st.executeQuery();
             
             if ( rs.next() ) {
-                return new Playlist(
-                    rs.getInt( "id" ),
-                    rs.getString( "name" )
-                );
+                return createFromResultSet( rs );
             }
             
         }

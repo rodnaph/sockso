@@ -1,11 +1,3 @@
-/*
- * Track.java
- * 
- * Created on May 17, 2007, 10:54:00 AM
- * 
- * Represents a track in the collection
- * 
- */
 
 package com.pugh.sockso.music;
 
@@ -339,5 +331,87 @@ public class Track extends MusicItem {
         return string.replaceAll( "[^A-Za-z0-9]", "" );
         
     }
+    
+    /**
+     *  Finds a track by ID
+     * 
+     *  @param db
+     *  @param id
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+    
+    public static Track find( final Database db, final int id ) throws SQLException {
+        
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
+        try {
+            
+            final String sql = getSelectFromSql() +
+                               " where t.id = ? ";
+            
+            st = db.prepare( sql );
+            st.setInt( 1, id );
+            rs = st.executeQuery();
+            
+            if ( rs.next() ) {
+                return Track.createFromResultSet( rs );
+            }
+            
+        }
+        
+        finally {
+            Utils.close( st );
+            Utils.close( rs );
+        }
+        
+        return null;
+        
+    }
 
+    /**
+     *  Find all tracks, with optional limit and offset
+     * 
+     *  @param db
+     *  @param limit
+     *  @param offset
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+    
+    public static Vector<Track> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+        
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
+        try {
+            
+            String sql = getSelectFromSql();
+            
+            if ( limit != -1 ) {
+                sql += " limit " +limit+
+                       " offset " +offset;
+            }
+            
+            st = db.prepare( sql );
+            rs = st.executeQuery();
+            
+            return createVectorFromResultSet( rs );
+            
+        }
+        
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
+        
+    }
+    
 }

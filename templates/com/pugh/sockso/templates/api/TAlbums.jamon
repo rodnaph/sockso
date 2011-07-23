@@ -1,0 +1,26 @@
+
+<%import>
+    com.pugh.sockso.music.Album;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Vector<Album> albums = null;
+</%args>
+
+<%java>
+    boolean isFirst = true;
+</%java>
+
+[
+
+<%for Album album : albums %>
+
+    <%if !isFirst%>,</%if>
+    <%java>isFirst = false;</%java>
+
+    <& TAlbum; album=album; &>
+
+</%for>
+
+]

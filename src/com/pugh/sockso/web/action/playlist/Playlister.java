@@ -7,7 +7,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 import com.pugh.sockso.web.BadRequestException;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 import com.pugh.sockso.web.action.FileServer;
 import com.pugh.sockso.music.Track;
 
@@ -23,7 +23,7 @@ import java.util.Vector;
  * Abstract class for all playlist generators to implement
  * 
  */
-public abstract class Playlister extends WebAction {
+public abstract class Playlister extends BaseAction {
     
     protected abstract PlaylistTemplate getPlaylistTemplate();
 

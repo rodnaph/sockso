@@ -6,7 +6,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.templates.web.browse.TByLetter;
 import com.pugh.sockso.web.Request;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
  * 
  */
 
-public class ByLetterer extends WebAction {
+public class ByLetterer extends BaseAction {
     
     private static final Logger log = Logger.getLogger( ByLetterer.class );
 

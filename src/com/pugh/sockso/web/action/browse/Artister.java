@@ -3,7 +3,7 @@ package com.pugh.sockso.web.action.browse;
 
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.music.Album;
@@ -17,7 +17,7 @@ import java.sql.PreparedStatement;
 import java.io.IOException;
 import java.util.Vector;
 
-public class Artister extends WebAction {
+public class Artister extends BaseAction {
     
     /**
      *  browses a particular artist

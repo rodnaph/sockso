@@ -1,0 +1,24 @@
+
+<%import>
+    com.pugh.sockso.Constants;
+    com.pugh.sockso.Sockso;
+    com.pugh.sockso.Properties;
+    com.pugh.sockso.Utils;
+</%import>
+
+<%args>
+    Properties properties = null;
+</%args>
+
+<%java>
+    String requiresLogin = properties.get( Constants.WWW_USERS_REQUIRE_LOGIN ).equals( Properties.YES )
+        ? "1"
+        : "0";
+</%java>
+
+{
+    "title": "<% properties.get(Constants.WWW_TITLE).replace("\"","\\\"") %>",
+    "tagline": "<% properties.get(Constants.WWW_TAGLINE).replace("\"","\\\"") %>",
+    "version": "<% Sockso.VERSION %>",
+    "requiresLogin": "<% requiresLogin %>"
+}

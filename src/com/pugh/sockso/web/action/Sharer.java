@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  */
 
-public class Sharer extends WebAction {
+public class Sharer extends BaseAction {
 
     /**
      *  Handles the request

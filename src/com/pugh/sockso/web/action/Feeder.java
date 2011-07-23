@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import java.util.Vector;
 
-public class Feeder extends WebAction {
+public class Feeder extends BaseAction {
 
     private final String host;
     

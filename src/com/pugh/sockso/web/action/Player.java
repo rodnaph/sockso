@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import java.util.Vector;
 
-public class Player extends WebAction {
+public class Player extends BaseAction {
     
     /**
      *  handles the request for one a player window

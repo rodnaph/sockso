@@ -9,7 +9,7 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.web.browse.TAlbum;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ import java.util.Vector;
  *
  */
 
-public class Albumer extends WebAction {
+public class Albumer extends BaseAction {
     
     /**
      *  browses an album

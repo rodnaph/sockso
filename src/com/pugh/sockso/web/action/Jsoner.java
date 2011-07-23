@@ -47,7 +47,7 @@ import java.util.Comparator;
 
 import org.apache.log4j.Logger;
 
-public class Jsoner extends WebAction {
+public class Jsoner extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Jsoner.class );
     

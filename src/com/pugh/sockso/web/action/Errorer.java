@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * 
  */
 
-public class Errorer extends WebAction {
+public class Errorer extends BaseAction {
 
     private final BadRequestException e;
     private final boolean showStackTrace;

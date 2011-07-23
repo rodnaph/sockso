@@ -7,7 +7,7 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.web.browse.TPopular;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
  * 
  */
 
-public class Popularer extends WebAction {
+public class Popularer extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Popularer.class  );
     

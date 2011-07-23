@@ -34,7 +34,7 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 
-public class FileServer extends WebAction {
+public class FileServer extends BaseAction {
 
     private static final Logger log = Logger.getLogger( FileServer.class );
 

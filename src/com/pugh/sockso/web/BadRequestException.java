@@ -25,7 +25,9 @@ public class BadRequestException extends Exception {
      */
     
     public BadRequestException( final String message ) {
+        
         this( new String[] { message } );
+        
     }
     
     /**
@@ -36,7 +38,9 @@ public class BadRequestException extends Exception {
      */
     
     public BadRequestException( final String[] messages ) {
+        
         this( messages, DEFAULT_STATUS_CODE );
+        
     }
         
     /**
@@ -48,7 +52,9 @@ public class BadRequestException extends Exception {
      */
     
     public BadRequestException( final String message, final int statusCode ) {
+        
         this( new String[] { message }, statusCode );
+        
     }
     
     /**
@@ -60,8 +66,10 @@ public class BadRequestException extends Exception {
      */
     
     public BadRequestException( final String[] messages, final int statusCode ) {
+        
         this.messages = messages;
         this.statusCode = statusCode;
+        
     }
 
     /**
@@ -72,7 +80,9 @@ public class BadRequestException extends Exception {
      */
     
     public int getStatusCode() {
+        
         return statusCode;
+        
     }
     
     /**
@@ -83,7 +93,23 @@ public class BadRequestException extends Exception {
      */
     
     public String[] getMessages() {
+        
         return messages;
+        
+    }
+    
+    /**
+     *  Returns the error message, or the first if multiple were set
+     * 
+     *  @return 
+     * 
+     */
+    
+    @Override
+    public String getMessage() {
+        
+        return messages[ 0 ];
+        
     }
     
 }

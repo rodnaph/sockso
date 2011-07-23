@@ -39,7 +39,7 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
-public class Streamer extends WebAction {
+public class Streamer extends BaseAction {
     
     private static final int STREAM_BUFFER_SIZE = 1024 * 8; // 8Kb
 

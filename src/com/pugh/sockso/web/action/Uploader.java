@@ -31,7 +31,7 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
-public class Uploader extends WebAction {
+public class Uploader extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Uploader.class );
     

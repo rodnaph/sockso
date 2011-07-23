@@ -268,5 +268,63 @@ public class SocksoTestCase extends TestCase {
         }
         
     }
+    
+    /**
+     *  Creates and returns a new request object to the specified url as a GET
+     * 
+     *  @param url
+     * 
+     *  @return
+     * 
+     */
+    
+    protected TestRequest getRequest( final String url ) {
+        
+        return new TestRequest( "GET " +url+ " HTTP/1.1" );
+
+    }
+    
+    /**
+     *  Asserts a string ends with the specified string
+     * 
+     *  @param str 
+     *  @param substring
+     * 
+     */
+    
+    protected void assertEndsWith( final String str, final String substring ) {
+        
+        final String endString = str.substring( str.length() - substring.length() );
+        
+        if ( !endString.equals(substring) ) {
+            fail( "Expected string to end with '" +substring+ "'" );
+        }
+        
+    }
+    
+    /**
+     *  Asserts a string contains the specified number of occurances of the substring
+     * 
+     *  @param expected
+     *  @param str
+     *  @param substr 
+     * 
+     */
+    
+    protected void assertSubstringCount( final int expected, final String str, final String substr ) {
+        
+        int position = 0;
+        int total = 0;
+        
+        while ( (position = str.indexOf( substr, position )) != -1 ) {
+            position += substr.length();
+            total++;
+        }
+        
+        if ( total != expected ) {
+            fail( "Expctected to find " +expected+ " occurances of '" +substr+ "', but found " +total );
+        }
+        
+    }
 
 }

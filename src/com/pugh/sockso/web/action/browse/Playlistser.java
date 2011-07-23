@@ -6,7 +6,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Playlist;
 import com.pugh.sockso.templates.web.browse.TPlaylists;
 import com.pugh.sockso.web.User;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +21,7 @@ import java.util.Vector;
  * 
  */
 
-public class Playlistser extends WebAction {
+public class Playlistser extends BaseAction {
 
     /**
      *  shows the playlists

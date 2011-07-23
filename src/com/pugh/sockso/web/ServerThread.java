@@ -13,7 +13,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.action.Errorer;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 import com.pugh.sockso.web.log.DbRequestLogger;
 import com.pugh.sockso.web.log.RequestLogger;
 
@@ -144,7 +144,7 @@ public class ServerThread extends Thread {
                 req.getHeader("Referer"), req.getHeader("Cookie") );
         }
         
-        final WebAction action = dispatcher.getAction( req );
+        final BaseAction action = dispatcher.getAction( req );
         action.init( req, res, user, locale );
 
         if ( action == null ) {
@@ -171,7 +171,7 @@ public class ServerThread extends Thread {
      *
      */
 
-    protected boolean loginRequired( final User user, final WebAction action ) {
+    protected boolean loginRequired( final User user, final BaseAction action ) {
 
         return p.get( Constants.WWW_USERS_REQUIRE_LOGIN ).equals( p.YES )
             && user == null
@@ -191,9 +191,11 @@ public class ServerThread extends Thread {
     
     private void showException( final BadRequestException e, final Request req, final Response res, final boolean showStackTrace ) {
 
-        log.error( e );
-        if ( showStackTrace )
+        log.error( e.getMessage() );
+        
+        if ( showStackTrace ) {
             e.printStackTrace();
+        }
 
         final Errorer err = new Errorer( e, showStackTrace );
         err.setRequest( req );

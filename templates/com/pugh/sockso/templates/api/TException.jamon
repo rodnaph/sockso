@@ -1,0 +1,6 @@
+
+<%args>
+    String message = null;
+</%args>
+
+{ "errorMessage": "<% message %>" }

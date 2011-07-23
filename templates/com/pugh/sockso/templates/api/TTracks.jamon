@@ -1,0 +1,26 @@
+
+<%import>
+    com.pugh.sockso.music.Track;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Vector<Track> tracks = null;
+</%args>
+
+<%java>
+    boolean isFirst = true;
+</%java>
+
+[
+
+<%for final Track track : tracks %>
+
+    <%if !isFirst%>,</%if>
+    <%java>isFirst = false;</%java>
+
+    <& TTrack; track=track; &>
+
+</%for>
+
+]

@@ -1,0 +1,17 @@
+
+<%import>
+    com.pugh.sockso.music.Album;
+</%import>
+
+<%args>
+    Album album = null;
+</%args>
+
+{
+    "id": "<% album.getId() %>",
+    "name": "<% album.getName() %>",
+    "artist": {
+        "id": "<% album.getArtist().getId() %>",
+        "name": "<% album.getArtist().getName() %>"
+    }
+}

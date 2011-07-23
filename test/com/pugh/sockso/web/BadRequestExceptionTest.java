@@ -42,5 +42,10 @@ public class BadRequestExceptionTest extends TestCase {
         
     }
 
+    public void testGetMessageReturnsFirstMessage() {
+        assertEquals( "foo far", new BadRequestException("foo far").getMessage() );
+        assertEquals( "boo far", new BadRequestException("boo far",404).getMessage() );
+        assertEquals( "foo", new BadRequestException(new String[] { "foo", "far" }).getMessage() );
+    }
 
 }

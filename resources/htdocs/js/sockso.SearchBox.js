@@ -70,6 +70,22 @@ sockso.SearchBox = function( options ) {
     };
 
     /**
+     *  Makes a MusicItem object from a result object
+     * 
+     *  @return MusicItem
+     *  
+     */
+    
+    this.makeMusicItem = function( item ) {
+
+        return new MusicItem(
+            item.id,
+            item.name
+        );
+        
+    };
+
+    /**
      *  updates the search results with those specified and then
      *  shows the search drop-down box
      *
@@ -81,7 +97,8 @@ sockso.SearchBox = function( options ) {
 
         if ( items.length > 0 ) {
             for ( var i=0; i<items.length; i++ ) {
-                results.append( sockso.util.getMusicElement(items[i],true) );
+                var item = this.makeMusicItem( items[i] );
+                results.append( sockso.util.getMusicElement(item,true) );
             }
         }
 

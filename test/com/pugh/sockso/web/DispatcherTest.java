@@ -15,7 +15,7 @@ import com.pugh.sockso.web.action.Sharer;
 import com.pugh.sockso.web.action.Streamer;
 import com.pugh.sockso.web.action.Uploader;
 import com.pugh.sockso.web.action.Userer;
-import com.pugh.sockso.web.action.WebAction;
+import com.pugh.sockso.web.action.BaseAction;
 
 import com.pugh.sockso.web.action.admin.Console;
 
@@ -55,7 +55,7 @@ public class DispatcherTest extends TestCase {
         replay( req );
 
         final Dispatcher d = new Dispatcher( "http", 4444, new StringProperties(), null, null, null, null );
-        final WebAction a = d.getAction( req );
+        final BaseAction a = d.getAction( req );
         
         assertNull( a );
         

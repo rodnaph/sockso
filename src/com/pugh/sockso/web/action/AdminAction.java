@@ -8,7 +8,7 @@ import com.pugh.sockso.web.BadRequestException;
  *
  */
 
-public abstract class AdminAction extends WebAction {
+public abstract class AdminAction extends BaseAction {
 
     /**
      *  Checks request is ok for an admin action (ie. user is an admin)

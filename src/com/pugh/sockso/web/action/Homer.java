@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-public class Homer extends WebAction {
+public class Homer extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Homer.class );
 

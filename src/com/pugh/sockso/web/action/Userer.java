@@ -36,7 +36,7 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-public class Userer extends WebAction {
+public class Userer extends BaseAction {
     
     private static final Logger log = Logger.getLogger( Userer.class );
 
@@ -455,8 +455,10 @@ public class Userer extends WebAction {
         final User user = getUser();
         final Locale locale = getLocale();
         
-        if ( user != null )
+        if ( user != null ) {
+            log.debug( "User appears logged in: " +user.getId()+ " = '" +user.getName()+ "'" );
             throw new BadRequestException( locale.getString("www.error.alreadyLoggedIn"), 403 );
+        }
 
         final String todo = req.getArgument( "todo" );
         
@@ -522,11 +524,15 @@ public class Userer extends WebAction {
     
     protected void loginUser( final String name, final String pass ) throws SQLException, BadRequestException {
 
+        log.debug( "Login user with '" +name+ "' identified by '" +pass+ "'" );
+
         for ( final Authenticator auth : authenticators ) {
             
             try {
 
                 if ( auth.authenticate(name,pass) ) {
+
+                    log.debug( "Authentication ok, creating session" );
 
                     final User user = findOrCreateUser( name, pass );
                     final Session sess = new Session(
@@ -537,6 +543,8 @@ public class Userer extends WebAction {
 
                     sess.create( user.getId() );
 
+                    log.debug( "Session created!" );
+
                     return;
 
                 }
@@ -544,6 +552,7 @@ public class Userer extends WebAction {
             }
 
             catch ( final Exception e ) {
+                log.debug( "Error authenticating: " +e.getMessage() );
                 throw new BadRequestException( e.getMessage() );
             }
             

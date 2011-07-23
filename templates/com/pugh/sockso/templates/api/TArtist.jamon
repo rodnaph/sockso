@@ -1,0 +1,30 @@
+
+<%import>
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.music.Album;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Artist artist = null;
+    Vector<Album> albums = null;
+</%args>
+
+<%java>
+    boolean isFirst = true;
+</%java>
+
+{
+    "id": "<% artist.getId() %>",
+    "name": "<% artist.getName() %>",
+    "albums": [
+        <%for Album album : albums %>
+            <%if !isFirst%>,</%if>
+            <%java>isFirst=false;</%java>
+            {
+                "id": "<% album.getId() %>",
+                "name": "<% album.getName() %>"
+            }
+        </%for>
+    ]
+}

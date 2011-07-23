@@ -1,0 +1,28 @@
+
+<%import>
+    com.pugh.sockso.music.Playlist;
+    com.pugh.sockso.music.Track;
+    java.util.Vector;
+</%import>
+
+<%args>
+    Playlist playlist = null;
+    Vector<Track> tracks = null;
+</%args>
+
+{
+
+    "id": <% playlist.getId() %>,
+    "name": "<% playlist.getName() %>",
+    "tracks": <& TTracks; tracks=tracks; &>
+
+    <%if playlist.getUser() != null %>
+
+        , "user": {
+            "id": <% playlist.getUser().getId() %>,
+            "name": "<% playlist.getUser().getName() %>"
+        }
+
+    </%if>
+
+}

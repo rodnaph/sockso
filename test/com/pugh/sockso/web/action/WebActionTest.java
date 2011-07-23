@@ -22,7 +22,7 @@ public class WebActionTest extends SocksoTestCase {
      * 
      */
     
-    class MyWebAction extends WebAction {
+    class MyWebAction extends BaseAction {
         public void handleRequest() {}
     }
     
@@ -111,7 +111,7 @@ public class WebActionTest extends SocksoTestCase {
         expect( req2.getArgument("trackType") ).andReturn( "" ).times( 1 );
         replay( req2 );
 
-        final WebAction wa = new MyWebAction();
+        final BaseAction wa = new MyWebAction();
 
         wa.setRequest( req1 );
         final String filter1 = wa.getTrackTypeSqlFilter();

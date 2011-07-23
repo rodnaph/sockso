@@ -145,6 +145,7 @@ public class Session {
             rs = st.executeQuery();
 
             if ( rs.next() ) {
+                log.debug( "Fetched user!" );
                 user = new User(
                     rs.getInt("id"),
                     rs.getString("name"),

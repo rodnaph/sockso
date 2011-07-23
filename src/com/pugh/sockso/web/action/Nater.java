@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-public class Nater extends WebAction {
+public class Nater extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Nater.class );
     

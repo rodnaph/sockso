@@ -28,7 +28,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.log4j.Logger;
 
-public class Downloader extends WebAction {
+public class Downloader extends BaseAction {
     
     private static final String VARIOUS_ARTISTS = "various_artists";
     private static final String VARIOUS_ALBUMS = "various_albums";

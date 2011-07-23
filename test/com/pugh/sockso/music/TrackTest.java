@@ -242,5 +242,58 @@ public class TrackTest extends SocksoTestCase {
         Vector<Track> tracks = Track.getTracksFromPath( db, "/music" );
         assertEquals( 2, tracks.size() );
     }
+    
+    public void testFindingTrackWithNonExistantIdReturnsNull() throws Exception {
+        assertNull( Track.find(new TestDatabase(),1) );
+    }
+    
+    public void testFindingTrackReturnsIt() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "singleTrack" );
+        Track track = Track.find( db, 1 );
+        assertEquals( "My Track", track.getName() );
+    }
+    
+    public void testFindingTrackReturnsArtistObjectWithTrack() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "singleTrack" );
+        Track track = Track.find( db, 1 );
+        assertEquals( "My Album", track.getAlbum().getName() );
+    }
+
+    public void testFindingTrackReturnsAlbumObjectWithTrack() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "singleTrack" );
+        Track track = Track.find( db, 1 );
+        assertEquals( "My Artist", track.getArtist().getName() );
+    }
+    
+    public void testFindallReturnsAllTracksRequested() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "artistsAlbumsAndTracks" );
+        Vector<Track> tracks = Track.findAll( db, 100, 0 );
+        assertEquals( 3, tracks.size() );
+    }
+    
+    public void testFindallCanBeLimited() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "artistsAlbumsAndTracks" );
+        Vector<Track> tracks = Track.findAll( db, 2, 0 );
+        assertEquals( 2, tracks.size() );
+    }
+    
+    public void testFindallCanBeOffset() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "artistsAlbumsAndTracks" );
+        Vector<Track> tracks = Track.findAll( db, 100, 1 );
+        assertEquals( 2, tracks.size() );
+    }
+    
+    public void testFindallWithLimitOfMinusOneMeansNoLimit() throws Exception {
+        TestDatabase db = new TestDatabase();
+        db.fixture( "artistsAlbumsAndTracks" );
+        Vector<Track> tracks = Track.findAll( db, -1, 0 );
+        assertEquals( 3, tracks.size() );
+    }
 
 }
