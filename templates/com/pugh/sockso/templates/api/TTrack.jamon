@@ -1,6 +1,7 @@
 
 <%import>
     com.pugh.sockso.music.Track;
+    com.pugh.sockso.JsonUtils;
 </%import>
 
 <%args>
@@ -9,16 +10,16 @@
 
 {
     "id": <% track.getId() %>,
-    "name": "<% track.getName() #j %>",
+    "name": <% JsonUtils.string(track.getName()) %>,
 
     "album": {
         "id": <% track.getAlbum().getId() %>,
-        "name": "<% track.getAlbum().getName() #j %>"
+        "name": <% JsonUtils.string(track.getAlbum().getName()) %>
     },
 
     "artist": {
         "id": <% track.getArtist().getId() %>,
-        "name": "<% track.getArtist().getName() #j %>"
+        "name": <% JsonUtils.string(track.getArtist().getName()) %>
     }
 
 }

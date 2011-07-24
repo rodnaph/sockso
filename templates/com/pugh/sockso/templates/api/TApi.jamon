@@ -3,7 +3,7 @@
     com.pugh.sockso.Constants;
     com.pugh.sockso.Sockso;
     com.pugh.sockso.Properties;
-    com.pugh.sockso.Utils;
+    com.pugh.sockso.JsonUtils;
 </%import>
 
 <%args>
@@ -17,8 +17,8 @@
 </%java>
 
 {
-    "title": "<% properties.get(Constants.WWW_TITLE) #j %>",
-    "tagline": "<% properties.get(Constants.WWW_TAGLINE) #j %>",
+    "title": <% JsonUtils.string(properties.get(Constants.WWW_TITLE)) %>,
+    "tagline": <% JsonUtils.string(properties.get(Constants.WWW_TAGLINE)) %>,
     "version": "<% Sockso.VERSION %>",
     "requiresLogin": "<% requiresLogin %>"
 }

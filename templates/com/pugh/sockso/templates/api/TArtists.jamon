@@ -1,6 +1,7 @@
 
 <%import>
     com.pugh.sockso.music.Artist;
+    com.pugh.sockso.JsonUtils;
     java.util.Vector;
 </%import>
 
@@ -20,7 +21,7 @@
 
         {
             "id": <% artist.getId() %>,
-            "name": "<% artist.getName() #j %>",
+            "name": <% JsonUtils.string(artist.getName()) %>,
             "date_added": "<% artist.getDateAdded().toString() %>"
         }
 

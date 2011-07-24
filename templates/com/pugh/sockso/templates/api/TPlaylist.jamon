@@ -2,6 +2,7 @@
 <%import>
     com.pugh.sockso.music.Playlist;
     com.pugh.sockso.music.Track;
+    com.pugh.sockso.JsonUtils;
     java.util.Vector;
 </%import>
 
@@ -13,14 +14,14 @@
 {
 
     "id": <% playlist.getId() %>,
-    "name": "<% playlist.getName() #j %>",
+    "name": <% JsonUtils.string(playlist.getName()) %>,
     "tracks": <& TTracks; tracks=tracks; &>
 
     <%if playlist.getUser() != null %>
 
         , "user": {
             "id": <% playlist.getUser().getId() %>,
-            "name": "<% playlist.getUser().getName() #j %>"
+            "name": <% JsonUtils.string(playlist.getUser().getName()) %>
         }
 
     </%if>

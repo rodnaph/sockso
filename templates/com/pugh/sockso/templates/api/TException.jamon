@@ -1,6 +1,10 @@
 
+<%import>
+    com.pugh.sockso.JsonUtils;
+</%import>
+
 <%args>
     String message = null;
 </%args>
 
-{ "errorMessage": "<% message #j %>" }
+{ "errorMessage": <% JsonUtils.string(message) %> }

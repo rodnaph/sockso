@@ -1,5 +1,5 @@
 <%import>
-    com.pugh.sockso.Utils;
+    com.pugh.sockso.JsonUtils;
     com.pugh.sockso.music.Playlist;
     java.util.Vector;
 </%import>
@@ -19,12 +19,12 @@
 
         {
             "id": <% playlist.getId() %>,
-            "name": "<% playlist.getName() #j %>",
+            "name": <% JsonUtils.string(playlist.getName()) %>,
 
             <%if playlist.getUser() != null %>
                 , "user": {
                     "id": <% playlist.getUser().getId() %>,
-                    "name": "<% playlist.getUser().getName() #j %>"
+                    "name": <% JsonUtils.string(playlist.getUser().getName()) %>
                 }
             </%if>
         }

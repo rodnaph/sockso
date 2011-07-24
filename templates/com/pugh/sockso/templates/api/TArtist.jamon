@@ -2,6 +2,7 @@
 <%import>
     com.pugh.sockso.music.Artist;
     com.pugh.sockso.music.Album;
+    com.pugh.sockso.JsonUtils;
     java.util.Vector;
 </%import>
 
@@ -16,14 +17,14 @@
 
 {
     "id": <% artist.getId() %>,
-    "name": "<% artist.getName() #j %>",
+    "name": <% JsonUtils.string(artist.getName()) %>,
     "albums": [
         <%for Album album : albums %>
             <%if !isFirst%>,</%if>
             <%java>isFirst=false;</%java>
             {
                 "id": <% album.getId() %>,
-                "name": "<% album.getName() #j %>"
+                "name": <% JsonUtils.string(album.getName()) %>
             }
         </%for>
     ]
