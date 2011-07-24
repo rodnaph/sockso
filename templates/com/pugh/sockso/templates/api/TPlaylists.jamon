@@ -19,10 +19,13 @@
 
         {
             "id": <% playlist.getId() %>,
-            "name": "<% Utils.escapeJs(playlist.getName()) %>",
+            "name": "<% playlist.getName() #j %>",
 
             <%if playlist.getUser() != null %>
-                , "user": { "id": <% playlist.getUser().getId() %>, "name": "<% playlist.getUser().getName() %>" }
+                , "user": {
+                    "id": <% playlist.getUser().getId() %>,
+                    "name": "<% playlist.getUser().getName() #j %>"
+                }
             </%if>
         }
 

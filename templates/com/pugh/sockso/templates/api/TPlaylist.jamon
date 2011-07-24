@@ -13,14 +13,14 @@
 {
 
     "id": <% playlist.getId() %>,
-    "name": "<% playlist.getName() %>",
+    "name": "<% playlist.getName() #j %>",
     "tracks": <& TTracks; tracks=tracks; &>
 
     <%if playlist.getUser() != null %>
 
         , "user": {
             "id": <% playlist.getUser().getId() %>,
-            "name": "<% playlist.getUser().getName() %>"
+            "name": "<% playlist.getUser().getName() #j %>"
         }
 
     </%if>

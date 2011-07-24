@@ -8,17 +8,17 @@
 </%args>
 
 {
-    "id": "<% track.getId() %>",
-    "name": "<% track.getName() %>",
+    "id": <% track.getId() %>,
+    "name": "<% track.getName() #j %>",
 
     "album": {
-        "id": "<% track.getAlbum().getId() %>",
-        "name": "<% track.getAlbum().getName() %>"
+        "id": <% track.getAlbum().getId() %>,
+        "name": "<% track.getAlbum().getName() #j %>"
     },
 
     "artist": {
-        "id": "<% track.getArtist().getId() %>",
-        "name": "<% track.getArtist().getName() %>"
+        "id": <% track.getArtist().getId() %>,
+        "name": "<% track.getArtist().getName() #j %>"
     }
 
 }

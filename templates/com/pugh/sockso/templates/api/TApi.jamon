@@ -17,8 +17,8 @@
 </%java>
 
 {
-    "title": "<% properties.get(Constants.WWW_TITLE).replace("\"","\\\"") %>",
-    "tagline": "<% properties.get(Constants.WWW_TAGLINE).replace("\"","\\\"") %>",
+    "title": "<% properties.get(Constants.WWW_TITLE) #j %>",
+    "tagline": "<% properties.get(Constants.WWW_TAGLINE) #j %>",
     "version": "<% Sockso.VERSION %>",
     "requiresLogin": "<% requiresLogin %>"
 }

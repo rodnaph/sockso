@@ -19,8 +19,8 @@
         <%java>isFirst = false;</%java>
 
         {
-            "id": "<% artist.getId() %>",
-            "name": "<% artist.getName() %>",
+            "id": <% artist.getId() %>,
+            "name": "<% artist.getName() #j %>",
             "date_added": "<% artist.getDateAdded().toString() %>"
         }
 

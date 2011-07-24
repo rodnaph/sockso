@@ -15,15 +15,15 @@
 </%java>
 
 {
-    "id": "<% artist.getId() %>",
-    "name": "<% artist.getName() %>",
+    "id": <% artist.getId() %>,
+    "name": "<% artist.getName() #j %>",
     "albums": [
         <%for Album album : albums %>
             <%if !isFirst%>,</%if>
             <%java>isFirst=false;</%java>
             {
-                "id": "<% album.getId() %>",
-                "name": "<% album.getName() %>"
+                "id": <% album.getId() %>,
+                "name": "<% album.getName() #j %>"
             }
         </%for>
     ]

@@ -3,4 +3,4 @@
     String message = null;
 </%args>
 
-{ "errorMessage": "<% message %>" }
+{ "errorMessage": "<% message #j %>" }

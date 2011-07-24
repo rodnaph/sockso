@@ -1,6 +1,7 @@
 
 <%import>
     com.pugh.sockso.music.Album;
+    com.pugh.sockso.Utils;
 </%import>
 
 <%args>
@@ -8,10 +9,10 @@
 </%args>
 
 {
-    "id": "<% album.getId() %>",
-    "name": "<% album.getName() %>",
+    "id": <% album.getId() %>,
+    "name": "<% Utils.u2e(album.getName()) #j %>",
     "artist": {
-        "id": "<% album.getArtist().getId() %>",
-        "name": "<% album.getArtist().getName() %>"
+        "id": <% album.getArtist().getId() %>,
+        "name": "<% Utils.u2e(album.getArtist().getName()) #j %>"
     }
 }
