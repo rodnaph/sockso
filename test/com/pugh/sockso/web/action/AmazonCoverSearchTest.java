@@ -25,6 +25,29 @@ public class AmazonCoverSearchTest extends SocksoTestCase {
 
     }
 
+    public void testGetCoverFrom2011SearchResults() throws IOException {
+        
+        String[] paths = {
+            "http://ecx.images-amazon.com/images/I/51G8JLb-dkL._AA160_.jpg",
+            "http://ecx.images-amazon.com/images/I/61M2Itz5zmL._AA115_.jpg",
+            "http://ecx.images-amazon.com/images/I/51CSdWeDz4L._AA160_.jpg"
+        };
+
+        for ( String origCover : paths ) {
+                
+            final String data = "da khsdk jahdjk hkjas dkj" +
+                                "           junk <img src=\"" +origCover+ "\" more crap\n" +
+                                " blah blah";
+            final MyHttpURLConnection cnn = new MyHttpURLConnection( data );
+            final AmazonCoverSearch s = new AmazonCoverSearch( null );
+            final String fetchedCover = s.getCoverFromSearchResults( cnn );
+
+            assertEquals( origCover, fetchedCover );
+        
+        }
+
+    }
+
     public void testGetCoverFromSearchResultsNoResults() throws IOException {
 
         final AmazonCoverSearch s = new AmazonCoverSearch( null );

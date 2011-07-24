@@ -91,7 +91,7 @@ public class AmazonCoverSearch extends AbstractCoverSearch {
 
     protected String getCoverUrl( final String keywords  ) throws IOException {
         
-        final String searchUrl = "http://amazon.com/s/?url=search-alias%3Dpopular&field-keywords=" + Utils.URLEncode(keywords);
+        final String searchUrl = "http://www.amazon.com/s/?url=search-alias%3Dpopular&field-keywords=" + Utils.URLEncode(keywords);
 
         log.debug( "Amazon query: " +searchUrl );
         
@@ -150,12 +150,23 @@ public class AmazonCoverSearch extends AbstractCoverSearch {
 
     protected String getCoverFromData( final String data ) {
 
-        final Pattern pattern = Pattern.compile( ".*img src=\"(http://\\w+.images-amazon.com/images/\\w+/.+?_SL.+?_A.+?_\\.(jpg|gif|png))\\\".*" );
-        final Matcher m = pattern.matcher( data );
+        final String[] patterns = {
+            ".*img src=\"(http://\\w+.images-amazon.com/images/\\w+/.+?_SL.+?_A.+?_\\.(jpg|gif|png))\\\".*",
+            ".*img src=\"(http://\\w+.images-amazon.com/images/\\w+/.+?_AA\\d+_\\.(jpg|gif|png))\\\".*"
+        };
+        
+        for ( final String patternString : patterns ) {
+            
+            final Pattern pattern = Pattern.compile( patternString );
+            final Matcher m = pattern.matcher( data );
 
-        return m.matches()
-            ? m.group( 1 )
-            : null;
+            if ( m.matches() ) {
+                return m.group( 1 );
+            }
+            
+        }
+        
+        return null;
 
     }
 
