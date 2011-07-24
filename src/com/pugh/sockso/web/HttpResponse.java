@@ -403,7 +403,7 @@ public class HttpResponse implements Response {
         addHeader( "Content-type", "text/plain" );
         sendHeaders();
 
-        final OutputStreamWriter out = new OutputStreamWriter( stream );
+        final OutputStreamWriter out = new OutputStreamWriter( stream, "UTF8" );
         
         out.write( text );
         out.flush();
@@ -449,7 +449,7 @@ public class HttpResponse implements Response {
             ? new GZIPOutputStream(stream)
             : stream;
         
-        renderer.renderTo( new OutputStreamWriter(out) );
+        renderer.renderTo( new OutputStreamWriter(out,"UTF8") );
 
         if ( doGzip )
             ( (GZIPOutputStream) out ).finish();
