@@ -33,8 +33,8 @@ sockso.JPlayerPlaylistItem = function(trackId, trackName, artistId, artistName, 
  * @see http://www.happyworm.com
  * 
  * @param {string} cssPrefix 
- * @param {string}Êskin
- * @param {boolean} random      Enable random playback
+ * @param {string} skin
+ * @param {boolean} random Enable random playback
  * @type void
  */ 
 sockso.JPlayer = function(cssPrefix, skin, random) {
