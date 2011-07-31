@@ -1,16 +1,17 @@
-
 <%import>
     com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     com.pugh.sockso.Utils;
     com.pugh.sockso.music.Track;
     java.util.Vector;
+    com.pugh.sockso.resources.Locale;
 </%import>
 
 <%args>
     Properties properties = null;
     Vector<Track> tracks = null;
     boolean random = false;
+    Locale locale = null;
 </%args>
 
 <%java>
@@ -41,12 +42,9 @@ Properties.setData({'<% Utils.escapeJs(Constants.SERVER_BASE_PATH) %>':'<% Utils
 
 var jplayer;
 
-
-var html5player;
-
 $(document).ready( function() {
 
-  jplayer = new sockso.JPlayer('jp', '<% skin %>', <%if random %>true<%else>false</%if>)
+   jplayer = new sockso.JPlayer('jp', '<% skin %>', <%if random %>true<%else>false</%if>);
 
     <%for final Track track : tracks %>
         jplayer.addTrack(
@@ -57,7 +55,7 @@ $(document).ready( function() {
             '<% Utils.escapeJs(track.getArtist().getName()) %>',
             '<% track.getAlbum().getId() %>',
             '<% Utils.escapeJs(track.getAlbum().getName()) %>'
-          );
+          ));
     </%for>
 });
 
@@ -67,28 +65,28 @@ $(document).ready( function() {
 
 <body class="plain">
 
-<div id="jquery_jplayer" class="jp-jplayer"></div>
+<div id="jp_jplayer" class="jp-jplayer"></div>
 
 <div class="jp-audio">
   <div class="jp-type-playlist">
-    <div id="jp_trackinfo">
-      <div class="albumcover">
+    <div id="jp_trackinfo" class="jp-trackinfo">
+      <div class="albumCover">
         
       </div>
 
       <div class="info">
         <div class="row">
-          <label for="trackName">Track</label><br />
+        <label for="trackName"><% locale.getString("www.label.track") %></label><br />
           <div class="trackName"></div>
         </div>
 
         <div class="row">
-          <label for="arstistName">Artist</label><br />
-          <div class="arstistName"></div>
+          <label for="artistName"><% locale.getString("www.label.artist") %></label><br />
+          <div class="artistName"></div>
         </div>
 
         <div class="row">
-          <label for="albumName">Album</label><br />
+          <label for="albumName"><% locale.getString("www.label.album") %></label><br />
           <div class="albumName"></div>
         </div>
       </div>
@@ -116,11 +114,13 @@ $(document).ready( function() {
       <div class="jp-volume-bar">
         <div class="jp-volume-bar-value"></div>
       </div>
+      
+      <a href="#" class="jp-random"></a>
+
       <div class="jp-current-time"></div>
       <div class="jp-duration"></div>
     </div>
-
-    <div id="jp_playlist" class="jp-playlist">
+<div id="jp_playlist" class="jp-playlist">
       <ul>
         <!-- The method Playlist.displayPlaylist() uses this unordered list -->
         <li></li>
@@ -132,3 +132,5 @@ $(document).ready( function() {
 
 </body>
 </html>
+
+ 
