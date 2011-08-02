@@ -1,11 +1,3 @@
-/*
- * Xmler.java
- * 
- * Created on Jun 16, 2007, 4:46:36 PM
- * 
- * Generates a number of JSON documents
- * 
- */
 
 package com.pugh.sockso.web.action;
 
@@ -34,11 +26,6 @@ import java.sql.PreparedStatement;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import java.net.URL;
-import java.net.HttpURLConnection;
 
 import java.util.Vector;
 import java.util.ArrayList;
@@ -538,7 +525,7 @@ public class Jsoner extends BaseAction {
      * 
      */
     
-    public void search() throws SQLException, IOException {
+    protected void search() throws SQLException, IOException {
         
         final MusicSearch musicSearch = new MusicSearch( getDatabase() );
         

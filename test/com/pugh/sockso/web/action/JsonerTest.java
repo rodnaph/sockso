@@ -210,5 +210,26 @@ public class JsonerTest extends SocksoTestCase {
             fail( "Track 2 should have been ordered before track 1" );
         }
     }
+    
+    public void testTrackSearchResultsIncludeTheArtist() throws Exception {
+        db.fixture( "singleTrack" );
+        js.setRequest(getRequest( "/json/search/My+Track" ));
+        js.handleRequest();
+        assertContains( res.getOutput(), "My Artist" );
+    }
+    
+    public void testTrackSearchResultsIncludeTheAlbum() throws Exception {
+        db.fixture( "singleTrack" );
+        js.setRequest(getRequest( "/json/search/My+Track" ));
+        js.handleRequest();
+        assertContains( res.getOutput(), "My Album" );
+    }
+    
+    public void testAlbumSearchResultsIncludeTheArtist() throws Exception {
+        db.fixture( "singleTrack" );
+        js.setRequest(getRequest( "/json/search/My+Album" ));
+        js.handleRequest();
+        assertContains( res.getOutput(), "My Artist" );
+    }
 
 }

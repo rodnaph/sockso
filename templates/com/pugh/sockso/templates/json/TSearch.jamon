@@ -1,7 +1,11 @@
 
 <%import>
     com.pugh.sockso.Utils;
+    com.pugh.sockso.JsonUtils;
     com.pugh.sockso.music.MusicItem;
+    com.pugh.sockso.music.Album;
+    com.pugh.sockso.music.Artist;
+    com.pugh.sockso.music.Track;
     java.util.Vector;
     </%import>
 <%args>
@@ -15,11 +19,50 @@
 
  [
     <%for MusicItem item : items %>
-    <%if !firstItem %>,</%if><%java>firstItem = false;</%java>
-    {
-        "id": "<% item.getType().substring(0,2).toLowerCase() %><% item.getId() %>",
-        "name": "<% Utils.u2e(item.getName()) #n %>"
-    }
+
+        <%if !firstItem %>,</%if>
+        <%java>firstItem = false;</%java>
+
+        {
+            "id": "<% item.getType().substring(0,2).toLowerCase() %><% item.getId() %>",
+            "name": <% JsonUtils.string(item.getName()) %>
+
+            <%if item.getClass().equals(Track.class) %>
+
+                <%java>
+                Track track = (Track) item;
+                Artist artist = track.getArtist();
+                Album album = track.getAlbum();
+                </%java>
+
+                , "artist": {
+                    "id": "ar<% artist.getId() %>",
+                    "name": <% JsonUtils.string(artist.getName()) %>
+                },
+
+                "album": {
+                    "id": "ar<% album.getId() %>",
+                    "name": <% JsonUtils.string(album.getName()) %>
+                }
+
+            </%if>
+
+            <%if item.getClass().equals(Album.class) %>
+
+                <%java>
+                Album album = (Album) item;
+                Artist artist = album.getArtist();
+                </%java>
+
+                , "artist": {
+                    "id": "ar<% artist.getId() %>",
+                    "name": <% JsonUtils.string(artist.getName()) %>
+                },
+
+            </%if>
+
+        }
+
     </%for>
 ]
 
