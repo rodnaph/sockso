@@ -58,4 +58,11 @@ public class ArtistActionTest extends SocksoTestCase {
         }
     }
     
+    public void testYearsAreListedWithTheArtistsAlbums() throws Exception {
+        action.setRequest(getRequest( "/api/artists/1" ));
+        action.handleRequest();
+        assertContains( res.getOutput(), "1984" );
+        assertContains( res.getOutput(), "1985" );
+    }
+    
 }

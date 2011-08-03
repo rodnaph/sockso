@@ -24,7 +24,8 @@
             <%java>isFirst=false;</%java>
             {
                 "id": <% album.getId() %>,
-                "name": <% JsonUtils.string(album.getName()) %>
+                "name": <% JsonUtils.string(album.getName()) %>,
+                "year": <% JsonUtils.string(album.getYear()) %>
             }
         </%for>
     ]
