@@ -57,7 +57,7 @@
                 , "artist": {
                     "id": "ar<% artist.getId() %>",
                     "name": <% JsonUtils.string(artist.getName()) %>
-                },
+                }
 
             </%if>
 
