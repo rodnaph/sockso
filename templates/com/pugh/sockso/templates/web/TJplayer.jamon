@@ -115,7 +115,7 @@ $(document).ready( function() {
         <div class="jp-volume-bar-value"></div>
       </div>
       
-      <a href="#" class="jp-random"></a>
+      <a href="#" class="jp-random" title="<% locale.getString("www.link.playRandom") %>"></a>
 
       <div class="jp-current-time"></div>
       <div class="jp-duration"></div>

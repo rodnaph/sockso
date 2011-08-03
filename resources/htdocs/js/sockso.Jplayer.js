@@ -38,7 +38,18 @@ sockso.JPlayerPlaylistItem = function(trackId, trackName, artistId, artistName, 
  * @type void
  */ 
 sockso.JPlayer = function(cssPrefix, skin, random) {
+  
+  // Keycodes for keyboard shortcuts and the appropiate action
+  this.KEYBOARD_SHORTCUTS = {87: "volumeUp", 38: "volumeUp",
+                             83: "volumeDown", 40: "volumeDown",
+                             65: "playlistPrev", 37: "playlistPrev",
+                             68: "playlistNext", 39: "playlistNext",
+                             32: "togglePause", 80: "togglePause"};
+  
   var self = this;
+  
+  this.paused = true;
+  this.volume = 0.8;
   
   this.playlist = [];
   this.cssPrefix = cssPrefix;
@@ -57,11 +68,12 @@ sockso.JPlayer = function(cssPrefix, skin, random) {
 			$(this).jPlayer("pauseOthers");
 		},
     supplied: "mp3",
-    swfPath: "/file/flash/"
+    swfPath: "/file/flash/",
+    volume: this.volume
   };
 
   
-  // Currently player item
+  // Current player item
   this.current = 0;
   if(this.random) {
     this.current = ( 0 + parseInt( Math.random() * ( this.playlist.length-1 ) ) );
@@ -77,6 +89,7 @@ sockso.JPlayer = function(cssPrefix, skin, random) {
 
   this.options.cssSelectorAncestor = this.cssSelector.interface;
   
+  // Check if random playing is enabled
   if(this.random == true) {
     $(this.cssSelector.interface + " .jp-random").addClass("jp-random-enabled");
   }
@@ -86,6 +99,7 @@ sockso.JPlayer = function(cssPrefix, skin, random) {
   
   $(this.cssSelector.jPlayer).jPlayer(this.options);
 
+  // Bind custom button actions
   $(this.cssSelector.interface + " .jp-previous").click(function() {
     self.playlistPrev();
     $(this).blur();
@@ -103,6 +117,25 @@ sockso.JPlayer = function(cssPrefix, skin, random) {
     $(this).blur();
     return false;
   });
+  
+  // Since jPlayer does not support status querying
+  // we have to cache these values ourselves.
+  $(this.cssSelector.jPlayer).bind($.jPlayer.event.volumechange, function(event) { 
+    this.volume = event.jPlayer.status.volume;
+  }.bind(this));
+  
+  $(this.cssSelector.jPlayer).bind($.jPlayer.event.pause, function(event) { 
+    this.paused = true;
+  }.bind(this));
+  
+  $(this.cssSelector.jPlayer).bind($.jPlayer.event.play, function(event) { 
+    this.paused = false;
+  }.bind(this));
+  
+  // Add a keyboard shortcut handler
+  // We use keydown because keypress wouldn't work with 
+  // the arrow keys
+  $( document ).keydown(this.keydownHandler.bind(this));
 };
 
 $.extend( sockso.JPlayer.prototype, {
@@ -119,6 +152,7 @@ $.extend( sockso.JPlayer.prototype, {
   
   /**
    * Displays the playlist
+   * 
    * @type void
    */
   displayPlaylist: function() {
@@ -148,6 +182,13 @@ $.extend( sockso.JPlayer.prototype, {
 				});
 			}
 		},
+    
+    /**
+     * Initialize the playlist
+     * 
+     * @param {boolean} autoplay  Start playing automatically?
+     * @type void
+     */
 		playlistInit: function(autoplay) {
 			if(autoplay) {
 				this.playlistChange(this.current);
@@ -155,6 +196,14 @@ $.extend( sockso.JPlayer.prototype, {
 				this.playlistConfig(this.current);
 			}
 		},
+    
+    /**
+     * Update the information for the actually
+     * played song
+     * 
+     * @param {number} index  Index of the song which is being played
+     * @type void
+     */
 		playlistConfig: function(index) {
 			$(this.cssSelector.playlist + "_item_" + this.current).removeClass("jp-playlist-current").parent().removeClass("jp-playlist-current");
 			$(this.cssSelector.playlist + "_item_" + index).addClass("jp-playlist-current").parent().addClass("jp-playlist-current");
@@ -175,10 +224,23 @@ $.extend( sockso.JPlayer.prototype, {
       $(this.cssSelector.trackinfo + " .albumName").html(this.playlist[this.current].albumName);
       $(this.cssSelector.trackinfo + " .trackName").html(this.playlist[this.current].trackName);
 		},
+    
+    /**
+     * Change the actually played song
+     * 
+     * @param {number} index  Index of the song to play
+     * @type void
+     */
 		playlistChange: function(index) {
 			this.playlistConfig(index);
 			$(this.cssSelector.jPlayer).jPlayer("play");
 		},
+    
+    /**
+     * Play the next track
+     * 
+     * @type void
+     */
 		playlistNext: function() {
       var index;
       
@@ -191,13 +253,31 @@ $.extend( sockso.JPlayer.prototype, {
       
 			this.playlistChange(index);
 		},
+    
+    /**
+     * Play the previous track
+     * 
+     * @type void
+     */
 		playlistPrev: function() {
 			var index = (this.current - 1 >= 0) ? this.current - 1 : this.playlist.length - 1;
 			this.playlistChange(index);
 		},
+    
+    /**
+     * Start playing
+     * 
+     * @type void
+     */
     play: function() {
       $(this.cssSelector.jPlayer).jPlayer("play");
     },
+    
+    /**
+     * Toggles the random play ("shuffle") mode
+     * 
+     * @type void
+     */
     toggleRandom: function(){
       if(this.random == true) {
         this.random = false;
@@ -207,7 +287,60 @@ $.extend( sockso.JPlayer.prototype, {
         this.random = true;
         $(this.cssSelector.interface + " .jp-random").addClass("jp-random-enabled");
       }
+    },
+    
+    /**
+     *  Handle keypress events for shortcuts
+     *  Hotkeys are defined in KEYBOARD_SHORTCUTS
+     *    
+     *  @param event
+     *  @type void
+     */
+    keydownHandler: function (event) {
+      
+      event.preventDefault();
+      event.stopPropagation();
+      
+      var keyCode = event.keyCode || event.which;
+      
+      // Call the action if it exists
+      if(this.KEYBOARD_SHORTCUTS[keyCode] != undefined) {
+        this[this.KEYBOARD_SHORTCUTS[keyCode]]();
+      }
+    },
+    
+    /**
+     * Toggles pause on/off
+     * 
+     * @type void
+     */
+    togglePause: function() {
+      if(this.paused) {
+        this.play();
+      }
+      else {
+        $(this.cssSelector.jPlayer).jPlayer("pause");
+      }
+    },
+    
+    /**
+     * Increases the volume by 10%
+     * 
+     * @type void
+     */
+    volumeUp: function() {
+      $(this.cssSelector.jPlayer).jPlayer("volume", this.volume + 0.1)
+    },
+    
+    /**
+     * Decreases the volume by 10%
+     * 
+     * @type void
+     */
+    volumeDown: function() {
+      $(this.cssSelector.jPlayer).jPlayer("volume", this.volume - 0.1)
     }
+    
 });
 
 
