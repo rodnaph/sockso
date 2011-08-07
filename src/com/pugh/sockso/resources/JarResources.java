@@ -21,6 +21,9 @@ import java.awt.Toolkit;
 
 import java.util.Vector;
 
+import com.google.inject.Singleton;
+
+@Singleton
 public class JarResources extends AbstractResources {
 
     private static ClassLoader classLoader;

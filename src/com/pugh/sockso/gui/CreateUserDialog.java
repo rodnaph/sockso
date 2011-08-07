@@ -1,11 +1,3 @@
-/*
- * CreateUser.java
- * 
- * Created on Aug 19, 2007, 11:39:45 AM
- * 
- * Allows creating a new user
- *
- */
 
 package com.pugh.sockso.gui;
 
@@ -39,25 +31,31 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class CreateUserDialog extends JDialog {
 
     private static Logger log = Logger.getLogger( CreateUserDialog.class );
     
-    private Database db;
-    private Resources r;
-    private UsersPanel usersPanel;
+    private final Database db;
+    private final Resources r;
+    private final UsersPanel usersPanel;
+    private final Locale locale;
     
     private JTextField txtName, txtEmail;
     private JPasswordField txtPass1, txtPass2;
     private JCheckBox isAdmin;
     
-    public CreateUserDialog( JFrame parent, Database db, Resources r, UsersPanel usersPanel ) {
+    @Inject
+    public CreateUserDialog( final JFrame parent, final Database db, final Resources r,
+                             final UsersPanel usersPanel, final Locale locale ) {
         
-        super( parent, r.getCurrentLocale().getString("gui.title.creatingUser") );
+        super( parent, locale.getString("gui.title.creatingUser") );
         
         this.db = db;
         this.r = r;
         this.usersPanel = usersPanel;
+        this.locale = locale;
         
         createComponents();
         
@@ -101,8 +99,6 @@ public class CreateUserDialog extends JDialog {
     
     private JPanel getMainPane() {
         
-        Locale locale = r.getCurrentLocale();
-        
         FormLayout layout = new FormLayout(
             " right:max(40dlu;pref), 3dlu, 150dlu, 7dlu "
         );
@@ -132,8 +128,6 @@ public class CreateUserDialog extends JDialog {
      */
     
     private JPanel getButtonPane() {
-        
-        Locale locale = r.getCurrentLocale();
         
         JButton create = new JButton( locale.getString("gui.label.createUser"), new ImageIcon(r.getImage("icons/22x22/ok.png")) );
         create.addActionListener( new ActionListener() {
@@ -179,8 +173,7 @@ public class CreateUserDialog extends JDialog {
     
     private void validateInputFields() throws ValidationException {
     
-        Locale locale = r.getCurrentLocale();
-        Validater v = new Validater( db );
+        final Validater v = new Validater( db );
         
         if ( !v.checkRequiredFields( new JTextComponent[] { txtName, txtPass1, txtEmail }) )
             throw new ValidationException( locale.getString("gui.error.missingField") );

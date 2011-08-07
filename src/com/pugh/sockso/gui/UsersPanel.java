@@ -1,11 +1,3 @@
-/*
- * UsersPanel.java
- * 
- * Created on Aug 7, 2007, 7:40:54 AM
- * 
- * A panel for controlling user accounts and access
- * 
- */
 
 package com.pugh.sockso.gui;
 
@@ -44,21 +36,30 @@ import javax.swing.event.TableModelListener;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
+
+@Singleton
 public class UsersPanel extends JPanel implements TableModelListener {
 
     private static Logger log = Logger.getLogger( UsersPanel.class );
-    
-    private Properties p;
-    private Database db;
-    private Resources r;
-    private JFrame parent;
+
+    private final Injector injector;
+    private final Properties p;
+    private final Database db;
+    private final Resources r;
+    private final JFrame parent;
     
     private MyTableModel model;
     private JTable table;
     private boolean isRefreshing;
-    
-    public UsersPanel( JFrame parent, Database db, Properties p, Resources r ) {
 
+    @Inject
+    public UsersPanel( final Injector injector, final AppFrame parent, final Database db,
+                       final Properties p, final Resources r ) {
+
+        this.injector = injector;
         this.parent = parent;
         this.db = db;
         this.p = p;
@@ -156,7 +157,7 @@ public class UsersPanel extends JPanel implements TableModelListener {
         JButton create = new JButton( "Create User", new ImageIcon(r.getImage("icons/16x16/add.png")) );
         create.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent evt ) {
-                new CreateUserDialog( parent, db, r, UsersPanel.this );
+                injector.getInstance( CreateUserDialog.class );
             }
         });
 

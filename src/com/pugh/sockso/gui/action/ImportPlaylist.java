@@ -3,6 +3,7 @@ package com.pugh.sockso.gui.action;
 
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
+import com.pugh.sockso.gui.AppFrame;
 import com.pugh.sockso.gui.PlaylistFileFilter;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.resources.Locale;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 /**
  *  an action to import a playlist
  * 
@@ -41,13 +44,17 @@ public class ImportPlaylist implements ActionListener {
     private final Database db;
     private final CollectionManager cm;
     private final Resources r;
-    
-    public ImportPlaylist( final JFrame parent, final Database db, final CollectionManager cm, final Resources r ) {
+    private final Locale locale;
+
+    @Inject
+    public ImportPlaylist( final AppFrame parent, final Database db, final CollectionManager cm,
+                           final Resources r, final Locale locale ) {
 
         this.parent = parent;
         this.db = db;
         this.cm = cm;
         this.r = r;
+        this.locale = locale;
         
     }
 
@@ -56,7 +63,7 @@ public class ImportPlaylist implements ActionListener {
         String error = "";
 
         final JFileChooser fc = new JFileChooser();
-        fc.addChoosableFileFilter( new PlaylistFileFilter(r.getCurrentLocale()) );
+        fc.addChoosableFileFilter( new PlaylistFileFilter(locale) );
 
         if ( fc.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION ) {
 
@@ -65,7 +72,6 @@ public class ImportPlaylist implements ActionListener {
                 final File file = fc.getSelectedFile();
                 final String playlistName = getPlaylistName( file );
                 final int playlistId = importPlaylist( file, playlistName );
-                final Locale locale = r.getCurrentLocale();
 
                 if ( playlistId == -1 ) {
                     error = locale.getString("gui.message.playlistImportFailed");

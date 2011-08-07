@@ -13,10 +13,10 @@ import com.pugh.sockso.templates.TPls;
 
 public class Plser extends Playlister {
 
-    public Plser( final String protocol ) {
-        super( protocol, "pls" );
+    public void init( final String protocol ) {
+        super.init( protocol, "pls" );
     }
-    
+
     public PlaylistTemplate getPlaylistTemplate() {
         return new TPls();
     }

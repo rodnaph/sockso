@@ -1,17 +1,7 @@
-/*
- * PlaylistPanel.java
- * 
- * Created on May 16, 2007, 11:12:31 PM
- * 
- * Allows playlists to be created and saved.
- *
- */
 
 package com.pugh.sockso.gui;
 
 import com.pugh.sockso.resources.Resources;
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.CollectionManager;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -22,18 +12,21 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
-import javax.swing.JFrame;
+
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 public class PlaylistManager extends JPanel {
 
     private PlaylistPanel playlist;
     private Resources r;
     
-    public PlaylistManager(  JFrame parent, Database db, CollectionManager cm, Resources r  ) {
+    @Inject
+    public PlaylistManager( final Injector injector, final Resources r  ) {
 
         this.r = r;
         
-        playlist = new PlaylistPanel( parent, db, cm );
+        playlist = injector.getInstance( PlaylistPanel.class );
         
         setLayout( new BorderLayout() );
         add( getButtonPane(), BorderLayout.NORTH );

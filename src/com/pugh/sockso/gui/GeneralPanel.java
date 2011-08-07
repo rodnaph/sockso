@@ -47,6 +47,8 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class GeneralPanel extends JPanel implements RequestLogChangeListener {
 
     private static Logger log = Logger.getLogger( Logger.class );
@@ -62,7 +64,10 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
     private JComboBox exportRequestLogFormats;
     private JButton exportRequestLogButton, clearRequestLog;
     
-    public GeneralPanel( JFrame parent, Database db, Properties p, Resources r, Server sv, CollectionManager cm ) {
+    @Inject
+    public GeneralPanel( final AppFrame parent, final Database db, final Properties p,
+                         final Resources r, final Server sv, final CollectionManager cm,
+                         final Locale locale ) {
 
         this.parent = parent;
         this.db = db;
@@ -70,8 +75,7 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
         this.r = r;
         this.sv = sv;
         this.cm = cm;
-        
-        this.locale = r.getCurrentLocale();
+        this.locale = locale;
         
         createComponents();
         layoutComponents();

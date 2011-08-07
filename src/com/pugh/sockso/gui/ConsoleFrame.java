@@ -1,17 +1,9 @@
-/*
- * A window for interacting with the Sockso console from the GUI
- * 
- */
 
 package com.pugh.sockso.gui;
 
 import com.pugh.sockso.commands.CommandExecuter;
-import com.pugh.sockso.Console;
-import com.pugh.sockso.Properties;
-import com.pugh.sockso.db.Database;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.resources.Locale;
-import com.pugh.sockso.music.CollectionManager;
 
 import java.awt.Font;
 import java.awt.Container;
@@ -22,7 +14,6 @@ import java.awt.event.ActionListener;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -34,6 +25,12 @@ import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
+/**
+ * A window for interacting with the Sockso console from the GUI
+ * 
+ */
 public class ConsoleFrame extends JFrame {
 
     private static final Logger log = Logger.getLogger( ConsoleFrame.class );
@@ -42,18 +39,20 @@ public class ConsoleFrame extends JFrame {
 
     private final CommandExecuter cmd;
     private final Resources r;
+    private final Locale locale;
 
     private JTextField inputField;
     protected JTextArea outputArea;
     private JButton commandButton, hideButton;
     
-    public ConsoleFrame( Database db, Properties p, CollectionManager cm, Resources r ) {
+    @Inject
+    public ConsoleFrame( final CommandExecuter cmd, final Resources r, final Locale locale ) {
         
-        super( r.getCurrentLocale().getString("gui.window.console") );
-        
-        this.r = r;
+        super( locale.getString("gui.window.console") );
 
-        cmd = new CommandExecuter( db, p, cm, r.getCurrentLocale() );
+        this.cmd = cmd;
+        this.r = r;
+        this.locale = locale;
         
         createComponents();
         layoutComponents();
@@ -66,8 +65,6 @@ public class ConsoleFrame extends JFrame {
      */
     
     private void createComponents() {
-        
-        Locale locale = r.getCurrentLocale();
         
         inputField = new JTextField();
         inputField.addActionListener( getConsoleCommandAction() );

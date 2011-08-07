@@ -140,7 +140,7 @@ public class InputBuffer {
 
         while ( true ) {
 
-            final int i =  read();
+            final int i = read();
 
             // end of stream?
             if ( i == -1 ) {

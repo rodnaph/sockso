@@ -17,21 +17,7 @@ public interface WebAction {
      *
      */
     
-    void handleRequest() throws Exception;
-
-    /**
-     *  Initialises the web action with the "standard objects" associated
-     *  with each request, the web action isn't really ready to be used
-     *  until after this is called and it's loaded up
-     *
-     *  @param request request object
-     *  @param response response object
-     *  @param user the current user
-     *  @param locale locale information
-     *
-     */
-    
-    void init(final Request req, final Response res, final User user, final Locale locale);
+    public void handleRequest() throws Exception;
 
     /**
      *  Inidcates if this web action requires a login to be executed
@@ -40,7 +26,7 @@ public interface WebAction {
      *
      */
     
-    boolean requiresLogin();
+    public boolean requiresLogin();
 
     /**
      *  Sets the database for the action
@@ -49,16 +35,7 @@ public interface WebAction {
      *
      */
     
-    void setDatabase(final Database db);
-
-    /**
-     *  Sets the locale for the action
-     * 
-     *  @param locale 
-     * 
-     */
-    
-    void setLocale(final Locale locale);
+    public void setDatabase( final Database db );
 
     /**
      *  Sets the properties for the action
@@ -67,7 +44,16 @@ public interface WebAction {
      * 
      */
     
-    void setProperties(final Properties p);
+    public void setProperties( final Properties p );
+
+    /**
+     *  Sets the locale for the action
+     * 
+     *  @param locale 
+     * 
+     */
+    
+    public void setLocale( final Locale locale );
 
     /**
      *  Sets the request for the action
@@ -76,7 +62,7 @@ public interface WebAction {
      * 
      */
     
-    void setRequest(final Request req);
+    public void setRequest( final Request req );
 
     /**
      *  Sets the response for the action to use
@@ -85,7 +71,7 @@ public interface WebAction {
      * 
      */
     
-    void setResponse(final Response res);
+    public void setResponse( final Response res );
 
     /**
      *  Sets the user for the action
@@ -94,6 +80,6 @@ public interface WebAction {
      * 
      */
     
-    void setUser(final User user);
+    public void setUser( final User user );
     
 }

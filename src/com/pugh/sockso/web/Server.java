@@ -21,7 +21,7 @@ public interface Server {
      * 
      */
     
-    public void start( final OptionSet options );
+    public void start( final OptionSet options, final int port );
     
     /**
      * shuts down the server, asks any threads that are currently still running
@@ -58,7 +58,7 @@ public interface Server {
      */
 
     public int getPort();
-
+    
     /**
      *  returns the protocol the server is using
      * 

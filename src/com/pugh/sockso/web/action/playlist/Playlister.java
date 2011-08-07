@@ -27,8 +27,8 @@ public abstract class Playlister extends BaseAction {
     
     protected abstract PlaylistTemplate getPlaylistTemplate();
 
-    private final String protocol;
-    private final String extension;
+    private String protocol;
+    private String extension;
     
     /**
      *  constructor
@@ -37,7 +37,7 @@ public abstract class Playlister extends BaseAction {
      * 
      */
     
-    protected Playlister( final String protocol, final String extension ) {
+    public void init( final String protocol, final String extension ) {
 
         this.protocol = protocol;
         this.extension = extension;

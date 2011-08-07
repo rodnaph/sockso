@@ -9,6 +9,9 @@ import joptsimple.OptionSet;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Singleton;
+
+@Singleton
 public class SQLiteDatabase extends JDBCDatabase {
 
     private static final Logger log = Logger.getLogger( SQLiteDatabase.class );

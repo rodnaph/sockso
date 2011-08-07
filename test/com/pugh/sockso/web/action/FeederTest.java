@@ -35,7 +35,8 @@ public class FeederTest extends SocksoTestCase {
 
         tracks.add( track );
 
-        final Feeder f = new Feeder( "domain.com" );
+        final Feeder f = new Feeder();
+        f.init( "domain.com" );
         f.setProperties( new StringProperties() );
         f.setResponse( res );
         f.latest( tracks );

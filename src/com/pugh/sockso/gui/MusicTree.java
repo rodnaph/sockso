@@ -1,11 +1,3 @@
-/*
- * MusicTree.java
- * 
- * Created on May 15, 2007, 10:55:41 PM
- * 
- * Displays the collection as a tree (artist->album->track) 
- * 
- */
 
 package com.pugh.sockso.gui;
 
@@ -41,6 +33,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class MusicTree extends JTree implements DragSourceListener, DragGestureListener, CollectionManagerListener, TreeExpansionListener {
     
     private static Logger log = Logger.getLogger( MusicTree.class );
@@ -56,6 +50,7 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
      * 
      */
 
+    @Inject
     public MusicTree( Database db  ) {
 
         super( new MusicTreeNode(new Collection()) );

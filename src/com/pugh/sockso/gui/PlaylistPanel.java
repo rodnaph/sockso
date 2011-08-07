@@ -47,13 +47,15 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class PlaylistPanel extends MusicList implements DropTargetListener {
 
     private static Logger log = Logger.getLogger( PlaylistPanel.class );
     
-    private JFrame parent;
-    private Database db;
-    private CollectionManager cm;
+    private final JFrame parent;
+    private final Database db;
+    private final CollectionManager cm;
     
     private DefaultListModel model;
     private DropTarget dropTarget;
@@ -102,7 +104,8 @@ public class PlaylistPanel extends MusicList implements DropTargetListener {
      * 
      */
     
-    public PlaylistPanel(  JFrame parent, Database db, CollectionManager cm  ) {
+    @Inject
+    public PlaylistPanel( final AppFrame parent, final Database db, final CollectionManager cm ) {
         
         super( DnDConstants.ACTION_MOVE );
         

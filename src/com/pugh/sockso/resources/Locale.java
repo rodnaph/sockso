@@ -1,11 +1,3 @@
-/*
- * Locale.java
- * 
- * Created on Oct 7, 2007, 10:22:03 PM
- * 
- * Provides locale information
- * 
- */
 
 package com.pugh.sockso.resources;
 

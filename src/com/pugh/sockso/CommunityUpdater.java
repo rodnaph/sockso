@@ -11,6 +11,10 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+@Singleton
 public class CommunityUpdater extends Thread implements PropertiesListener {
 
     private static final Logger log = Logger.getLogger( CommunityUpdater.class );
@@ -26,6 +30,7 @@ public class CommunityUpdater extends Thread implements PropertiesListener {
      *
      */
 
+    @Inject
     public CommunityUpdater( final Properties p ) {
         
         this.p = p;

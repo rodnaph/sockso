@@ -1,9 +1,3 @@
-/**
- * ServerThread.java
- *
- * Created on May 8, 2007, 12:31 PM
- *
- */
 
 package com.pugh.sockso.web;
 
@@ -11,6 +5,7 @@ import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.resources.LocaleFactory;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.action.Errorer;
 import com.pugh.sockso.web.action.BaseAction;
@@ -24,38 +19,55 @@ import java.net.SocketException;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class ServerThread extends Thread {
 
     private static final Logger log = Logger.getLogger( ServerThread.class );
 
-    private final Socket client;
     private final Server sv;
     private final Database db;
     private final Properties p;
     private final Resources r;
     private final Dispatcher dispatcher;
+    private final LocaleFactory localeFactory;
 
+    private Socket client;
+    
     /**
      *  Creates a new instance of ServerThread
      *
      *  @param server the server this thread is attached to
-     *  @param client the client socket
      *  @param db the database connection
      *  @param p app properties
      *  @param r app resources
      *
      */
     
-    public ServerThread( final Server server, final Socket client, final Database db,
-                         final Properties p, final Resources r, final Dispatcher dispatcher ) {
+    @Inject
+    public ServerThread( final Server server, final Database db, final Properties p,
+                         final Resources r, final Dispatcher dispatcher, final LocaleFactory localeFactory ) {
 
         this.sv = server;
-        this.client = client;
         this.db = db;
         this.p = p;
         this.r = r;
         this.dispatcher = dispatcher;
+        this.localeFactory = localeFactory;
                 
+    }
+    
+    /**
+     *  Sets the client socket to use to communicate with the caller
+     * 
+     *  @param client 
+     * 
+     */
+    
+    public void setClientSocket( final Socket client ) {
+        
+        this.client = client;
+        
     }
     
     /**
@@ -69,14 +81,14 @@ public class ServerThread extends Thread {
         Response res = null;
         Request req = null;
         User user = null;
-        Locale locale = r.getCurrentLocale();
+        Locale locale = localeFactory.getDefaultLocale();
         
         try {
 
             req = new HttpRequest( sv );
             req.process( new BufferedInputStream(client.getInputStream()) );
 
-            locale = r.getLocale( req.getPreferredLangCode() );
+            locale = localeFactory.getLocale( req.getPreferredLangCode() );
 
             final Session session = new Session( db, req, null );
             user = session.getCurrentUser();
@@ -145,7 +157,10 @@ public class ServerThread extends Thread {
         }
         
         final BaseAction action = dispatcher.getAction( req );
-        action.init( req, res, user, locale );
+        action.setRequest( req );
+        action.setResponse( res );
+        action.setUser( user );
+        action.setLocale( locale );
 
         if ( action == null ) {
             throw new BadRequestException(locale.getString("www.error.unknownRequest"), 400);

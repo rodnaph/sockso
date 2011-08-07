@@ -37,6 +37,9 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 public class CollectionPanel extends JPanel implements CollectionManagerListener {
 
     private DefaultListModel listModel;
@@ -48,19 +51,25 @@ public class CollectionPanel extends JPanel implements CollectionManagerListener
     private final CollectionManager cm;
     private final Resources r;
     private final Properties p;
+    private final Injector injector;
+    private final Locale locale;
 
     /**
      *  Creates a new instance of CollectionPanel
      *
      */
-    
-    public CollectionPanel( final JFrame parent, final Database db, final CollectionManager cm, final Resources r, final Properties p ) {
 
+    @Inject
+    public CollectionPanel( final Injector injector, final JFrame parent, final Database db, final CollectionManager cm,
+                            final Resources r, final Properties p, final Locale locale ) {
+
+        this.injector = injector;
         this.parent = parent;
         this.db = db;
         this.cm = cm;
         this.r = r;
         this.p = p;
+        this.locale = locale;
         
         feedback = new JLabel();
         
@@ -226,7 +235,7 @@ public class CollectionPanel extends JPanel implements CollectionManagerListener
     
     private JPanel getMiscButtonPane() {
        
-        final RescanButton rescan = new RescanButton( r, cm, parent, db );
+        final RescanButton rescan = injector.getInstance( RescanButton.class );
         final FlowLayout layout = new FlowLayout( FlowLayout.RIGHT );
         final JPanel panel = new JPanel( layout );
         
@@ -245,8 +254,6 @@ public class CollectionPanel extends JPanel implements CollectionManagerListener
      */
     
     private JPanel getFolderButtonPane() {
-        
-        final Locale locale = r.getCurrentLocale();
         
         final JButton addFolder = new JButton( locale.getString("gui.label.addFolder"), new ImageIcon(r.getImage("icons/16x16/add.png")) );
         addFolder.addActionListener( new ActionListener() {

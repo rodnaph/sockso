@@ -12,11 +12,14 @@ import org.apache.log4j.Logger;
 
 import joptsimple.OptionSet;
 
+import com.google.inject.Singleton;
+
 /**
  *  provides an interface to a mysql sockso database
  * 
  */
 
+@Singleton
 public class MySQLDatabase extends JDBCDatabase implements Database {
 
     private static final Logger log = Logger.getLogger( MySQLDatabase.class );

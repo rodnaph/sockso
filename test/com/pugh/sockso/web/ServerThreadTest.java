@@ -51,7 +51,7 @@ public class ServerThreadTest extends SocksoTestCase {
     class MyServerThread extends ServerThread {
         protected boolean wasRun = false;
         public MyServerThread( Server sv, Socket cl, Database db, Properties p, Resources r ) {
-            super( sv, cl, db, p, r, null );
+            super( sv, db, p, r, null, null );
         }
     }
     
@@ -59,7 +59,7 @@ public class ServerThreadTest extends SocksoTestCase {
         
         Socket client = getSocket( "" );
         
-        ServerThread st = new ServerThread( server, client, db, p, r, null );
+        ServerThread st = new ServerThread( server, db, p, r, null, null );
         assertNotNull( st );
         
     }

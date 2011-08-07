@@ -1,11 +1,14 @@
 
 package com.pugh.sockso;
 
+import com.google.inject.Singleton;
+
 import java.util.Date;
 import java.util.Hashtable;
 
 import org.apache.log4j.Logger;
 
+@Singleton
 public class ObjectCache {
 
     private static final Logger log = Logger.getLogger( ObjectCache.class );

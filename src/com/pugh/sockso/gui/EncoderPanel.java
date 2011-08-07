@@ -26,13 +26,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
+
+import com.google.inject.Inject;
 
 public class EncoderPanel extends JPanel {
 
@@ -43,21 +44,30 @@ public class EncoderPanel extends JPanel {
     private ButtonGroup typeGroup;
     private JPanel builtinPanel, customPanel;
     
-    private final String fileType;
     private final Properties p;
     private final Resources r;
+    private final Locale locale;
     
-    public EncoderPanel( JFrame parent, String fileType, Properties p, Resources r ) {
+    private String fileType;
+    
+    @Inject
+    public EncoderPanel( final Properties p, final Resources r, final Locale locale ) {
         
-        this.fileType = fileType;
         this.p = p;
         this.r = r;
+        this.locale = locale;
+        
+    }
+    
+    public void init( final String fileType ) {
+        
+        this.fileType = fileType;
         
         createComponents();
         layoutComponents();
         
         // set correct options for this encoders setup
-        String typeProp = p.get( "encoders." +fileType );
+        String typeProp = p.get( "encoders." +this.fileType );
 
         if ( Encoders.Type.BUILTIN.name().equals(typeProp) )
             showOption( Encoders.Type.BUILTIN );
@@ -76,8 +86,6 @@ public class EncoderPanel extends JPanel {
      */
     
     private void createComponents() {
-        
-        Locale locale = r.getCurrentLocale();
         
         typeGroup = new ButtonGroup();
         
@@ -202,7 +210,6 @@ public class EncoderPanel extends JPanel {
     
     private void layoutComponents() {
 
-        Locale locale = r.getCurrentLocale();
         FormLayout layout = new FormLayout(
             " right:max(40dlu;pref), 3dlu, 150dlu, 7dlu "
         );

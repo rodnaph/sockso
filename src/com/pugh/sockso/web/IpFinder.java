@@ -23,6 +23,8 @@ import joptsimple.OptionSet;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 /**
  *  This class is responsible for finding the IP address to use for Sockso
  *
@@ -46,6 +48,7 @@ public class IpFinder {
      * 
      */
 
+    @Inject
     public IpFinder( final Properties p ) {
 
         this( p, null );

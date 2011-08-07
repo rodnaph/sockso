@@ -7,20 +7,24 @@ import com.pugh.sockso.db.Database;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 
+import com.google.inject.Inject;
+
 /**
  * This class authenticates users from the database
  *
- * @author rod
  */
 public class DBAuthenticator implements Authenticator {
 
     private final Database db;
 
     /**
-     * Constructor
+     *  Constructor
      *
-     * @param db
+     *  @param db
+     * 
      */
+    
+    @Inject
     public DBAuthenticator( final Database db ) {
 
         this.db = db;

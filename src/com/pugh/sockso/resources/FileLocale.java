@@ -23,6 +23,9 @@ import java.util.regex.Matcher;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Singleton;
+
+@Singleton
 public class FileLocale implements Locale {
 
     private static final Logger log = Logger.getLogger( Locale.class );

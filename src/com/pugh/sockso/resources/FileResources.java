@@ -17,6 +17,9 @@ import java.io.FileNotFoundException;
 import java.awt.Toolkit;
 import java.awt.Image;
 
+import com.google.inject.Singleton;
+
+@Singleton
 public class FileResources extends AbstractResources {
 
     private static final String resourcesDir;

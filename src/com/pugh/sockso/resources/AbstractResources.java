@@ -44,48 +44,6 @@ public abstract class AbstractResources implements Resources {
     public abstract String[] getLocales();
     
     /**
-     *  returns a specific locale, returns default if it doesn't exist
-     * 
-     *  @param locale the locale name
-     *  @return locale object
-     * 
-     */
-    
-    public Locale getLocale( final String locale ) {
-
-        // we may need to load locale information if this is the first time
-        // this method has been called
-        if ( locales == null ) {
-            final Locale defaultLocale = new FileLocale( this, DEFAULT_LOCALE );
-            locales = new Hashtable<String,Locale>();
-            for ( final String lc : localeCodes )
-                locales.put( lc, new FileLocale(this,lc,defaultLocale) );
-        }
-
-        // try and return correct locale if we have it, otherwise just send
-        // back the default
-        if ( locales.get(locale) != null )
-            return locales.get(locale);
-        return locales.get( DEFAULT_LOCALE );
-        
-    }
-    
-    /**
-     *  returns the default locale
-     * 
-     *  @return Locale
-     * 
-     */
-    
-    public Locale getCurrentLocale() {
-        return getLocale( localeCode );
-    }
-    
-    public void setCurrentLocaleCode( final String newLocale ) {
-        localeCode = newLocale;
-    }
-    
-    /**
      *  returns an array of land codes from an array of locale file names (and
      *  possibly other files as well, but they'll be ignored)
      * 

@@ -9,6 +9,8 @@ import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.resources.Locale;
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 /**
  *  Executes console commands
  *
@@ -28,6 +30,7 @@ public class CommandExecuter {
 
     private final Command[] commands;
 
+    @Inject
     public CommandExecuter( final Database db, final Properties p, final CollectionManager cm, final Locale locale ) {
 
         this.db = db;

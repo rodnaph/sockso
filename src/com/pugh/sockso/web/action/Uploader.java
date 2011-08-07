@@ -31,12 +31,15 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class Uploader extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Uploader.class );
     
     private final CollectionManager cm;
     
+    @Inject
     public Uploader( final CollectionManager cm ) {
 
         this.cm = cm;

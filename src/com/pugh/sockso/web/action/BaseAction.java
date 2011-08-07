@@ -1,15 +1,3 @@
-/*
- * AbstractAction.java
- * 
- * Created on Aug 8, 2007, 7:49:12 PM
- * 
- * Abstract class for web "actions" to implement.  An action is
- * something that responds to a request.
- * 
- * NB!  The web action isn't really ready to be used until it's init()
- * method has been called and it's loaded with the request related obj's
- * 
- */
 
 package com.pugh.sockso.web.action;
 
@@ -30,7 +18,13 @@ import java.sql.PreparedStatement;
 
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
+import com.google.inject.Inject;
+
 public abstract class BaseAction implements WebAction {
+    
+    private static final Logger log = Logger.getLogger( BaseAction.class );
     
     private Request req;
     private Response res;
@@ -38,26 +32,6 @@ public abstract class BaseAction implements WebAction {
     private Locale locale;
     private Database db;
     private Properties p;
-    
-    /**
-     *  Initialises the web action with the "standard objects" associated
-     *  with each request, the web action isn't really ready to be used
-     *  until after this is called and it's loaded up
-     * 
-     *  @param request request object
-     *  @param response response object
-     *  @param user the current user
-     *  @param locale locale information
-     * 
-     */
-    
-    @Override
-    public void init( final Request req, final Response res, final User user, final Locale locale ) {
-        this.req = req;
-        this.res = res;
-        this.user = user;
-        this.locale = locale;
-    }
     
     /**
      *  Inidcates if this web action requires a login to be executed
@@ -89,7 +63,21 @@ public abstract class BaseAction implements WebAction {
      */
     
     @Override
-    public void setDatabase( final Database db ) { this.db = db; }
+    @Inject
+    public void setDatabase( final Database db ) {
+        
+        this.db = db;
+    
+    }
+    
+    @Override
+    @Inject
+    public void setProperties( final Properties p ) {
+        
+        this.p = p;
+    
+    }
+    
     @Override
     public void setUser( final User user ) { this.user = user; }
     @Override
@@ -98,8 +86,6 @@ public abstract class BaseAction implements WebAction {
     public void setRequest( final Request req ) { this.req = req; }
     @Override
     public void setLocale( final Locale locale ) { this.locale = locale; }
-    @Override
-    public void setProperties( final Properties p ) { this.p = p; }
     
     /**
      *  fetches the latest tracks (limited by limit, obv...)

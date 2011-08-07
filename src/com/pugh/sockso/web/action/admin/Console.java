@@ -5,12 +5,12 @@ import com.pugh.sockso.commands.CommandExecuter;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.templates.web.admin.TConsole;
 import com.pugh.sockso.web.action.AdminAction;
-import com.pugh.sockso.web.StringOutputStream;
 
 import java.io.IOException;
-import java.io.PrintStream;
 
 import java.sql.SQLException;
+
+import com.google.inject.Inject;
 
 /**
  *  Shows the web admin console
@@ -21,6 +21,7 @@ public class Console extends AdminAction {
 
     private final CollectionManager cm;
     
+    @Inject
     public Console( final CollectionManager cm ) {
         
         this.cm = cm;

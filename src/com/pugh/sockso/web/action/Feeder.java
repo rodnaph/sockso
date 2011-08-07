@@ -12,7 +12,6 @@ package com.pugh.sockso.web.action;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.BadRequestException;
-import com.pugh.sockso.web.Server;
 import com.pugh.sockso.templates.TRSSLatest;
 
 import java.sql.SQLException;
@@ -23,7 +22,7 @@ import java.util.Vector;
 
 public class Feeder extends BaseAction {
 
-    private final String host;
+    private String host;
     
     /**
      *  constructor.
@@ -32,7 +31,7 @@ public class Feeder extends BaseAction {
      * 
      */
     
-    public Feeder( final String host ) {
+    public void init( final String host ) {
 
         this.host = host;
 

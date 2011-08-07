@@ -1,8 +1,11 @@
 
 package com.pugh.sockso.web;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.StringProperties;
+import com.pugh.sockso.inject.SocksoModule;
 
 import com.pugh.sockso.web.action.Downloader;
 import com.pugh.sockso.web.action.Feeder;
@@ -34,15 +37,26 @@ import com.pugh.sockso.web.action.playlist.Xspfer;
 
 import java.util.Hashtable;
 
+import joptsimple.OptionSet;
+
 import junit.framework.TestCase;
 
 import static org.easymock.EasyMock.*;
 
 public class DispatcherTest extends TestCase {
 
+    private Injector injector;
+    
+    @Override
+    protected void setUp() {
+        OptionSet options = new com.pugh.sockso.tests.TestOptionSet();
+        injector = Guice.createInjector( new SocksoModule(options) );
+    }
+    
     public void testConstructor() {
 
-        final Dispatcher d = new Dispatcher( "http", 4444, null, null, null, null, null );
+        final Dispatcher d = new Dispatcher( injector, null );
+        d.init( "http", 4444 );
         
         assertNotNull( d );
         
@@ -54,7 +68,8 @@ public class DispatcherTest extends TestCase {
         expect( req.getUrlParam(0) ).andReturn( "--DOES-NOT-EXIST--" );
         replay( req );
 
-        final Dispatcher d = new Dispatcher( "http", 4444, new StringProperties(), null, null, null, null );
+        final Dispatcher d = new Dispatcher( injector, new StringProperties() );
+        d.init( "http", 4444 );
         final BaseAction a = d.getAction( req );
         
         assertNull( a );
@@ -110,7 +125,8 @@ public class DispatcherTest extends TestCase {
             expect( req.getUrlParam(1) ).andReturn( parts[2] );
         replay( req );
         
-        final Dispatcher d = new Dispatcher( "http", 4444, new StringProperties(), null, null, null, null );
+        final Dispatcher d = new Dispatcher( injector, new StringProperties() );
+        d.init( "http", 4444 );
         
         assertEquals( handler, d.getAction( req ).getClass() );
 
@@ -121,7 +137,8 @@ public class DispatcherTest extends TestCase {
         final String host = "some.host.com";
         final int port = 1234;
         p.set( Constants.SERVER_HOST, host );
-        final Dispatcher d = new Dispatcher( "http", port, p, null, null, null, null );
+        final Dispatcher d = new Dispatcher( injector, p );
+        d.init( "http", port );
         assertEquals( host + ":" + port, d.getHost() );
     }
     

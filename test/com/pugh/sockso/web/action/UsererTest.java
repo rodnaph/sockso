@@ -87,7 +87,9 @@ public class UsererTest extends SocksoTestCase {
         ResultSet rs = createNiceMock( ResultSet.class );
         Locale locale = createNiceMock( Locale.class );
         Userer u = new Userer();
-        u.init( req, res, null, locale );
+        u.setRequest( req );
+        u.setResponse( res );
+        u.setLocale( locale );
         
         expect( req.getArgument("name") ).andReturn( "foo" );
         expect( req.getArgument("pass1") ).andReturn( "p1" );
@@ -168,7 +170,9 @@ public class UsererTest extends SocksoTestCase {
         Locale locale = createNiceMock( Locale.class );
 
         Userer u = new Userer();
-        u.init( req, res, null, locale );
+        u.setRequest( req );
+        u.setResponse( res );
+        u.setLocale( locale );
         u.setProperties( new StringProperties() );
 
         res.addCookie( (HttpResponseCookie) anyObject() );

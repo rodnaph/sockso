@@ -10,11 +10,14 @@ import java.sql.SQLException;
 
 import java.util.Vector;
 
+import com.google.inject.Singleton;
+
 /**
  *  a class for searching for music
  * 
  */
 
+@Singleton
 public class MusicSearch {
 
     private final Database db;

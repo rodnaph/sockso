@@ -1,7 +1,7 @@
 
 package com.pugh.sockso.music.indexing;
 
-import com.pugh.sockso.tests.IntegrationTestCase;
+import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 
 import java.io.File;
@@ -10,14 +10,16 @@ import java.io.FileFilter;
 import java.sql.SQLException;
 import java.sql.Date;
 
-public class BaseIndexerTest extends IntegrationTestCase implements IndexListener {
+public class BaseIndexerTest extends SocksoTestCase implements IndexListener {
 
     private BaseIndexer indexer;
     private IndexEvent indexEvent;
+    private TestDatabase db;
 
     @Override
     public void setUp() throws Exception {
-        indexer = new TrackIndexer( getDatabase() );
+        db = new TestDatabase();
+        indexer = new TrackIndexer( db );
         indexer.addIndexListener( this );
         indexEvent = null;
     }
@@ -73,7 +75,7 @@ public class BaseIndexerTest extends IntegrationTestCase implements IndexListene
 
     public void testMarkFileModified() throws Exception {
 
-        getDatabase().update( " delete from indexer where id = -1" );
+        db.update( " delete from indexer where id = -1" );
 
         assertTrue( indexer.markFileModified(-1,0) ); // new file
         assertTrue( indexer.markFileModified(-1,1) ); // update existing

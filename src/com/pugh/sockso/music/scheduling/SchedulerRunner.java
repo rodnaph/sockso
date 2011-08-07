@@ -8,12 +8,16 @@ import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 /**
  *  The scheduler runner provides the functionality to run and check if the
  *  indexer needs to be kicked off.
  *
  */
 
+@Singleton
 public class SchedulerRunner extends Thread {
 
     private static final int ONE_MINUTE = 60000;
@@ -31,6 +35,7 @@ public class SchedulerRunner extends Thread {
      *
      */
 
+    @Inject
     public SchedulerRunner( final Indexer indexer, final Properties p ) {
 
         this.indexer = indexer;

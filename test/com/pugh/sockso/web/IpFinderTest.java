@@ -6,7 +6,6 @@ import com.pugh.sockso.Options;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.tests.MyHttpURLConnection;
 import com.pugh.sockso.tests.SocksoTestCase;
@@ -191,24 +190,5 @@ public class IpFinderTest extends SocksoTestCase {
         assertFalse( p.get(Constants.SERVER_HOST_LAST_UPDATED).equals(startTime) );
 
     }
-
-    /**
-     *  empty implementation for testing
-     *
-     */
-
-    class MyHttpServer extends HttpServer {
-        public MyHttpServer( final Dispatcher dispatcher, final Database db, final Properties p, final Resources r ) {
-            super( 4444, dispatcher, db, p, r );
-        }
-        public ServerSocket getServerSocket( final int port ) throws IOException {
-            return null;
-        }
-        public String getProtocol() {
-            return "http";
-        }
-    }
-
-    class MySocket extends Socket {}
 
 }

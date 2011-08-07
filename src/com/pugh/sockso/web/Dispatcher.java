@@ -1,13 +1,10 @@
 
 package com.pugh.sockso.web;
 
-import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
+
 import com.pugh.sockso.auth.DBAuthenticator;
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.CollectionManager;
-import com.pugh.sockso.resources.Resources;
 
 import com.pugh.sockso.web.action.AdminAction;
 import com.pugh.sockso.web.action.Api;
@@ -39,32 +36,44 @@ import com.pugh.sockso.web.action.playlist.M3uer;
 import com.pugh.sockso.web.action.playlist.Plser;
 import com.pugh.sockso.web.action.playlist.Xspfer;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
+
 /**
  *  looks at the request to determine which web action to invoke
  *
  */
 
+@Singleton
 public class Dispatcher {
 
-    private final String protocol;
-    private final int port;
     private final Properties p;
-    private final Resources r;
-    private final CollectionManager cm;
-    private final Database db;
-    private final ObjectCache cache;
+    private final Injector injector;
     
-    public Dispatcher( final String protocol, final int port, final Properties p,
-                       final Resources r, final CollectionManager cm, final Database db,
-                       final ObjectCache cache ) {
+    private String protocol;
+    private int port;
+    
+    @Inject
+    public Dispatcher( final Injector injector, final Properties p ) {
 
+        this.injector = injector;
+        this.p = p;
+        
+    }
+    
+    /**
+     *  Initialise the dispatcher with non-injectables
+     * 
+     *  @param protocol
+     *  @param port 
+     * 
+     */
+    
+    public void init( final String protocol, final int port ) {
+        
         this.protocol = protocol;
         this.port = port;
-        this.p = p;
-        this.r = r;
-        this.cm = cm;
-        this.db = db;
-        this.cache = cache;
         
     }
     
@@ -85,66 +94,75 @@ public class Dispatcher {
         BaseAction action = null;
         
         if ( command.equals("file") )
-            action = new FileServer( r );
+            action = injector.getInstance( FileServer.class );
         
         else if ( command.equals("browse") )
             action = getBrowseAction( req );
         
         else if ( command.equals("") )
-            action = new Homer();
+            action = injector.getInstance( Homer.class );
         
-        else if ( command.equals("xspf") )
-            action = new Xspfer( protocol );
-        else if ( command.equals("m3u") )
-            action = new M3uer( protocol );
-        else if ( command.equals("pls") )
-            action = new Plser( protocol );
+        else if ( command.equals("xspf") ) {
+            Xspfer xspf = injector.getInstance( Xspfer.class );
+            xspf.init( protocol );
+            action = xspf;
+        }
+                
+        else if ( command.equals("m3u") ) {
+            M3uer m3u = injector.getInstance( M3uer.class );
+            m3u.init( protocol );
+            action = m3u;
+        }
+                
+        else if ( command.equals("pls") ) {
+            Plser pls = injector.getInstance( Plser.class );
+            pls.init( protocol );
+            action = pls;
+        }
         
         else if ( command.equals("stream") ) {
-            action = new Streamer();
+            action = injector.getInstance( Streamer.class );
         }
         
         else if ( command.equals("api") ) {
-            action = new Api();
+            action = injector.getInstance( Api.class );
         }
 
         else if ( command.equals("json") )
-            action = new Jsoner( cm, cache );
+            action = injector.getInstance( Jsoner.class );
         
         else if ( command.equals("user") ) {
-            final Userer u = new Userer();
-            u.addAuthenticator( new DBAuthenticator(db) );
+            final Userer u = injector.getInstance( Userer.class );
+            u.addAuthenticator( injector.getInstance(DBAuthenticator.class) );
             action = u;
         }
         
         else if ( command.equals("player") )
-            action = new Player();
+            action = injector.getInstance( Player.class );
         
         else if ( command.equals("download") )
-            action = new Downloader();
+            action = injector.getInstance( Downloader.class );
         
         else if ( command.equals("upload") )
-            action = new Uploader( cm );
+            action = injector.getInstance( Uploader.class );
         
         else if ( command.equals("share") )
-            action = new Sharer();
+            action = injector.getInstance( Sharer.class );
         
-        else if ( command.equals("rss") )
-            action = new Feeder( host );
+        else if ( command.equals("rss") ) {
+            final Feeder feeder = injector.getInstance( Feeder.class );
+            feeder.init( host );
+            action = feeder;
+        }
 
         else if ( command.equals("admin") ) {
             action = getAdminAction( req );
         }
         
         else if ( command.equals("nat") ) {
-            action = new Nater();
+            action = injector.getInstance( Nater.class );
         }
                 
-        if ( action != null ) {
-            action.setDatabase( db );
-            action.setProperties( p );
-        }
-        
         return action;
         
     }
@@ -163,28 +181,28 @@ public class Dispatcher {
         final String command = req.getUrlParam( 1 );
         
         if ( command.equals("folders") )
-            return new Folderer();
+            return injector.getInstance( Folderer.class );
         
         else if ( command.equals("popular") )
-            return new Popularer();
+            return injector.getInstance( Popularer.class );
         
         else if ( command.equals("latest") )
-            return new Latester();
+            return injector.getInstance( Latester.class );
         
         else if ( command.equals("letter") )
-            return new ByLetterer();
+            return injector.getInstance( ByLetterer.class );
 
         else if ( command.equals("artist") )
-            return new Artister();
+            return injector.getInstance( Artister.class );
 
         else if ( command.equals("album"))
-            return new Albumer();
+            return injector.getInstance( Albumer.class );
 
         else if ( command.equals("playlists"))
-            return new Playlistser();
+            return injector.getInstance( Playlistser.class );
 
         else if ( command.equals("playlist"))
-            return new Playlister();
+            return injector.getInstance( Playlister.class );
 
         else return null;
         
@@ -204,7 +222,7 @@ public class Dispatcher {
         final String command = req.getUrlParam( 1 );
 
         if ( command.equals("console") ) {
-            return new Console( cm );
+            return injector.getInstance( Console.class  );
         }
 
         return null;

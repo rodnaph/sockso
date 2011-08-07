@@ -2,6 +2,7 @@
 package com.pugh.sockso.gui.controls;
 
 import com.pugh.sockso.db.Database;
+import com.pugh.sockso.gui.AppFrame;
 import com.pugh.sockso.music.Collection;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.resources.Locale;
@@ -22,6 +23,8 @@ import javax.swing.JPopupMenu;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 /**
  * Button for handling rescanning the collection.  When clicked it prompts the
  * user to either scan the entire collection, or just a particular folder.
@@ -32,12 +35,10 @@ public class RescanButton extends JButton implements ActionListener {
     private final static Logger log = Logger.getLogger( RescanButton.class );
     
     private final CollectionManager cm;
-    
     private final Resources r;
-    
     private final JFrame parentFrame;
-    
     private final Database db;
+    private final Locale locale;
     
     private JPopupMenu menu;
     
@@ -48,12 +49,13 @@ public class RescanButton extends JButton implements ActionListener {
      *  @param cm 
      * 
      */
-    
+
+    @Inject
     public RescanButton( final Resources r, final CollectionManager cm,
-                         final JFrame parentFrame, final Database db ) {
+                         final AppFrame parentFrame, final Database db, final Locale locale ) {
         
         super(
-            r.getCurrentLocale().getString("gui.label.rescanCollection"),
+            locale.getString("gui.label.rescanCollection"),
             new ImageIcon( r.getImage("icons/16x16/rescan.png") )
         );
 
@@ -61,6 +63,7 @@ public class RescanButton extends JButton implements ActionListener {
         this.cm = cm;
         this.parentFrame = parentFrame;
         this.db = db;
+        this.locale = locale;
         
     }
     
@@ -84,8 +87,6 @@ public class RescanButton extends JButton implements ActionListener {
     
     protected void initMenu() {
 
-        final Locale locale = r.getCurrentLocale();
-        
         menu = new JPopupMenu();
         
         final JMenuItem entireCollection = new JMenuItem( locale.getString("gui.label.scanEntireCollection") );
@@ -170,7 +171,7 @@ public class RescanButton extends JButton implements ActionListener {
                 else {
                     JOptionPane.showMessageDialog(
                         parentFrame,
-                        r.getCurrentLocale().getString("gui.error.directoryNotInCollection"),
+                        locale.getString("gui.error.directoryNotInCollection"),
                         "Error scanning folder",
                         JOptionPane.ERROR_MESSAGE
                     );

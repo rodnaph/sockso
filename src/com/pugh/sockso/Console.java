@@ -18,14 +18,15 @@ import com.pugh.sockso.music.CollectionManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import java.sql.SQLException;
-
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+@Singleton
 public class Console implements Manager {
 
     private static final Logger log = Logger.getLogger( Console.class );
@@ -53,6 +54,7 @@ public class Console implements Manager {
 
     private static final String PROMPT = "#SoCkSo#> ";
     
+    @Inject
     public Console( final Database db, final Properties p, final CollectionManager cm, final Locale locale ) {
         this( db, p, cm, System.out, System.in, locale );
     }

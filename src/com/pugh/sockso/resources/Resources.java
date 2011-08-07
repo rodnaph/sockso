@@ -50,33 +50,4 @@ public interface Resources {
     
     public abstract Image getImage( final String name );
  
-    /**
-     *  tries to return the locale object for the specified locale, if
-     *  it's not found then the default locale is returned
-     * 
-     *  @return locale object
-     * 
-     */
-    
-    public abstract Locale getLocale( final String locale );
-    
-    /**
-     *  returns the default locale
-     * 
-     *  @return Locale object
-     * 
-     */
-    
-    public abstract Locale getCurrentLocale();
-    
-    /**
-     *  sets the default locale to use
-     * 
-     *  @param newLocale the new default locale
-     * 
-     *
-     */
-    
-    public abstract void setCurrentLocaleCode( final String newLocale );
-    
 }

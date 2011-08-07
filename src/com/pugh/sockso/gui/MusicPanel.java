@@ -1,15 +1,8 @@
-/**
- * MusicPanel.java
- *
- * Created on May 13, 2007, 11:45 AM
- *
- */
 
 package com.pugh.sockso.gui;
 
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.resources.Locale;
-import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.gui.action.ImportPlaylist;
 
@@ -32,6 +25,9 @@ import javax.swing.BorderFactory;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 public class MusicPanel extends JPanel {
     
     private final static Logger log = Logger.getLogger( MusicPanel.class );
@@ -40,8 +36,9 @@ public class MusicPanel extends JPanel {
     
     private final JFrame parent;
     private final Resources r;
-    private final Database db;
     private final CollectionManager cm;
+    private final Locale locale;
+    private final Injector injector;
     
     /**
      *  Creates a new instance of MusicPanel
@@ -52,26 +49,29 @@ public class MusicPanel extends JPanel {
      * 
      */
     
-    public MusicPanel( final JFrame parent, final Database db, final CollectionManager cm, final Resources r ) {
+    @Inject
+    public MusicPanel( final AppFrame parent, final CollectionManager cm, final Resources r,
+                       final Locale locale, final Injector injector ) {
     
         this.parent = parent;
         this.r = r;
-        this.db = db;
         this.cm = cm;
+        this.locale = locale;
+        this.injector = injector;
 
     }
     
     protected void init() {
 
-        final SitePlaylists sitePlaylists = new SitePlaylists( db, cm, r );
+        final SitePlaylists sitePlaylists = injector.getInstance( SitePlaylists.class );
         sitePlaylists.refresh();
 
-        final UserPlaylists userPlaylists = new UserPlaylists( db, cm, r );
+        final UserPlaylists userPlaylists = injector.getInstance( UserPlaylists.class );
         userPlaylists.refresh();
 
-        final ActionListener importPlaylistAction = new ImportPlaylist( parent, db, cm, r );
+        final ActionListener importPlaylistAction = injector.getInstance( ImportPlaylist.class );
 
-        final MusicTree musicTree = new MusicTree( db );
+        final MusicTree musicTree = injector.getInstance( MusicTree.class );
         final JSplitPane playlistsPanel = new JSplitPane(
             JSplitPane.VERTICAL_SPLIT,
             getSitePlaylistsPanel( sitePlaylists, importPlaylistAction ),
@@ -88,7 +88,7 @@ public class MusicPanel extends JPanel {
             new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
                 tabbedPane,
-                new PlaylistManager( parent, db, cm, r )
+                injector.getInstance( PlaylistManager.class )
             ),
             BorderLayout.CENTER
         );
@@ -107,7 +107,6 @@ public class MusicPanel extends JPanel {
     
     protected JTabbedPane getTabbedPane( final MusicTree musicTree, final JSplitPane playlistsPanel ) {
 
-        final Locale locale = r.getCurrentLocale();
         final JTabbedPane pane = new JTabbedPane();
         
         pane.addTab(
@@ -140,7 +139,6 @@ public class MusicPanel extends JPanel {
     
     protected JPanel getSitePlaylistsPanel( final SitePlaylists sitePlaylists, final ActionListener importPlaylistAction ) {
 
-        final Locale locale = r.getCurrentLocale();
         final JPanel buttons = new JPanel( new FlowLayout(FlowLayout.LEFT) );
         final JButton importPlaylist = new JButton(
             locale.getString("gui.label.import"),
@@ -167,7 +165,6 @@ public class MusicPanel extends JPanel {
     
     protected JPanel getUserPlaylistsPanel( final UserPlaylists userPlaylists ){
 
-        final Locale locale = r.getCurrentLocale();
         final JLabel userPlaylistsLabel = new JLabel(
             locale.getString("gui.label.userPlaylists"),
             new ImageIcon( r.getImage("icons/16x16/playlists.png") ),

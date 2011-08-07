@@ -18,12 +18,16 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 /**
  *  This class handles checking for the latest version from the website, and
  *  allowing listeners to be nofitied of this information when it's received.
  *
  */
 
+@Singleton
 public class VersionChecker {
 
     private static final Logger log = Logger.getLogger( VersionChecker.class );
@@ -37,6 +41,7 @@ public class VersionChecker {
      *
      */
 
+    @Inject
     public VersionChecker( final Properties p ) {
 
         this.p = p;

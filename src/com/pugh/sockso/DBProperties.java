@@ -1,9 +1,3 @@
-/*
- * DBProperties.java
- * 
- * Created on Jul 23, 2007, 2:53:12 PM
- * 
- */
 
 package com.pugh.sockso;
 
@@ -13,13 +7,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 /**
  *  Adds persistence by DB to the StringProperties class
  * 
- *  @author rod
- * 
  */
 
+@Singleton
 public class DBProperties extends StringProperties {
     
     private final Database db;
@@ -31,6 +27,7 @@ public class DBProperties extends StringProperties {
      * 
      */
 
+    @Inject
     public DBProperties( final Database db ) {
 
         this.db = db;

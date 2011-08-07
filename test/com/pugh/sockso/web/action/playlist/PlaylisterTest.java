@@ -31,7 +31,7 @@ public class PlaylisterTest extends PlaylistTestCase {
         
         db.fixture( "artistsAlbumsAndTracks" );
         
-        pl = new Xspfer( "xspf" );
+        pl = new Xspfer();
         pl.setDatabase( db );
         pl.setResponse( res );
         pl.setProperties( p );

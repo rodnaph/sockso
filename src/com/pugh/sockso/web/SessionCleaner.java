@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 /**
  *  This class runs in the background to keep the sessions table clean of any
  *  old data not needed any more.
@@ -37,6 +39,7 @@ public class SessionCleaner {
      * 
      */
 
+    @Inject
     public SessionCleaner( final Database db ) {
         
         this.db = db;

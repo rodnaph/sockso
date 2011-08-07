@@ -1,11 +1,3 @@
-/*
- * DBCollectionManager.java
- * 
- * Created on Jul 29, 2007, 12:25:59 PM
- * 
- * A collection manager that uses the database to store info
- * 
- */
 
 package com.pugh.sockso.music;
 
@@ -33,6 +25,10 @@ import java.sql.Types;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+@Singleton
 public class DBCollectionManager extends Thread implements CollectionManager, IndexListener {
     
     private static final Logger log = Logger.getLogger( CollectionManager.class );
@@ -46,7 +42,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *  constructor
      *
      */
-    
+
+    @Inject
     public DBCollectionManager( final Database db, final Properties p, final Indexer indexer ) {
 
         this.db = db;

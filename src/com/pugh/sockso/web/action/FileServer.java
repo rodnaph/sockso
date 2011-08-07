@@ -34,6 +34,8 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 
+import com.google.inject.Inject;
+
 public class FileServer extends BaseAction {
 
     private static final Logger log = Logger.getLogger( FileServer.class );
@@ -41,7 +43,8 @@ public class FileServer extends BaseAction {
     private static final String CACHE_IMAGE_TYPE = "jpg";
     
     private final Resources r;
-    
+
+    @Inject
     public FileServer( final Resources r ) {
         this.r = r;
     }

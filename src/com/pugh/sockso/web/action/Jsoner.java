@@ -34,6 +34,8 @@ import java.util.Comparator;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class Jsoner extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Jsoner.class );
@@ -42,6 +44,7 @@ public class Jsoner extends BaseAction {
 
     private final ObjectCache cache;
 
+    @Inject
     public Jsoner( final CollectionManager cm, final ObjectCache cache ) {
         
         this.cm = cm;

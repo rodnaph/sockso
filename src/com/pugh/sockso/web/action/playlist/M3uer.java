@@ -13,8 +13,8 @@ import com.pugh.sockso.templates.TM3u;
 
 public class M3uer extends Playlister {
 
-    public M3uer( final String protocol ) {
-        super( protocol, "m3u" );
+    public void init( final String protocol ) {
+        super.init( protocol, "m3u" );
     }
 
     public PlaylistTemplate getPlaylistTemplate() {

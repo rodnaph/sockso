@@ -4,8 +4,6 @@ package com.pugh.sockso.web;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.PropertiesListener;
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.resources.Resources;
 
 import java.io.IOException;
 
@@ -20,23 +18,27 @@ import joptsimple.OptionSet;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 /**
  * 
  * A basic HTTP server.
  * 
  */
 
+@Singleton
 public class HttpServer extends Thread implements Server, PropertiesListener {
 
     public static final int DEFAULT_PORT = 4444;
 
-    private final Dispatcher dispatcher;
-    private final Database db;
+    private final Injector injector;
     private final Properties p;
-    private final Resources r;
-    private ServerSocket ss;
     private final Vector<ServerThread> threads;
-    private int port;
+    
+    private int port = DEFAULT_PORT;
+    private ServerSocket ss;
 
     private static Logger log = Logger.getLogger(Server.class);
 
@@ -44,26 +46,21 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *  Creates a new instance of a http server.  If the ip address given is null,
      *  then the server will try and work it out for itself.
      *
-     *  @param port
-     *  @param dispatcher
-     *  @param db the database to use
+     *  @param injector
      *  @param p app properties
-     *  @param r resources
      *
      */
 
-    public HttpServer( final int port, final Dispatcher dispatcher, final Database db, final Properties p, final Resources r ) {
+    @Inject
+    public HttpServer( final Injector injector, final Properties p ) {
 
-        this.port = port;
-        this.dispatcher = dispatcher;
-        this.db = db;
+        this.injector = injector;
         this.p = p;
-        this.r = r;
 
         threads = new Vector<ServerThread>();
 
     }
-
+    
     /**
      *  starts the web server, optionally binding to a specific ip (if this
      *  is null then we'll try and work it out ourselves)
@@ -72,11 +69,12 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *
      */
 
-    public void start( final OptionSet options ) {
+    public void start( final OptionSet options, final int port ) {
 
+        this.port = port;
+        
         p.addPropertiesListener( this );
 
-        // start the server thread
         start();
 
     }
@@ -94,7 +92,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
             ss = getServerSocket( port );
             log.info( "Listening on " + port );
             while ( true ) {
-                handleRequest( ss.accept(), dispatcher );
+                handleRequest( ss.accept());
             }
         }
 
@@ -115,12 +113,13 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *
      */
 
-    protected void handleRequest( final Socket client, final Dispatcher dispatcher ) {
+    protected void handleRequest( final Socket client ) {
 
-        //log.debug( "Connection Received" );
-
-        ServerThread st = new ServerThread( this, client, db, p, r, dispatcher );
+        final ServerThread st = injector.getInstance( ServerThread.class );
+        
         threads.addElement( st );
+        
+        st.setClientSocket( client );
         st.start();
 
     }

@@ -13,8 +13,8 @@ import com.pugh.sockso.templates.TXspf;
 
 public class Xspfer extends Playlister {
 
-    public Xspfer( final String protocol ) {
-        super( protocol, "xspf" );
+    public void init( final String protocol ) {
+        super.init( protocol, "xspf" );
     }
 
     public PlaylistTemplate getPlaylistTemplate() {

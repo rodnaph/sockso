@@ -3,9 +3,9 @@ package com.pugh.sockso.web;
 
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.resources.Resources;
-import com.pugh.sockso.music.CollectionManager;
+import com.pugh.sockso.StringProperties;
+import com.pugh.sockso.inject.SocksoModule;
+import com.pugh.sockso.tests.TestOptionSet;
 
 import java.io.IOException;
 
@@ -14,18 +14,26 @@ import java.net.ServerSocket;
 
 import junit.framework.TestCase;
 
-import static org.easymock.EasyMock.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class HttpServerTest extends TestCase {
 
+    private Injector injector;
+    
+    @Override
+    protected void setUp() {
+        injector = Guice.createInjector( new SocksoModule(new TestOptionSet()) );
+    }
+    
     /**
      *  empty implementation for testing
      * 
      */
     
     class MyHttpServer extends HttpServer {
-        public MyHttpServer( final Dispatcher dispatcher, final Database db, final Properties p, final Resources r ) {
-            super( 4444, dispatcher, db, p, r );
+        public MyHttpServer( final Properties p ) {
+            super( injector, p );
         }
         public ServerSocket getServerSocket( final int port ) throws IOException {
             return null;
@@ -37,27 +45,24 @@ public class HttpServerTest extends TestCase {
         
     public void testGetHost() {
         
-        final Properties p = createMock( Properties.class );
-        final String expectedIp = "123.435.324.653";
+        StringProperties p = new StringProperties();
+        String expectedIp = "123.435.324.653";
         
-        expect( p.get(Constants.SERVER_HOST) ).andReturn( expectedIp );
-        replay( p );
+        p.set( Constants.SERVER_HOST, expectedIp );
 
-        final MyHttpServer s = new MyHttpServer( null, null, p, null );
-        final String actualIp = s.getHost();
+        final MyHttpServer s = new MyHttpServer( p );
         
-        assertEquals( expectedIp + ":4444", actualIp );
         
-        verify( p );
+        assertEquals( expectedIp + ":4444", s.getHost() );
 
     }
      
     public void testHandleRequest() {
         
         final Socket client = new MySocket();
-        final MyHttpServer s = new MyHttpServer( null, null, null, null );
+        final MyHttpServer s = new MyHttpServer( null );
         
-        s.handleRequest( client, null );
+        s.handleRequest( client );
         
     }
     

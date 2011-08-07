@@ -5,11 +5,15 @@ import com.pugh.sockso.db.Database;
 
 import java.io.FileFilter;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 /**
  *  Indexes tracks for the collection
  * 
  */
 
+@Singleton
 public class TrackIndexer extends BaseIndexer {
 
     /**
@@ -19,6 +23,7 @@ public class TrackIndexer extends BaseIndexer {
      * 
      */
 
+    @Inject
     public TrackIndexer( final Database db ) {
         
         super( db );

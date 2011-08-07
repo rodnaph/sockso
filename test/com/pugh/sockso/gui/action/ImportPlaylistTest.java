@@ -8,6 +8,7 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.playlist.M3uFile;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestLocale;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +31,8 @@ public class ImportPlaylistTest extends SocksoTestCase {
             null,
             db,
             new DBCollectionManager( db, new StringProperties(), null ),
-            null
+            null,
+            new TestLocale()
         );
     }
     
@@ -55,7 +57,7 @@ public class ImportPlaylistTest extends SocksoTestCase {
         replay( db );
         
         final File playlistFile = new File( "myPlaylist.m3u" );
-        final ImportPlaylist ip = new ImportPlaylist( null, db, null, null );
+        final ImportPlaylist ip = new ImportPlaylist( null, db, null, null, new TestLocale() );
         
         assertEquals( "myPlaylist (2)", ip.getPlaylistName(playlistFile) );
         
