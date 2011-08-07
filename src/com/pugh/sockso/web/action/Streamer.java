@@ -1,11 +1,3 @@
-/**
- * Streamer.java
- *
- * Created on May 9, 2007, 11:48 AM
- *
- * Allows streaming of audio tracks
- * 
- */
 
 package com.pugh.sockso.web.action;
 
@@ -36,6 +28,8 @@ import java.sql.PreparedStatement;
 import java.sql.Types;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
@@ -281,8 +275,7 @@ public class Streamer extends BaseAction {
     }
 
     /**
-     *  decides if we're going to use the buffering technique to stream
-     *  music or not (set through properties)
+     *  Sends the music stream to the client, optionally handling range requests
      * 
      *  @param ms
      * 
@@ -303,6 +296,8 @@ public class Streamer extends BaseAction {
 
             audio = ms.getAudioStream();
             int bytesRead = 0;
+            
+            processRangeRequest( audio );
 
             while ( true ) {
                 bytesRead = audio.read( buffer );
@@ -320,6 +315,32 @@ public class Streamer extends BaseAction {
             return true;
         }
 
+    }
+
+    /**
+     *  Process range request headers to seek to positions in the audio stream
+     * 
+     */
+    
+    protected void processRangeRequest( final DataInputStream audio ) throws IOException {
+        
+        final String range = getRequest().getHeader( "Range" );
+        
+        if ( range.length() > 0 ) {
+            
+            final Pattern pattern = Pattern.compile( "bytes=(\\d+)-\\d+" );
+            final Matcher matcher = pattern.matcher( range );
+            
+            if ( matcher.matches() ) {
+                
+                final int seekTo = Integer.parseInt( matcher.group(1) );
+                
+                audio.skipBytes( seekTo );
+                
+            }
+            
+        }
+        
     }
     
     /**
