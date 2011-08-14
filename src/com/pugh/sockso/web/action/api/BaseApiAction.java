@@ -10,34 +10,6 @@ abstract public class BaseApiAction extends BaseAction implements ApiAction {
     
     public static final int DEFAULT_LIMIT = 100;
     
-    private ObjectCache objectCache;
-    
-    /**
-     *  Sets the ObjectCache to use
-     * 
-     *  @param objectCache 
-     * 
-     */
-    
-    public void setObjectCache( final ObjectCache objectCache ) {
-        
-        this.objectCache = objectCache;
-        
-    }
-    
-    /**
-     *  Returns the set ObjectCache, or null if not set
-     * 
-     *  @return 
-     * 
-     */
-    
-    public ObjectCache getObjectCache() {
-        
-        return objectCache;
-        
-    }
-    
     /**
      *  Return the number of results to limit by
      *

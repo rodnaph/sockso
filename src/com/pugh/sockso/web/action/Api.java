@@ -100,9 +100,6 @@ public class Api extends BaseAction {
                 action.setResponse( getResponse() );
                 action.setUser( getUser() );
                 action.setLocale( getLocale() );
-                action.setDatabase( getDatabase() );
-                action.setProperties( getProperties() );
-                action.setObjectCache( objectCache );
                 
                 try {
                     action.handleRequest();

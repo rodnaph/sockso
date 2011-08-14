@@ -36,22 +36,4 @@ public interface ApiAction extends WebAction {
     
     public int getOffset();
     
-    /**
-     *  Sets the object cache for the action
-     * 
-     *  @param objectCache 
-     * 
-     */
-    
-    public void setObjectCache( final ObjectCache objectCache );
-    
-    /**
-     *  Returns the actions object cache, or null if not set
-     * 
-     *  @return 
-     * 
-     */
-    
-    public ObjectCache getObjectCache();
-    
 }
