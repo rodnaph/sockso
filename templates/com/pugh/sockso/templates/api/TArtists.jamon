@@ -6,7 +6,7 @@
 </%import>
 
 <%args>
-    Vector<Artist> artists = null;
+    Artist[] artists = null;
 </%args>
 
 <%java>
@@ -21,7 +21,7 @@
 
         {
             "id": <% artist.getId() %>,
-            "name": <% JsonUtils.string(artist.getName()) %>,
+            "name": <% JsonUtils.string(artist.getName()) #n %>,
             "date_added": "<% artist.getDateAdded().toString() %>"
         }
 

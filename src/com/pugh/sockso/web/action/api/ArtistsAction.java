@@ -40,7 +40,7 @@ public class ArtistsAction extends BaseApiAction {
             getDatabase(), getLimit(), getOffset()
         );
         
-        showArtists( artists );
+        showArtists( artists.toArray( new Artist[] {} ) );
         
     }
     
@@ -53,7 +53,7 @@ public class ArtistsAction extends BaseApiAction {
      * 
      */
     
-    protected void showArtists( final Vector<Artist> artists ) throws IOException {
+    protected void showArtists( final Artist[] artists ) throws IOException {
         
         TArtists tpl = new TArtists();
         tpl.setArtists( artists );

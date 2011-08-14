@@ -7,4 +7,4 @@
     String message = null;
 </%args>
 
-{ "errorMessage": <% JsonUtils.string(message) %> }
+{ "errorMessage": <% JsonUtils.string(message) #n %> }

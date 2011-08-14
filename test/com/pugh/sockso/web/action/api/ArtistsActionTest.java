@@ -89,5 +89,15 @@ public class ArtistsActionTest extends SocksoTestCase {
         action.handleRequest();
         assertContains( res.getOutput(), "2011-01-01" );
     }
+
+    public void testArtistNamesDoNotHaveXmlCharactersEncoded() throws Exception {
+        db.update( "insert into artists ( name, date_added ) values ( '&<>\"', now() )" );
+        action.setRequest(getRequest( "/api/artists" ));
+        action.handleRequest();
+        assertNotContains( res.getOutput(), "&amp;" );
+        assertNotContains( res.getOutput(), "&lt;" );
+        assertNotContains( res.getOutput(), "&gt;" );
+        assertContains( res.getOutput(), "&<>" );
+    }
     
 }

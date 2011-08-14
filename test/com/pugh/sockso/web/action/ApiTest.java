@@ -2,14 +2,19 @@
 package com.pugh.sockso.web.action;
 
 import com.pugh.sockso.Constants;
+import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.StringProperties;
+import com.pugh.sockso.inject.SocksoModule;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.tests.TestOptionSet;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.api.ApiAction;
 
 import static org.easymock.EasyMock.*;
+
+import com.google.inject.Guice;
 
 public class ApiTest extends SocksoTestCase {
 
@@ -24,7 +29,7 @@ public class ApiTest extends SocksoTestCase {
         p = new StringProperties();
         p.set( Constants.WWW_USERS_REQUIRE_LOGIN, p.YES );
         res = new TestResponse();
-        api = new Api();
+        api = new Api( new ObjectCache(), Guice.createInjector(new SocksoModule(new TestOptionSet())) );
         api.setProperties( p );
         api.setResponse( res );
     }

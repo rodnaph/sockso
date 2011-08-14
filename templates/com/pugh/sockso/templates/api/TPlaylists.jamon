@@ -24,7 +24,7 @@
             <%if playlist.getUser() != null %>
                 , "user": {
                     "id": <% playlist.getUser().getId() %>,
-                    "name": <% JsonUtils.string(playlist.getUser().getName()) %>
+                    "name": <% JsonUtils.string(playlist.getUser().getName()) #n %>
                 }
             </%if>
         }

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+
 public class AudioScrobbler {
 
     private final int ONE_HOUR_IN_SECONDS = 60 * 60;
@@ -36,6 +38,7 @@ public class AudioScrobbler {
      *
      */
 
+    @Inject
     public AudioScrobbler( final Database db, final ObjectCache cache ) {
         
         this.db = db;

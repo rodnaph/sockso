@@ -144,41 +144,12 @@ public class Jsoner extends BaseAction {
     protected void similarArtists() throws BadRequestException, SQLException, IOException {
         
         final AudioScrobbler scrobbler = new AudioScrobbler( getDatabase(), cache );
+        final RelatedArtists related = new RelatedArtists( getDatabase(), scrobbler );
         final Request req = getRequest();
         final int artistId = Integer.parseInt( req.getUrlParam(2) );
         
-        ResultSet rs = null;
-        PreparedStatement st = null;
-        
-        try {
-            
-            final Database db = getDatabase();
-            final ArrayList<Artist> artists = new ArrayList<Artist>();
-            String artistSql = " '' ";
-            
-            for ( final String artist : scrobbler.getSimilarArtists(artistId) ) {
-                artistSql += " , '" +db.escape(artist)+ "' ";
-            }
+        showSimilarArtists( related.getRelatedArtistsFor(artistId) );
 
-            final String sql = " select id, name " +
-                               " from artists " +
-                               " where name in ( " +artistSql+ " ) ";
-
-            st = db.prepare( sql );
-            rs = st.executeQuery();
-            
-            while ( rs.next() )
-                artists.add( new Artist(rs.getInt("id"),rs.getString("name")) );
-
-            showSimilarArtists( artists );
-            
-        }
-        
-        finally {
-            Utils.close( rs );
-            Utils.close( st );
-        }
-        
     }
 
     /**
@@ -188,11 +159,11 @@ public class Jsoner extends BaseAction {
      * 
      */
     
-    protected void showSimilarArtists( final ArrayList<Artist> artists ) throws IOException {
+    protected void showSimilarArtists( final Artist[] artists ) throws IOException {
         
         final TSimilarArtists tpl = new TSimilarArtists();
         
-        tpl.setArtists( artists.toArray( new Artist[] {} ) );
+        tpl.setArtists( artists );
         
         getResponse().showJson( tpl.makeRenderer() );
 

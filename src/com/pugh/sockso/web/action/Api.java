@@ -2,27 +2,21 @@
 package com.pugh.sockso.web.action;
 
 import com.pugh.sockso.Constants;
+import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.templates.api.TException;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
-import com.pugh.sockso.web.action.api.AlbumAction;
-import com.pugh.sockso.web.action.api.AlbumTracksAction;
-import com.pugh.sockso.web.action.api.AlbumsAction;
-import com.pugh.sockso.web.action.api.ApiAction;
-import com.pugh.sockso.web.action.api.ArtistAction;
-import com.pugh.sockso.web.action.api.ArtistTracksAction;
-import com.pugh.sockso.web.action.api.ArtistsAction;
-import com.pugh.sockso.web.action.api.PlaylistAction;
-import com.pugh.sockso.web.action.api.PlaylistsAction;
-import com.pugh.sockso.web.action.api.RootAction;
-import com.pugh.sockso.web.action.api.SessionAction;
-import com.pugh.sockso.web.action.api.TrackAction;
-import com.pugh.sockso.web.action.api.TracksAction;
+import com.pugh.sockso.web.action.api.*;
 
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
+import java.util.Vector;
 
 /**
  *  End point for Sockso Web API methods.
@@ -31,6 +25,18 @@ import java.io.IOException;
 public class Api extends BaseAction {
 
     private static final Logger log = Logger.getLogger( Api.class );
+    
+    private final ObjectCache objectCache;
+
+    private final Injector injector;
+
+    @Inject
+    public Api( final ObjectCache objectCache, final Injector injector ) {
+        
+        this.objectCache = objectCache;
+        this.injector = injector;
+        
+    }
 
     /**
      *  Run through API actions looking for one to handle the request
@@ -96,6 +102,7 @@ public class Api extends BaseAction {
                 action.setLocale( getLocale() );
                 action.setDatabase( getDatabase() );
                 action.setProperties( getProperties() );
+                action.setObjectCache( objectCache );
                 
                 try {
                     action.handleRequest();
@@ -146,32 +153,52 @@ public class Api extends BaseAction {
      */
     protected ApiAction[] getApiActions() {
 
-        return new ApiAction[] {
+        final Vector<ApiAction> actions = new Vector<ApiAction>();
+
+        for ( final Class actionClass : getApiActionClasses() ) {
+            actions.add( (ApiAction) injector.getInstance(actionClass) );
+        }
+
+        return actions.toArray( new ApiAction[] {} );
+
+    }
+
+    /**
+     *  Returns the class objects for all the API actions
+     *
+     *  @return
+     *
+     */
+
+    protected Class[] getApiActionClasses() {
+
+        return new Class[] {
             
-            new RootAction(),
-            new SessionAction(),
+            RootAction.class,
+            SessionAction.class,
             
             // playlists
             
-            new PlaylistAction(),
-            new PlaylistsAction(),
-            
+            PlaylistAction.class,
+            PlaylistsAction.class,
+           
             // tracks
             
-            new TrackAction(),
-            new TracksAction(),
+            TrackAction.class,
+            TracksAction.class,
             
             // artists
             
-            new ArtistTracksAction(),
-            new ArtistAction(),
-            new ArtistsAction(),
+            ArtistTracksAction.class,
+            ArtistAction.class,
+            ArtistsAction.class,
+            ArtistRelatedAction.class,
             
             // albums
             
-            new AlbumAction(),
-            new AlbumsAction(),
-            new AlbumTracksAction()
+            AlbumAction.class,
+            AlbumsAction.class,
+            AlbumTracksAction.class
 
         };
 

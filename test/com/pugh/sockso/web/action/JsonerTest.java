@@ -77,20 +77,6 @@ public class JsonerTest extends SocksoTestCase {
 
     }
  
-    public void testShowSimilarArtists() throws IOException {
-        
-        final ArrayList<Artist> artists = new ArrayList<Artist>();
-        final Jsoner j = new Jsoner( null, null );
-        final Response res = new TestResponse();
-        final Artist artist = TestUtils.getArtist();
-        
-        artists.add( artist );
-        
-        j.setResponse( res );
-        j.showSimilarArtists( artists );
-        
-    }
- 
     public void testGetOrderedFiles() throws Exception {
         
         final Jsoner j = new Jsoner( null, null );

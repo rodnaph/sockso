@@ -13,6 +13,6 @@
     "name": <% JsonUtils.string(album.getName()) %>,
     "artist": {
         "id": <% album.getArtist().getId() %>,
-        "name": <% JsonUtils.string(album.getArtist().getName()) %>
+        "name": <% JsonUtils.string(album.getArtist().getName()) #n %>
     }
 }

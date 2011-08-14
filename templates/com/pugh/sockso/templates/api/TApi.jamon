@@ -17,8 +17,8 @@
 </%java>
 
 {
-    "title": <% JsonUtils.string(properties.get(Constants.WWW_TITLE)) %>,
-    "tagline": <% JsonUtils.string(properties.get(Constants.WWW_TAGLINE)) %>,
+    "title": <% JsonUtils.string(properties.get(Constants.WWW_TITLE)) #n %>,
+    "tagline": <% JsonUtils.string(properties.get(Constants.WWW_TAGLINE)) #n %>,
     "version": "<% Sockso.VERSION %>",
     "requiresLogin": "<% requiresLogin %>"
 }

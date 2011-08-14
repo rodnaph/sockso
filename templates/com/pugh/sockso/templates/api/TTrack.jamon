@@ -10,16 +10,16 @@
 
 {
     "id": <% track.getId() %>,
-    "name": <% JsonUtils.string(track.getName()) %>,
+    "name": <% JsonUtils.string(track.getName()) #n %>,
 
     "album": {
         "id": <% track.getAlbum().getId() %>,
-        "name": <% JsonUtils.string(track.getAlbum().getName()) %>
+        "name": <% JsonUtils.string(track.getAlbum().getName()) #n %>
     },
 
     "artist": {
         "id": <% track.getArtist().getId() %>,
-        "name": <% JsonUtils.string(track.getArtist().getName()) %>
+        "name": <% JsonUtils.string(track.getArtist().getName()) #n %>
     }
 
 }
