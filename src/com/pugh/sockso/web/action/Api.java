@@ -152,8 +152,11 @@ public class Api extends BaseAction {
 
         final Vector<ApiAction> actions = new Vector<ApiAction>();
 
-        for ( final Class actionClass : getApiActionClasses() ) {
-            actions.add( (ApiAction) injector.getInstance(actionClass) );
+        @SuppressWarnings( "unchecked" )
+        Class<ApiAction>[] actionClasses = getApiActionClasses();
+
+        for ( final Class<ApiAction> actionClass : actionClasses ) {
+            actions.add( (ApiAction) injector.getInstance( actionClass ) );
         }
 
         return actions.toArray( new ApiAction[] {} );
