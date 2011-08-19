@@ -41,7 +41,7 @@
                 },
 
                 "album": {
-                    "id": "ar<% album.getId() %>",
+                    "id": "al<% album.getId() %>",
                     "name": <% JsonUtils.string(album.getName()) %>
                 }
 
