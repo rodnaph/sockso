@@ -344,7 +344,7 @@ h3.info {
     border-top: 1px #ccc solid;
     background-color: #eee;
     width: 300px;
-    padding: 6px;
+    padding: 6px 6px 6px 27px;
     z-index: 100;
 }
 #search-results li {

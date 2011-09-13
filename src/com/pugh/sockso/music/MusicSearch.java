@@ -106,7 +106,7 @@ public class MusicSearch {
 
                 " union " +
 
-                " select '" + MusicItem.ALBUM + "', p.id, p.name, -1, '', -1, '' " +
+                " select '" + MusicItem.PLAYLIST + "', p.id, p.name, -1, '', -1, '' " +
                 " from playlists p " +
                 " where p.name like '%" + db.escape(query) + "%' " +
 
@@ -149,6 +149,14 @@ public class MusicSearch {
                     rs.getInt("id"), rs.getString("name"), ""
                 );
                 items.addElement( album );
+            }
+                    
+            else if ( type.equals(MusicItem.PLAYLIST) ) {
+                final Playlist playlist = new Playlist(
+                    rs.getInt("id"),
+                    rs.getString("name")
+                );
+                items.addElement( playlist );
             }
 
             else {

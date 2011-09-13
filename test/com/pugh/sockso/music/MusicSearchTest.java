@@ -44,6 +44,11 @@ public class MusicSearchTest extends SocksoTestCase {
         assertEquals( "Foo Bar", items.get(0).getName() );
     }
     
+    public void testPlaylistsReturnedAsPlaylistObjects() throws Exception {
+        Vector<MusicItem> items = search.search( "Foo Bar" );
+        assertEquals( Playlist.class, items.get(0).getClass() );
+    }
+    
     public void testTracksReturnedAsTrackObjects() throws Exception {
         Vector<MusicItem> items = search.search( "My Track" );
         assertEquals( Track.class, items.get(0).getClass() );
