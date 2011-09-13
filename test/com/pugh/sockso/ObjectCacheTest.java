@@ -1,7 +1,6 @@
 
 package com.pugh.sockso;
 
-import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.tests.SocksoTestCase;
 
 public class ObjectCacheTest extends SocksoTestCase {
@@ -17,7 +16,7 @@ public class ObjectCacheTest extends SocksoTestCase {
         cache = new ObjectCache();
     }
 
-    public void testNothingCachedByDefault() {
+    public void testObjectsAreNotCachedInitially() {
         assertFalse( cache.isCached(key) );
     }
 
@@ -39,6 +38,22 @@ public class ObjectCacheTest extends SocksoTestCase {
         cache.write( key, data, 1 );
         assertTrue( cache.isCached(key) );
         Thread.sleep( 2000 );
+        assertFalse( cache.isCached(key) );
+    }
+    
+    public void testCacheIsEmptyByDefault() {
+        assertEquals( 0, cache.getKeys().size() );
+    }
+    
+    public void testAllCacheKeysCanBeFetched() {
+        cache.write( "foo", "1" );
+        assertEquals( 1, cache.getKeys().size() );
+        assertEquals( "foo", cache.getKeys().toArray()[0] );
+    }
+    
+    public void testCacheValueCanBeDeletedByKey() {
+        cache.write( key, data );
+        cache.delete( key );
         assertFalse( cache.isCached(key) );
     }
     

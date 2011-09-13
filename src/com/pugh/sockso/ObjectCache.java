@@ -3,8 +3,8 @@ package com.pugh.sockso;
 
 import com.google.inject.Singleton;
 
-import java.util.Date;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -13,7 +13,7 @@ public class ObjectCache {
 
     private static final Logger log = Logger.getLogger( ObjectCache.class );
 
-    private Hashtable<String,CachedObject> data;
+    private HashMap<String,CachedObject> data;
 
     /**
      *  Create a new object cache
@@ -22,7 +22,7 @@ public class ObjectCache {
     
     public ObjectCache() {
 
-        data = new Hashtable<String,CachedObject>();
+        data = new HashMap<String,CachedObject>();
         
     }
 
@@ -38,7 +38,7 @@ public class ObjectCache {
     public boolean isCached( final String key ) {
 
         final CachedObject object = readRaw( key );
-        final boolean isCached = ( object != null && !object.isExpired() );
+        final boolean isCached = isCacheOk( object );
 
         log.debug( "Cache " +(isCached ? "hit" : "miss")+ " for " +key );
 
@@ -70,7 +70,7 @@ public class ObjectCache {
      *
      */
     
-    public void write( final String key, final Object value, final int timeout ) {
+    public synchronized void write( final String key, final Object value, final int timeout ) {
 
         log.debug(
             "Write key " +key+
@@ -92,7 +92,7 @@ public class ObjectCache {
     
     public Object read( final String key ) {
         
-        final CachedObject object = data.get( key );
+        final CachedObject object = readRaw( key );
 
         return isCacheOk( object )
             ? object.getValue()
@@ -124,10 +124,36 @@ public class ObjectCache {
      *
      */
 
-    private CachedObject readRaw( final String key ) {
+    private synchronized CachedObject readRaw( final String key ) {
 
         return data.get( key );
 
+    }
+    
+    /**
+     *  Returns an enumeration of all the keys in the cache
+     * 
+     *  @return 
+     * 
+     */
+    
+    public Set<String> getKeys() {
+        
+        return data.keySet();
+        
+    }
+    
+    /**
+     *  Deletes a key and it's value from the cache
+     * 
+     *  @param key 
+     * 
+     */
+    
+    public void delete( final String key ) {
+        
+        data.remove( key );
+        
     }
 
 }

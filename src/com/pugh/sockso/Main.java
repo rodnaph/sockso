@@ -225,6 +225,8 @@ public class Main {
         injector.getInstance( CommunityUpdater.class ).start();
 
         injector.getInstance( SessionCleaner.class ).init();
+        
+        injector.getInstance( ObjectCacheGC.class ).start();
 
         final IpFinder ipFinder = injector.getInstance( IpFinder.class );
         ipFinder.init();
