@@ -256,6 +256,8 @@ public class Sockso {
         <zip destfile="${dir.packages}/sockso-latest.zip" basedir="${dir.temp}" />
         <zip destfile="${dir.packages}/sockso-${sockso.version}.zip" basedir="${dir.temp}" />
 
+        <!-- @todo make 64bit windows archive -->
+
         <!-- done, cleanup! -->
         <move file="${dir.temp}/sockso-${sockso.version}" tofile="${dir.dist}" />
         <delete dir="${dir.temp}" />
