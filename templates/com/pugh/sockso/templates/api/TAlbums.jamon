@@ -1,11 +1,10 @@
 
 <%import>
     com.pugh.sockso.music.Album;
-    java.util.Vector;
 </%import>
 
 <%args>
-    Vector<Album> albums = null;
+    Album[] albums = null;
 </%args>
 
 <%java>

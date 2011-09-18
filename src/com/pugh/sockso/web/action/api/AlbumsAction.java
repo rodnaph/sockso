@@ -9,8 +9,6 @@ import java.io.IOException;
 
 import java.sql.SQLException;
 
-import java.util.Vector;
-
 public class AlbumsAction extends BaseApiAction {
 
     /**
@@ -23,7 +21,7 @@ public class AlbumsAction extends BaseApiAction {
     
     public void handleRequest() throws SQLException, IOException {
     
-        Vector<Album> albums = Album.findAll(
+        Album[] albums = Album.findAll(
             getDatabase(),
             getLimit(),
             getOffset()
@@ -42,7 +40,7 @@ public class AlbumsAction extends BaseApiAction {
      * 
      */
     
-    protected void showAlbums( final Vector<Album> albums ) throws IOException {
+    protected void showAlbums( final Album[] albums ) throws IOException {
         
         TAlbums tpl = new TAlbums();
         tpl.setAlbums( albums );

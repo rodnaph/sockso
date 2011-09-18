@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import java.util.Date;
 import java.util.Vector;
+import java.util.ArrayList;
 
 public class Album extends MusicItem {
 
@@ -74,7 +75,7 @@ public class Album extends MusicItem {
      * 
      */
     
-    public static Vector<Album> findByArtistId( final Database db, final int artistId ) throws SQLException {
+    public static Album[] findByArtistId( final Database db, final int artistId ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -88,7 +89,7 @@ public class Album extends MusicItem {
             st.setInt( 1, artistId );
             rs = st.executeQuery();
             
-            return createVectorFromResultSet( rs );
+            return createArrayFromResultSet( rs );
             
         }
         
@@ -152,15 +153,15 @@ public class Album extends MusicItem {
      * 
      */
     
-    protected static Vector<Album> createVectorFromResultSet( final ResultSet rs ) throws SQLException {
+    protected static Album[] createArrayFromResultSet( final ResultSet rs ) throws SQLException {
         
-        final Vector<Album> albums = new Vector<Album>();
+        final ArrayList<Album> albums = new ArrayList<Album>();
         
         while ( rs.next() ) {
             albums.add( createFromResultSet(rs) );
         }
 
-        return albums;
+        return albums.toArray( new Album[] {} );
 
     }
         
@@ -218,7 +219,7 @@ public class Album extends MusicItem {
      * 
      */
     
-    public static Vector<Album> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+    public static Album[] findAll( final Database db, final int limit, final int offset ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -236,7 +237,7 @@ public class Album extends MusicItem {
             st = db.prepare( sql );
             rs = st.executeQuery();
             
-            return createVectorFromResultSet( rs );
+            return createArrayFromResultSet( rs );
             
         }
         

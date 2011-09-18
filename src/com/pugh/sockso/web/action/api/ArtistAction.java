@@ -11,8 +11,6 @@ import java.io.IOException;
 
 import java.sql.SQLException;
 
-import java.util.Vector;
-
 public class ArtistAction extends BaseApiAction {
     
     /**
@@ -52,7 +50,7 @@ public class ArtistAction extends BaseApiAction {
             throw new BadRequestException( "Invalid artist ID", 404 );
         }
         
-        final Vector<Album> albums = Album.findByArtistId(
+        final Album[] albums = Album.findByArtistId(
             getDatabase(),
             artist.getId()
         );
@@ -71,7 +69,7 @@ public class ArtistAction extends BaseApiAction {
      * 
      */
     
-    protected void showArtist( final Artist artist, final Vector<Album> albums ) throws IOException {
+    protected void showArtist( final Artist artist, final Album[] albums ) throws IOException {
         
         final TArtist tpl = new TArtist();
         tpl.setArtist( artist );
