@@ -4,10 +4,10 @@ package com.pugh.sockso.web.action.api;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.templates.api.TArtists;
 import com.pugh.sockso.web.Request;
-import java.io.IOException;
-import java.sql.SQLException;
 
-import java.util.Vector;
+import java.io.IOException;
+
+import java.sql.SQLException;
 
 public class ArtistsAction extends BaseApiAction {
 
@@ -36,11 +36,11 @@ public class ArtistsAction extends BaseApiAction {
     
     public void handleRequest() throws SQLException, IOException {
         
-        final Vector<Artist> artists = Artist.findAll(
+        final Artist[] artists = Artist.findAll(
             getDatabase(), getLimit(), getOffset()
         );
         
-        showArtists( artists.toArray( new Artist[] {} ) );
+        showArtists( artists );
         
     }
     

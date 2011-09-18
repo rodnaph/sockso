@@ -5,7 +5,6 @@ import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 
 import java.util.Date;
-import java.util.Vector;
 
 public class ArtistTest extends SocksoTestCase {
     
@@ -56,39 +55,39 @@ public class ArtistTest extends SocksoTestCase {
     
     public void testFindallReturnsAllArtists() throws Exception {
         db.fixture( "artists" );
-        Vector<Artist> artists = Artist.findAll( db, 3, 0 );
-        assertEquals( 3, artists.size() );
+        Artist[] artists = Artist.findAll( db, 3, 0 );
+        assertEquals( 3, artists.length );
     }
     
     public void testFindallCanBeLimited() throws Exception {
         db.fixture( "artists" );
-        Vector<Artist> artists = Artist.findAll( db, 2, 0 );
-        assertEquals( 2, artists.size() );
+        Artist[] artists = Artist.findAll( db, 2, 0 );
+        assertEquals( 2, artists.length );
     }
     
     public void testFindallCanBeOffset() throws Exception {
         db.fixture( "artists" );
-        Vector<Artist> artists = Artist.findAll( db, 3, 1 );
-        assertEquals( 2, artists.size() );
+        Artist[] artists = Artist.findAll( db, 3, 1 );
+        assertEquals( 2, artists.length );
     }
     
     public void testFindallLimitOfMinusOneMeansNoLimit() throws Exception {
         db.fixture( "artists" );
-        Vector<Artist> artists = Artist.findAll( db, -1, 0 );
-        assertEquals( 3, artists.size() );
+        Artist[] artists = Artist.findAll( db, -1, 0 );
+        assertEquals( 3, artists.length );
     }
     
     public void testFindallReturnsArtistsAlphabetically() throws Exception {
         db.fixture( "artists" );
-        Vector<Artist> artists = Artist.findAll( db, -1, 0 );
-        assertEquals( "A Artist", artists.elementAt(0).getName() );
-        assertEquals( "Xylophone", artists.elementAt(2).getName() );
+        Artist[] artists = Artist.findAll( db, -1, 0 );
+        assertEquals( "A Artist", artists[0].getName() );
+        assertEquals( "Xylophone", artists[2].getName() );
     }
     
     public void testFindallReturnsArtistsWithTheirDateAddedSet() throws Exception {
         db.fixture( "artists" );
-        Vector<Artist> artists = Artist.findAll( db, -1, 0 );
-        assertEquals( "2011-02-03", artists.elementAt(0).getDateAdded().toString() );
+        Artist[] artists = Artist.findAll( db, -1, 0 );
+        assertEquals( "2011-02-03", artists[0].getDateAdded().toString() );
     }
     
 }
