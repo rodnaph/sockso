@@ -112,10 +112,10 @@ public class TrackTest extends SocksoTestCase {
         replay( rs );
         
         try {
-            final Vector<Track> tracks = Track.createVectorFromResultSet( rs );
+            final Track[] tracks = Track.createArrayFromResultSet( rs );
             assertNotNull( tracks );
-            assertEquals( 1, tracks.size() );
-            final Track track = tracks.elementAt( 0 );
+            assertEquals( 1, tracks.length );
+            final Track track = tracks[ 0 ];
             assertEquals( albumName, track.getAlbum().getName() );
             assertEquals( albumYear, track.getAlbum().getYear() );
             verify( rs );
@@ -165,7 +165,7 @@ public class TrackTest extends SocksoTestCase {
         replay( db );
                 
         try {
-            final Vector<Track> tracks = Track.getTracks( db, "ar", -1 );
+            final Track[] tracks = Track.getTracks( db, "ar", -1 );
             verify( rs );
             verify( db );
         }
@@ -192,7 +192,7 @@ public class TrackTest extends SocksoTestCase {
 
         try {
             final String[] args = { "ar123" };
-            final Vector<Track> tracks = Track.getTracksFromPlayArgs( db, args );
+            final Track[] tracks = Track.getTracksFromPlayArgs( db, args );
             verify( rs );
             verify( db );
         }
@@ -239,8 +239,8 @@ public class TrackTest extends SocksoTestCase {
     public void testGettingTracksForAPathReturnsThoseInThatFolderAndSubFolders() throws Exception {
         TestDatabase db = new TestDatabase();
         db.fixture( "tracksForPath" );
-        Vector<Track> tracks = Track.getTracksFromPath( db, "/music" );
-        assertEquals( 2, tracks.size() );
+        Track[] tracks = Track.getTracksFromPath( db, "/music" );
+        assertEquals( 2, tracks.length );
     }
     
     public void testFindingTrackWithNonExistantIdReturnsNull() throws Exception {
@@ -271,29 +271,29 @@ public class TrackTest extends SocksoTestCase {
     public void testFindallReturnsAllTracksRequested() throws Exception {
         TestDatabase db = new TestDatabase();
         db.fixture( "artistsAlbumsAndTracks" );
-        Vector<Track> tracks = Track.findAll( db, 100, 0 );
-        assertEquals( 3, tracks.size() );
+        Track[] tracks = Track.findAll( db, 100, 0 );
+        assertEquals( 3, tracks.length );
     }
     
     public void testFindallCanBeLimited() throws Exception {
         TestDatabase db = new TestDatabase();
         db.fixture( "artistsAlbumsAndTracks" );
-        Vector<Track> tracks = Track.findAll( db, 2, 0 );
-        assertEquals( 2, tracks.size() );
+        Track[] tracks = Track.findAll( db, 2, 0 );
+        assertEquals( 2, tracks.length );
     }
     
     public void testFindallCanBeOffset() throws Exception {
         TestDatabase db = new TestDatabase();
         db.fixture( "artistsAlbumsAndTracks" );
-        Vector<Track> tracks = Track.findAll( db, 100, 1 );
-        assertEquals( 2, tracks.size() );
+        Track[] tracks = Track.findAll( db, 100, 1 );
+        assertEquals( 2, tracks.length );
     }
     
     public void testFindallWithLimitOfMinusOneMeansNoLimit() throws Exception {
         TestDatabase db = new TestDatabase();
         db.fixture( "artistsAlbumsAndTracks" );
-        Vector<Track> tracks = Track.findAll( db, -1, 0 );
-        assertEquals( 3, tracks.size() );
+        Track[] tracks = Track.findAll( db, -1, 0 );
+        assertEquals( 3, tracks.length );
     }
 
 }

@@ -114,7 +114,7 @@ public abstract class BaseAction implements WebAction {
             st.setInt( 1, limit );
             rs = st.executeQuery();
             
-            return Track.createVectorFromResultSet( rs );
+            return Track.createArrayFromResultSet( rs );
         
         }
         
@@ -182,7 +182,7 @@ public abstract class BaseAction implements WebAction {
             st = db.prepare( sql );
             st.setInt( 1, Integer.parseInt(limit) );
 
-            return Track.createVectorFromResultSet( st.executeQuery() );
+            return Track.createArrayFromResultSet( st.executeQuery() );
 
         }
         

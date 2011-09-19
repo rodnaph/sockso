@@ -95,7 +95,7 @@ public class Albumer extends BaseAction {
             st.setInt( 1, albumId );
             rs = st.executeQuery();
 
-            return Track.createVectorFromResultSet( rs );
+            return Track.createArrayFromResultSet( rs );
             
         }
         

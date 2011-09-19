@@ -159,7 +159,7 @@ public class Homer extends BaseAction {
             st.setInt( 1, total );
             rs = st.executeQuery();
             
-            return Track.createVectorFromResultSet( rs );
+            return Track.createArrayFromResultSet( rs );
                     
                     
         }

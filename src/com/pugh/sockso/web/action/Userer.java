@@ -193,7 +193,7 @@ public class Userer extends BaseAction {
             st.setInt( 1, user.getId() );
             rs = st.executeQuery();
 
-            return Track.createVectorFromResultSet( rs );
+            return Track.createArrayFromResultSet( rs );
 
         }
 
