@@ -83,6 +83,12 @@
         <mkdir dir="${dir.build}" />
         <mkdir dir="${dir.build.test}" />
         <mkdir dir="${dir.packages}" />
+        <if>
+            <not><available file="sockso.properties" /></not>
+            <then>
+                <copy file="sockso.properties-sample" tofile="sockso.properties" />
+            </then>
+        </if>
     </target>
 
     <!--
