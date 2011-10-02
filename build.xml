@@ -219,7 +219,7 @@ public class Sockso {
     -->
 
     <target name="javadocs">
-        <javadoc sourcepath="${dir.src}" destdir="${dir.javadocs}" />
+        <javadoc sourcepath="${dir.src}" destdir="${dir.javadocs}" classpath="${app.classpath}:${dev.classpath}:${opt.classpath}" />
     </target>
 
     <!-- make packages from dist -->
