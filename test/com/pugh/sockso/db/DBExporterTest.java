@@ -23,11 +23,21 @@ public class DBExporterTest extends SocksoTestCase {
     public void testExportXml() throws SQLException {
         
         DBExporter exporter = new DBExporter( getTestDatabase() );
-        String expected = "<?xml version=\"1.0\"?>\n\n" +
+
+        String expected = "<?xml version=\"1.0\"?>\r\n\r\n" + 
                             "<results><row><name>value</name><another>" +
                             "some &amp; value &lt; &gt;</another></row></results>";        
         String actual = exporter.export( "", DBExporter.Format.XML );
-
+        
+        // TODO: REMOVE DEV CODE
+        System.out.println("EXPECTED: *{"+ expected +"}*");
+        System.out.println("ACTUAL:   *{"+ actual +"}*");
+        
+        for(int i = 0; i < expected.length(); i++){
+            boolean isequal = expected.charAt(i) == actual.charAt(i);
+            System.out.println("Comparing: [" + expected.charAt(i) + "] <-> [" + actual.charAt(i) + "] : " + isequal);
+        }
+        
         assertEquals( expected, actual );
 
     }
