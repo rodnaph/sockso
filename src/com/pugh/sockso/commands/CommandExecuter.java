@@ -123,19 +123,23 @@ public class CommandExecuter {
 
     protected String[] getArgs( final String command ) {
     	
-    	Vector<String> args = new Vector<String>();
+    	final Vector<String> args = new Vector<String>();
 
     	String arg = new String();
         boolean previousEscape = false;
+        boolean inString = false;
 
     	for ( char c: command.toCharArray() ) {
 
             if ( Character.isWhitespace(c)) {
-                if ( previousEscape ) {
+                if ( inString ) {
                     arg += c;
                 }
-                else {
-                    args.add(new String(arg));
+                else if ( previousEscape ) {
+                    arg += c;
+                }
+                else if ( arg.length() > 0 ) {
+                    args.add( arg );
                     arg = "";
                 }
                 continue;
@@ -146,6 +150,18 @@ public class CommandExecuter {
                 continue;
             }
 
+            if ( inString && c == '"' ) {
+                args.add( arg );
+                arg = "";
+                inString = false;
+                continue;
+            }
+
+            if ( c == '"' ) {
+                inString = true;
+                continue;
+            }
+
             arg += c;
 
             previousEscape = false;
@@ -153,7 +169,7 @@ public class CommandExecuter {
     	}
 
     	if (arg.length() > 0) {
-            args.add(arg);
+            args.add( arg );
         }
 
         return args.toArray(new String[0]);

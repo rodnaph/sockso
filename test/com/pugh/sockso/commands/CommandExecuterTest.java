@@ -73,4 +73,11 @@ public class CommandExecuterTest extends SocksoTestCase {
         assertEquals( "r od", user.getName() );
     }
 
+    public void testQuotesCanBeUsedInArguments() throws Exception {
+        cmd.execute( "propset foo \"bah bah\"" );
+        assertEquals( "bah bah", p.get("foo") );
+        cmd.execute( "propset \"foo foo\" \"baz baz baz\"" );
+        assertEquals( "baz baz baz", p.get("foo foo") );
+    }
+
 }
