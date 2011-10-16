@@ -27,7 +27,7 @@ public class CommandExecuterTest extends SocksoTestCase {
         locale = new TestLocale();
         locale.setString( "con.desc.commands", "Usage:" );
         locale.setString( "con.msg.propertySaved", "property saved" );
-        cmd = new CommandExecuter( db, p, null, locale );
+        cmd = new CommandExecuter( db, p, null, locale, new CommandParser() );
     }
 
 

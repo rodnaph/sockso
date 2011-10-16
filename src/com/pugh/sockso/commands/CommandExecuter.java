@@ -1,8 +1,6 @@
 
 package com.pugh.sockso.commands;
 
-import java.util.Vector;
-
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CollectionManager;
@@ -30,13 +28,16 @@ public class CommandExecuter {
 
     private final Command[] commands;
 
+    private final CommandParser parser;
+
     @Inject
-    public CommandExecuter( final Database db, final Properties p, final CollectionManager cm, final Locale locale ) {
+    public CommandExecuter( final Database db, final Properties p, final CollectionManager cm, final Locale locale, CommandParser parser ) {
 
         this.db = db;
         this.p = p;
         this.cm = cm;
         this.locale = locale;
+        this.parser = parser;
 
         commands = new Command[] {
 
@@ -73,7 +74,7 @@ public class CommandExecuter {
 
     public String execute( final String command ) throws Exception {
 
-        final String[] args = getArgs( command );
+        final String[] args = parser.parseCommand( command );
         final String name = args.length > 0 ? args[0] : "";
 
         for ( final Command cmd : commands ) {
@@ -112,71 +113,7 @@ public class CommandExecuter {
 
     }
 
-    /**
-     *  Returns the arguments to use for the command
-     *
-     *  @param command
-     *
-     *  @return
-     *
-     */
-
-    protected String[] getArgs( final String command ) {
-    	
-    	final Vector<String> args = new Vector<String>();
-
-    	String arg = new String();
-        boolean previousEscape = false;
-        boolean inString = false;
-
-    	for ( char c: command.toCharArray() ) {
-
-            if ( Character.isWhitespace(c)) {
-                if ( inString ) {
-                    arg += c;
-                }
-                else if ( previousEscape ) {
-                    arg += c;
-                }
-                else if ( arg.length() > 0 ) {
-                    args.add( arg );
-                    arg = "";
-                }
-                continue;
-            }
-
-            if ( c == '\\' && !previousEscape) {
-                previousEscape = true;
-                continue;
-            }
-
-            if ( inString && c == '"' ) {
-                args.add( arg );
-                arg = "";
-                inString = false;
-                continue;
-            }
-
-            if ( c == '"' ) {
-                inString = true;
-                continue;
-            }
-
-            arg += c;
-
-            previousEscape = false;
-
-    	}
-
-    	if (arg.length() > 0) {
-            args.add( arg );
-        }
-
-        return args.toArray(new String[0]);
-
-    }
-
-    /**
+   /**
      *  Returns a description of the possible commands
      *
      *  @return
