@@ -2,6 +2,7 @@
 package com.pugh.sockso.web.action.admin;
 
 import com.pugh.sockso.commands.CommandExecuter;
+import com.pugh.sockso.commands.CommandParser;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.templates.web.admin.TConsole;
 import com.pugh.sockso.web.action.AdminAction;
@@ -59,7 +60,7 @@ public class Console extends AdminAction {
     protected void processCommand() throws Exception {
 
         final String command = getRequest().getArgument( "command" );
-        final CommandExecuter cmd = new CommandExecuter( getDatabase(), getProperties(), cm, getLocale() );
+        final CommandExecuter cmd = new CommandExecuter( getDatabase(), getProperties(), cm, getLocale(), new CommandParser() );
         final String output = cmd.execute( command );
         
         getResponse().showText( output );
