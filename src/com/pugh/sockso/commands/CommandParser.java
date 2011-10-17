@@ -17,35 +17,26 @@ public class CommandParser {
     public String[] parseCommand( final String command ) {
     	
     	final Vector<String> args = new Vector<String>();
+        final StringBuffer currentArgument = new StringBuffer();
 
-    	String arg = new String();
-        boolean previousEscape = false;
         boolean inString = false;
 
     	for ( char c: command.toCharArray() ) {
 
             if ( Character.isWhitespace(c)) {
                 if ( inString ) {
-                    arg += c;
+                    currentArgument.append( c );
                 }
-                else if ( previousEscape ) {
-                    arg += c;
+                else if ( currentArgument.length() > 0 ) {
+                    args.add( currentArgument.toString() );
+                    currentArgument.setLength( 0 );
                 }
-                else if ( arg.length() > 0 ) {
-                    args.add( arg );
-                    arg = "";
-                }
-                continue;
-            }
-
-            if ( c == '\\' && !previousEscape) {
-                previousEscape = true;
                 continue;
             }
 
             if ( inString && c == '"' ) {
-                args.add( arg );
-                arg = "";
+                args.add( currentArgument.toString() );
+                currentArgument.setLength( 0 );
                 inString = false;
                 continue;
             }
@@ -55,14 +46,12 @@ public class CommandParser {
                 continue;
             }
 
-            arg += c;
-
-            previousEscape = false;
+            currentArgument.append( c );
 
     	}
 
-    	if (arg.length() > 0) {
-            args.add( arg );
+    	if (currentArgument.length() > 0) {
+            args.add( currentArgument.toString() );
         }
 
         return args.toArray(new String[0]);
