@@ -67,12 +67,6 @@ public class CommandExecuterTest extends SocksoTestCase {
         assertContains( cmd.execute("help"), "Sets a property" );
     }
 
-    public void testABackslashCanBeUsedToEscapeSpaces() throws Exception {
-        cmd.execute( "useradd r\\ od pass rod@pu-gh.com 1" );
-        User user = User.find( db, 0 );
-        assertEquals( "r od", user.getName() );
-    }
-
     public void testQuotesCanBeUsedInArguments() throws Exception {
         cmd.execute( "propset foo \"bah bah\"" );
         assertEquals( "bah bah", p.get("foo") );
