@@ -159,17 +159,16 @@ public class M3uFile extends PlaylistFile {
 
     protected void loadPath( final String line ) {
         
-        File f = new File( line );
+        final File f = new File( line );
 
         if ( !f.isAbsolute() ) {
-            log.debug( "Relative path found: " +line );
-            f = new File( this.file.getParentFile(), line );
-            line = f.getAbsolutePath();
+            final File relativePath = new File( this.file.getParentFile(), line );
+            paths.add( relativePath.getAbsolutePath() );
         }
-        
-        log.debug( "Adding path: " +line );
 
-        paths.add( line );
+        else {
+            paths.add( line );
+        }
 
     }
     
