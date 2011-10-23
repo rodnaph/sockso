@@ -101,6 +101,22 @@ public class PlayerTest extends SocksoTestCase {
         assertTrue( data.length() > 0 );
         
     }
+    
+    public void testShowJplayer() throws Exception {
+        
+        final TestResponse res = new TestResponse();
+        final Player player = new Player();
+        final Vector<Track> tracks = new Vector<Track>();
+        
+        player.setProperties( new StringProperties() );
+        player.setResponse( res );
+        player.showJplayer( tracks, false );
+        
+        final String data = res.getOutput();
+        
+        assertTrue( data.length() > 0 );
+        
+    }
 
 }
 

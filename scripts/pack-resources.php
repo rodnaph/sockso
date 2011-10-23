@@ -74,6 +74,8 @@ function packJavascript( $version ) {
     // write packed javascript
     $f = fopen( $packFile, 'w' );
 
+    echo "Unpacked JS: {$unpackFile}\n";
+
     switch ( PACK_TYPE ) {
 
         case PACK_PACKER:
@@ -83,7 +85,6 @@ function packJavascript( $version ) {
             break;
 
         case PACK_YUI:
-            fwrite( $f, $allScript );
             system(sprintf(
                 'java -jar lib/dev/yuicompressor-2.4.2.jar --type js -o "%s" "%s"',
                 $packFile,
@@ -92,7 +93,6 @@ function packJavascript( $version ) {
             break;
 
         case PACK_NONE:
-            fwrite( $f, $allScript ); // not packed
             break;
 
     }

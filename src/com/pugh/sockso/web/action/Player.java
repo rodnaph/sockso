@@ -9,6 +9,8 @@ import com.pugh.sockso.web.action.playlist.XspfPlayer;
 import com.pugh.sockso.templates.web.THtml5Player;
 import com.pugh.sockso.templates.web.TXspfPlayer;
 import com.pugh.sockso.templates.web.TFlexPlayer;
+import com.pugh.sockso.templates.web.TJplayer;
+
 
 import java.sql.SQLException;
 
@@ -36,6 +38,15 @@ public class Player extends BaseAction {
 
         if ( type.equals( "html5" )) {
             showHtml5Player(
+                req.getUrlParam( 2 ).equals( "random" )
+                    ? getRandomTracks()
+                    : getRequestedTracks( playArgs ),
+                req.getUrlParam( 2 ).equals( "random" )
+            );
+        }
+                
+        else if(type.equals( "jplayer")) {
+          showJplayer(
                 req.getUrlParam( 2 ).equals( "random" )
                     ? getRandomTracks()
                     : getRequestedTracks( playArgs ),
@@ -79,6 +90,29 @@ public class Player extends BaseAction {
         tpl.setTracks( tracks );
         tpl.setProperties( getProperties() );
         tpl.setRandom( random );
+        
+        getResponse().showHtml( tpl.makeRenderer() );
+
+    }
+    
+    /**
+     *  shows the HTML 5 player
+     * 
+     *  @param tracks
+     *  @param random
+     * 
+     *  @throws IOException
+     * 
+     */
+    
+    protected void showJplayer( final Vector<Track> tracks, boolean random ) throws IOException {
+
+        final TJplayer tpl = new TJplayer();
+        
+        tpl.setTracks( tracks );
+        tpl.setProperties( getProperties() );
+        tpl.setRandom( random );
+        tpl.setLocale( getLocale() );
         
         getResponse().showHtml( tpl.makeRenderer() );
 
