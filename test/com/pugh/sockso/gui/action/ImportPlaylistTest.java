@@ -80,7 +80,7 @@ public class ImportPlaylistTest extends SocksoTestCase {
     public void testGettingTracksFromM3uFileWithWindowsPaths() throws Exception {
         db.fixture( "playlistTracks" );
         String track1 = "S:\\My Music\\James Hunter - All Through Cryin'.mp3";
-        M3uFile playlist = new M3uFile( null );
+        M3uFile playlist = new M3uFile( new File("S:\\") );
         playlist.loadLines(new String[] { track1, "/home/other/file.ogg" });
         Track[] files = ip.getTracksFromPlaylist( playlist );
         assertEquals( 1, files.length );
