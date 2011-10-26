@@ -90,7 +90,7 @@ public class Collection extends MusicItem {
      *
      */
     
-    public static Collection findByPathWithSeparator( final Database db, final String path, final String separator ) throws SQLException {
+    protected static Collection findByPathWithSeparator( final Database db, final String path, final String separator ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;

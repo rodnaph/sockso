@@ -197,6 +197,7 @@ gui.label.wwwTitle=Title
 gui.label.wwwTagline=Tagline
 gui.label.disableDownloads=Disable downloads?
 gui.label.scanOnStartup=Scan on startup?
+gui.label.scanCoverArt=Scan cover art?
 gui.label.scanInterval=Scan interval (minutes)
 gui.label.uploads=Uploads
 gui.label.enableUploads=Enable uploads?
