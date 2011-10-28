@@ -80,15 +80,12 @@ public class Playlists extends MusicList implements CollectionManagerListener {
         
         final Point p = evt.getPoint();
 
-        // select the list item under the mouse
-        this.setSelectedIndex( locationToIndex(p) );
-
-        if ( getSelectedIndex() == -1 ) return;
+        if ( getSelectedIndices() == null ) return;
 
         final JMenuItem delete = new JMenuItem( "Delete", new ImageIcon(r.getImage("icons/16x16/delete.png")) );
         delete.addActionListener( new ActionListener() {
             public void actionPerformed( final ActionEvent evt ) {
-                deleteSelectedItem();
+                deleteSelectedItems();
             }
         });
         
@@ -101,20 +98,25 @@ public class Playlists extends MusicList implements CollectionManagerListener {
     
     /**
      *  does exactly what it says on the tin.  tries to remove the
-     *  selected playlist from the collection, and if this works then
-     *  it's removed from the list aswell.
+     *  selected playlists from the collection, and if this works then
+     *  they're removed from the list aswell.
      * 
      */
     
-    private void deleteSelectedItem() {
+    private void deleteSelectedItems() {
         
-        final int index = getSelectedIndex();
-        
-        if ( index != -1 ) {
-            
-            final Playlist playlist = (Playlist) model.getElementAt( index );
-            
-            cm.removePlaylist( playlist.getId() );
+        int index = getMinSelectionIndex();
+        int finalIndex = getMaxSelectionIndex();
+
+        for ( int i = index; i <= finalIndex; i++ ) {
+
+            if ( i != -1 ) {
+
+                final Playlist playlist = (Playlist) model.getElementAt( index );
+
+                cm.removePlaylist( playlist.getId() );
+
+            }
 
         }
 
