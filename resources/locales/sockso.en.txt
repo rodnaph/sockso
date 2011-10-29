@@ -260,8 +260,8 @@ gui.message.natTestFailed=NAT test failed...
 gui.message.exportComplete=Export complete!
 gui.message.confirmClearRequestLog=There is no undo, are you sure you want to clear the request log?
 gui.message.requestLogCleared=Request log cleared!
-gui.message.playlistImported=Playlist imported!
-gui.message.playlistImportFailed=Import failed...
+gui.message.playlistsImported=Playlist imported!
+gui.message.playlistsImportFailed=Import failed...
 
 #
 #  gui reports
