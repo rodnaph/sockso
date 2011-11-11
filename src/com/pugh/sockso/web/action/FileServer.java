@@ -23,7 +23,8 @@ import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.CoverArtUtils;
+import com.pugh.sockso.music.CoverArt;
+import com.pugh.sockso.music.CoverArtCache;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.BadRequestException;
@@ -242,7 +243,7 @@ public class FileServer extends BaseAction {
 
             final Database db = getDatabase();
             final CoverSearch search = new AmazonCoverSearch( db );
-            final BufferedImage cover = search.getCover( itemName );
+            final CoverArt cover = search.getCover(itemName);
 
             if ( cover != null ) {
                 serveCover( cover, itemName, true );
@@ -254,10 +255,9 @@ public class FileServer extends BaseAction {
         // if nothing found then just serve up the empty image saying so
 
         serveCover(
-            getNoCoverImage(),
-            "noCover",
-            false
-        );
+                getNoCoverArt(),
+                "noCover",
+                false);
 
     }
 
@@ -267,13 +267,22 @@ public class FileServer extends BaseAction {
      *  @return
      *
      */
-
-    private BufferedImage getNoCoverImage() throws IOException {
+    public CoverArt getNoCoverArt() throws IOException {
 
         final Locale locale = getLocale();
-        BufferedImage cover = CoverArtUtils.getNoCoverImage(locale);
+        String noCoverId = "nocover-" + locale.getLangCode();
 
-        return cover;
+        CoverArt noCover = null;
+
+        CoverArtCache coverCache = new CoverArtCache();
+
+        if (!coverCache.isCached(noCoverId)) {
+            noCover = new CoverArt(noCoverId, CoverArt.createNoCoverImage(locale));
+        } else {
+            noCover = coverCache.getCoverArt(noCoverId);
+        }
+
+        return noCover;
     }
 
     /**
@@ -288,14 +297,14 @@ public class FileServer extends BaseAction {
      *  @throws java.io.IOException
      *
      */
-
-    private void serveCover( BufferedImage cover, final String itemName, final boolean addToCache ) throws IOException {
+    private void serveCover(CoverArt cover, final String itemName, final boolean addToCache) throws IOException {
 
         final Request req = getRequest();
 
         // add to cache if we've been told to
         if ( addToCache ){
-            CoverArtUtils.addToCache( cover, itemName, CoverArtUtils.CACHE_IMAGE_TYPE );
+            CoverArtCache coverCache = new CoverArtCache();
+            coverCache.addToCache(cover);
         }
 
         // check if we've been asked to resize this image
@@ -305,14 +314,16 @@ public class FileServer extends BaseAction {
             final int height = Integer.parseInt( req.getArgument("height") );
 
             log.debug( "Scaling cover to " +width+ ":" +height );
-            cover = CoverArtUtils.scale( cover, width, height );
+            cover.scale(width, height);
         }
 
+        String extension = CoverArtCache.DEFAULT_IMAGE_TYPE;
+        BufferedImage image = cover.getImage();
         // send headers then image
-        sendHeaders(itemName + "." + CoverArtUtils.CACHE_IMAGE_TYPE);
+        sendHeaders(itemName + "." + extension);
         ImageIO.write(
-                cover,
-                CoverArtUtils.CACHE_IMAGE_TYPE,
+                image,
+                extension,
                 getResponse().getOutputStream());
 
     }
@@ -330,23 +341,21 @@ public class FileServer extends BaseAction {
 
     protected void serveLocalCover( final String itemName, final String localPath ) throws IOException {
 
-        // resize image if it's too big
         final Properties p = getProperties();
         final BufferedImage originalImage = ImageIO.read( new File( localPath ) );
-        final BufferedImage resizedImage = CoverArtUtils.scale(
-            originalImage,
-            (int) p.get( Constants.DEFAULT_ARTWORK_WIDTH, 115 ),
-            (int) p.get( Constants.DEFAULT_ARTWORK_HEIGHT, 115 )
-        );
+        CoverArt cover = new CoverArt(itemName, originalImage);
+        // resize image if it's too big
+        cover.scale(
+                (int) p.get(Constants.DEFAULT_ARTWORK_WIDTH, 115),
+                (int) p.get(Constants.DEFAULT_ARTWORK_HEIGHT, 115));
 
         // only cache local cover images if we've been explicitly
         // told to do so (improves performance)
 
         serveCover(
-            resizedImage,
-            itemName,
-            p.get(Constants.COVERS_CACHE_LOCAL).equals(Properties.YES)
-        );
+                cover,
+                itemName,
+                p.get(Constants.COVERS_CACHE_LOCAL).equals(Properties.YES));
 
     }
 
@@ -457,7 +466,7 @@ public class FileServer extends BaseAction {
     protected File[] getLocalCoverFiles( final File[] trackDirs, final String coverFileName, final boolean isArtist ) {
 
         final Vector<File> files = new Vector<File>();
-        final String[] exts = CoverArtUtils.CACHE_IMAGE_EXTENSIONS;
+        final String[] exts = CoverArtCache.CACHE_IMAGE_EXTENSIONS;
         final Properties p = getProperties();
 
         for ( final File track : trackDirs ) {
@@ -573,14 +582,14 @@ public class FileServer extends BaseAction {
 
     private boolean serveCoverCache( final String itemName ) throws IOException {
 
-        String extension = CoverArtUtils.existsInCache( itemName );
+        CoverArtCache coverCache = new CoverArtCache();
+        if (coverCache.isCached(itemName)) {
+            CoverArt cover = coverCache.getCoverArt(itemName);
 
-        if ( extension != null ){
             serveCover(
-                CoverArtUtils.getCover( itemName, extension ),
+                    cover,
                 itemName,
-                false
-            );
+                    false);
             return true;
         }
 

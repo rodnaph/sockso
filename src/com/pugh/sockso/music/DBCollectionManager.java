@@ -5,6 +5,7 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
+import com.pugh.sockso.music.indexing.CoverArtIndexer;
 import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.indexing.IndexEvent;
 import com.pugh.sockso.music.indexing.IndexListener;
@@ -154,13 +155,12 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         final int artistId = addArtist( tag.getArtist() );
         final int albumId = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
         final int trackId = addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
-
-        if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) ) {
-            addCoverArt( trackId, tag.getTrack(), albumId, tag.getAlbum(), tag.getCoverArt() );
+        BufferedImage coverArt = tag.getCoverArt();
+        if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) && coverArt != null) {
+            addCoverArt( trackId, tag.getTrack(), albumId, tag.getAlbum(), coverArt );
         }
 
     }
-
 
 
     protected void addCoverArt( final int trackId, final String track, final int albumId, final String album, final BufferedImage coverArt ){
@@ -183,26 +183,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             coverId = "tr" + trackId;
         }
 
-        // Check if the cover art has already been cached
-        if ( CoverArtUtils.existsInCache(coverId) == null ) {
-
-            if ( coverArt != null ) {
-
-                // Found a cover, now let's resize it
-                final BufferedImage resizedImage = CoverArtUtils.scale(
-                        coverArt,
-                        (int) p.get(Constants.DEFAULT_ARTWORK_WIDTH, 115),
-                        (int) p.get(Constants.DEFAULT_ARTWORK_HEIGHT, 115));
-
-                // Now let's cache it
-                String imgExt = p.get(Constants.DEFAULT_ARTWORK_TYPE, "jpg");
-                try {
-                    CoverArtUtils.addToCache(resizedImage, coverId, imgExt);
-                } catch (IOException e) {
-                    log.error("Could not create cover image file " + coverId + "." + imgExt + ": " + e.getMessage());
-                }
-            }
-        }
+        CoverArtIndexer coverArtIndexer = new CoverArtIndexer(p);
+        coverArtIndexer.indexCover(new CoverArt( coverId, coverArt ));
     }
 
     /**
