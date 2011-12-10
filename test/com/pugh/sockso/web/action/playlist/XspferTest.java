@@ -64,11 +64,11 @@ public class XspferTest extends PlaylistTestCase {
         final Properties p = new StringProperties();
 
         p.set( Constants.COVERS_DISABLED, Properties.NO );
-        p.set( Constants.COVERS_XSPF_DISPLAY, "album" );
-        assertTrue( renderPlaylist(TXspf.class,p,null).contains("/file/cover/al") );
+        p.set( Constants.COVERS_XSPF_DISPLAY, "artist" );
+        assertTrue( renderPlaylist(TXspf.class,p,null).contains("/file/cover/ar") );
 
         p.set( Constants.COVERS_XSPF_DISPLAY, "" );
-        assertTrue( renderPlaylist(TXspf.class,p,null).contains("/file/cover/ar") );
+        assertTrue( renderPlaylist(TXspf.class,p,null).contains("/file/cover/al") );
 
     }
 
