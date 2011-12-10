@@ -22,7 +22,7 @@ public interface PlaylistTemplate {
 
     public Renderer makeRenderer();
 
-    public PlaylistTemplate setTracks( final Vector<Track> tracks );
+    public PlaylistTemplate setTracks( final Track[] tracks );
     public PlaylistTemplate setRequest( final Request request );
     public PlaylistTemplate setProtocol( final String protocol );
     public PlaylistTemplate setProperties( final Properties properties );

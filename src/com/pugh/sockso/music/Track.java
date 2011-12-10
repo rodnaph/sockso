@@ -414,4 +414,26 @@ public class Track extends MusicItem {
         
     }
     
+    /**
+     *  A track is equal to another track if they have the same ID
+     * 
+     *  @param object
+     * 
+     *  @return 
+     * 
+     */
+
+    @Override
+    public boolean equals( final Object object ) {
+
+        if ( !object.getClass().equals(Track.class) ) {
+            return false;
+        }
+        
+        final Track track = (Track) object;
+
+        return getId() == track.getId();
+
+    }
+
 }

@@ -8,13 +8,10 @@ import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.TXspf;
-import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.tests.PlaylistTestCase;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Server;
 import com.pugh.sockso.tests.TestResponse;
-
-import java.util.Vector;
 
 import static org.easymock.EasyMock.*;
 
@@ -28,7 +25,6 @@ public class XspferTest extends PlaylistTestCase {
         
         final TestResponse res = new TestResponse();
         final TXspf tpl = new TXspf();
-        final Vector<Track> tracks = new Vector<Track>();
         final Artist artist = new Artist( 1, "artist" );
         final Album album = new Album( artist, 1, "album", "year" );
         final Track track = new Track(
@@ -36,11 +32,9 @@ public class XspferTest extends PlaylistTestCase {
         );
         final String protocol = "hTTppTT";
         
-        tracks.add( track );
-        
         tpl.setRequest( req );
         tpl.setProtocol( protocol );
-        tpl.setTracks( tracks );
+        tpl.setTracks( new Track[] {track} );
         tpl.setProperties( new StringProperties() );
         
         res.showTemplate( tpl.makeRenderer() );

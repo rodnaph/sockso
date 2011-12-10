@@ -296,4 +296,22 @@ public class TrackTest extends SocksoTestCase {
         assertEquals( 3, tracks.size() );
     }
 
+    public void testTracksAreEqualWhenTheyHaveTheSameId() {
+        Track track1 = new Track( null,null, 1, "", "", 0, new Date() );        
+        Track track2 = new Track( null,null, 1, "", "", 0, new Date() );        
+        assertTrue( track1.equals(track2) );
+    }
+
+    public void testTracksAreNotEqualWhenTheyHaveDifferentIds() {
+        Track track1 = new Track( null,null, 1, "", "", 0, new Date() );        
+        Track track2 = new Track( null,null, 2, "", "", 0, new Date() );        
+        assertFalse( track1.equals(track2) );
+    }
+
+    public void testTracksAreNotEqualToOtherObjects() {
+        Track track = new Track( null,null, 1, "", "", 0, new Date() );        
+        Album album = new Album( null, 1, "", "" );
+        assertFalse( track.equals(album) );
+    }
+
 }

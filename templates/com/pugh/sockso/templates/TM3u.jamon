@@ -11,7 +11,7 @@
     com.pugh.sockso.web.action.playlist.PlaylistTemplate;
 </%implements>
 <%args>
-    Vector<Track> tracks = null;
+    Track[] tracks = null;
     Request request = null;
     String protocol = null;
     Properties properties = null;

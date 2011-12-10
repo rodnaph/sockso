@@ -127,7 +127,7 @@ sockso.Player = function( options ) {
     /**
      *  Plays using JPlayer
      *
-     *  @param {URL}ÊplayUrl
+     *  @param {URL}ï¿½playUrl
      *  @type void
      */
     this.playJplayer = function( playUrl ) {

@@ -89,11 +89,10 @@ public class PlayerTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final Player player = new Player();
-        final Vector<Track> tracks = new Vector<Track>();
         
         player.setProperties( new StringProperties() );
         player.setResponse( res );
-        player.showHtml5Player( tracks, false );
+        player.showHtml5Player( new Track[] {}, false );
         
         final String data = res.getOutput();
         
@@ -105,12 +104,11 @@ public class PlayerTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final Player player = new Player();
-        final Vector<Track> tracks = new Vector<Track>();
         
         player.setLocale( new TestLocale() );
         player.setProperties( new StringProperties() );
         player.setResponse( res );
-        player.showJplayer( tracks, false );
+        player.showJplayer( new Track[] {}, false );
         
         final String data = res.getOutput();
         

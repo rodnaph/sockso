@@ -9,7 +9,7 @@
 
 <%args>
     Properties properties = null;
-    Vector<Track> tracks = null;
+    Track[] tracks = null;
     boolean random = false;
 </%args>
 
