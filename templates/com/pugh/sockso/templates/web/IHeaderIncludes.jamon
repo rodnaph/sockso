@@ -1,10 +1,26 @@
+
 <%import>
+    com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
+    java.util.Enumeration;
+    java.util.Hashtable;
 </%import>
 
 <%args>
     Properties properties = null;
 </%args>
+
+<%java>
+    final Hashtable metatags = properties.getMatches( Constants.WWW_METATAGS );
+    final Enumeration keys = metatags.keys();
+</%java>
+
+<%while keys.hasMoreElements() %>
+    <%java>
+        final String key = keys.nextElement().toString();
+    </%java>
+    <meta name="<% key %>" content="<% metatags.get(key) %>" />
+</%while>
 
 <link href="<% properties.getUrl("<skin>/css/default.css") #n %>" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="<% properties.getUrl("<skin>/images/favicon.ico") #n %>" type="image/x-icon" />
