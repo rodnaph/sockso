@@ -31,9 +31,9 @@
                 <%if !properties.get(Constants.COVERS_DISABLED).equals(properties.YES) %>
                     <%java>
                         // are we set to display the cover for the album or artist?
-                        final String coverParam = properties.get(Constants.COVERS_XSPF_DISPLAY).equals("album")
-                            ? "al" + track.getAlbum().getId()
-                            : "ar" + track.getArtist().getId();
+                        final String coverParam = properties.get(Constants.COVERS_XSPF_DISPLAY).equals("artist")
+                            ? "ar" + track.getArtist().getId()
+                            : "al" + track.getAlbum().getId();
                     </%java>
                     <image><% url %><% properties.getUrl("/file/cover/"+coverParam) #n %></image>
                 </%if>
