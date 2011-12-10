@@ -21,7 +21,6 @@ import java.io.EOFException;
 
 import java.net.SocketException;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Types;
@@ -84,6 +83,11 @@ public class Streamer extends BaseAction {
     protected void playTrack( final int trackId ) throws SQLException, IOException, BadRequestException {
 
         final Track track = Track.find( getDatabase(), trackId );
+
+        if ( track == null ) {
+            throw new BadRequestException( "Invalid track ID", 404 );
+        }
+        
         final MusicStream ms = getMusicStream( track );
 
         logTrackPlayed( track );

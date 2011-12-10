@@ -6,13 +6,12 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.web.TXspfPlayer;
 import com.pugh.sockso.templates.web.TFlexPlayer;
 import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.playlist.XspfPlayer;
 
 import java.util.Vector;
-
-import javax.swing.JSplitPane;
 
 import static org.easymock.EasyMock.*;
 
@@ -108,6 +107,7 @@ public class PlayerTest extends SocksoTestCase {
         final Player player = new Player();
         final Vector<Track> tracks = new Vector<Track>();
         
+        player.setLocale( new TestLocale() );
         player.setProperties( new StringProperties() );
         player.setResponse( res );
         player.showJplayer( tracks, false );
