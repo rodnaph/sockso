@@ -3,6 +3,7 @@ package com.pugh.sockso.web.action;
 
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Constants;
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Artist;
@@ -11,11 +12,14 @@ import com.pugh.sockso.web.Response;
 import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.tests.SocksoTestCase;
 
+import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestRequest;
+import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.BadRequestException;
+
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Types;
-import java.sql.ResultSet;
 
 import java.io.IOException;
 import java.io.DataInputStream;
@@ -25,6 +29,22 @@ import java.util.Date;
 import static org.easymock.EasyMock.*;
 
 public class StreamerTest extends SocksoTestCase {
+
+    private TestDatabase db;
+
+    private TestResponse res;
+
+    private Streamer s;
+
+    @Override
+    protected void setUp() {
+        db = new TestDatabase();
+        res = new TestResponse();
+        s = new Streamer();
+        s.setDatabase( db );
+        s.setResponse( res );
+        s.setProperties( new StringProperties() );
+    }
 
     public void testLogTrackPlayed() throws SQLException {
         
@@ -124,71 +144,37 @@ public class StreamerTest extends SocksoTestCase {
         
     }
 
-    public void testGetTrack() throws SQLException, BadRequestException {
+    public void testGettingAValidTrackDoesntThrowAnException() throws SQLException, IOException {
         
-        final int trackId = 123;
-        
-        final ResultSet rs = createNiceMock( ResultSet.class );
-        expect( rs.next() ).andReturn( true ).times( 1 );
-        rs.close();
-        replay( rs );
+        final TestRequest req = new TestRequest( "GET /stream/1 HTTP/1.1" );
 
-        final PreparedStatement st = createMock( PreparedStatement.class );
-        st.setInt( 1, trackId );
-        expect( st.executeQuery() ).andReturn( rs ).times( 1 );
-        st.close();
-        replay( st );
+        db.fixture( "singleTrack" );
+        db.update( " update tracks set path = '" +System.getProperty("user.dir")+ "/test/data/empty.mp3' " );
         
-        final Database db = createMock( Database.class );
-        expect( db.prepare((String)anyObject()) ).andReturn( st ).times( 1 );
-        replay( db );
-        
-        final Streamer s = new Streamer();
-        s.setDatabase( db );
-        final Track t = s.getTrack( trackId );
-        
-        verify( db );
-        verify( st );
-        verify( rs );
+        try {
+            s.setRequest( req );
+            s.handleRequest();
+        }
+        catch ( BadRequestException e ) {
+            fail();
+        }
         
     }
     
-    public void testGetTrackNotFound() throws SQLException, BadRequestException {
+    public void testGettingAnInvalidTrackThrowsAnException() throws SQLException, IOException {
         
-        final int trackId = 123;
-        
-        final ResultSet rs = createMock( ResultSet.class );
-        expect( rs.next() ).andReturn( false ).times( 1 );
-        rs.close();
-        replay( rs );
-
-        final PreparedStatement st = createMock( PreparedStatement.class );
-        st.setInt( 1, trackId );
-        expect( st.executeQuery() ).andReturn( rs ).times( 1 );
-        st.close();
-        replay( st );
-        
-        final Database db = createMock( Database.class );
-        expect( db.prepare((String)anyObject()) ).andReturn( st ).times( 1 );
-        replay( db );
-        
-        final Streamer s = new Streamer();
-        s.setDatabase( db );
-        
+        final TestRequest req = new TestRequest( "GET /stream/1 HTTP/1.1" );
         boolean gotException = false;
-        
+
         try {
-            s.getTrack( trackId );
+            s.setRequest( req );
+            s.handleRequest();
         }
         catch ( final BadRequestException e ) {
             gotException = true;
         }
         
         assertTrue( gotException );
-        
-        verify( db );
-        verify( st );
-        verify( rs );
         
     }
     

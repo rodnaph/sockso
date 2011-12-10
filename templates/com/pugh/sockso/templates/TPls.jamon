@@ -11,14 +11,14 @@
     com.pugh.sockso.web.action.playlist.PlaylistTemplate;
 </%implements>
 <%args>
-    Vector<Track> tracks = null;
+    Track[] tracks = null;
     Request request = null;
     String protocol = null;
     Properties properties = null;
     User user = null;
 </%args>
 [playlist]
-NumberOfEntries=<% tracks.size() %>
+NumberOfEntries=<% tracks.length %>
 
 <%java>
     int number = 1;

@@ -7,6 +7,7 @@ import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.tests.TemplateTestCase;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.web.User;
 
 import java.util.Vector;
@@ -17,23 +18,19 @@ import static org.easymock.EasyMock.*;
 
 public class IFooterTest extends TemplateTestCase {
 
-    private Locale locale;
-
+    private Properties p;
+    
     @Override
-    public void setUp() {
-
-        locale = createNiceMock( Locale.class );
-        replay( locale );
-
+    protected void setUp() {
+        p = new StringProperties();
     }
 
-    public Renderer getTemplate( final Properties p, final User user ) {
+    public Renderer getTemplate() {
 
         final IFooter tpl = new IFooter();
 
-        tpl.setUser( user );
         tpl.setProperties( p );
-        tpl.setLocale( locale );
+        tpl.setLocale( new TestLocale() );
 
         return tpl.makeRenderer();
 
@@ -41,34 +38,28 @@ public class IFooterTest extends TemplateTestCase {
 
     public void testPropertiesJavascript() {
 
-        final Properties p = new StringProperties();
-
         p.set( "www.something", "foobar" );
         p.set( "app.another", "barfoo" );
 
-        assertTrue( render(p).contains("foobar") );
-        assertTrue( !render(p).contains("barfoo") );
+        assertTrue( render().contains("foobar") );
+        assertTrue( !render().contains("barfoo") );
 
     }
 
     public void testDevMode() {
 
-        final Properties p = new StringProperties();
-
         p.set( "dev.enabled", Properties.YES );
-        assertTrue( render(p).contains("jquery.js") );
+        assertTrue( render().contains("jquery.js") );
 
         p.set( "dev.enabled", Properties.NO );
-        assertTrue( !render(p).contains("jquery.js") );
-        assertTrue( render(p).contains("packed-" +Sockso.VERSION+ ".js") );
+        assertTrue( !render().contains("jquery.js") );
+        assertTrue( render().contains("packed-" +Sockso.VERSION+ ".js") );
 
     }
     
     public void testVersionInfo() {
         
-        final Properties p = new StringProperties();
-        
-        assertTrue( render(p).contains("v" +Sockso.VERSION+ "<br />") );
+        assertTrue( render().contains("v" +Sockso.VERSION+ "<br />") );
         
     }
 
@@ -77,16 +68,16 @@ public class IFooterTest extends TemplateTestCase {
         final Properties p = new StringProperties();
         final Vector<User> users = new Vector<User>();
 
-        assertTrue( !render(p).contains("recentUsers") );
+        assertTrue( !render().contains("recentUsers") );
 
-        final Renderer r1 = getTemplate( p, null );
+        final Renderer r1 = getTemplate();
         assertTrue( !r1.asString().contains("recentUsers") );
 
         users.add( new User(1,"foo useR") );
         users.add( new User(1,"bar User") );
         final IFooter tpl1 = new IFooter();
         tpl1.setProperties( p );
-        tpl1.setLocale( locale );
+        tpl1.setLocale( new TestLocale() );
         tpl1.setRecentUsers( users );
         final String html = tpl1.makeRenderer().asString();
         assertTrue( html.contains("recentUsers") );

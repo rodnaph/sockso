@@ -1,4 +1,3 @@
-
 package com.pugh.sockso.web.action;
 
 import com.pugh.sockso.db.Database;
@@ -22,7 +21,6 @@ import java.io.EOFException;
 
 import java.net.SocketException;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Types;
@@ -84,7 +82,12 @@ public class Streamer extends BaseAction {
     
     protected void playTrack( final int trackId ) throws SQLException, IOException, BadRequestException {
 
-        final Track track = getTrack( trackId );
+        final Track track = Track.find( getDatabase(), trackId );
+
+        if ( track == null ) {
+            throw new BadRequestException( "Invalid track ID", 404 );
+        }
+        
         final MusicStream ms = getMusicStream( track );
 
         logTrackPlayed( track );
@@ -94,49 +97,6 @@ public class Streamer extends BaseAction {
 
     }
 
-    /**
-     *  returns a track by id, throws an exception if it's not found
-     * 
-     *  @param trackId
-     * 
-     *  @return
-     * 
-     *  @throws java.sql.SQLException
-     *  @throws com.pugh.sockso.web.BadRequestException
-     * 
-     */
-    
-    protected Track getTrack( final int trackId ) throws SQLException, BadRequestException {
-        
-        ResultSet rs = null;
-        PreparedStatement st = null;
-        
-        try {
-            
-            final Database db = getDatabase();
-            final String sql = Track.getSelectFromSql() +
-                              " where t.id = ? ";
-
-            st = db.prepare( sql );
-            st.setInt( 1, trackId );
-            rs = st.executeQuery();
-
-            if ( rs.next() ) {
-                return Track.createFromResultSet( rs );
-            }
-        
-            else throw new BadRequestException( "invalid track id specified: " + trackId, 404 );
-
-        }
-        
-        finally {
-            Utils.close( rs );
-            Utils.close( st );
-        }
-
-        
-    }
-    
     /**
      *  returns a data input stream for reading audio encoded using a custom command
      * 

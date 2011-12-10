@@ -1,13 +1,11 @@
 
 package com.pugh.sockso.web.action;
 
-import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.resources.Locale;
-import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 import com.pugh.sockso.web.User;
@@ -95,6 +93,8 @@ public abstract class BaseAction implements WebAction {
      *  @return
      * 
      *  @throws java.sql.SQLException
+     *
+     *  @todo move to Track class
      * 
      */
     
@@ -122,145 +122,6 @@ public abstract class BaseAction implements WebAction {
             Utils.close( rs );
             Utils.close( st );
         }
-        
-    }
-
-    /**
-     *  returns a where clause filtering tracks by the file types specified
-     *  by the trackType argument from the request.  if no filter was specified
-     *  then the empty string is returned (ie. no filter)
-     *
-     *  @return where sql filter if any was specified, empty string otherwise
-     *
-     */
-
-    protected String getTrackTypeSqlFilter() {
-
-        final StringBuffer filterBuffer = new StringBuffer( "" );
-        final String trackTypes = req.getArgument( "trackType" );
-
-        // track types can be a commer seperated string of file types
-        // @TODO right() not sqlite compatible
-        for ( final String type : trackTypes.split(",") ) {
-            if ( !type.equals("") ) {
-                final int length = type.length();
-                filterBuffer.append( " and lower(substr(t.path,length(t.path)-" +(length-1)+ "," +length+ ")) = '"+type+"' " );
-            }
-        }
-
-        final String filter = filterBuffer.toString();
-        
-        return filter.equals( "" )
-                ? ""
-                : " where " + filter.substring( 4 );
-
-    }
-
-    /**
-     *  Returns a random Vector of Track objects from the collection.  The number
-     *  of tracks returned is specified by the Constants.WWW_RANDOM_TRACK_LIMIT
-     *  property.
-     * 
-     *  @return
-     * 
-     *  @throws java.sql.SQLException
-     * 
-     */
-
-    protected Vector<Track> getRandomTracks() throws SQLException {
-
-        final String limit = p.get( Constants.WWW_RANDOM_TRACK_LIMIT, "100" );
-        final String sql = Track.getSelectFromSql() +
-                     getTrackTypeSqlFilter() +
-                     " order by " +db.getRandomFunction()+ "() " +
-                     " limit ? ";
-        
-        PreparedStatement st = null;
-        
-        try {
-            
-            st = db.prepare( sql );
-            st.setInt( 1, Integer.parseInt(limit) );
-
-            return Track.createArrayFromResultSet( st.executeQuery() );
-
-        }
-        
-        finally {
-            Utils.close( st );
-        }
-
-    }
-    
-    /**
-     *  Returns all tracks specified in the request, either by the passed in
-     *  playArgs (eg. 'tr1/tr2'), or by a path parameter if folder browsing
-     *  is enabled.
-     * 
-     *  @param playArgs
-     * 
-     *  @return
-     * 
-     *  @throws SQLException
-     *  @throws BadRequestException 
-     * 
-     */
-    
-    protected Vector<Track> getRequestedTracks( final String[] playArgs ) throws SQLException, BadRequestException {
-        
-        final Vector<Track> allTracks = new Vector<Track>();
-        final Vector<Track> urlParamTracks = getUrlParamTracks( playArgs );
-        final Vector<Track> pathTracks = getPathTracks();
-        
-        allTracks.addAll( urlParamTracks );
-        allTracks.addAll( pathTracks );
-        
-        return allTracks;
-        
-    }
-
-    /**
-     *  Returns any tracks specified by the "folder=XXX" parameter
-     * 
-     *  @return 
-     * 
-     */
-    
-    protected Vector<Track> getPathTracks() throws SQLException {
-
-        if ( Utils.isFeatureEnabled(getProperties(),Constants.WWW_BROWSE_FOLDERS_ENABLED) ) {
-            final String path = getRequest().getArgument( "path" );
-            if ( path.length() > 0 ) {
-                return Track.getTracksFromPath( getDatabase(), path );
-            }
-        }
-        
-        return new Vector<Track>();
-        
-    }
-
-    /**
-     *  Returns tracks specified via url params (eg. "tr1/ar3/pl6")
-     * 
-     *  @param args
-     * 
-     *  @return
-     * 
-     *  @throws SQLException
-     *  @throws BadRequestException 
-     * 
-     */
-    
-    protected Vector<Track> getUrlParamTracks( final String[] args ) throws SQLException, BadRequestException {
-        
-        final Database db = getDatabase();
-        final Request req = getRequest();
-        final String orderBySql = req.getArgument("orderBy").equals("random")
-                ? " order by rand() "
-                : "";
-        final Vector<Track> tracks = Track.getTracksFromPlayArgs( db, args, orderBySql );
-        
-        return tracks;
         
     }
 

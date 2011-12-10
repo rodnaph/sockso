@@ -1,2 +1,2 @@
 
-start javaw -Djava.library.path="lib" -jar sockso.jar %1 %2 %3 %4 %5
+start javaw -Djava.library.path="lib/std" -jar sockso.jar %1 %2 %3 %4 %5

@@ -27,6 +27,7 @@ sockso.Player = function( options ) {
     this.PLAY_XSPF = 'xspf';
     this.PLAY_PLS = 'pls';
     this.PLAY_HTML5PLAYER = 'html5';
+    this.PLAY_JPLAYER = 'jplayer';
 
     /**
      *  creates a play option element
@@ -124,6 +125,20 @@ sockso.Player = function( options ) {
     };
 
     /**
+     *  Plays using JPlayer
+     *
+     *  @param {URL}�playUrl
+     *  @type void
+     */
+    this.playJplayer = function( playUrl ) {
+        var w = window.open( '', 'PlayerWin', 'width=420,height=450,toolbars=no' );
+        w.location.href = Properties.getUrl('/player/jplayer/' +playUrl);
+        w.focus();
+
+    };
+
+
+    /**
      *  Plays using the popup flash/flex player
      *
      *  @param playUrl
@@ -176,9 +191,15 @@ sockso.Player = function( options ) {
             case self.PLAY_HTML5PLAYER:
             	this.playHtml5Player( playUrl );
             	break;
+              
+            case self.PLAY_JPLAYER:
+              this.playJplayer ( playUrl );
+              break;
 
             case self.PLAY_FLEX:
             case self.PLAY_FLASH_POPUP:
+            
+              
             default:
                 this.playFlashPopup( playUrl );
                 break;
@@ -202,7 +223,8 @@ sockso.Player = function( options ) {
                         .append( createPlayOption(self.PLAY_M3U,'M3U (iTunes,WMP,etc...)') )
                         .append( createPlayOption(self.PLAY_PLS,'Pls (Winamp,Shoutcast,etc...)') )
                         .append( createPlayOption(self.PLAY_XSPF,'XSPF') )
-                        .append( createPlayOption(self.PLAY_HTML5PLAYER,'HTML 5 Player') );
+                        .append( createPlayOption(self.PLAY_HTML5PLAYER,'HTML 5 Player') )
+                        .append( createPlayOption(self.PLAY_JPLAYER,'JPlayer') );
 
         $( parentId ).append(
             $( '<div></div>' )

@@ -83,6 +83,12 @@
         <mkdir dir="${dir.build}" />
         <mkdir dir="${dir.build.test}" />
         <mkdir dir="${dir.packages}" />
+        <if>
+            <not><available file="sockso.properties" /></not>
+            <then>
+                <copy file="sockso.properties-sample" tofile="sockso.properties" />
+            </then>
+        </if>
     </target>
 
     <!--
@@ -213,7 +219,7 @@ public class Sockso {
     -->
 
     <target name="javadocs">
-        <javadoc sourcepath="${dir.src}" destdir="${dir.javadocs}" />
+        <javadoc sourcepath="${dir.src}" destdir="${dir.javadocs}" classpath="${app.classpath}:${dev.classpath}:${opt.classpath}" />
     </target>
 
     <!-- make packages from dist -->

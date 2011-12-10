@@ -226,6 +226,12 @@ sockso.FolderBrowsing.prototype.getFolderItem = function( folder ) {
         return false;
     }, 'Play folder' );
 
+    var random = this.getTrackAction( 'random_play', function() {
+        var extraArgs = 'orderBy=random&path=' +folder.path;
+        self.player.play( '', extraArgs );
+        return false;
+    }, 'Play folder randomly' );
+
     var download = null;
     if ( Properties.get('www.disableDownloads') != 'yes' )
         download = this.getTrackAction( 'download', function() {
@@ -235,7 +241,8 @@ sockso.FolderBrowsing.prototype.getFolderItem = function( folder ) {
     var actions = $( '<span></span>' )
         .addClass( 'actions' )
         .append( play )
-        .append( download );
+        .append( download )
+        .append( random );
         
     link.append( actions );
 
