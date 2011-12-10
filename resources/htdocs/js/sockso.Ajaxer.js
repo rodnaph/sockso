@@ -99,7 +99,8 @@ sockso.Ajaxer.prototype.loadUrl = function( href ) {
     $.ajax({
         method: 'GET',
         url: href,
-        success: this.onLoadUrl.bind( this )
+        success: this.onLoadUrl.bind( this ),
+        error: this.onFailure.bind( this )
     });
 
 };
@@ -120,7 +121,29 @@ sockso.Ajaxer.prototype.onLoadUrl = function( html ) {
     this.page.initContent();
     this.setTitle( newTitle );
 
+    this.hideLoading();
+
+};
+
+/**
+ * Hides the loading class from the content div
+ *
+ */
+sockso.Ajaxer.prototype.hideLoading = function() {
+    
     $( '#content' ).removeClass( this.loadingClass );
+
+};
+
+/**
+ * Handles a failure to load the content
+ * 
+ */
+sockso.Ajaxer.prototype.onFailure = function() {
+    
+    alert( 'Sorry, but the request failed, please try again in a moment' );
+
+    this.hideLoading();
 
 };
 
