@@ -72,6 +72,8 @@ sockso.Player = function( options ) {
     
     this.playFlashEmbed = function( playUrl, trackFilter ) {
 
+        playUrl = this.encodePluses( playUrl );
+
         var xspfUrl = Properties.getUrl('/file/flash/xspf_player.swf' +
             '?playlist_url=' + escape(Properties.getUrl('/xspf/' +playUrl + trackFilter))+
             '&autoplay=1');
@@ -127,7 +129,7 @@ sockso.Player = function( options ) {
     /**
      *  Plays using JPlayer
      *
-     *  @param {URL}�playUrl
+     *  @param {URL}playUrl
      *  @type void
      */
     this.playJplayer = function( playUrl ) {
@@ -147,6 +149,8 @@ sockso.Player = function( options ) {
     
     this.playFlashPopup = function( playUrl ) {
 
+        playUrl = this.encodePluses( playUrl );
+
         // default with and height for xspf player
         var width = 410;
         var height = 180;
@@ -159,6 +163,22 @@ sockso.Player = function( options ) {
         // now we can open the window...
         var w = window.open( Properties.getUrl('/player/xspf/' + playUrl), 'PlayerWin', 'width=' +width+ ',height=' +height+ ',toolbars=no' );
         w.focus();
+
+    };
+
+    /**
+     *  encodes pluses to work around a bug with how the XSPF player swf handles
+     *  the encoding of pluses.
+     *  
+     *  @param String playUrl
+     *  
+     *  @return String
+     *  
+     */
+
+    this.encodePluses = function( playUrl ) {
+
+        return playUrl.replace( /\+/, "%252B" );
 
     };
 
