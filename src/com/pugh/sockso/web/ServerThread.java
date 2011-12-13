@@ -8,7 +8,7 @@ import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.LocaleFactory;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.action.Errorer;
-import com.pugh.sockso.web.action.BaseAction;
+import com.pugh.sockso.web.action.WebAction;
 import com.pugh.sockso.web.log.DbRequestLogger;
 import com.pugh.sockso.web.log.RequestLogger;
 
@@ -90,8 +90,16 @@ public class ServerThread extends Thread {
 
             locale = localeFactory.getLocale( req.getPreferredLangCode() );
 
-            final Session session = new Session( db, req, null );
-            user = session.getCurrentUser();
+            final WebAction action = dispatcher.getAction( req );
+            action.setRequest( req );
+            action.setLocale( locale );
+
+            if ( action.requiresLogin() ) {
+                final Session session = new Session( db, req, null );
+                user = session.getCurrentUser();
+            }
+
+            action.setUser( user );
 
             res = new HttpResponse(
                 new BufferedOutputStream(client.getOutputStream()),
@@ -101,7 +109,9 @@ public class ServerThread extends Thread {
                     && !req.getHeader("User-Agent").contains("Safari")
             );
 
-            process( user, req, locale, res );
+            action.setResponse( res );
+
+            process( action, user, req, locale, res );
 
         }
         
@@ -138,6 +148,7 @@ public class ServerThread extends Thread {
     /**
      *  Process a request and generate a response
      *
+     *  @param action
      *  @param user
      *  @param req
      *  @param locale
@@ -147,7 +158,7 @@ public class ServerThread extends Thread {
      *
      */
 
-    protected void process( final User user, final Request req, final Locale locale, final Response res ) throws Exception {
+    protected void process( final WebAction action, final User user, final Request req, final Locale locale, final Response res ) throws Exception {
 
         if ( p.get(Constants.WWW_LOG_REQUESTS_ENABLED).equals(p.YES) ) {
             final RequestLogger logger = new DbRequestLogger( db );
@@ -156,12 +167,6 @@ public class ServerThread extends Thread {
                 req.getHeader("Referer"), req.getHeader("Cookie") );
         }
         
-        final BaseAction action = dispatcher.getAction( req );
-        action.setRequest( req );
-        action.setResponse( res );
-        action.setUser( user );
-        action.setLocale( locale );
-
         if ( action == null ) {
             throw new BadRequestException(locale.getString("www.error.unknownRequest"), 400);
         }
@@ -186,7 +191,7 @@ public class ServerThread extends Thread {
      *
      */
 
-    protected boolean loginRequired( final User user, final BaseAction action ) {
+    protected boolean loginRequired( final User user, final WebAction action ) {
 
         return p.get( Constants.WWW_USERS_REQUIRE_LOGIN ).equals( p.YES )
             && user == null

@@ -32,17 +32,19 @@ public abstract class BaseAction implements WebAction {
     private Properties p;
     
     /**
-     *  Inidcates if this web action requires a login to be executed
+     *  Indicates if this web action requires a login to be executed.  If it does
+     *  not require a login then a session doesn't need to be started.
      * 
      *  @return boolean true if login required, false otherwise
      * 
      */
     
-    @Override
     public boolean requiresLogin() {
+
         return true;
+
     }
-    
+
     /**
      *  Some getters for the standard objects
      * 
