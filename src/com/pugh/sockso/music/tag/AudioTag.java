@@ -71,10 +71,10 @@ public abstract class AudioTag implements Tag {
         if ( tag.albumYear == null ) tag.albumYear = "";
 
         // remove leading/trailing space
-        tag.albumTitle = tag.albumTitle.trim();
-        tag.artistTitle = tag.artistTitle.trim();
-        tag.trackTitle = tag.trackTitle.trim();
-        tag.albumYear = tag.albumYear.trim();
+        tag.albumTitle  = clean(tag.albumTitle.trim());
+        tag.artistTitle = clean(tag.artistTitle.trim());
+        tag.trackTitle  = clean(tag.trackTitle.trim());
+        tag.albumYear   = clean(tag.albumYear.trim());
 
         // set defaults if we have nothing
         if ( tag.artistTitle.equals("") ) tag.artistTitle = guessArtist( file );
@@ -83,6 +83,24 @@ public abstract class AudioTag implements Tag {
         if ( tag.trackNumber == 0 ) tag.setTrackNumber( guessTrackNumber(file) );
                 
         return tag;
+        
+    }
+
+    /**
+     *  Clean the string by removing invalid characters.  It's obviously a much
+     *  better idea to have a whitelist rather than a blacklist, but the set of
+     *  valid characters is too large in this case, and users are largely in
+     *  charge of managing their own content.
+     * 
+     *  @param dirty
+     * 
+     *  @return 
+     * 
+     */
+    
+    protected static String clean( final String dirty ) {
+
+        return dirty.replace( '\0', ' ' );
         
     }
 
