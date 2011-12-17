@@ -1,4 +1,3 @@
-
 var jplayer = null;
 
 /**
@@ -76,10 +75,9 @@ sockso.JPlayer = function(cssPrefix, skin, random) {
             $(this).jPlayer("pauseOthers");
         },
         supplied: "mp3",
-        swfPath: "/file/flash/",
+        swfPath: Properties.getUrl( "/file/flash/" ),
         volume: this.volume
     };
-
   
     // Current player item
     this.current = 0;
