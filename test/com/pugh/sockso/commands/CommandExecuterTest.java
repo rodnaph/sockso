@@ -27,7 +27,7 @@ public class CommandExecuterTest extends SocksoTestCase {
         locale = new TestLocale();
         locale.setString( "con.desc.commands", "Usage:" );
         locale.setString( "con.msg.propertySaved", "property saved" );
-        cmd = new CommandExecuter( db, p, null, locale );
+        cmd = new CommandExecuter( db, p, null, locale, new CommandParser() );
     }
 
 
@@ -67,10 +67,11 @@ public class CommandExecuterTest extends SocksoTestCase {
         assertContains( cmd.execute("help"), "Sets a property" );
     }
 
-    public void testABackslashCanBeUsedToEscapeSpaces() throws Exception {
-        cmd.execute( "useradd r\\ od pass rod@pu-gh.com 1" );
-        User user = User.find( db, 0 );
-        assertEquals( "r od", user.getName() );
+    public void testQuotesCanBeUsedInArguments() throws Exception {
+        cmd.execute( "propset foo \"bah bah\"" );
+        assertEquals( "bah bah", p.get("foo") );
+        cmd.execute( "propset \"foo foo\" \"baz baz baz\"" );
+        assertEquals( "baz baz baz", p.get("foo foo") );
     }
 
 }

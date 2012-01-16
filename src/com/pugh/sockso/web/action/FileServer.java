@@ -79,7 +79,9 @@ public class FileServer extends BaseAction {
 
     @Override
     public boolean requiresLogin() {
+
         return false;
+
     }
 
     /**

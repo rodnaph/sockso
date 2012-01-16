@@ -9,12 +9,12 @@ import com.pugh.sockso.web.action.playlist.XspfPlayer;
 import com.pugh.sockso.templates.web.THtml5Player;
 import com.pugh.sockso.templates.web.TXspfPlayer;
 import com.pugh.sockso.templates.web.TFlexPlayer;
+import com.pugh.sockso.templates.web.TJplayer;
+import com.pugh.sockso.web.TracksRequest;
 
 import java.sql.SQLException;
 
 import java.io.IOException;
-
-import java.util.Vector;
 
 public class Player extends BaseAction {
     
@@ -33,12 +33,22 @@ public class Player extends BaseAction {
         final Request req = getRequest();
         final String[] playArgs = req.getPlayParams( true );
         final String type = req.getUrlParam( 1 );
+        final TracksRequest tracksRequest = new TracksRequest( req, getDatabase(), getProperties() );
 
         if ( type.equals( "html5" )) {
             showHtml5Player(
                 req.getUrlParam( 2 ).equals( "random" )
-                    ? getRandomTracks()
-                    : getRequestedTracks( playArgs ),
+                    ? tracksRequest.getRandomTracks()
+                    : tracksRequest.getRequestedTracks(),
+                req.getUrlParam( 2 ).equals( "random" )
+            );
+        }
+                
+        else if(type.equals( "jplayer")) {
+          showJplayer(
+                req.getUrlParam( 2 ).equals( "random" )
+                    ? tracksRequest.getRandomTracks()
+                    : tracksRequest.getRequestedTracks(),
                 req.getUrlParam( 2 ).equals( "random" )
             );
         }
@@ -72,13 +82,36 @@ public class Player extends BaseAction {
      * 
      */
     
-    protected void showHtml5Player( final Vector<Track> tracks, boolean random ) throws IOException {
+    protected void showHtml5Player( final Track[] tracks, boolean random ) throws IOException {
 
         final THtml5Player tpl = new THtml5Player();
         
         tpl.setTracks( tracks );
         tpl.setProperties( getProperties() );
         tpl.setRandom( random );
+        
+        getResponse().showHtml( tpl.makeRenderer() );
+
+    }
+    
+    /**
+     *  shows the HTML 5 player
+     * 
+     *  @param tracks
+     *  @param random
+     * 
+     *  @throws IOException
+     * 
+     */
+    
+    protected void showJplayer( final Track[] tracks, boolean random ) throws IOException {
+
+        final TJplayer tpl = new TJplayer();
+        
+        tpl.setTracks( tracks );
+        tpl.setProperties( getProperties() );
+        tpl.setRandom( random );
+        tpl.setLocale( getLocale() );
         
         getResponse().showHtml( tpl.makeRenderer() );
 

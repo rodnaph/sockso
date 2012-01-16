@@ -1,89 +1,49 @@
-/*
- * ServerThreadTest.java
- * 
- * Created on Jul 24, 2007, 12:14:14 AM
- * 
- * Tests the ServerThread class
- * 
- */
 
 package com.pugh.sockso.web;
 
-import com.pugh.sockso.StringProperties;
-import com.pugh.sockso.tests.TestUtils;
+import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.CollectionManager;
-import com.pugh.sockso.resources.Resources;
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.tests.TestRequest;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.net.Socket;
-
-import static org.easymock.EasyMock.*;
+import com.pugh.sockso.web.action.BaseAction;
 
 public class ServerThreadTest extends SocksoTestCase {
 
-    private Server server;
-    private Database db;
+    private ServerThread st;
+
     private Properties p;
-    private Resources r;
-    private CollectionManager cm;
-    
-    public void setUp() {
-        server = createMock( Server.class );
-        db = createMock( Database.class );
-        p = new StringProperties();
-        r = createMock( Resources.class );
-        cm = createNiceMock( CollectionManager.class );
+
+    class LoginAction extends BaseAction {
+        public void handleRequest() {}
     }
     
-    public void tearDown() {
-        server = null;
-        db = null;
-        p = null;
-        r = null;
-    }
-    
-    class MyServerThread extends ServerThread {
-        protected boolean wasRun = false;
-        public MyServerThread( Server sv, Socket cl, Database db, Properties p, Resources r ) {
-            super( sv, db, p, r, null, null );
-        }
-    }
-    
-    public void testConstructor() {
-        
-        Socket client = getSocket( "" );
-        
-        ServerThread st = new ServerThread( server, db, p, r, null, null );
-        assertNotNull( st );
-        
+    class LoginRequiredAction extends LoginAction {
+        @Override
+        public boolean requiresLogin() { return true; }
     }
 
-    /**
-     *  returns a socket whose getInmputStream will produce
-     *  a stream with the specified data
-     * 
-     *  @param theData the input data
-     * 
-     */
+    class LoginNotRequiredAction extends LoginAction {
+        @Override
+        public boolean requiresLogin() { return false; }
+    }
     
-    private Socket getSocket( String theData ) {
-        final String theHttpData = theData;
-        return new Socket() {
-            @Override
-            public InputStream getInputStream() {
-                return TestUtils.getInputStream(theHttpData);
-            }
-            @Override
-            public OutputStream getOutputStream() {
-                return TestUtils.getOutputStream();
-            }
-        };
+    @Override
+    protected void setUp() {
+        p = new StringProperties();
+        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, Properties.YES );
+        st = new ServerThread( null, null, p, null, null, null );
+    }
+    
+    public void testActionDeniedWhenItRequiresAUserAndSessionDoesntExist() {
+        assertTrue( st.loginRequired(null,new LoginRequiredAction()) );
+    }
+
+    public void testActionOkWhenItRequiresAUserAndSessionExists() {
+        assertFalse( st.loginRequired(new User(1,""), new LoginRequiredAction()) );
+    }
+
+    public void testActionOkWhenItDoesntRequireAUserAndASessionDoesntExist() {
+        assertFalse( st.loginRequired(null,new LoginNotRequiredAction()) );
     }
 
 }

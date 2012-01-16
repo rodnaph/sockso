@@ -27,6 +27,7 @@ sockso.Player = function( options ) {
     this.PLAY_XSPF = 'xspf';
     this.PLAY_PLS = 'pls';
     this.PLAY_HTML5PLAYER = 'html5';
+    this.PLAY_JPLAYER = 'jplayer';
 
     /**
      *  creates a play option element
@@ -70,6 +71,8 @@ sockso.Player = function( options ) {
      */
     
     this.playFlashEmbed = function( playUrl, trackFilter ) {
+
+        playUrl = this.encodePluses( playUrl );
 
         var xspfUrl = Properties.getUrl('/file/flash/xspf_player.swf' +
             '?playlist_url=' + escape(Properties.getUrl('/xspf/' +playUrl + trackFilter))+
@@ -124,6 +127,20 @@ sockso.Player = function( options ) {
     };
 
     /**
+     *  Plays using JPlayer
+     *
+     *  @param {URL}playUrl
+     *  @type void
+     */
+    this.playJplayer = function( playUrl ) {
+        var w = window.open( '', 'PlayerWin', 'width=420,height=450,toolbars=no' );
+        w.location.href = Properties.getUrl('/player/jplayer/' +playUrl);
+        w.focus();
+
+    };
+
+
+    /**
      *  Plays using the popup flash/flex player
      *
      *  @param playUrl
@@ -131,6 +148,8 @@ sockso.Player = function( options ) {
      */
     
     this.playFlashPopup = function( playUrl ) {
+
+        playUrl = this.encodePluses( playUrl );
 
         // default with and height for xspf player
         var width = 410;
@@ -144,6 +163,22 @@ sockso.Player = function( options ) {
         // now we can open the window...
         var w = window.open( Properties.getUrl('/player/xspf/' + playUrl), 'PlayerWin', 'width=' +width+ ',height=' +height+ ',toolbars=no' );
         w.focus();
+
+    };
+
+    /**
+     *  encodes pluses to work around a bug with how the XSPF player swf handles
+     *  the encoding of pluses.
+     *  
+     *  @param String playUrl
+     *  
+     *  @return String
+     *  
+     */
+
+    this.encodePluses = function( playUrl ) {
+
+        return playUrl.replace( /\+/, "%252B" );
 
     };
 
@@ -176,9 +211,15 @@ sockso.Player = function( options ) {
             case self.PLAY_HTML5PLAYER:
             	this.playHtml5Player( playUrl );
             	break;
+              
+            case self.PLAY_JPLAYER:
+              this.playJplayer ( playUrl );
+              break;
 
             case self.PLAY_FLEX:
             case self.PLAY_FLASH_POPUP:
+            
+              
             default:
                 this.playFlashPopup( playUrl );
                 break;
@@ -202,7 +243,8 @@ sockso.Player = function( options ) {
                         .append( createPlayOption(self.PLAY_M3U,'M3U (iTunes,WMP,etc...)') )
                         .append( createPlayOption(self.PLAY_PLS,'Pls (Winamp,Shoutcast,etc...)') )
                         .append( createPlayOption(self.PLAY_XSPF,'XSPF') )
-                        .append( createPlayOption(self.PLAY_HTML5PLAYER,'HTML 5 Player') );
+                        .append( createPlayOption(self.PLAY_HTML5PLAYER,'HTML 5 Player') )
+                        .append( createPlayOption(self.PLAY_JPLAYER,'JPlayer') );
 
         $( parentId ).append(
             $( '<div></div>' )

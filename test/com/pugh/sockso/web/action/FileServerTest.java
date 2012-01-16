@@ -16,6 +16,13 @@ import static org.easymock.EasyMock.*;
 
 public class FileServerTest extends SocksoTestCase {
 
+    private FileServer action;
+    
+    @Override
+    protected void setUp() {
+        action = new FileServer( null );
+    }
+
     public void testGetMimeType() {
         assertEquals( "text/css", FileServer.getMimeType("default.css") );
         assertEquals( "audio/mpeg", FileServer.getMimeType("/home/me/default.mp3") );
@@ -194,5 +201,8 @@ public class FileServerTest extends SocksoTestCase {
         assertEquals( new File(folder+ "/fallback-file.png"), files[6] );
     }
 
+    public void testFileServerIgnoresLogins() {
+        assertFalse( action.requiresLogin() );
+    }
     
 }

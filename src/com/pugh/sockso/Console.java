@@ -11,6 +11,7 @@
 package com.pugh.sockso;
 
 import com.pugh.sockso.commands.CommandExecuter;
+import com.pugh.sockso.commands.CommandParser;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.events.LatestVersionEvent;
 import com.pugh.sockso.resources.Locale;
@@ -95,7 +96,7 @@ public class Console implements Manager {
     
     public void open() {
 
-        final CommandExecuter cmd = new CommandExecuter(db, p, cm, locale);
+        final CommandExecuter cmd = new CommandExecuter(db, p, cm, locale, new CommandParser());
         BufferedReader in = null;
 
         try {

@@ -1,9 +1,6 @@
 
 package com.pugh.sockso.web.action.playlist;
 
-import com.pugh.sockso.Constants;
-import com.pugh.sockso.Utils;
-import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 import com.pugh.sockso.web.BadRequestException;
@@ -11,6 +8,7 @@ import com.pugh.sockso.web.action.BaseAction;
 import com.pugh.sockso.web.action.FileServer;
 import com.pugh.sockso.music.Track;
 
+import com.pugh.sockso.web.TracksRequest;
 import java.io.IOException;
 
 import java.sql.SQLException;
@@ -49,12 +47,13 @@ public abstract class Playlister extends BaseAction {
         final Request req = getRequest();
         final String type = req.getUrlParam( 1 );
 
-        if ( type.equals("random") )
+        if ( type.equals("random") ) {
             createRandomPlaylist();
+        }
 
-        else createPlaylist(
-            req.getPlayParams( false )
-        );
+        else {
+            createPlaylist();
+        }
         
     }
 
@@ -72,7 +71,7 @@ public abstract class Playlister extends BaseAction {
     public void createRandomPlaylist() throws IOException, SQLException {
 
         showPlaylist(
-            getRandomTracks()
+            getTracksRequest().getRandomTracks()
         );
 
     }
@@ -89,10 +88,10 @@ public abstract class Playlister extends BaseAction {
      * 
      */
     
-    public void createPlaylist( final String[] playArgs ) throws SQLException, BadRequestException, IOException {
+    public void createPlaylist() throws SQLException, BadRequestException, IOException {
 
         showPlaylist(
-            getRequestedTracks( playArgs )
+            getTracksRequest().getRequestedTracks()
         );
 
     }
@@ -104,7 +103,7 @@ public abstract class Playlister extends BaseAction {
      *
      */
 
-    protected void showPlaylist( final Vector<Track> tracks ) throws IOException {
+    protected void showPlaylist( final Track[] tracks ) throws IOException {
 
         sendHeaders();
 
@@ -135,6 +134,23 @@ public abstract class Playlister extends BaseAction {
         res.addHeader( "Expires", "0" );
         res.addHeader( "Cache-Control", "must-revalidate, post-check=0, pre-check=0" );
         res.addHeader( "Pragma", "nocache" ); 
+
+    }
+
+    /**
+     *  Creates a new TracksRequest object for querying for tracks
+     * 
+     *  @return 
+     * 
+     */
+    
+    protected TracksRequest getTracksRequest() {
+
+        return new TracksRequest(
+            getRequest(),
+            getDatabase(),
+            getProperties()
+        );
 
     }
 

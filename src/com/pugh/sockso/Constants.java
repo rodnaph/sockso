@@ -67,6 +67,8 @@ public class Constants {
     public static final String WWW_BROWSE_TOP_ARTISTS_COUNT = "browse.topArtists.count";
     // logging
     public static final String WWW_LOG_REQUESTS_ENABLED = "log.requests.enable";
+    // meta tags
+    public static final String WWW_METATAGS = "www.metatags";
     //
     //  collection manager
     //

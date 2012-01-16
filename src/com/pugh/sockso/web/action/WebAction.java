@@ -20,7 +20,8 @@ public interface WebAction {
     public void handleRequest() throws Exception;
 
     /**
-     *  Inidcates if this web action requires a login to be executed
+     *  Indicates if this web action requires a login to be executed.  If a login
+     *  is not required then a session isn't started.
      *
      *  @return boolean true if login required, false otherwise
      *
