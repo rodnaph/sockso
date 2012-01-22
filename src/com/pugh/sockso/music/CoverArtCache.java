@@ -10,7 +10,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import com.google.inject.Singleton;
 
+@Singleton
 public class CoverArtCache {
 
     public static final String[] CACHE_IMAGE_EXTENSIONS = {"jpg", "gif", "png"};
@@ -75,7 +77,7 @@ public class CoverArtCache {
      *  @return the cache file path
      *
      */
-    private File getCoverCacheFile(final String itemName, final String extension) {
+    protected File getCoverCacheFile(final String itemName, final String extension) {
 
         return new File(Utils.getCoversDirectory() + File.separator + itemName + "." + extension);
     }
