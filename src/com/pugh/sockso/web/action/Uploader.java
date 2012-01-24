@@ -207,7 +207,8 @@ public class Uploader extends BaseAction {
             "audio/mpg",
             "audio/mpeg",
             "application/ogg",
-            "audio/x-ms-wma"
+            "audio/x-ms-wma",
+            "audio/flac"
         };
         
         for ( final String validContentType : validContentTypes )

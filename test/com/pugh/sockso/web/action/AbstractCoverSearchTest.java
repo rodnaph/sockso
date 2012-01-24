@@ -1,10 +1,10 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.db.Database;
 
-import java.awt.image.BufferedImage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,31 +13,31 @@ import java.sql.PreparedStatement;
 import static org.easymock.EasyMock.*;
 
 public class AbstractCoverSearchTest extends SocksoTestCase {
-    
+
     /**
      *  empty implementation for testing
-     * 
+     *
      */
-    
+
     class MyCoverSearch extends AbstractCoverSearch {
         public MyCoverSearch( final Database db ) {
             super( db );
         }
-        public BufferedImage getCover( final String name ) { return null; }
+        public CoverArt getCover( final String name ) { return null; }
     }
-    
+
     public void testGetCustomTypeFromAbbrev() {
-       
+
         final MyCoverSearch s = new MyCoverSearch( null );
-        
+
         assertEquals( "album", s.getCustomTypeFromAbrev("al") );
         assertEquals( "artist", s.getCustomTypeFromAbrev("ar") );
         assertEquals( "playlist", s.getCustomTypeFromAbrev("pl") );
         assertEquals( "track", s.getCustomTypeFromAbrev("tr") );
         assertNull( s.getCustomTypeFromAbrev("BAD") );
-        
+
     }
-    
+
     public void testGetMusicItemName() throws SQLException {
 
         final ResultSet rs = createMock( ResultSet.class );

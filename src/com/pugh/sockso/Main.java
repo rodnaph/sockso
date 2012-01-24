@@ -332,21 +332,33 @@ public class Main {
 
     /**
      *  returns name of logger properties file for given type
-     * 
+     *
      *  @param type the logging type
      *  @return the path to the props file
-     * 
+     *
      */
-    
+
     private static String getLogPropsFile( final String type ) {
-        return "log/" + type + ".properties";
+        return Constants.LOG_DIR + File.separator + type + ".properties";
+    }
+
+        /**
+     *  returns name of test logger properties file for given type
+     *
+     *  @param type the logging type
+     *  @return the path to the props file
+     *
+     */
+
+    private static String getTestLogPropsFile( final String type ) {
+        return Constants.TEST_LOG_DIR + File.separator + type + ".properties";
     }
 
     /**
      *  shuts down the application
-     * 
+     *
      */
-    
+
     public static void exit() {
         exit( 0, true );
     }
@@ -459,25 +471,25 @@ public class Main {
 
     /**
      *  initialises the logger for the test cases
-     * 
+     *
      */
-    
+
     public static void initTestLogger() {
-        
-        initLogger( "dist-files/log/test.properties" );
+
+        initLogger( getTestLogPropsFile("test") );
 
     }
-    
+
     /**
-     *  inits the logging framework with the specified props file
-     * 
+     *  Inits the logging framework with the specified props file
+     *
      *  @param propsFile the properties file to use
-     * 
+     *
      */
-    
+
 
     private static void initLogger( final String propsFile ) {
-        
+
         if ( new File(propsFile).exists() ) {
             PropertyConfigurator.configure( propsFile );
         }
@@ -488,22 +500,21 @@ public class Main {
      *  Inits loggers using java.util.logging
      *
      */
-     
+
     private static void initJavaLogger() throws IOException {
-    
-        final File propsFile = new File( "log/javalogging.properties" );
-        
+
+        final File propsFile = new File( getLogPropsFile("javalogging") );
+
         if ( propsFile.exists() ) {
-            
+
             final InputStream is = new FileInputStream( propsFile );
-        
-            LogManager.getLogManager()
-                      .readConfiguration( is );
+
+            LogManager.getLogManager().readConfiguration(is);
 
             Utils.close( is );
-            
+
         }
-        
+
     }
 
 }

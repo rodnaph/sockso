@@ -20,32 +20,32 @@ import java.util.Date;
 public class Mailer {
 
     private final Properties p;
-    
+
     /**
      *  constructor
-     * 
+     *
      */
-    
-    public Mailer( final Properties p ) { 
-        
+
+    public Mailer( final Properties p ) {
+
         this.p = p;
-        
+
     }
 
     /**
      *  sends the specified email
-     * 
+     *
      *  @param email
-     * 
+     *
      */
-    
+
     public void send( final String to, final String subject, final String message ) throws MessagingException {
-        
-        if ( p.get(Constants.MAIL_ENABLED).equals(p.YES) ) {
+
+        if ( p.get(Constants.MAIL_ENABLED).equals(Properties.YES) ) {
 
             final java.util.Properties props = System.getProperties();
 
-            if ( p.get(Constants.MAIL_SMTP_AUTH).equals(p.YES) ) {
+            if ( p.get(Constants.MAIL_SMTP_AUTH).equals(Properties.YES) ) {
                 props.put( "mail.smtps.auth", "true" );
             }
 

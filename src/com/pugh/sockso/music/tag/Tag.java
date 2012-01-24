@@ -1,14 +1,15 @@
 
 package com.pugh.sockso.music.tag;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 /**
  *  Specified the interface a tag needs to implement
- * 
+ *
  *  @author rod
- * 
+ *
  */
 
 public interface Tag {
@@ -65,5 +66,14 @@ public interface Tag {
      */
 
     public String getAlbumYear();
+
+    /**
+     * returns the cover art
+     *
+     * @return
+     *
+     */
+
+    public BufferedImage getCoverArt();
 
 }

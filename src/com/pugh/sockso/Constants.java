@@ -1,9 +1,11 @@
 
 package com.pugh.sockso;
 
+import java.io.File;
+
 /**
  *  provides static constants for the application
- * 
+ *
  */
 
 public class Constants {
@@ -72,8 +74,9 @@ public class Constants {
     //
     public static final String COLLMAN_SCAN_ONSTART = "collman.scan.onStart";
     public static final String COLLMAN_SCAN_INTERVAL = "collman.scan.interval";
+    public static final String COLLMAN_SCAN_COVERS = "collman.scan.coverArt";
     public static final String COLLMAN_ARTIST_REMOVE_PREFIXES = "collman.artists.removePrefixes";
-    
+
     //**********************************************************
     //**********************************************************
     //
@@ -81,6 +84,15 @@ public class Constants {
     //
     //**********************************************************
     //**********************************************************
+
+    //
+    // paths
+    //
+    public static final String LOG_DIR = "log";
+    public static final String TEST_LOG_DIR = "dist-files" + File.separator + "log";
+    public static final String COVERS_DIR = "covers";
+    public static final String LOCALE_DIR = "locales";
+    public static final String IMAGE_DIR = "images";
 
     public static final long SERVER_IP_TIMEOUT = 60 * 20 * 1000; // milliseconds
     public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
@@ -102,6 +114,7 @@ public class Constants {
 
     public static final String DEFAULT_ARTWORK_WIDTH = "covers.defaultWidth";
     public static final String DEFAULT_ARTWORK_HEIGHT = "covers.defaultHeight";
+    public static final String DEFAULT_ARTWORK_TYPE = "covers.defaultType";
 
     //**********************************************************
     //**********************************************************
