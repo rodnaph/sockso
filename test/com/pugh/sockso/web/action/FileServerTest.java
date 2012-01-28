@@ -23,12 +23,6 @@ public class FileServerTest extends SocksoTestCase {
         action = new FileServer( null );
     }
 
-    public void testGetMimeType() {
-        assertEquals( "text/css", FileServer.getMimeType("default.css") );
-        assertEquals( "audio/mpeg", FileServer.getMimeType("/home/me/default.mp3") );
-        assertEquals( "audio/mpegurl", FileServer.getMimeType("c:\\Users\\Me\\file.m3u") );
-    }
-
     public void testGetLocalCoverDirectories() throws Exception {
         
         final ResultSet rs = createMock( ResultSet.class );

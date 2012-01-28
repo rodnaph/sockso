@@ -25,6 +25,7 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.music.CoverArtCache;
+import com.pugh.sockso.music.Files;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.BadRequestException;
@@ -174,7 +175,7 @@ public class FileServer extends BaseAction {
 
         res.addHeader( "Cache-Control", "public" );
         res.addHeader( "Pragma", "public" );
-        res.addHeader( "Content-type", getMimeType(filename) );
+        res.addHeader( "Content-type", Files.getMimeType(filename) );
         res.sendHeaders();
 
     }
@@ -599,47 +600,6 @@ public class FileServer extends BaseAction {
 
         return false;
 
-    }
-
-
-    /**
-     *  returns the mime type for the file an the given path.  if the file type
-     *  is not known then text/plain is returned (just needs extension really).
-     *
-     *  @param path file system path of file
-     *
-     *  @return String mime type
-     *
-     */
-
-    public static String getMimeType( String path ) {
-
-        final String ext = Utils.getExt( path );
-        final String[] mimes = {
-            "css", "text/css",
-            "js", "text/javascript",
-            "png", "image/png",
-            "gif", "image/gif",
-            "ico", "image/x-icon",
-            "swf", "application/x-shockwave-flash",
-            "jpg", "image/jpeg",
-            "mp3", "audio/mpeg",
-            "ogg", "application/ogg",
-            "wma", "audio/x-ms-wma",
-            "asf", "audio/x-ms-asf",
-            "flac", "audio/flac",
-            "xspf", "application/xspf+xml",
-            "pls", "audio/x-scpls",
-            "m3u", "audio/mpegurl",
-            "xml", "text/xml",
-            "m4a", "audio/mp4"
-        };
-
-        for ( int i=0; i<mimes.length; i+=2 )
-            if ( mimes[i].equals(ext) ) return mimes[i+1];
-
-        return "text/plain";
-        
     }
 
 }

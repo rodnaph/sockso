@@ -1,11 +1,3 @@
-/*
- * Uploader.java
- * 
- * Created on Nov 7, 2007, 11:44:28 PM
- * 
- * Handles uploading of files.
- *
- */
 
 package com.pugh.sockso.web.action;
 
@@ -15,6 +7,7 @@ import com.pugh.sockso.Validater;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.music.CollectionManagerListener;
+import com.pugh.sockso.music.Files;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.User;
 import com.pugh.sockso.web.UploadFile;
@@ -144,7 +137,7 @@ public class Uploader extends BaseAction {
         // check mime type to see if it looks ok
         final String contentType = file.getContentType();
         log.debug( "File content type: " + contentType );
-        if ( !isValidContentType(contentType) )
+        if ( !Files.isValidMimeType(contentType) )
             throw new BadRequestException( locale.getString("www.error.unsupportedAudioFormat") );
         
         // check required fields
@@ -192,34 +185,7 @@ public class Uploader extends BaseAction {
 
     }
     
-    /**
-     *  checks if we support this content type.  returns true if we do,
-     *  false otherwise
-     * 
-     *  @param contentType the content type to check
-     *  @return true if ok, false otherwise
-     * 
-     */
-    
-    protected boolean isValidContentType( final String contentType ) {
-
-        final String validContentTypes[] = {
-            "audio/mpg",
-            "audio/mpeg",
-            "application/ogg",
-            "audio/x-ms-wma",
-            "audio/flac"
-        };
-        
-        for ( final String validContentType : validContentTypes )
-            if ( validContentType.equals(contentType) )
-                return true;
-        
-        return false;
-
-    }
-    
-    /**
+   /**
      *  checks that everything is ok for doing uploads, ie. they're enabled, the
      *  user is logged in if required, etc...
      * 
