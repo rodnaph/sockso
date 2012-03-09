@@ -97,13 +97,31 @@ public class FileServer extends BaseAction {
     
     public void serveFile() throws IOException, BadRequestException {
 
+        serveResource( getPathFromRequest() );
+
+    }
+
+    /**
+     *  Returns the file path from the request
+     * 
+     *  @return 
+     * 
+     */
+
+    protected String getPathFromRequest() {
+
         final Request req = getRequest();
-        String path = "htdocs";
+        final StringBuffer path = new StringBuffer( "htdocs" );
         
-        for ( int i=1; i<req.getParamCount(); i++ )
-            path += "/" + req.getUrlParam(i);
+        for ( int i=1; i<req.getParamCount(); i++ ) {
+            final String component = req.getUrlParam( i );
+            if ( !component.equals("..") ) {
+                path.append( "/" );
+                path.append( req.getUrlParam(i) );
+            }
+        }
         
-        serveResource( path );
+        return path.toString();
 
     }
 
