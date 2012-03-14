@@ -182,6 +182,22 @@ sockso.Player = function( options ) {
 
     };
 
+	/**
+     *  Encodes pluses for players (except flash based) 
+	 *  as by default they are decoded as spaces
+     *  
+     *  @param String playUrl
+     *  
+     *  @return String
+     *  
+     */
+	 
+    this.encodePluses = function( playUrl ) {
+	
+        return playUrl.replace( /\+/gi, "%2B" );
+		
+    };
+	
     /**
      *  plays a track/artist/etc with the correct play type the user is using
      *
@@ -191,7 +207,7 @@ sockso.Player = function( options ) {
 
         if ( !options ) options = {};
 
-        playUrl += "?" + ( extraArgs != undefined && extraArgs != null ? extraArgs : '' );
+        playUrl += "?" + ( extraArgs != undefined && extraArgs != null ? this.encodePluses(extraArgs) : '' );
 
         var trackFilter = ( Properties.get('www.flashPlayer.dontFilterMp3s') == 'yes' )
                               ? '' : '&trackType=mp3';
