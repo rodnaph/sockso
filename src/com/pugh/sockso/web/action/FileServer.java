@@ -86,6 +86,20 @@ public class FileServer extends BaseAction {
         return false;
 
     }
+
+    /**
+     *  no login required at all so no need to start a session
+     * 
+     *  @return
+     * 
+     */
+    
+    @Override
+    public boolean requiresSession() {
+
+        return false;
+
+    }
     
     /**
      *  serves a request file to the client

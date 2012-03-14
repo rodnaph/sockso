@@ -46,6 +46,19 @@ public abstract class BaseAction implements WebAction {
     }
 
     /**
+     *  All actions require a session by default
+     * 
+     *  @return 
+     * 
+     */
+
+    public boolean requiresSession() {
+
+        return true;
+
+    }
+
+    /**
      *  Some getters for the standard objects
      * 
      */
