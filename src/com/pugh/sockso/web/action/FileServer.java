@@ -128,14 +128,12 @@ public class FileServer extends BaseAction {
         final StringBuffer path = new StringBuffer( "htdocs" );
         
         for ( int i=1; i<req.getParamCount(); i++ ) {
-            final String component = req.getUrlParam( i );
-            if ( !component.equals("..") ) {
-                path.append( "/" );
-                path.append( req.getUrlParam(i) );
-            }
+            path.append( "/" );
+            path.append( req.getUrlParam(i) );
         }
         
-        return path.toString();
+        return path.toString()
+                   .replace( "..", "" );
 
     }
 
