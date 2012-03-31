@@ -30,6 +30,7 @@ import joptsimple.OptionSet;
 import org.apache.log4j.Logger;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 
 public class SocksoModule extends AbstractModule {
     
@@ -58,7 +59,7 @@ public class SocksoModule extends AbstractModule {
         
     }
     
-    private Class<? extends Database> getDatabaseClass() {
+    protected Class<? extends Database> getDatabaseClass() {
             
         final String dbtype = options.has( Options.OPT_DBTYPE )
             ? options.valueOf(Options.OPT_DBTYPE).toString()
@@ -81,7 +82,7 @@ public class SocksoModule extends AbstractModule {
         
     }
     
-    private Class<? extends Resources> getResourcesClass() {
+    protected Class<? extends Resources> getResourcesClass() {
         
         final String resourceType = options.has( Options.OPT_RESOURCESTYPE )
             ? options.valueOf(Options.OPT_RESOURCESTYPE).toString() : "";
@@ -94,7 +95,7 @@ public class SocksoModule extends AbstractModule {
 
     }
     
-    private Class<? extends Server> getWebServerClass() {
+    protected Class<? extends Server> getWebServerClass() {
         
         return options.has( Options.OPT_SSL )
             ? HttpsServer.class
@@ -102,7 +103,7 @@ public class SocksoModule extends AbstractModule {
         
     }
     
-    private Class<? extends Manager> getManagerClass() {
+    protected Class<? extends Manager> getManagerClass() {
         
         return options.has( Options.OPT_NOGUI )
             ? Console.class
@@ -110,4 +111,11 @@ public class SocksoModule extends AbstractModule {
             
     }
     
+    @Provides
+    protected OptionSet getOptions() {
+
+        return options;
+
+    }
+
 }

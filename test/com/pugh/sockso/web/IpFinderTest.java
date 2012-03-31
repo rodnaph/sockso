@@ -21,13 +21,8 @@ import java.util.Date;
 
 public class IpFinderTest extends SocksoTestCase {
 
-    public void testConstructor() {
-        assertNotNull( new IpFinder(null) );
-        assertNotNull( new IpFinder(null,null) );
-    }
-
     public void testIpDefaultsToLoopback() {
-        final IpFinder f = new IpFinder( null );
+        final IpFinder f = new IpFinder( null, null );
         assertEquals( IpFinder.LOOPBACK, f.getIp() );
     }
 
@@ -92,7 +87,7 @@ public class IpFinderTest extends SocksoTestCase {
 
     public void testGetIpFromUrl() {
 
-        final IpFinder f = new IpFinder( null );
+        final IpFinder f = new IpFinder( null, null );
 
         // first try a failed connection
 
@@ -133,7 +128,7 @@ public class IpFinderTest extends SocksoTestCase {
 
     public void testIsValidIpFormat() {
         
-        final IpFinder f = new IpFinder( null );
+        final IpFinder f = new IpFinder( null, null );
 
         assertTrue( f.isValidIpFormat("123.456.789.123") );
         assertTrue( f.isValidIpFormat("13.45.789.3") );
@@ -144,7 +139,7 @@ public class IpFinderTest extends SocksoTestCase {
     public void testSaveIpToProperties() {
 
         final StringProperties p = new StringProperties();
-        final IpFinder f = new IpFinder( p );
+        final IpFinder f = new IpFinder( p, null );
         
         assertEquals( f.LOOPBACK, f.getIp() );
         assertEquals( "", p.get(Constants.SERVER_HOST) );
@@ -160,7 +155,7 @@ public class IpFinderTest extends SocksoTestCase {
     public void testUpdateForcesRegettingIpFromProperties() {
         
         final StringProperties p = new StringProperties();
-        final IpFinder f = new IpFinder( p );
+        final IpFinder f = new IpFinder( p, null );
         final String firstIp = "123.123.123.123";
         final String secondIp = "456.456.456.456";
 
@@ -180,7 +175,7 @@ public class IpFinderTest extends SocksoTestCase {
     public void testRefreshClearsCacheFirst() {
 
         final StringProperties p = new StringProperties();
-        final IpFinder f = new IpFinder( p );
+        final IpFinder f = new IpFinder( p, null );
         final String startTime = Long.toString( new Date().getTime() );
 
         p.set( Constants.SERVER_HOST_LAST_UPDATED, startTime );

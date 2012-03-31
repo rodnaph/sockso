@@ -42,20 +42,6 @@ public class IpFinder {
     private String ip;
 
     /**
-     *  Constructor
-     * 
-     *  @param p
-     * 
-     */
-
-    @Inject
-    public IpFinder( final Properties p ) {
-
-        this( p, null );
-
-    }
-
-    /**
      *  Constructor, with OptionSet of command line args
      * 
      *  @param p
@@ -63,6 +49,7 @@ public class IpFinder {
      * 
      */
 
+    @Inject
     public IpFinder( final Properties p, final OptionSet options ) {
         
         this.options = options;
