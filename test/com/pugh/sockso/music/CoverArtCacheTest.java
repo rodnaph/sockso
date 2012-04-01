@@ -28,11 +28,7 @@ public class CoverArtCacheTest extends SocksoTestCase {
 
     public void testIsCached() throws IOException {
         String itemName = "al123";
-<<<<<<< HEAD
-        BufferedImage image = ImageIO.read(new File("test\\data\\covers\\" + itemName + ".jpg"));
-=======
         BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
         CoverArt coverArt = new CoverArt(itemName, image);
 
         cache.addToCache(coverArt);
@@ -44,11 +40,8 @@ public class CoverArtCacheTest extends SocksoTestCase {
 
     public void testGetCachedImageExtension() throws IOException {
         String itemName = "al123";
-<<<<<<< HEAD
-        BufferedImage image = ImageIO.read(new File("test\\data\\covers\\" + itemName + ".jpg"));
-=======
         BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
+
         CoverArt coverArt = new CoverArt(itemName, image);
 
         String expResult = "jpg";
@@ -58,11 +51,7 @@ public class CoverArtCacheTest extends SocksoTestCase {
 
     public void testGetCoverArt() throws Exception {
         String itemName = "al123";
-<<<<<<< HEAD
-        BufferedImage image = ImageIO.read(new File("test\\data\\covers\\" + itemName + ".jpg"));
-=======
         BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
         CoverArt coverArt = new CoverArt(itemName, image);
 
         cache.addToCache(coverArt);

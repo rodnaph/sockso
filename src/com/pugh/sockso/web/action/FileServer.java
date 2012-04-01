@@ -25,10 +25,8 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.music.CoverArtCache;
-<<<<<<< HEAD
-=======
 import com.pugh.sockso.music.Files;
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
+
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.BadRequestException;
@@ -88,23 +86,20 @@ public class FileServer extends BaseAction {
 
     }
 
-<<<<<<< HEAD
-=======
     /**
      *  no login required at all so no need to start a session
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     @Override
     public boolean requiresSession() {
 
         return false;
 
     }
-    
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
+
     /**
      *  serves a request file to the client
      *
@@ -121,32 +116,23 @@ public class FileServer extends BaseAction {
 
     /**
      *  Returns the file path from the request
-     * 
-     *  @return 
-     * 
+     *
+     *  @return
+     *
      */
 
     protected String getPathFromRequest() {
 
         final Request req = getRequest();
-<<<<<<< HEAD
-        String path = "htdocs";
-
-        for ( int i=1; i<req.getParamCount(); i++ )
-            path += "/" + req.getUrlParam(i);
-
-        serveResource( path );
-=======
         final StringBuffer path = new StringBuffer( "htdocs" );
-        
+
         for ( int i=1; i<req.getParamCount(); i++ ) {
             path.append( "/" );
             path.append( req.getUrlParam(i) );
         }
-        
+
         return path.toString()
                    .replace( "..", "" );
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
 
     }
 
@@ -643,50 +629,6 @@ public class FileServer extends BaseAction {
 
         return false;
 
-<<<<<<< HEAD
-    }
-
-
-    /**
-     *  returns the mime type for the file an the given path.  if the file type
-     *  is not known then text/plain is returned (just needs extension really).
-     *
-     *  @param path file system path of file
-     *
-     *  @return String mime type
-     *
-     */
-
-    public static String getMimeType( String path ) {
-
-        final String ext = Utils.getExt( path );
-        final String[] mimes = {
-            "css", "text/css",
-            "js", "text/javascript",
-            "png", "image/png",
-            "gif", "image/gif",
-            "ico", "image/x-icon",
-            "swf", "application/x-shockwave-flash",
-            "jpg", "image/jpeg",
-            "mp3", "audio/mpeg",
-            "ogg", "application/ogg",
-            "wma", "audio/x-ms-wma",
-            "asf", "audio/x-ms-asf",
-            "flac", "audio/flac",
-            "xspf", "application/xspf+xml",
-            "pls", "audio/x-scpls",
-            "m3u", "audio/mpegurl",
-            "xml", "text/xml",
-            "m4a", "audio/mp4"
-        };
-
-        for ( int i=0; i<mimes.length; i+=2 )
-            if ( mimes[i].equals(ext) ) return mimes[i+1];
-
-        return "text/plain";
-
-=======
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
     }
 
 }

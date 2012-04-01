@@ -35,11 +35,7 @@ public class CoverArtTest extends SocksoTestCase {
 
     public void testGetImage() throws IOException {
         String itemName = "al123";
-<<<<<<< HEAD
-        BufferedImage image = ImageIO.read(new File("test\\data\\covers\\" + itemName + ".jpg"));
-=======
         BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
->>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
         CoverArt coverArt = new CoverArt(itemName, image);
         BufferedImage result = coverArt.getImage();
         assertEquals(image, result);
@@ -59,7 +55,7 @@ public class CoverArtTest extends SocksoTestCase {
     public void testScale() throws IOException {
         int width  = 200;  // 115 <- scaling factor 200/115
         int height = 170;  //  (200/115) * 98 = 170 (+-1)
-        int delta = 1;     
+        int delta = 1;
         String itemName = "al123";
         BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
         CoverArt coverArt = new CoverArt(itemName, image);
