@@ -5,6 +5,10 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 
 import java.io.File;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,9 +23,23 @@ public class Collection extends MusicItem {
     private final int id;
     private final String path;
     
+    /**
+     * Create a collection with id -1
+     * 
+     */
     public Collection() {
+        
         this( -1, "" );
+        
     }
+    
+    /**
+     *  Create a collection with the specified ID and path
+     * 
+     *  @param id
+     *  @param path 
+     * 
+     */
     
     public Collection( final int id, final String path ) {
 

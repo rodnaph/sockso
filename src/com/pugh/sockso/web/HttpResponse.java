@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.PrintStream;
 
 import java.sql.Timestamp;
 import java.sql.SQLException;
@@ -370,7 +369,10 @@ public class HttpResponse implements Response {
     
     public void showJson( final Renderer renderer ) throws IOException {
 
-        showTemplate( renderer, "application/json; charset=\"UTF-8\"" );
+        showTemplate( 
+            new JsonRenderer( renderer ), 
+            "application/json; charset=\"UTF-8\"" 
+        );
         
     }
 

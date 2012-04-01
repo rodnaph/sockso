@@ -25,6 +25,10 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.music.CoverArtCache;
+<<<<<<< HEAD
+=======
+import com.pugh.sockso.music.Files;
+>>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.BadRequestException;
@@ -84,6 +88,23 @@ public class FileServer extends BaseAction {
 
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     *  no login required at all so no need to start a session
+     * 
+     *  @return
+     * 
+     */
+    
+    @Override
+    public boolean requiresSession() {
+
+        return false;
+
+    }
+    
+>>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
     /**
      *  serves a request file to the client
      *
@@ -94,13 +115,38 @@ public class FileServer extends BaseAction {
 
     public void serveFile() throws IOException, BadRequestException {
 
+        serveResource( getPathFromRequest() );
+
+    }
+
+    /**
+     *  Returns the file path from the request
+     * 
+     *  @return 
+     * 
+     */
+
+    protected String getPathFromRequest() {
+
         final Request req = getRequest();
+<<<<<<< HEAD
         String path = "htdocs";
 
         for ( int i=1; i<req.getParamCount(); i++ )
             path += "/" + req.getUrlParam(i);
 
         serveResource( path );
+=======
+        final StringBuffer path = new StringBuffer( "htdocs" );
+        
+        for ( int i=1; i<req.getParamCount(); i++ ) {
+            path.append( "/" );
+            path.append( req.getUrlParam(i) );
+        }
+        
+        return path.toString()
+                   .replace( "..", "" );
+>>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
 
     }
 
@@ -172,7 +218,7 @@ public class FileServer extends BaseAction {
 
         res.addHeader( "Cache-Control", "public" );
         res.addHeader( "Pragma", "public" );
-        res.addHeader( "Content-type", getMimeType(filename) );
+        res.addHeader( "Content-type", Files.getMimeType(filename) );
         res.sendHeaders();
 
     }
@@ -597,6 +643,7 @@ public class FileServer extends BaseAction {
 
         return false;
 
+<<<<<<< HEAD
     }
 
 
@@ -638,6 +685,8 @@ public class FileServer extends BaseAction {
 
         return "text/plain";
 
+=======
+>>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
     }
 
 }

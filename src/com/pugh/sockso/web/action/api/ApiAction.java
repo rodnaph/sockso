@@ -1,7 +1,6 @@
 
 package com.pugh.sockso.web.action.api;
 
-import com.pugh.sockso.ObjectCache;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.WebAction;
 

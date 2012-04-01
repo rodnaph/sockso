@@ -7,6 +7,7 @@ import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.SocksoTestCase;
 
+import com.pugh.sockso.tests.TestRequest;
 import java.io.File;
 
 import java.sql.PreparedStatement;
@@ -21,12 +22,6 @@ public class FileServerTest extends SocksoTestCase {
     @Override
     protected void setUp() {
         action = new FileServer( null );
-    }
-
-    public void testGetMimeType() {
-        assertEquals( "text/css", FileServer.getMimeType("default.css") );
-        assertEquals( "audio/mpeg", FileServer.getMimeType("/home/me/default.mp3") );
-        assertEquals( "audio/mpegurl", FileServer.getMimeType("c:\\Users\\Me\\file.m3u") );
     }
 
     public void testGetLocalCoverDirectories() throws Exception {
@@ -203,6 +198,12 @@ public class FileServerTest extends SocksoTestCase {
 
     public void testFileServerIgnoresLogins() {
         assertFalse( action.requiresLogin() );
+    }
+
+    public void testDoubleDotsAreIgnoredInFilePaths() throws Exception {
+        TestRequest req = new TestRequest( "GET /file/some/../../file.txt HTTP/1.0" );
+        action.setRequest( req );
+        assertEquals( "htdocs/some/file.txt", action.getPathFromRequest() );
     }
     
 }

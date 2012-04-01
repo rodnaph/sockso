@@ -30,6 +30,15 @@ public interface WebAction {
     public boolean requiresLogin();
 
     /**
+     *  Indicates if a session needs to be started for this action.
+     * 
+     *  @return 
+     * 
+     */
+    
+    public boolean requiresSession();
+
+    /**
      *  Sets the database for the action
      * 
      *  @param db

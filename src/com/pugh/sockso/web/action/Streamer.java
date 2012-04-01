@@ -4,6 +4,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Utils;
+import com.pugh.sockso.music.Files;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.encoders.Encoders;
 import com.pugh.sockso.music.encoders.BuiltinEncoder;
@@ -229,7 +230,7 @@ public class Streamer extends BaseAction {
             new DataInputStream(
                 new FileInputStream( track.getPath() )
             ),
-            FileServer.getMimeType( track.getPath() )
+            Files.getMimeType( track.getPath() )
         );
 
     }

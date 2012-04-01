@@ -94,7 +94,7 @@ public class ServerThread extends Thread {
             action.setRequest( req );
             action.setLocale( locale );
 
-            if ( action.requiresLogin() ) {
+            if ( action.requiresSession() ) {
                 final Session session = new Session( db, req, null );
                 user = session.getCurrentUser();
             }

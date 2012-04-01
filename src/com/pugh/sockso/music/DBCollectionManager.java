@@ -159,7 +159,35 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) && coverArt != null) {
             addCoverArt( trackId, tag.getTrack(), albumId, tag.getAlbum(), coverArt );
         }
+<<<<<<< HEAD
+=======
 
+    }
+
+
+    protected void addCoverArt( final int trackId, final String track, final int albumId, final String album, final BufferedImage coverArt ){
+
+        log.info("Adding Cover Art for trackId " + trackId + " and albumId " + albumId + "...");
+
+        // -1 if nothing inserted into db
+        if (albumId < 0 && trackId < 0) {
+            log.warn("addCoverArt: Both trackId and albumId params were -1");
+            return;
+        }
+
+        String coverId = null;
+        // if the track has an album, we use that
+        // if not, we use the trackId
+        if (albumId > 0) {
+            coverId = "al" + albumId;
+        }
+        else if (trackId > 0) {
+            coverId = "tr" + trackId;
+        }
+>>>>>>> 651f57e63ba9fcae401bc730b1a47d3da2a35a7a
+
+        CoverArtIndexer coverArtIndexer = new CoverArtIndexer(p);
+        coverArtIndexer.indexCover(new CoverArt( coverId, coverArt ));
     }
 
 

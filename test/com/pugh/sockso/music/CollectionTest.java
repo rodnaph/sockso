@@ -66,5 +66,5 @@ public class CollectionTest extends SocksoTestCase {
     public void testNullReturnedWhenTryingToFindACollectionByPathDoesntMatchAnything() throws SQLException {
         assertNull( Collection.findByPath( db, "/bar/baz" ) );
     }
-    
+
 }
