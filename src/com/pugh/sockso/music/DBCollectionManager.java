@@ -5,6 +5,7 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
+import com.pugh.sockso.music.indexing.CoverArtIndexer;
 import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.indexing.IndexEvent;
 import com.pugh.sockso.music.indexing.IndexListener;
@@ -13,15 +14,14 @@ import com.pugh.sockso.music.tag.Tag;
 import com.pugh.sockso.music.tag.AudioTag;
 import com.pugh.sockso.web.User;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import java.util.Vector;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -154,8 +154,37 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         final int artistId = addArtist( tag.getArtist() );
         final int albumId = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
-        addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
+        final int trackId = addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
+        BufferedImage coverArt = tag.getCoverArt();
+        if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) && coverArt != null) {
+            addCoverArt( trackId, tag.getTrack(), albumId, tag.getAlbum(), coverArt );
+        }
 
+    }
+
+
+    protected void addCoverArt( final int trackId, final String track, final int albumId, final String album, final BufferedImage coverArt ){
+
+        log.info("Adding Cover Art for trackId " + trackId + " and albumId " + albumId + "...");
+
+        // -1 if nothing inserted into db
+        if (albumId < 0 && trackId < 0) {
+            log.warn("addCoverArt: Both trackId and albumId params were -1");
+            return;
+        }
+
+        String coverId = null;
+        // if the track has an album, we use that
+        // if not, we use the trackId
+        if (albumId > 0) {
+            coverId = "al" + albumId;
+        }
+        else if (trackId > 0) {
+            coverId = "tr" + trackId;
+        }
+
+        CoverArtIndexer coverArtIndexer = new CoverArtIndexer(p);
+        coverArtIndexer.indexCover(new CoverArt( coverId, coverArt ));
     }
 
     /**

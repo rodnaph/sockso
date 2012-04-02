@@ -3,6 +3,7 @@ package com.pugh.sockso.web.action;
 
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
+import com.pugh.sockso.music.CoverArt;
 
 import java.awt.image.BufferedImage;
 
@@ -32,22 +33,22 @@ public class AmazonCoverSearch extends AbstractCoverSearch {
     protected static final Logger log = Logger.getLogger( AbstractCoverSearch.class );
 
     public AmazonCoverSearch( final Database db ) {
-        
+
         super( db );
-        
+
     }
 
     /**
      *  tries to search amazon for a cover for the specified itemName (eg. ar123)
      *  if nothing is found then null is returned.
-     * 
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
-    public BufferedImage getCover( final String itemName ) {
+
+    public CoverArt getCover( final String itemName ) {
 
         try {
 
@@ -59,12 +60,12 @@ public class AmazonCoverSearch extends AbstractCoverSearch {
             final String urlString = getCoverUrl( keywords );
 
             if ( urlString != null ) {
-            
+
                 final URL url = new URL( urlString );
                 final HttpURLConnection cnn = (HttpURLConnection) url.openConnection();
                 final BufferedImage cover = ImageIO.read( cnn.getInputStream() );
-
-                return cover;
+                CoverArt coverArtImage = new CoverArt( itemName, cover );
+                return coverArtImage;
 
             }
 

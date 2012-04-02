@@ -1,11 +1,6 @@
 
 package com.pugh.sockso.web.action;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.File;
@@ -28,6 +23,9 @@ import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
+import com.pugh.sockso.music.CoverArt;
+import com.pugh.sockso.music.CoverArtCache;
+import com.pugh.sockso.music.Files;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.BadRequestException;
@@ -84,7 +82,23 @@ public class FileServer extends BaseAction {
     
     @Override
     public boolean requiresLogin() {
+
         return false;
+
+    }
+
+    /**
+     *  no login required at all so no need to start a session
+     * 
+     *  @return
+     * 
+     */
+    
+    @Override
+    public boolean requiresSession() {
+
+        return false;
+
     }
     
     /**
@@ -97,13 +111,29 @@ public class FileServer extends BaseAction {
     
     public void serveFile() throws IOException, BadRequestException {
 
+        serveResource( getPathFromRequest() );
+
+    }
+
+    /**
+     *  Returns the file path from the request
+     * 
+     *  @return 
+     * 
+     */
+
+    protected String getPathFromRequest() {
+
         final Request req = getRequest();
-        String path = "htdocs";
+        final StringBuffer path = new StringBuffer( "htdocs" );
         
-        for ( int i=1; i<req.getParamCount(); i++ )
-            path += "/" + req.getUrlParam(i);
+        for ( int i=1; i<req.getParamCount(); i++ ) {
+            path.append( "/" );
+            path.append( req.getUrlParam(i) );
+        }
         
-        serveResource( path );
+        return path.toString()
+                   .replace( "..", "" );
 
     }
 
@@ -175,270 +205,193 @@ public class FileServer extends BaseAction {
 
         res.addHeader( "Cache-Control", "public" );
         res.addHeader( "Pragma", "public" );
-        res.addHeader( "Content-type", getMimeType(filename) );
+        res.addHeader( "Content-type", Files.getMimeType(filename) );
         res.sendHeaders();
 
     }
 
     /**
-     *  serves a cover of the specified type (determined by the url).  it first
-     *  looks in the cache to see if we have it there, then on the filesystem
-     *  to see if the user has it stored with their music, then finally if
-     *  all else fails tries to scrape it from Amazon.
-     * 
+     *  Serves a cover of the specified type (determined by the url).
+     *
+     *  It searches the following locations in order:
+     *
+     *  1. Cover cache directory
+     *  2. Tag of the music file
+     *  3. Local directory where the file lives
+     *  4. Amazon's web site
+     *
      *  @throws IOException
      *  @throws SQLException
      *  @throws BadRequestException
-     * 
+     *
      */
 
     public void serveCover() throws IOException, SQLException, BadRequestException {
-        
+
         final Request req = getRequest();
         final Properties p = getProperties();
         final Locale locale = getLocale();
         final String itemName = req.getUrlParam( 2 );
-        
+
         // check feature isn't disabled
         if ( p.get(Constants.COVERS_DISABLED).equals(Properties.YES) )
             throw new BadRequestException( locale.getString("www.error.coversDisabled"), 404 );
-        
+
         // got a cache hit?
         if ( serveCoverCache(itemName) )
             return;
-        
-        // 1. image isn't in the cache, first see if we can read it from disk
+
+/*
+        // check the tag for cover art
+
+        String imgExt = p.get(Constants.DEFAULT_ARTWORK_TYPE, "jpg");
+        // TODO: in order to extract cover from tag, need to find which tag to get from request:
+        // album or artist is meta-info of one or more files!
+        File musicFile = ;
+        try {
+            final Tag tag = AudioTag.getTag( musicFile );
+            BufferedImage coverArt = tag.getCoverArt();
+            // now the cover should be in the cache
+            if( coverArt != null){
+                serveCover(coverArt, imgExt, true);
+                return;
+            }
+        } catch (InvalidTagException e) {
+            log.error("Invalid tag for file: " + musicFile.toString(), e);
+        }
+
+        // image isn't in the cache, first see if we can read it from disk
         // somewhere if the user has cover art stored with their music
-        
+
         final String localPath = getLocalCoverPath( itemName );
-        
+
         if ( localPath != null ) {
             serveLocalCover( itemName, localPath );
             return;
         }
+*/
 
-        // 2. try searching amazon for a cover image to use (but only if this
-        //    feature has not been disabled)
-        
+        // try searching amazon for a cover image to use (but only if this
+        // feature has not been disabled)
+
         if ( !p.get(Constants.COVERS_DISABLE_REMOTE_FETCHING).equals(Properties.YES) ) {
-        
+
             final Database db = getDatabase();
             final CoverSearch search = new AmazonCoverSearch( db );
-            final BufferedImage cover = search.getCover( itemName );
+            final CoverArt cover = search.getCover(itemName);
 
             if ( cover != null ) {
                 serveCover( cover, itemName, true );
                 return;
             }
-        
+
         }
-        
-        // 3. if nothing found then just serve up the empty image saying so
-        
+
+        // if nothing found then just serve up the empty image saying so
+
         serveCover(
-            getNoCoverImage(),
-            "noCover",
-            false
-        );
+                getNoCoverArt(),
+                "noCover",
+                false);
 
     }
 
     /**
      *  returns the image to use when no cover art has been found
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
-    private BufferedImage getNoCoverImage() {
+    public CoverArt getNoCoverArt() throws IOException {
 
         final Locale locale = getLocale();
-        final BufferedImage cover =  new BufferedImage( 115, 115, BufferedImage.TYPE_INT_RGB );
-        final Graphics2D g = cover.createGraphics();
+        String noCoverId = "nocover-" + locale.getLangCode();
 
-        // background
-        g.setColor( Color.WHITE );
-        g.fillRect( 0,0, 115,115 );
+        CoverArt noCover = null;
 
-        // border
-        g.setColor( new Color(200,200,200) );
-        g.drawRect( 0,0, 114,114 );
-        
-        // text
-        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
-                            RenderingHints.VALUE_ANTIALIAS_ON );
-        g.setColor( Color.BLACK );
-        g.setFont( new Font("Verdana",Font.ITALIC,10) );
-        g.drawString( locale.getString("www.text.noCover"), 10, 20 );
-        
-        return cover;
-        
+        CoverArtCache coverCache = new CoverArtCache();
+
+        if (!coverCache.isCached(noCoverId)) {
+            noCover = new CoverArt(noCoverId, CoverArt.createNoCoverImage(locale));
+        } else {
+            noCover = coverCache.getCoverArt(noCoverId);
+        }
+
+        return noCover;
     }
-    
+
     /**
      *  serves up a cover image specified by a buffered image.  the image will
      *  be added to the cache if we're told to do so
-     * 
+     *
      *  @param cover
      *  @param itemName
      *  @param ext
      *  @param addToCache
-     * 
+     *
      *  @throws java.io.IOException
-     * 
+     *
      */
-    
-    private void serveCover( BufferedImage cover, final String itemName, final boolean addToCache ) throws IOException {
+    private void serveCover(CoverArt cover, final String itemName, final boolean addToCache) throws IOException {
 
         final Request req = getRequest();
 
         // add to cache if we've been told to
-        if ( addToCache )
-            ImageIO.write(
-                cover,
-                CACHE_IMAGE_TYPE,
-                new File( getCoverCachePath(itemName) )
-            );
+        if ( addToCache ){
+            CoverArtCache coverCache = new CoverArtCache();
+            coverCache.addToCache(cover);
+        }
 
-        // check if we've been asked to resize this image        
+        // check if we've been asked to resize this image
         if ( req.hasArgument("width") && req.hasArgument("height") )  {
 
-            final int width = Integer.parseInt( req.getArgument("width") );
+            final int width  = Integer.parseInt( req.getArgument("width") );
             final int height = Integer.parseInt( req.getArgument("height") );
 
             log.debug( "Scaling cover to " +width+ ":" +height );
-            
-            cover = scale( cover, width, height );
-
+            cover.scale(width, height);
         }
-        
+
+        String extension = CoverArtCache.DEFAULT_IMAGE_TYPE;
+        BufferedImage image = cover.getImage();
         // send headers then image
-        sendHeaders( itemName+ "." +CACHE_IMAGE_TYPE );
+        sendHeaders(itemName + "." + extension);
         ImageIO.write(
-            cover,
-            CACHE_IMAGE_TYPE,
-            getResponse().getOutputStream()
-        );
+                image,
+                extension,
+                getResponse().getOutputStream());
 
     }
 
     /**
      *  serves a local cover that the user has stored with their collection, this
      *  file may be any size so we need to resize it if it's not what we want.
-     * 
+     *
      *  @param itemName
      *  @param localPath
-     * 
+     *
      *  @throws java.io.IOException
-     * 
+     *
      */
-    
+
     protected void serveLocalCover( final String itemName, final String localPath ) throws IOException {
 
-        // resize image if it's too big
         final Properties p = getProperties();
-        final BufferedImage originalImage = ImageIO.read( new File(localPath) );
-        final BufferedImage resizedImage = scale(
-            originalImage,
-            (int) p.get( Constants.DEFAULT_ARTWORK_WIDTH, 115 ),
-            (int) p.get( Constants.DEFAULT_ARTWORK_HEIGHT, 115 )
-        );
+        final BufferedImage originalImage = ImageIO.read( new File( localPath ) );
+        CoverArt cover = new CoverArt(itemName, originalImage);
+        // resize image if it's too big
+        cover.scale(
+                (int) p.get(Constants.DEFAULT_ARTWORK_WIDTH, 115),
+                (int) p.get(Constants.DEFAULT_ARTWORK_HEIGHT, 115));
 
         // only cache local cover images if we've been explicitly
         // told to do so (improves performance)
-        
+
         serveCover(
-            resizedImage,
-            itemName,
-            p.get(Constants.COVERS_CACHE_LOCAL).equals(Properties.YES)
-        );
+                cover,
+                itemName,
+                p.get(Constants.COVERS_CACHE_LOCAL).equals(Properties.YES));
 
-    }
-
-    /**
-     *  scales an image to the specified width and height and returns a new image
-     * 
-     *  @param origImage
-     *  @param width
-     *  @param height
-     * 
-     *  @return
-     * 
-     */
-    
-    private BufferedImage scale( final BufferedImage origImage, final int width, final int height ) {
-
-        final int origWidth = origImage.getWidth();
-        final int origHeight = origImage.getHeight();
-
-        // check if we need to resize at all
-        if ( width >= origWidth && height >= origHeight )
-            return origImage;
-
-        return scale(
-            origImage,
-            calcScalingFactor(
-                origWidth, origHeight,
-                width, height
-            )
-        );
-    }
-
-    /**
-     *  Scale the image by the specified factor
-     * 
-     *  @param image
-     *  @param dScaleFactor
-     * 
-     *  @return 
-     * 
-     */
-    
-    public BufferedImage scale( Image image, double dScaleFactor ) {
-        
-        // calculate new width and height
-        int iWidth = ( int ) ( image.getWidth(null)*dScaleFactor );
-        int iHeight = ( int ) ( image.getHeight(null)*dScaleFactor );
-     
-        // create a BufferedImage instance
-        BufferedImage bufferedImage = new BufferedImage( iWidth, iHeight, BufferedImage.TYPE_INT_RGB );
-     
-        // create the image's graphics
-        Graphics2D g = bufferedImage.createGraphics();
-     
-        // Drawing hints with focus on quality
-        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
-        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-     
-        // Apply scalefactor
-        g.drawImage( image, 0, 0, iWidth, iHeight, null );
-     
-        return bufferedImage;
-        
-    }
-
-    /**
-     *  Calculate the factor to scale the image by
-     * 
-     *  @param srcWidth
-     *  @param srcHeight
-     *  @param targetWidth
-     *  @param targetHeight
-     * 
-     *  @return 
-     * 
-     */
-    
-    public double calcScalingFactor( int srcWidth, int srcHeight, int targetWidth, int targetHeight ) {
-        
-        final boolean tall = (srcHeight > srcWidth);
-        final double factor =
-           (double) (tall ? targetHeight : targetWidth)
-	   / (double) (tall ? srcHeight : srcWidth);
-        
-        return factor;
-        
     }
 
 
@@ -532,23 +485,23 @@ public class FileServer extends BaseAction {
             isArtist(itemName) ? Constants.COVERS_ARTIST_FILE : Constants.COVERS_ALBUM_FILE,
             typeName
         );
-        
+
     }
-    
+
     /**
      *  returns an array of files to test that could possibly be local covers.
-     *  
+     *
      *  @param trackDirs
      *  @param coverFileName
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     protected File[] getLocalCoverFiles( final File[] trackDirs, final String coverFileName, final boolean isArtist ) {
-        
+
         final Vector<File> files = new Vector<File>();
-        final String[] exts = { "jpg", "png", "gif" };
+        final String[] exts = CoverArtCache.CACHE_IMAGE_EXTENSIONS;
         final Properties p = getProperties();
 
         for ( final File track : trackDirs ) {
@@ -564,11 +517,11 @@ public class FileServer extends BaseAction {
             for ( final String directory : dirs ) {
                 if ( directory == null ) continue; // will be null if album
                 for ( final String ext : exts ) {
-                    final String path = directory + "/" +coverFileName+ "." +ext;
+                    final String path = directory + File.separator + coverFileName + "." + ext;
                     files.add( new File(path) );
                 }
             }
-            
+
             // Should we fallback and search for the first image
             // file in the track folder, regardless of its name ?
             if ( p.get(Constants.COVERS_FILE_FALLBACK).equals(Properties.YES) ) {
@@ -645,94 +598,38 @@ public class FileServer extends BaseAction {
             if ( possibleCover.exists() )
                 return possibleCover.getAbsolutePath();
         }
-            
+
         return null;
-        
+
     }
 
     /**
      *  checks the cover cache for an image, and serves it if it's found.  returns
      *  a boolean to indicate if it did or not
-     * 
+     *
      *  @param itemName the music argument (eg ar123, al456)
-     * 
+     *
      *  @return boolean indicating cache hit
-     * 
+     *
      *  @throws IOException
-     * 
+     *
      */
 
     private boolean serveCoverCache( final String itemName ) throws IOException {
 
-        final File coverFile = new File( getCoverCachePath(itemName) );
-        
-        if ( coverFile.exists() ) {
+        CoverArtCache coverCache = new CoverArtCache();
+        if (coverCache.isCached(itemName)) {
+            CoverArt cover = coverCache.getCoverArt(itemName);
+
             serveCover(
-                ImageIO.read( coverFile ),
+                    cover,
                 itemName,
-                false
-            );
+                    false);
             return true;
         }
 
         return false;
-        
-    }
-    
-    /**
-     *  returns the absolute path of the cache file
-     * 
-     *  @param name
-     *  @param ext
-     * 
-     *  @return the cache file path
-     * 
-     */
-    
-    private String getCoverCachePath( final String name ) {
-        
-        return Utils.getCoversDirectory() + "/" + name + "." + CACHE_IMAGE_TYPE;
-        
-    }
-    
-    /**
-     *  returns the mime type for the file an the given path.  if the file type
-     *  is not known then text/plain is returned (just needs extension really).
-     * 
-     *  @param path file system path of file
-     * 
-     *  @return String mime type
-     * 
-     */
-    
-    public static String getMimeType( String path ) {
 
-        final String ext = Utils.getExt( path );
-        final String[] mimes = {
-            "css", "text/css",
-            "js", "text/javascript",
-            "png", "image/png",
-            "gif", "image/gif",
-            "ico", "image/x-icon",
-            "swf", "application/x-shockwave-flash",
-            "jpg", "image/jpeg",
-            "mp3", "audio/mpeg",
-            "ogg", "application/ogg",
-            "wma", "audio/x-ms-wma",
-            "asf", "audio/x-ms-asf",
-            "flac", "audio/flac",
-            "xspf", "application/xspf+xml",
-            "pls", "audio/x-scpls",
-            "m3u", "audio/mpegurl",
-            "xml", "text/xml",
-            "m4a", "audio/mp4"
-        };
-
-        for ( int i=0; i<mimes.length; i+=2 )
-            if ( mimes[i].equals(ext) ) return mimes[i+1];
-
-        return "text/plain";
-        
     }
 
 }

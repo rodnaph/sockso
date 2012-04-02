@@ -199,6 +199,8 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
             builder.appendSeparator( locale.getString("gui.label.collection") );
             builder.append( locale.getString("gui.label.scanOnStartup"), new BooleanOptionField(p,"collman.scan.onStart") );
             builder.nextLine();
+            builder.append( locale.getString("gui.label.scanCoverArt"), new BooleanOptionField(p,Constants.COLLMAN_SCAN_COVERS) );
+            builder.nextLine();
             builder.append( locale.getString("gui.label.scanInterval"), new NumberOptionField(p,Constants.SCHED_SIMPLE_INTERVAL) );
             builder.nextLine();
         }

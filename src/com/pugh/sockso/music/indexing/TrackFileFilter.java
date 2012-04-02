@@ -2,6 +2,7 @@
 package com.pugh.sockso.music.indexing;
 
 import com.pugh.sockso.Utils;
+import com.pugh.sockso.music.Files;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -21,9 +22,7 @@ public class TrackFileFilter implements FileFilter {
 
         final String ext = Utils.getExt( file.getName() ).toLowerCase();
 
-        return (file.isDirectory() ||                                                // is a directory
-            ( ext.equals("mp3") || ext.equals("wma") || ext.equals("ogg")           // OR is an audio file
-              || ext.equals("asf") || ext.equals("flac") || ext.equals("m4a") ))
+        return (file.isDirectory() || Files.isValidFileExtension(ext))         // is a directory or audio file
             && !file.getName().substring( 0, 1 ).equals( "." );                     // AND not hidden file
         
     }

@@ -1,9 +1,9 @@
 # Italian Translation by Lephio
-# Version 1.0 Beta
-# Sockso Version: 0.8.6
+# Fixed and updated by Realtebo
+# Sockso Version: 1.5.1
 #
 # Attenzione, questa traduzione è (evidentemente) amatoriale. Se qualcuno vuole
-# dare una mano e fare una traduzione migliore è il benvenuto!
+# dare una mano e fare una traduzione migliore è¨ il benvenuto!
 # Basta contattarci sul forum di sockso!
 #
 # Buon Ascolto!
@@ -13,17 +13,17 @@
 #  web errors
 #
 www.error.title=Tapioca!
-www.error.desc=Sockso è andato in musse, sta dicendo %1!
+www.error.desc=Sockso è andato in panico, sta dicendo %1!
 www.error.unknownRequest=non ho idea di come fare quello che hai chiesto
 www.error.unknownUser=nome utente non registrato
 www.error.passwordIncorrect=password errata
-www.error.duplicateUsername=il nome utente esiste già
-www.error.duplicateEmail=l'indirizzo di posta esiste già
+www.error.duplicateUsername=il nome utente esiste già 
+www.error.duplicateEmail=l'indirizzo di posta esiste già 
 www.error.passwordsDontMatch=le password non coincidono
 www.error.invalidEmail=indirizzo di posta non valido
 www.error.missingField=campo mancante
 www.error.registrationDisabled=registrazione disabilitata
-www.error.alreadyLoggedIn=sei già connesso!
+www.error.alreadyLoggedIn=sei già  connesso!
 www.error.downloadsDisabled=il download è disabilitato
 www.error.noAnonymousUploads=devi essere connesso per caricare un file
 www.error.uploadsNotEnabled=il caricamento dei file è disabilitato
@@ -42,16 +42,21 @@ www.link.register=Registrati
 www.link.home=Home
 www.link.browse=Browse
 www.link.latest=Più Recenti
-www.link.popular=Più AscoltatePopular
+www.link.popular=Più Ascoltate
 www.link.playlists=Playlist
 www.link.random=Casuale
 www.link.play=Play
-www.link.clear=Pulisci
+www.link.clear=Svuota
 www.link.download=Download
 www.link.share=Condividi
 www.link.save=Salva
 www.link.upload=Upload
-www.link.randomizePlaylist=Mischia Playlist
+www.link.randomizePlaylist=Mescola Playlist
+www.link.misc=Altro
+www.link.folders=Cartelle
+www.link.playRandom=Esegui brani a caso
+www.link.editUser=Modifica
+www.link.scrobbleLog=Log Scrobble
 
 #
 #  web titles
@@ -59,7 +64,7 @@ www.link.randomizePlaylist=Mischia Playlist
 www.title.playlist=Playlist
 www.title.recentlyPlayedTracks=Ascoltate di Recente
 www.title.topArtists=Artisti più ascoltati
-www.title.about=Crediti
+www.title.about=Informazioni
 www.title.sitePlaylists=Playlist del Sito
 www.title.userPlaylists=Playlist dell'Utente
 www.title.mostPopularTracks=Canzoni più ascoltate
@@ -69,15 +74,38 @@ www.title.share=Condividi
 www.title.login=Login
 www.title.register=Registrazione in corso
 www.title.registerComplete=Registratione Completa!
-www.title.upload=Upload Canzoni
-www.title.uploadComplete=Upload Completato
+www.title.upload=Carica le tue Canzoni
+www.title.uploadComplete=Caricamento Completato
+www.title.recentlyPlayedAlbums=Album ascoltati di recente
+www.title.editProfile=Il tuo profilo
+www.title.userUpdated=Profilo Aggiornato!
+www.title.recentUsers=Utenti recenti
+www.title.latestAlbums=Ultimi album
+www.title.sharePopup=Sockso - Condivisione musicale
+www.title.activationRequired=E' richiesta l'attivazione!
+#
+#  web admin
+#
+www.admin.title.console=Sockso - Admin Console
 
 #
 #  web text
 #
-www.text.loggedInAs=Sei
+www.text.loggedInAs=Benvenuto
 www.text.noResults=Non ho trovato nulla...
 www.text.uploadComplete=Grazie per la canzone, adesso è nella collezione!
+www.text.noCover=Copertina album non trovata...
+www.text.userUpdated=I tuoi dettagli sono stati aggiornati..
+www.text.confirmLogout=Vuoi davvero eseguire il logout?
+www.text.confirmScrobbleLog=Quando scarichi il tuo log scrobble, tutte le tue traccie saranno marcate come ascoltate.  Desideri davvero proseguire?
+www.text.recentUsersInfo=(Utenti che hanno ascoltato qualche canzone negli ultimi 5 minuti)
+www.text.about=<a href="http://sockso.pu-gh.com">Sockso</a> è un server per streaming ad uso personale <a href="http://www.gnu.org/licenses/gpl.txt">freeware</a>, e <a href="http://sockso.pu-gh.com/source">open-source</a>, a disposizione di tutti !!
+www.text.share=Se vuoi condividere questa musica, inserisci un flash player sul sito sito copia/incollando il seguente codice  HTML...
+www.text.login=ISe hai creato un account puoi inserire le tue informazioni di registrazione nel modulo seguente per accedere.  Se ancora non ti sei registrato,  <a href="%1">vai alla pagina di registrazione</a> per creare un account!
+www.text.register=Per eseguire il login, è necessario essersi prima registrati gratuitamente!. Inserisci i dati richiesti qui sotto e clicca sul pulsante <b>registra</b> !
+www.text.registerComplete=Complimenti %1, hai appena creato il tuo account personale!  Ora sei loggato e hai tanta buona musica a disposizione!
+www.text.emptyPlaylist=La tua playlist per ora è vuota. Per aggiungerebrani, clicca sull'icona blu <img src="/file/skins/%1/images/add.png" /> che trovi vicino ai titoli delle canzoni, degli album, etc...
+www.text.activationRequired=Grazie! Le tue informazioni sono state memorizzate, ma il tuo account deve prima essere attivato. Controlla la tua posta elettronica per verificare se il tuo account è già stato attivato dall'amministratore.
 
 #
 #  web labels
@@ -96,20 +124,27 @@ www.label.trackToUpload=File
 www.label.artist=Artista
 www.label.album=Album
 www.label.track=Titolo
+www.label.deletePlaylist=Elimina playlist
+www.label.save=Salva
+#
+#  www confirm prompts
+#
+www.confirm.deletePlaylist=Sei certo di volere cancellare questa playlist?
+www.confirm.playlistName=Come vuoi chiamare questa playlist?
 
 #
 #  gui window titles
 #
-gui.window.main= Sockso - Collectione
+gui.window.main= Sockso - Collezione
 gui.window.reports= Sockso - Rapporti
 gui.window.console= Sockso - Console
 
 #
 #  gui labels
 #
-gui.label.portForward=Setup NAT (experimental!)
+gui.label.portForward=Setup NAT (sperimental!)
 gui.label.exit=Esci
-gui.label.hide=Nasconi
+gui.label.hide=Nascondi
 gui.label.options=Opzioni
 gui.label.gettingIPAddress=Sto rilevando il tuo IP
 gui.label.yourAddress=Il tuo IP è
@@ -128,11 +163,11 @@ gui.label.email=Mail
 gui.label.createUser=Crea Utente
 gui.label.cancel=Elimina
 gui.label.general=Generale
-gui.label.testNat=Test NAT setup (may take a few moments)
-gui.label.browse=Browse
-gui.label.encoders=Encoders
+gui.label.testNat=Verifica setup NAT (potrebbe richiedere un po'...)
+gui.label.browse=Sfoglia
+gui.label.encoders=Encoder
 gui.label.encTypeNone=Nessuno
-gui.label.encTypeBuiltin=Builtin
+gui.label.encTypeBuiltin=Interno
 gui.label.encTypeCustom=Personalizzato
 gui.label.encNoneSelected=Nessuna selezione
 gui.label.encoder=Encoder
@@ -148,18 +183,29 @@ gui.label.scanInterval=Intervallo aggiornamento (in minuti)
 gui.label.uploads=Upload
 gui.label.enableUploads=Abilita upload?
 gui.label.anonymousUploads=Non richiedere il login?
-gui.label.uploadsDirectory=Directory
+gui.label.uploadsDirectory=Cartella
 gui.label.general=Generale
-gui.label.startMinimized=Avvia iconizzato?
+gui.label.startMinimized=Avvia ridotto a icona?
 gui.label.confirmExit=Chiedi conferma all'uscita?
-gui.label.natSetup=NAT Setup
-gui.label.logging=Logging
-gui.label.enableRequestLog=Log?
-gui.label.exportRequestLogAs=Esporta log come:
-gui.label.export=Esporta!
+gui.label.natSetup=Setup NAT
+gui.label.logging=Registro
+gui.label.enableRequestLog=Abilitare registro?
+gui.label.exportRequestLogAs=Esporta registro come:
+gui.label.export=Esporta ora!
 gui.label.consoleCommandGo=Esegui
 gui.label.showReportsWindow=Repporti
 gui.label.showConsoleWindow=Console
+gui.label.enableFolderBrowsing=Abilitare sfoglia cartelle?
+gui.label.clearRequestLog=Svuota (%1 record)
+gui.label.tracks=Brani
+gui.label.playlists=Playlist
+gui.label.userPlaylists=Playlist utente
+gui.label.rescanCollection=Aggiorna ora
+gui.label.isAdmin=Amministratore ?
+gui.label.community=Community
+gui.label.communityEnabled=Mostra il mio server nella pagina dell community di Sockso 
+gui.label.scanEntireCollection=Intera collezione
+gui.label.scanSelectFolder=Una cartella specifica
 
 #
 #  gui errors
@@ -168,8 +214,9 @@ gui.error.browserNotFound=Non è stato trovato alcun Browser
 gui.error.missingField=Campo obbligatorio non inserito
 gui.error.invalidEmail=Indirizzo mail non valido
 gui.error.passwordsDontMatch=Le due password non coincidono
-gui.error.duplicateUsername=Il nome utente esiste già
-gui.error.duplicateEmail=La mail inserita esiste già
+gui.error.duplicateUsername=Il nome utente esiste già 
+gui.error.duplicateEmail=La mail inserita esiste già 
+gui.error.directoryNotInCollection=Questa cartella non fa parte della tua collezione
 
 #
 #  gui titles
@@ -181,7 +228,7 @@ gui.title.options=Opzioni
 #  gui tooltips
 #
 gui.tooltip.music=Le tue Canzoni/Playlist
-gui.tooltip.collection=Organizza la tya collezione
+gui.tooltip.collection=Organizza la tua collezione
 gui.tooltip.users=Accesso Utenti
 gui.tooltip.general=Opzioni Generali
 gui.tooltip.encoders=Opzioni di Encoding
@@ -189,9 +236,13 @@ gui.tooltip.encoders=Opzioni di Encoding
 #
 #  gui messages
 #
-gui.message.natTestOk=NAT test ok!  Your setup seems fine!
-gui.message.natTestFailed=NAT test failed...
-gui.message.exportComplete=Export complete!
+gui.message.natTestOk=Verifica NAT ok!  Le impostazioni sembrano corrette !
+gui.message.natTestFailed=Verifica NAT fallita...
+gui.message.exportComplete=Esportazione completata!
+gui.message.confirmClearRequestLog=E' impossibile annullare in seguito questa azione. Desideri svuotare il registro delle richieste?
+gui.message.requestLogCleared=Registro richieste svuotato!
+gui.message.playlistImported=Playlist importata!
+gui.message.playlistImportFailed=Importazione fallita...
 
 #
 #  gui reports
@@ -200,18 +251,20 @@ gui.reports.refresh=Aggiorna rapporto
 gui.reports.browsers.title=Browser
 gui.reports.browsers.titleLong=Il browser dell'utente
 gui.reports.requestsPerDay.title=Richieste al giorno
-gui.reports.requestsPerDay.xAxis=
+gui.reports.requestsPerDay.xAxis=Giorni
 gui.reports.requestsPerDay.yAxis=# Richieste
 
 #
 #  console errors
 #
-con.err.usernameExists=Il nome utente esiste già
-con.err.emailExists=La mail inserita esiste già
+con.err.usernameExists=Il nome utente esiste già 
+con.err.emailExists=La mail inserita esiste già 
 con.err.errorCreatingUser=Errore nella creazione dell'utente...
 con.err.errorDeletingUser=Errore nella cancellazione dell'utente...
 con.err.directoryNotInColl=Mi spiace, la cartella non è nella tua collezione
 con.err.pathNotExist=%1 non esiste...
+con.err.propertyDoesntExist=Questa proprietà non esiste...
+con.err.invalidUserId=ID utente non valido...
 
 #
 #  console messages
@@ -219,7 +272,10 @@ con.err.pathNotExist=%1 non esiste...
 con.msg.userCreated=Utente creato!
 con.msg.userDeleted=Utente cancellato!
 con.msg.directoryDeleted=Cartella rimossa!
-con.msg.propertySaved=Proprietà salvate!
+con.msg.propertySaved=Proprietà  salvate!
+con.msg.propertyDeleted=Proprietà cancellate!
+con.msg.directoryAdded=Cartella aggiunta!
+con.msg.userUpdated=Utente aggiornato!
 
 #
 #  console command descriptions
@@ -228,9 +284,16 @@ con.desc.addDirectory=aggiunge una cartella alla collezione
 con.desc.removeDirectory=rimuove una cartella alla collezione
 con.desc.listDirectories=elenca le cartelle della collezione
 con.desc.exit=esce dall'applicazione
-con.desc.listProperties=elenca le proprietà dell'applicazione
-con.desc.setProperty=imposta una proprietà
+con.desc.listProperties=elenca le proprietà  dell'applicazione
+con.desc.setProperty=imposta una proprietà 
 con.desc.listUsers=elenca gli utenti registrati
 con.desc.addUser=aggiunge un utente al sistema
 con.desc.deleteUser=cancella un utente a partire dall'ID
 con.desc.commands=Comandi:
+con.desc.delProperty=cancella una proprietà
+con.desc.version=mostra la versione attuale
+con.desc.rescanCollection=aggiorna ora la tua collezione
+#
+#  misc messages
+#
+misc.msg.updateAvailable=Buone notizie! C'è una nuova versione di Sockso disponibile (è la versione %1).

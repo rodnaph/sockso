@@ -39,12 +39,12 @@ public class CollectionTest extends SocksoTestCase {
     }
     
     public void testCollectionCanBeFetchedWhereItContainsAPathWithoutTrailingSlash() throws SQLException {
-        Collection c = Collection.findByPath( db, "/foo/bar/baz" );
+        Collection c = Collection.findByPathWithSeparator( db, "/foo/bar/baz", "/");
         assertEquals( 1, c.getId() );
     }
     
     public void testCollectionReturnedWhenPathMatchesRootWithoutTrailingSlash() throws SQLException {
-        Collection c = Collection.findByPath( db, "/foo/bar" );
+        Collection c = Collection.findByPathWithSeparator( db, "/foo/bar", "/" );
         assertEquals( 1, c.getId() );
     }
 
@@ -59,12 +59,12 @@ public class CollectionTest extends SocksoTestCase {
     }
 
     public void testCollectionReturnedWhenPathMatchesRootWithWindowsPathAndNoTrailingSlash() throws SQLException {
-//        Collection c = Collection.findByPath( db, "C:\\foo\\bar" );
-//        assertEquals( 2, c.getId() );
+        Collection c = Collection.findByPathWithSeparator( db, "C:\\foo\\bar", "\\" );
+        assertEquals( 2, c.getId() );
     }
 
     public void testNullReturnedWhenTryingToFindACollectionByPathDoesntMatchAnything() throws SQLException {
         assertNull( Collection.findByPath( db, "/bar/baz" ) );
     }
-    
+
 }

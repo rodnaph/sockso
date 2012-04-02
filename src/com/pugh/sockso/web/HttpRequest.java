@@ -34,7 +34,7 @@ public class HttpRequest implements Request {
 
     /**
      *  Reads and processes a HTTP request.  Supports reading cookies,
-     *  http headers, accessing the requested URL and reading 
+     *  http headers, accessing the requested URL and reading
      *  POST data and query strings
      *
      *  @param server the server the request is to

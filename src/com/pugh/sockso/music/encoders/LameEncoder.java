@@ -6,7 +6,7 @@
 package com.pugh.sockso.music.encoders;
 
 import com.pugh.sockso.music.Track;
-import com.pugh.sockso.web.action.FileServer;
+import com.pugh.sockso.music.Files;
 
 import java.io.IOException;
 import java.io.DataInputStream;
@@ -43,7 +43,7 @@ public class LameEncoder extends AbstractBuiltinEncoder {
     }
 
     public String getOutputMimeType() {
-        return FileServer.getMimeType( "file.mp3" );
+        return Files.getMimeType( "file.mp3" );
     }
 
 }

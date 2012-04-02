@@ -1,12 +1,12 @@
 
 package com.pugh.sockso.web.action.playlist;
 
+import com.pugh.sockso.music.Files;
+import com.pugh.sockso.music.Track;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.action.BaseAction;
-import com.pugh.sockso.web.action.FileServer;
-import com.pugh.sockso.music.Track;
 
 import com.pugh.sockso.web.TracksRequest;
 import java.io.IOException;
@@ -129,7 +129,7 @@ public abstract class Playlister extends BaseAction {
         final Response res = getResponse();
         final String filename = "playlist." +extension;
         
-        res.addHeader( "Content-type", FileServer.getMimeType(filename) );
+        res.addHeader( "Content-type", Files.getMimeType(filename) );
         res.addHeader( "Content-Disposition", "inline; filename=\"" +filename+ "\"" );
         res.addHeader( "Expires", "0" );
         res.addHeader( "Cache-Control", "must-revalidate, post-check=0, pre-check=0" );

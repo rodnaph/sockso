@@ -199,7 +199,7 @@ public class TracksRequest {
 
         for ( int i=0; i<paramCount; i++ ) {
             final String param = req.getUrlParam( i );
-            if ( param.matches("(tr|al|ar)\\d+") ) {
+            if ( param.matches("(tr|al|ar|pl)\\d+") ) {
                 params.add( param );
             }
         }

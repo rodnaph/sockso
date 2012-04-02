@@ -47,7 +47,7 @@ public class Utils {
     private static String APPLICATION_DIRECTORY;
 
     static {
-         setApplicationDirectory( new File(System.getProperty("user.home") + "/.sockso") );
+         setApplicationDirectory( new File(System.getProperty("user.home") + File.separator + ".sockso") );
     }
     
     /**
@@ -81,7 +81,7 @@ public class Utils {
      */
     
     public static String getCoversDirectory() {
-        return APPLICATION_DIRECTORY + "/covers";
+        return APPLICATION_DIRECTORY + File.separator + Constants.COVERS_DIR;
     }
     
     /**

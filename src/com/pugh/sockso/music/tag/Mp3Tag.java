@@ -1,22 +1,26 @@
 
 /**
- * Uses jaudiotagger to read mps v1 & v2 tags
+ * Uses jaudiotagger to read mp3 v1 & v2 tags
  *
  */
 
 package com.pugh.sockso.music.tag;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
+import java.io.IOException;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.mp3.MP3File;
+import org.jaudiotagger.tag.datatype.Artwork;
 import org.jaudiotagger.tag.id3.ID3v1Tag;
 import org.jaudiotagger.tag.id3.ID3v24Frames;
 import org.jaudiotagger.tag.id3.ID3v24Tag;
 
 public class Mp3Tag extends AudioTag {
 
-	/**
+    /**
      *  Returns ID3Data for the file.
      *
      *  We would prefer to use ID3V2 tags, so we try to parse the ID3V2
@@ -52,6 +56,15 @@ public class Mp3Tag extends AudioTag {
             trackNumber = Integer.parseInt( trackN );
         } catch ( final NumberFormatException ignored ) {}
 
+        Artwork artwork = v2tag.getFirstArtwork();
+        if(artwork != null){
+            try {
+                coverArt = artwork.getImage();
+            } catch (final IOException ioe) {
+                // TODO log warning/error
+            }
+        }
+
     }
 
     private void parseID3v1Tag(MP3File f) {
@@ -61,19 +74,28 @@ public class Mp3Tag extends AudioTag {
         try {
 
             if ( artistTitle.equals( "" ) )
-                artistTitle = new String ( tag.getArtist().get(0).toString() );
+                artistTitle = tag.getArtist().get(0).toString();
             if ( albumTitle.equals( "" ) )
-                albumTitle = new String ( tag.getAlbum().get(0).toString() );
+                albumTitle = tag.getAlbum().get(0).toString();
             if ( trackTitle.equals( "" ) )
-                trackTitle = new String ( tag.getTitle().get(0).toString() );
+                trackTitle = tag.getTitle().get(0).toString();
             if ( albumYear.equals( "" ) )
-                albumYear = new String ( tag.getYear().get(0).toString() );
+                albumYear = tag.getYear().get(0).toString();
             if ( trackNumber == 0 )
                 try {
-                    String trackN = new String ( tag.getTrack().get(0).toString() );
+                    String trackN = tag.getTrack().get(0).toString();
                     trackNumber = Integer.parseInt( trackN );
                 } catch ( final NumberFormatException ignored ) {}
-
+            if ( coverArt == null){
+                Artwork artwork = tag.getFirstArtwork();
+                if (artwork != null) {
+                    try {
+                        coverArt = artwork.getImage();
+                    } catch (final IOException ioe) {
+                        // TODO log warning/error
+                    }
+                }
+            }
         } catch ( final Exception e ) {}
 
     }

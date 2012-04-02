@@ -1,18 +1,19 @@
 /*
  * AudioTag.java
- * 
+ *
  * Created on Jun 8, 2007, 10:30:10 PM
- * 
+ *
  *  This class is designed to be an abstraction over various different tagging
  *  types.  We only need some simple information, just use the static getTag()
  *  method and hopefully you'll get a tag object back you can use!  :P
- * 
+ *
  */
 
 package com.pugh.sockso.music.tag;
 
 import com.pugh.sockso.Utils;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -24,35 +25,39 @@ import org.apache.log4j.Logger;
 public abstract class AudioTag implements Tag {
 
     private static final Logger log = Logger.getLogger( AudioTag.class );
-    
-    protected String artistTitle = "", albumTitle = "", trackTitle = "";
+
+    protected String artistTitle = "";
+    protected String albumTitle = "";
+    protected String trackTitle = "";
     protected String albumYear = "";
     protected int trackNumber = 0;
+    protected BufferedImage coverArt = null;
 
     public String getArtist() { return artistTitle; }
     public String getAlbum() { return albumTitle; }
     public String getTrack() { return trackTitle; }
     public int getTrackNumber() { return trackNumber; }
     public String getAlbumYear() { return albumYear; }
+    public BufferedImage getCoverArt() { return coverArt; }
 
     /**
      *  this method should be used when trying to read the tags from an
      *  audio file.  the type of file is checked and the details of
      *  what it actually is should be nicely hidden away.
-     * 
+     *
      *  @param file the file to fetch tags for
      *  @return this files tags
-     * 
+     *
      *  @throws IOException
      *  @throws InvalidTagException
-     * 
+     *
      */
-    
+
     public static Tag getTag( final File file ) throws IOException, InvalidTagException {
-        
+
         final String ext = Utils.getExt( file );
         AudioTag tag = null;
-        
+
         // determine type of file by extension
         if ( ext.equals("mp3") ) tag = new Mp3Tag();
         else if ( ext.equals("ogg") ) tag = new OggTag();
@@ -71,10 +76,10 @@ public abstract class AudioTag implements Tag {
         if ( tag.albumYear == null ) tag.albumYear = "";
 
         // remove leading/trailing space
-        tag.albumTitle = tag.albumTitle.trim();
-        tag.artistTitle = tag.artistTitle.trim();
-        tag.trackTitle = tag.trackTitle.trim();
-        tag.albumYear = tag.albumYear.trim();
+        tag.albumTitle  = clean(tag.albumTitle.trim());
+        tag.artistTitle = clean(tag.artistTitle.trim());
+        tag.trackTitle  = clean(tag.trackTitle.trim());
+        tag.albumYear   = clean(tag.albumYear.trim());
 
         // set defaults if we have nothing
         if ( tag.artistTitle.equals("") ) tag.artistTitle = guessArtist( file );
@@ -83,6 +88,24 @@ public abstract class AudioTag implements Tag {
         if ( tag.trackNumber == 0 ) tag.setTrackNumber( guessTrackNumber(file) );
                 
         return tag;
+        
+    }
+
+    /**
+     *  Clean the string by removing invalid characters.  It's obviously a much
+     *  better idea to have a whitelist rather than a blacklist, but the set of
+     *  valid characters is too large in this case, and users are largely in
+     *  charge of managing their own content.
+     * 
+     *  @param dirty
+     * 
+     *  @return 
+     * 
+     */
+    
+    protected static String clean( final String dirty ) {
+
+        return dirty.replace( '\0', ' ' );
         
     }
 
