@@ -206,4 +206,8 @@ public class FileServerTest extends SocksoTestCase {
         assertEquals( "htdocs/some/file.txt", action.getPathFromRequest() );
     }
     
+    public void testLocalCoversAreServedByDefault() {
+        
+    }
+    
 }

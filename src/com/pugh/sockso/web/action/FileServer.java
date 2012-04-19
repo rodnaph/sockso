@@ -238,11 +238,40 @@ public class FileServer extends BaseAction {
             throw new BadRequestException( locale.getString("www.error.coversDisabled"), 404 );
 
         // got a cache hit?
-        if ( serveCoverCache(itemName) )
-            return;
+        if ( serveCoverCache(itemName) ) return;
+
+        // check the tag for cover art
+
+        if ( serveTagCover(itemName) ) return;
+
+        // image isn't in the cache, first see if we can read it from disk
+        // somewhere if the user has cover art stored with their music
+
+        if ( serveLocalCover(itemName) ) return;
+
+        // try searching amazon for a cover image to use (but only if this
+        // feature has not been disabled)
+
+        if ( serveRemoteCover(itemName) ) return;
+
+        // if nothing found then just serve up the empty image saying so
+
+        serveCover( getNoCoverArt(), "noCover", false );
+
+    }
+
+    /**
+     *  Try and read a cover from audio file metadata
+     * 
+     *  @param itemName
+     * 
+     *  @return 
+     * 
+     */
+    
+    protected boolean serveTagCover( final String itemName ) {
 
 /*
-        // check the tag for cover art
 
         String imgExt = p.get(Constants.DEFAULT_ARTWORK_TYPE, "jpg");
         // TODO: in order to extract cover from tag, need to find which tag to get from request:
@@ -259,22 +288,26 @@ public class FileServer extends BaseAction {
         } catch (InvalidTagException e) {
             log.error("Invalid tag for file: " + musicFile.toString(), e);
         }
-
-        // image isn't in the cache, first see if we can read it from disk
-        // somewhere if the user has cover art stored with their music
-
-        final String localPath = getLocalCoverPath( itemName );
-
-        if ( localPath != null ) {
-            serveLocalCover( itemName, localPath );
-            return;
-        }
 */
 
-        // try searching amazon for a cover image to use (but only if this
-        // feature has not been disabled)
+        return false;
 
-        if ( !p.get(Constants.COVERS_DISABLE_REMOTE_FETCHING).equals(Properties.YES) ) {
+    }
+
+    /**
+     *  Try and fetch a cover from a remote source (Amaxon)
+     * 
+     *  @param itemName
+     * 
+     *  @return
+     * 
+     *  @throws IOException 
+     * 
+     */
+
+    protected boolean serveRemoteCover( final String itemName ) throws IOException {
+
+        if ( !getProperties().get(Constants.COVERS_DISABLE_REMOTE_FETCHING).equals(Properties.YES) ) {
 
             final Database db = getDatabase();
             final CoverSearch search = new AmazonCoverSearch( db );
@@ -282,18 +315,37 @@ public class FileServer extends BaseAction {
 
             if ( cover != null ) {
                 serveCover( cover, itemName, true );
-                return;
+                return true;
             }
 
         }
 
-        // if nothing found then just serve up the empty image saying so
+        return false;
 
-        serveCover(
-                getNoCoverArt(),
-                "noCover",
-                false);
+    }
+    /**
+     *  Try and serve a cover from a local path
+     * 
+     *  @param itemName
+     * 
+     *  @return
+     * 
+     *  @throws SQLException
+     *  @throws IOException 
+     * 
+     */
 
+    protected boolean serveLocalCover( final String itemName ) throws SQLException, IOException {
+
+        final String localPath = getLocalCoverPath( itemName );
+
+        if ( localPath != null ) {
+            serveLocalCover( itemName, localPath );
+            return true;
+        }
+
+        return false;
+ 
     }
 
     /**
