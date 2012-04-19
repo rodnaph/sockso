@@ -234,10 +234,12 @@ public class FileServer extends BaseAction {
         final String itemName = req.getUrlParam( 2 );
 
         // check feature isn't disabled
+
         if ( p.get(Constants.COVERS_DISABLED).equals(Properties.YES) )
             throw new BadRequestException( locale.getString("www.error.coversDisabled"), 404 );
 
         // got a cache hit?
+
         if ( serveCoverCache(itemName) ) return;
 
         // check the tag for cover art
@@ -272,7 +274,6 @@ public class FileServer extends BaseAction {
     protected boolean serveTagCover( final String itemName ) {
 
 /*
-
         String imgExt = p.get(Constants.DEFAULT_ARTWORK_TYPE, "jpg");
         // TODO: in order to extract cover from tag, need to find which tag to get from request:
         // album or artist is meta-info of one or more files!
@@ -323,6 +324,7 @@ public class FileServer extends BaseAction {
         return false;
 
     }
+
     /**
      *  Try and serve a cover from a local path
      * 
@@ -354,6 +356,7 @@ public class FileServer extends BaseAction {
      *  @return
      *
      */
+
     public CoverArt getNoCoverArt() throws IOException {
 
         final Locale locale = getLocale();
@@ -370,6 +373,7 @@ public class FileServer extends BaseAction {
         }
 
         return noCover;
+
     }
 
     /**
