@@ -9,6 +9,7 @@ import com.pugh.sockso.auth.DBAuthenticator;
 import com.pugh.sockso.web.action.AdminAction;
 import com.pugh.sockso.web.action.Api;
 import com.pugh.sockso.web.action.Downloader;
+import com.pugh.sockso.web.action.Coverer;
 import com.pugh.sockso.web.action.Feeder;
 import com.pugh.sockso.web.action.FileServer;
 import com.pugh.sockso.web.action.Homer;
@@ -20,6 +21,12 @@ import com.pugh.sockso.web.action.Streamer;
 import com.pugh.sockso.web.action.Uploader;
 import com.pugh.sockso.web.action.Userer;
 import com.pugh.sockso.web.action.BaseAction;
+
+import com.pugh.sockso.web.action.covers.CachedCoverer;
+import com.pugh.sockso.web.action.covers.TagCoverer;
+import com.pugh.sockso.web.action.covers.LocalCoverer;
+import com.pugh.sockso.web.action.covers.RemoteCoverer;
+import com.pugh.sockso.web.action.covers.DefaultCoverer;
 
 import com.pugh.sockso.web.action.admin.Console;
 
@@ -93,9 +100,22 @@ public class Dispatcher {
 
         BaseAction action = null;
         
-        if ( command.equals("file") )
-            action = injector.getInstance( FileServer.class );
-        
+        if ( command.equals("file") ) {
+            final String fileType = req.getUrlParam( 1 );
+            if ( fileType != null && fileType.equals("cover") ) {
+                final Coverer coverer = injector.getInstance( Coverer.class );
+                coverer.addPlugin( injector.getInstance(CachedCoverer.class) );
+                coverer.addPlugin( injector.getInstance(TagCoverer.class) );
+                coverer.addPlugin( injector.getInstance(LocalCoverer.class) );
+                coverer.addPlugin( injector.getInstance(RemoteCoverer.class) );
+                coverer.addPlugin( injector.getInstance(DefaultCoverer.class) );
+                action = coverer;
+            }
+            else {
+                action = injector.getInstance( FileServer.class );
+            }
+        }
+
         else if ( command.equals("browse") )
             action = getBrowseAction( req );
         
