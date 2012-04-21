@@ -19,10 +19,18 @@ public class Coverer extends BaseAction {
 
     public void addPlugin( CovererPlugin plugin ) {
 
+        plugins.add( plugin );
+
     }
 
     public void handleRequest() {
         
+        for ( final CovererPlugin plugin : plugins ) {
+            if ( plugin.serveCover("") ) {
+                break;
+            }
+        }
+
     }
 
     @Override
