@@ -103,13 +103,7 @@ public class Dispatcher {
         if ( command.equals("file") ) {
             final String fileType = req.getUrlParam( 1 );
             if ( fileType != null && fileType.equals("cover") ) {
-                final Coverer coverer = injector.getInstance( Coverer.class );
-                coverer.addPlugin( injector.getInstance(CachedCoverer.class) );
-                coverer.addPlugin( injector.getInstance(TagCoverer.class) );
-                coverer.addPlugin( injector.getInstance(LocalCoverer.class) );
-                coverer.addPlugin( injector.getInstance(RemoteCoverer.class) );
-                coverer.addPlugin( injector.getInstance(DefaultCoverer.class) );
-                action = coverer;
+                action = getCoverer();
             }
             else {
                 action = injector.getInstance( FileServer.class );
@@ -263,5 +257,25 @@ public class Dispatcher {
 
     }
 
+    /**
+     *  Creates and returns a Coverer action
+     * 
+     *  @return 
+     * 
+     */
+
+    protected Coverer getCoverer() {
+
+        final Coverer coverer = injector.getInstance( Coverer.class );
+
+        coverer.addPlugin( injector.getInstance(CachedCoverer.class) );
+        coverer.addPlugin( injector.getInstance(TagCoverer.class) );
+        coverer.addPlugin( injector.getInstance(LocalCoverer.class) );
+        coverer.addPlugin( injector.getInstance(RemoteCoverer.class) );
+        coverer.addPlugin( injector.getInstance(DefaultCoverer.class) );
+
+        return coverer;
+
+    }
 
 }

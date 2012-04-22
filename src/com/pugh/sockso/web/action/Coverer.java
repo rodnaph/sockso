@@ -1,14 +1,17 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.covers.CovererPlugin;
 
 import java.util.ArrayList;
 
-public class Coverer extends BaseAction {
-    
-    private static final String CACHE_IMAGE_TYPE = "jpg";
+import org.apache.log4j.Logger;
 
+public class Coverer extends BaseAction {
+
+    private static final Logger log = Logger.getLogger( Coverer.class );
+    
     private final ArrayList<CovererPlugin> plugins;
 
     /**
@@ -40,12 +43,24 @@ public class Coverer extends BaseAction {
      * 
      */
 
-    public void handleRequest() {
+    public void handleRequest() throws Exception {
+
+        final Request req = getRequest();
+        final String itemName = req.getUrlParam( 2 );
         
         for ( final CovererPlugin plugin : plugins ) {
-            if ( plugin.serveCover("") ) {
+
+            plugin.setRequest( getRequest() );
+            plugin.setResponse( getResponse() );
+            plugin.setDatabase( getDatabase() );
+            plugin.setProperties( getProperties() );
+            plugin.setLocale( getLocale() );
+
+            if ( plugin.serveCover(itemName) ) {
+                log.debug( "Served cover with " + plugin.getClass().getSimpleName() );
                 break;
             }
+
         }
 
     }
