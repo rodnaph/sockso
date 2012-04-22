@@ -1,31 +1,31 @@
 #
 #  web errors
 #
-www.error.title=Croak!
-www.error.stackTrace=Stack Trace
-www.error.desc=Oooooops...
+www.error.title=Crôa !
+www.error.stackTrace=Trace de la pile d'exécution
+www.error.desc=Ouuuuups...
 www.error.unknownRequest=qu'il ne sait pas comment faire ce que vous avez demandé
 www.error.unknownUser=que l'utilisateur n'est pas inscrit
 www.error.passwordIncorrect=votre mot de passe est incorrect
 www.error.duplicateUsername=que l'utilisateur existe déjà
-www.error.duplicateEmail=que cette adresse mail existe déjà
+www.error.duplicateEmail=que cette adresse électronique existe déjà
 www.error.passwordsDontMatch=vos mots de passe ne correspondent pas
-www.error.invalidEmail=votre adresse mail n'est pas correcte
+www.error.invalidEmail=votre adresse électronique n'est pas correcte
 www.error.missingField=vous avez oublié un champ
-www.error.registrationDisabled=l'inscription d'utilisateur n'est pas autorisée
-www.error.alreadyLoggedIn=vous êtes déjà identifé!
-www.error.downloadsDisabled=les téléchargement ne sont pas autorisés
-www.error.noAnonymousUploads=vous devez vous identier pour envoyer de la musique
+www.error.registrationDisabled=l'inscription d'utilisateurs n'est pas autorisée
+www.error.alreadyLoggedIn=vous êtes déjà identifié !
+www.error.downloadsDisabled=les téléchargements ne sont pas autorisés
+www.error.noAnonymousUploads=vous devez vous identifier pour envoyer de la musique
 www.error.uploadsNotEnabled=l'envoi est désactivé
-www.error.noUploadsDirectory=le repertoire d'envoi n'as pas été indiqué
-www.error.uploadsDirNotWritable=le repertoire d'envoi n'est pas accessible en écriture
+www.error.noUploadsDirectory=le répertoire d'envoi n'a pas été indiqué
+www.error.uploadsDirNotWritable=le répertoire d'envoi n'est pas accessible en écriture
 www.error.noFileUploaded=vous n'avez pas envoyé de fichier
 www.error.unsupportedAudioFormat=sockso ne supporte pas ce format audio(seulement mp3, ogg, wma et flac)
 www.error.cantCreateTrackFolder=il ne peut pas créer le répertoire d'envoi
 www.error.browseFoldersNotEnabled=la navigation par répertoire n'est pas autorisée
-www.error.invalidCollectionId=collection id invalide
+www.error.invalidCollectionId=identifiant de collection invalide
 www.error.folderDoesntExist=le répertoire n'existe pas
-www.error.trackNotFound=morceau non trouvé
+www.error.trackNotFound=plage non trouvée
 www.error.fileNotFound=fichier non trouvé
 www.error.couldNotCreateUniqueFilename=impossible de créer le nom de fichier unique
 www.error.coversDisabled=les pochettes sont désactivées
@@ -36,7 +36,7 @@ www.error.coversDisabled=les pochettes sont désactivées
 www.json.error.unknown=Erreur inconnue
 www.json.error.noName=Pas de nom indiqué
 www.json.error.noArguments=Pas d'argument
-www.json.error.notLoggedIn=Vous n'êtes pas conncté
+www.json.error.notLoggedIn=Vous n'êtes pas connecté
 
 #
 #  web links
@@ -60,53 +60,53 @@ www.link.randomizePlaylist=Mélanger la liste de lecture
 www.link.misc=Divers
 www.link.folders=Répertoires
 www.link.playRandom=Lire dans le désordre
-www.link.editUser=Editer
-www.link.scrobbleLog=Journal Scrobble
+www.link.editUser=Éditer
+www.link.scrobbleLog=Créer le journal d'écoute
 
 #
 #  web titles
 #
 www.title.playlist=Listes de lecture
-www.title.recentlyPlayedTracks=Morceaux ajoutés récemment
-www.title.topArtists=Top Artistes
-www.title.about=A propos
+www.title.recentlyPlayedTracks=Plages ajoutées récemment
+www.title.topArtists=Artistes les plus joués
+www.title.about=À propos
 www.title.sitePlaylists=Listes de lecture du site
 www.title.userPlaylists=Listes de lecture de l'utilisateur
-www.title.mostPopularTracks=Morceaux les plus populaires
-www.title.latestTracks=Dernièrs morceaux
-www.title.latestArtists=Derniers artistes
+www.title.mostPopularTracks=Plages les plus populaires
+www.title.latestTracks=Plages les plus récentes
+www.title.latestArtists=Artistes les plus récents
 www.title.share=Partager
 www.title.login=Connexion
 www.title.register=Inscription
-www.title.registerComplete=Inscription terminée!
-www.title.upload=Envoi de music
-www.title.uploadComplete=Envoi terminée
+www.title.registerComplete=Inscription terminée !
+www.title.upload=Envoi de musique
+www.title.uploadComplete=Envoi terminé
 www.title.recentlyPlayedAlbums=Albums joués récemment
 www.title.editProfile=Votre profil
-www.title.userUpdated=Profil mis à jour!
-www.title.recentUsers=Utilsateurs récents
+www.title.userUpdated=Profil mis à jour !
+www.title.recentUsers=Utilisateurs récents
 
 #
 #  web text
 #
 www.text.loggedInAs=Connecté en tant que
-www.text.noResults=Rien trouvé...
-www.text.uploadComplete=Merci pour le morceau, il est maintenant dans la collection!
+www.text.noResults=Aucun résultat...
+www.text.uploadComplete=Merci pour la plage, elle est maintenant dans la collection !
 www.text.noCover=Pochette non trouvée...
-www.text.userUpdated=Vos détails on été mis à jour.
-www.text.confirmLogout=Etes vous sûr de vouloir vous déconnecter?
-www.text.confirmScrobbleLog=Quand vous téléchargez votre journal scrobble, tous vos morceaux vous être indiqué comme écouté. Etes vous sûr de vouloir le télécharger mainteant?
-www.text.recentUsersInfo=(Utilisateurs qui ont joué un morceau dans les 5 dernières minutes)
+www.text.userUpdated=Vos détails ont été mis à jour.
+www.text.confirmLogout=Êtes-vous sûr de vouloir vous déconnecter ?
+www.text.confirmScrobbleLog=Quand vous créez votre journal d'écoute, tous vos morceaux vont être indiqués comme écoutés. Êtes-vous sûr de vouloir le créer maintenant ?
+www.text.recentUsersInfo=(Utilisateurs qui ont joué une plage au cours des 5 dernières minutes)
 
 #
 #  web labels
 #
 www.label.dateAdded=Date d'ajout
-www.label.playCount=Lectures
-www.label.trackCount=Morceaux
+www.label.playCount=Nombre de lectures
+www.label.trackCount=Nombre de plages
 www.label.username=Nom
 www.label.password=Mot de passe
-www.label.passwordRepeat=Répeter le mot de passe
+www.label.passwordRepeat=Répéter le mot de passe
 www.label.login=Connecter
 www.label.email=Adresse mail
 www.label.register=Inscription
@@ -114,43 +114,43 @@ www.label.upload=Envoi
 www.label.trackToUpload=Fichier
 www.label.artist=Artiste
 www.label.album=Album
-www.label.track=Titre du morceau
+www.label.track=Titre de la plage
 www.label.deletePlaylist=Supprimer la liste de lecture
 www.label.save=Sauver
 
 #
 #  www confirm prompts
 #
-www.confirm.deletePlaylist=Etes vous sûr de vouloir supprimer cette liste de lecture?
+www.confirm.deletePlaylist=Êtes-vous sûr de vouloir supprimer cette liste de lecture ?
 
 #
 #  gui window titles
 #
-gui.window.main= Sockso - Collection Manager
-gui.window.reports= Sockso - Rapports
-gui.window.console= Sockso - Console
+gui.window.main= Sockso – Gestionnaire de collection
+gui.window.reports= Sockso – Rapports
+gui.window.console= Sockso – Console
 
 #
 #  gui labels
 #
-gui.label.portForward=Configuration NAT (experimental!)
+gui.label.portForward=Configuration NAT (expérimental !)
 gui.label.exit=Quitter
 gui.label.hide=Cacher
 gui.label.options=Options
-gui.label.gettingIPAddress=Récupération adresse IP
+gui.label.gettingIPAddress=Récupération de l'adresse IP
 gui.label.yourAddress=Votre adresse
 gui.label.music=Musique
 gui.label.collection=Collection
 gui.label.users=Utilisateurs
 gui.label.myComputer=Mon ordinateur
-gui.label.internetAddress=Adresse internet (défault)
+gui.label.internetAddress=Adresse internet (par défaut)
 gui.label.refresh=Rafraîchir
 gui.label.addFolder=Ajouter un répertoire
 gui.label.removeFolder=Enlever
 gui.label.username=Nom d'utilisateur
 gui.label.password=Mot de passe
-gui.label.passwordRepeat=Répetez le mot de passe
-gui.label.email=Adresse mail
+gui.label.passwordRepeat=Répétez le mot de passe
+gui.label.email=Adresse électronique
 gui.label.createUser=Créer un utilisateur
 gui.label.cancel=Annuler
 gui.label.general=Général
@@ -160,36 +160,36 @@ gui.label.encoders=Encodeurs
 gui.label.encTypeNone=Aucun
 gui.label.encTypeBuiltin=Interne
 gui.label.encTypeCustom=Personnalisé
-gui.label.encNoneSelected=Aucun sélectionnée
+gui.label.encNoneSelected=Aucun sélectionné
 gui.label.encoder=Encodeur
-gui.label.bitrate=Bitrate
+gui.label.bitrate=Débit
 gui.label.command=Commande
-gui.label.webServer=Server Web
+gui.label.webServer=Serveur Web
 gui.label.port=Port
 gui.label.wwwTitle=Titre
-gui.label.wwwTagline=Tagline
-gui.label.disableDownloads=Interdire les téléchargements?
-gui.label.scanOnStartup=Scanner au démarrage?
-gui.label.scanInterval=Interval de scan (minutes)
+gui.label.wwwTagline=Slogan
+gui.label.disableDownloads=Interdire les téléchargements ?
+gui.label.scanOnStartup=Mettre à jour au démarrage ?
+gui.label.scanInterval=Intervalle de mise à jour (minutes)
 gui.label.uploads=Envois
-gui.label.enableUploads=Autoriser les envois?
-gui.label.anonymousUploads=Sans nécessiter d'autenfication?
+gui.label.enableUploads=Autoriser les envois ?
+gui.label.anonymousUploads=Sans authentification nécessaire ?
 gui.label.uploadsDirectory=Répertoire
 gui.label.general=Général
-gui.label.startMinimized=Démarrer réduit?
-gui.label.confirmExit=Confirmer la sortie?
+gui.label.startMinimized=Démarrer réduit ?
+gui.label.confirmExit=Confirmer avant de quitter ?
 gui.label.natSetup=Configuration NAT
 gui.label.logging=Journal
-gui.label.enableRequestLog=Journaliser les demandes?
-gui.label.exportRequestLogAs=Exporter en tant que:
+gui.label.enableRequestLog=Journaliser les demandes ?
+gui.label.exportRequestLogAs=Exporter en tant que :
 gui.label.export=Exporter
 gui.label.import=Importer
 gui.label.consoleCommandGo=Exécuter
 gui.label.showReportsWindow=Rapports
 gui.label.showConsoleWindow=Console
-gui.label.enableFolderBrowsing=Autoriser la navigation des répertoires?
-gui.label.clearRequestLog=Vider (%1 records)
-gui.label.tracks=Morceaux
+gui.label.enableFolderBrowsing=Autoriser la navigation à travers les répertoires?
+gui.label.clearRequestLog=Vider (%1 enregistrements)
+gui.label.tracks=Plages
 gui.label.playlists=Listes de lecture
 gui.label.userPlaylists=Listes de lecture utilisateur
 
@@ -198,10 +198,10 @@ gui.label.userPlaylists=Listes de lecture utilisateur
 #
 gui.error.browserNotFound=Aucun navigateur trouvé
 gui.error.missingField=Vous avez omis un champ obligatoire
-gui.error.invalidEmail=L'adresse mail n'est pas valide
+gui.error.invalidEmail=L'adresse électronique n'est pas valide
 gui.error.passwordsDontMatch=Vos mots de passe ne correspondent pas
 gui.error.duplicateUsername=Cet utilisateur existe déjà
-gui.error.duplicateEmail=Cette adresse mail existe déjà
+gui.error.duplicateEmail=Cette adresse électronique existe déjà
 
 #
 #  gui titles
@@ -213,7 +213,7 @@ gui.title.options=Options
 #  gui tooltips
 #
 gui.tooltip.music=Votre musique/vos listes de lecture
-gui.tooltip.collection=Gérez votre  collection
+gui.tooltip.collection=Gérez votre collection
 gui.tooltip.users=Gestion des utilisateurs
 gui.tooltip.general=Options générales
 gui.tooltip.encoders=Options d'encodage
@@ -221,20 +221,20 @@ gui.tooltip.encoders=Options d'encodage
 #
 #  gui messages
 #
-gui.message.natTestOk=Succès du test NAT! Votre configuration semble correcte!
-gui.message.natTestFailed=Echec du test NAT...
-gui.message.exportComplete=Export terminé!
-gui.message.confirmClearRequestLog=Il n'y a pas d'annulation possible, êtes vous sûr(e) de vouloir vider le journal?
-gui.message.requestLogCleared=Journal vidé!
-gui.message.playlistImported=Liste de lecture importée!
-gui.message.playlistImportFailed=L'import a achoué...
+gui.message.natTestOk=Succès du test NAT. Votre configuration semble correcte !
+gui.message.natTestFailed=Échec du test NAT...
+gui.message.exportComplete=Export terminé !
+gui.message.confirmClearRequestLog=L'annulation est impossible : êtes-vous sûr(e) de vouloir vider le journal ?
+gui.message.requestLogCleared=Journal vidé !
+gui.message.playlistImported=Liste de lecture importée !
+gui.message.playlistImportFailed=L'import a échoué...
 
 #
 #  gui reports
 #
-gui.reports.refresh=Raffraîchir
+gui.reports.refresh=Rafraîchir
 gui.reports.browsers.title=Navigateurs
-gui.reports.browsers.titleLong=Navigateurs des utilsateurs
+gui.reports.browsers.titleLong=Navigateurs des utilisateurs
 gui.reports.requestsPerDay.title=Demandes par jour
 gui.reports.requestsPerDay.xAxis=
 gui.reports.requestsPerDay.yAxis=# Demandes
@@ -253,12 +253,12 @@ con.err.propertyDoesntExist=La propriété n'existe pas...
 #
 #  console messages
 #
-con.msg.userCreated=Utilisateur créé!
-con.msg.userDeleted=Utilisateur détruit!
-con.msg.directoryDeleted=Répertoire enlevé!
-con.msg.propertySaved=Propriété sauvée!
-con.msg.propertyDeleted=Propriété enlevée!
-con.msg.directoryAdded=Répertoire ajouté!
+con.msg.userCreated=Utilisateur créé !
+con.msg.userDeleted=Utilisateur détruit !
+con.msg.directoryDeleted=Répertoire enlevé !
+con.msg.propertySaved=Propriété sauvée !
+con.msg.propertyDeleted=Propriété enlevée !
+con.msg.directoryAdded=Répertoire ajouté !
 
 #
 #  console command descriptions
@@ -269,10 +269,10 @@ con.desc.listDirectories=liste les répertoires de la collection
 con.desc.exit=quitte l'application
 con.desc.listProperties=liste les propriétés
 con.desc.setProperty=affecte une valeur à une propriété
-con.desc.listUsers=liste les utilisateurs incsrits
+con.desc.listUsers=liste les utilisateurs inscrits
 con.desc.addUser=ajoute un utilisateur
-con.desc.deleteUser=supprime un utilisateur depuis son id
-con.desc.commands=Commandes:
+con.desc.deleteUser=supprime un utilisateur à partir de son identifiant
+con.desc.commands=Commandes :
 con.desc.delProperty=supprime une propriété
 con.desc.version=affiche la version en cours
 
@@ -280,3 +280,4 @@ con.desc.version=affiche la version en cours
 #  misc messages
 #
 misc.msg.updateAvailable=Une nouvelle version de Sockso est disponible (%1) 
+ 
