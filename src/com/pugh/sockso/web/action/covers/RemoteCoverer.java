@@ -11,16 +11,22 @@ import com.pugh.sockso.web.action.CoverSearch;
 import java.io.IOException;
 
 public class RemoteCoverer extends BaseCoverer {
-    
+
+    CoverSearch search;
+
+    public void setCoverSearch(CoverSearch search) {
+        this.search = search;
+    }
+
     /**
-     *  Try and fetch a cover from a remote source (Amaxon)
-     * 
+     *  Try and fetch a cover from a remote source (Amazon)
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
-     *  @throws IOException 
-     * 
+     *
+     *  @throws IOException
+     *
      */
 
     public boolean serveCover( final String itemName ) throws IOException {
@@ -28,7 +34,7 @@ public class RemoteCoverer extends BaseCoverer {
         if ( !getProperties().get(Constants.COVERS_DISABLE_REMOTE_FETCHING).equals(Properties.YES) ) {
 
             final Database db = getDatabase();
-            final CoverSearch search = new AmazonCoverSearch( db );
+            search = new AmazonCoverSearch( db );
             final CoverArt cover = search.getCover(itemName);
 
             if ( cover != null ) {

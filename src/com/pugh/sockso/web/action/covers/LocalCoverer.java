@@ -28,17 +28,17 @@ import org.apache.log4j.Logger;
 public class LocalCoverer extends BaseCoverer {
 
     private static final Logger log = Logger.getLogger( LocalCoverer.class );
-    
+
     /**
      *  Try to serve a local cover from a well known path
-     * 
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws SQLException
-     *  @throws IOException 
-     * 
+     *  @throws IOException
+     *
      */
 
     public boolean serveCover( final String itemName ) throws SQLException, IOException {
@@ -89,13 +89,13 @@ public class LocalCoverer extends BaseCoverer {
     /**
      *  returns the filename for local covers.  there are defaults for both
      *  artists ("artist") and albums ("album"), but the user can override this themselves
-     * 
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     protected String getLocalCoverFileName( final String itemName ) {
 
         final Properties p = getProperties();
@@ -109,22 +109,22 @@ public class LocalCoverer extends BaseCoverer {
     }
 
      /**
-     *  looks on the filesystem to see if the user has cover art stored with
-     *  their music.  if found it returns the path to the file, otherwise null.
+     *  looks on the file system to see if the user has cover art stored with
+     *  their music.  If found, it returns the path to the file, otherwise null.
      *  The itemName is the name of the music item, eg. ar123, al456, etc...
-     * 
+     *
      *  @param itemName
-     * 
-     *  @return
-     * 
+     *
+     *  @return path to the local cover file
+     *
      *  @throws SQLException
-     * 
+     *
      */
-    
+
     protected String getLocalCoverPath( final String itemName ) throws SQLException {
-       
-        final String coverFileName = getLocalCoverFileName( itemName );
-        final File[] trackDirs = getLocalCoverDirectories( itemName );
+
+        final String coverFileName  = getLocalCoverFileName( itemName );
+        final File[] trackDirs      = getLocalCoverDirectories( itemName );
         final File[] possibleCovers = getLocalCoverFiles( trackDirs, coverFileName, isArtist(itemName) );
 
         for ( final File possibleCover : possibleCovers ) {
@@ -138,41 +138,41 @@ public class LocalCoverer extends BaseCoverer {
 
     /**
      *  determines if an item name (eg. ar123) is an artist
-     * 
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     protected boolean isArtist( final String itemName ) {
-        
+
         return itemName != null
             && itemName.length() > 2
             && itemName.substring( 0, 2 ).toLowerCase().equals( "ar" );
-        
+
     }
 
     /**
      *  returns unique directories associated with an itemName (eg. ar123).  this
      *  is worked out by getting all the tracks for this item, and using the
      *  directory that they're in.
-     * 
+     *
      *  @param itemName (eg. ar123)
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected File[] getLocalCoverDirectories( final String itemName ) throws SQLException {
 
         final ArrayList<File> dirs = new ArrayList<File>();
 
         ResultSet rs = null;
         PreparedStatement st = null;
-        
+
         try {
 
             final HashSet<String> taken = new HashSet<String>();
@@ -184,10 +184,10 @@ public class LocalCoverer extends BaseCoverer {
                                " from tracks t " +
                                " where t." +typeName+ "_id = " +id;
             final Database db = getDatabase();
-            
+
             st = db.prepare( sql );
             rs = st.executeQuery();
-        
+
             while ( rs.next() ) {
                 final String path = rs.getString( "path" );
                 if ( !taken.contains(path) ) {
@@ -195,18 +195,18 @@ public class LocalCoverer extends BaseCoverer {
                     taken.add( path );
                 }
             }
-            
+
         }
 
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-        
+
         return dirs.toArray( new File[0] );
-        
+
     }
-    
+
     /**
      *  returns an array of files to test that could possibly be local covers.
      *
@@ -231,8 +231,7 @@ public class LocalCoverer extends BaseCoverer {
             };
 
             // look for album info in this directory, but artist info in the
-            // directory one level up as well (maybe "/My Music/artist/album/"
-            // structure)
+            // directory one level up as well (maybe "/My Music/artist/album/" structure)
             for ( final String directory : dirs ) {
                 if ( directory == null ) continue; // will be null if album
                 for ( final String ext : exts ) {
@@ -242,7 +241,7 @@ public class LocalCoverer extends BaseCoverer {
             }
 
             // Should we fallback and search for the first image
-            // file in the track folder, regardless of its name ?
+            // file in the track folder, regardless of its name?
             if ( p.get(Constants.COVERS_FILE_FALLBACK).equals(Properties.YES) ) {
                 final File fallbackFile = checkForFallbackFile( exts, track );
                 if ( fallbackFile != null ) {
@@ -250,27 +249,28 @@ public class LocalCoverer extends BaseCoverer {
                 }
             }
 
-            
+
         }
 
         return files.toArray( new File[0] );
-        
+
     }
-    
+
     /**
      *  Checks for a file in the track directory to use as a fallback
-     * 
+     *
      *  @param files
      *  @param exts
-     *  @param track 
-     * 
+     *  @param track
+     *
      */
     protected File checkForFallbackFile( final String[] exts, final File track ) {
-        
+
+        System.out.println("track: " + track.getAbsolutePath());
         final File[] fallbackFiles = track.getParentFile().listFiles(new FileFilter() {
             @Override
             public boolean accept(File f) {
-                
+
                 if (f.isFile()) {
                     for (final String ext : exts) {
                         if (f.getName().endsWith(ext)) {
@@ -278,9 +278,9 @@ public class LocalCoverer extends BaseCoverer {
                         }
                     }
                 }
-                
+
                 return false;
-                
+
             }
         });
 
@@ -289,7 +289,7 @@ public class LocalCoverer extends BaseCoverer {
                             + " Picking first: " + fallbackFiles[0].getAbsolutePath());
             return fallbackFiles[ 0 ];
         }
-        
+
         return null;
 
     }

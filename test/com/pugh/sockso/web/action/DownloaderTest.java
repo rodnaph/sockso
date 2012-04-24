@@ -18,28 +18,28 @@ import java.util.Vector;
 public class DownloaderTest extends SocksoTestCase {
 
     public void testGetTrackZipPath() {
-        
+
         final Properties p = new StringProperties();
         final Downloader d = new Downloader();
-        
+
         d.setProperties( p );
-        
+
         final Artist artist = new Artist( 1, "artist" );
         final Album album = new Album( artist, 2, "album", "year" );
         final Track track = new Track( artist, album, 3, "track", "", 4, new Date() );
         final String path = d.getTrackZipPath( track );
-        
+
         assertTrue( path.contains("artist") );
         assertTrue( path.contains("album") );
         assertTrue( path.contains("track") );
         assertTrue( path.contains("04") ); // tens should be padded
-        
+
     }
 
     private Track getTrack( final String artistName ) {
         return getTrack( artistName, "album", "year" );
     }
-    
+
     private Track getTrack( final String artistName, final String albumName, final String albumYear ) {
         final Artist artist = new Artist( 1, artistName );
         final Album album = new Album( artist, 1, albumName, albumYear);
@@ -53,7 +53,7 @@ public class DownloaderTest extends SocksoTestCase {
         Downloader d = new Downloader();
         assertEquals( "artist-album.zip", d.getFileName(tracks) );
     }
-    
+
     public void testGettingFilenameWhenDifferentArtists() {
         Vector<Track> tracks = new Vector<Track>();
         tracks.add( getTrack("artist1") );
@@ -61,7 +61,7 @@ public class DownloaderTest extends SocksoTestCase {
         Downloader d = new Downloader();
         assertEquals( "various_artists-album.zip", d.getFileName(tracks) );
     }
-    
+
     public void testGettingFilenameWhenDifferentAlbumsUsesMultipleAlbums() {
         Vector<Track> tracks = new Vector<Track>();
         tracks.add( getTrack("artist","album1","year") );
@@ -81,5 +81,5 @@ public class DownloaderTest extends SocksoTestCase {
         catch ( BadRequestException e ) { gotException = true; }
         assertTrue( gotException );
     }
-    
+
 }

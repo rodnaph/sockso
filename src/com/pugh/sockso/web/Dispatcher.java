@@ -57,49 +57,49 @@ public class Dispatcher {
 
     private final Properties p;
     private final Injector injector;
-    
+
     private String protocol;
     private int port;
-    
+
     @Inject
     public Dispatcher( final Injector injector, final Properties p ) {
 
         this.injector = injector;
         this.p = p;
-        
+
     }
-    
+
     /**
      *  Initialise the dispatcher with non-injectables
-     * 
+     *
      *  @param protocol
-     *  @param port 
-     * 
+     *  @param port
+     *
      */
-    
+
     public void init( final String protocol, final int port ) {
-        
+
         this.protocol = protocol;
         this.port = port;
-        
+
     }
-    
+
     /**
      *  action =s the web action specified by the request
-     * 
+     *
      *  @param req
-     * 
+     *
      *  @action =
-     * 
+     *
      */
-    
+
     public BaseAction getAction( final Request req ) {
 
         final String command = req.getUrlParam( 0 );
         final String host = getHost();
 
         BaseAction action = null;
-        
+
         if ( command.equals("file") ) {
             final String fileType = req.getUrlParam( 1 );
             if ( fileType != null && fileType.equals("cover") ) {
@@ -112,57 +112,57 @@ public class Dispatcher {
 
         else if ( command.equals("browse") )
             action = getBrowseAction( req );
-        
+
         else if ( command.equals("") )
             action = injector.getInstance( Homer.class );
-        
+
         else if ( command.equals("xspf") ) {
             Xspfer xspf = injector.getInstance( Xspfer.class );
             xspf.init( protocol );
             action = xspf;
         }
-                
+
         else if ( command.equals("m3u") ) {
             M3uer m3u = injector.getInstance( M3uer.class );
             m3u.init( protocol );
             action = m3u;
         }
-                
+
         else if ( command.equals("pls") ) {
             Plser pls = injector.getInstance( Plser.class );
             pls.init( protocol );
             action = pls;
         }
-        
+
         else if ( command.equals("stream") ) {
             action = injector.getInstance( Streamer.class );
         }
-        
+
         else if ( command.equals("api") ) {
             action = injector.getInstance( Api.class );
         }
 
         else if ( command.equals("json") )
             action = injector.getInstance( Jsoner.class );
-        
+
         else if ( command.equals("user") ) {
             final Userer u = injector.getInstance( Userer.class );
             u.addAuthenticator( injector.getInstance(DBAuthenticator.class) );
             action = u;
         }
-        
+
         else if ( command.equals("player") )
             action = injector.getInstance( Player.class );
-        
+
         else if ( command.equals("download") )
             action = injector.getInstance( Downloader.class );
-        
+
         else if ( command.equals("upload") )
             action = injector.getInstance( Uploader.class );
-        
+
         else if ( command.equals("share") )
             action = injector.getInstance( Sharer.class );
-        
+
         else if ( command.equals("rss") ) {
             final Feeder feeder = injector.getInstance( Feeder.class );
             feeder.init( host );
@@ -172,37 +172,37 @@ public class Dispatcher {
         else if ( command.equals("admin") ) {
             action = getAdminAction( req );
         }
-        
+
         else if ( command.equals("nat") ) {
             action = injector.getInstance( Nater.class );
         }
-                
+
         return action;
-        
+
     }
-    
+
     /**
      *  action =s the handler for a browse action
-     * 
+     *
      *  @param req
-     * 
+     *
      *  @action =
-     * 
+     *
      */
-    
+
     protected BaseAction getBrowseAction( final Request req ) {
-        
+
         final String command = req.getUrlParam( 1 );
-        
+
         if ( command.equals("folders") )
             return injector.getInstance( Folderer.class );
-        
+
         else if ( command.equals("popular") )
             return injector.getInstance( Popularer.class );
-        
+
         else if ( command.equals("latest") )
             return injector.getInstance( Latester.class );
-        
+
         else if ( command.equals("letter") )
             return injector.getInstance( ByLetterer.class );
 
@@ -219,7 +219,7 @@ public class Dispatcher {
             return injector.getInstance( Playlister.class );
 
         else return null;
-        
+
     }
 
     /**
@@ -230,7 +230,7 @@ public class Dispatcher {
      *  @return
      *
      */
-    
+
     protected AdminAction getAdminAction( final Request req ) {
 
         final String command = req.getUrlParam( 1 );
@@ -259,9 +259,9 @@ public class Dispatcher {
 
     /**
      *  Creates and returns a Coverer action
-     * 
-     *  @return 
-     * 
+     *
+     *  @return
+     *
      */
 
     protected Coverer getCoverer() {
@@ -269,7 +269,7 @@ public class Dispatcher {
         final Coverer coverer = injector.getInstance( Coverer.class );
 
         coverer.addPlugin( injector.getInstance(CachedCoverer.class) );
-        coverer.addPlugin( injector.getInstance(TagCoverer.class) );
+        // TODO coverer.addPlugin( injector.getInstance(TagCoverer.class) );
         coverer.addPlugin( injector.getInstance(LocalCoverer.class) );
         coverer.addPlugin( injector.getInstance(RemoteCoverer.class) );
         coverer.addPlugin( injector.getInstance(DefaultCoverer.class) );
