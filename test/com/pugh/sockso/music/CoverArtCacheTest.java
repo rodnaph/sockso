@@ -41,6 +41,7 @@ public class CoverArtCacheTest extends SocksoTestCase {
     public void testGetCachedImageExtension() throws IOException {
         String itemName = "al123";
         BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
+
         CoverArt coverArt = new CoverArt(itemName, image);
 
         String expResult = "jpg";

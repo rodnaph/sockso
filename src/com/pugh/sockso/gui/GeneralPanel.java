@@ -52,7 +52,7 @@ import com.google.inject.Inject;
 public class GeneralPanel extends JPanel implements RequestLogChangeListener {
 
     private static Logger log = Logger.getLogger( Logger.class );
-    
+
     private final JFrame parent;
     private final Database db;
     private final Properties p;
@@ -60,10 +60,10 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
     private final Server sv;
     private final Locale locale;
     private final CollectionManager cm;
-    
+
     private JComboBox exportRequestLogFormats;
     private JButton exportRequestLogButton, clearRequestLog;
-    
+
     @Inject
     public GeneralPanel( final AppFrame parent, final Database db, final Properties p,
                          final Resources r, final Server sv, final CollectionManager cm,
@@ -76,24 +76,24 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
         this.sv = sv;
         this.cm = cm;
         this.locale = locale;
-        
+
         createComponents();
         layoutComponents();
-        
+
     }
-    
+
     /**
      *  creates the components that will be part of this panels interface
-     * 
+     *
      */
-    
+
     private void createComponents() {
-        
+
         exportRequestLogFormats = new JComboBox( DBExporter.Format.values() );
-        
+
         RequestLogExport exportAction = new RequestLogExport( parent, db, locale, exportRequestLogFormats );
         exportAction.addListener( this );
-        
+
         exportRequestLogButton = new JButton(
             locale.getString("gui.label.export"),
             new ImageIcon( r.getImage("icons/16x16/export.png") )
@@ -109,77 +109,77 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
 
     /**
      *  Handler for when the request log has changed
-     * 
+     *
      */
     public void requestLogChanged() {
 
         clearRequestLog.setText( getClearRequestLogButtonText() );
 
     }
-    
+
     private String getClearRequestLogButtonText() {
-        
+
         return locale.getString(
             "gui.label.clearRequestLog", new String[] { getRequestLogSize() }
         );
-        
+
     }
-    
+
     /**
      *  tries to fetch the number of records in the request log
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     private String getRequestLogSize() {
-        
+
         ResultSet rs = null;
         PreparedStatement st = null;
-        
+
         try {
-            
+
             final String sql = " select count(*) as total " +
                                 " from request_log ";
-            
+
             st = db.prepare( sql );
             rs = st.executeQuery();
-            
+
             if ( rs.next() )
                 return rs.getString( "total" );
-            
+
         }
-        
+
         catch ( SQLException e ) {
             log.error( e );
         }
-        
+
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-        
+
         return "unknown";
-        
+
     }
-    
+
     /**
      *  lays out the components on this panel
-     * 
+     *
      */
-    
+
     private void layoutComponents() {
-        
+
         FormLayout layout = new FormLayout(
             " right:max(40dlu;pref), 3dlu, 150dlu, 7dlu "
         );
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setDefaultDialogBorder();
-  
+
         builder.appendSeparator( locale.getString("gui.label.community") );
         builder.append( locale.getString("gui.label.communityEnabled"), new BooleanOptionField(p,Constants.COMMUNITY_ENABLED) );
         builder.nextLine();
-        
+
         builder.appendSeparator( locale.getString("gui.label.webServer") );
         builder.append( locale.getString("gui.label.port"), new NumberOptionField(p,"server.port") );
         builder.nextLine();
@@ -228,21 +228,21 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
         builder.nextLine();
         builder.append( "", clearRequestLog );
         builder.nextLine();
-        
+
         JButton testNat = new JButton( locale.getString("gui.label.testNat") );
         testNat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent evt ) {
                 doNatTest();
-            } 
+            }
         });
-        
+
         JButton forwardPort = new JButton( locale.getString("gui.label.portForward"), new ImageIcon(r.getImage("icons/22x22/port_forward.png")) );
         forwardPort.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent evt ) {
                 showForwardPortDialog();
             }
         });
-        
+
         builder.appendSeparator( locale.getString("gui.label.natSetup") );
         builder.append( "", testNat );
         builder.nextLine();
@@ -250,34 +250,34 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
 
         setLayout( new BorderLayout() );
         add( new JScrollPane(builder.getPanel()), BorderLayout.CENTER );
-        
+
     }
-    
+
     private void showForwardPortDialog() {
-        
+
         new ForwardPortDialog( parent, sv, r );
-        
+
     }
-    
+
     /**
      *  tries to test the users NAT setup, will show a message
      *  to say if it went well or not
-     * 
+     *
      */
-    
+
     public void doNatTest() {
-        
+
         String result = locale.getString( "gui.message.natTestFailed" ); // assume failure unless we get a good response
         int port = Integer.parseInt( p.get(Constants.SERVER_PORT) );
         BufferedReader in = null;
-        
+
         try {
 
             String urlString = "http://sockso.pu-gh.com/nat/test/" + port;
             URL url = new URL( urlString );
-            
+
             log.debug( "NAT Test URL: " + urlString );
-            
+
             HttpURLConnection cnn = (HttpURLConnection) url.openConnection();
 
             cnn.setRequestMethod( "GET" );
@@ -286,7 +286,7 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
             String s = in.readLine();
 
             log.debug( "Nat Test Response: " + s );
-            
+
             if ( s.equals( Nater.NAT_TEST_STRING ) )
                 result = locale.getString("gui.message.natTestOk");
 
@@ -297,9 +297,9 @@ public class GeneralPanel extends JPanel implements RequestLogChangeListener {
         }
 
         finally { Utils.close(in); }
-        
+
         JOptionPane.showMessageDialog( parent, result );
 
     }
-    
+
 }

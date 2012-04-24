@@ -26,6 +26,7 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.music.CoverArtCache;
 import com.pugh.sockso.music.Files;
+
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.BadRequestException;
@@ -38,25 +39,23 @@ public class FileServer extends BaseAction {
 
     private static final Logger log = Logger.getLogger( FileServer.class );
 
-    private static final String CACHE_IMAGE_TYPE = "jpg";
-    
     private final Resources r;
 
     @Inject
     public FileServer( final Resources r ) {
         this.r = r;
     }
-    
+
     /**
      *  handles the "file" command, which is a request for a resource from
      *  the applications htdocs folder
-     * 
+     *
      *  @throws IOException
      *  @throws BadRequestException
      *  @throws SQLException
-     * 
+     *
      */
-    
+
     public void handleRequest() throws IOException, BadRequestException, SQLException {
 
         final Request req = getRequest();
@@ -75,11 +74,11 @@ public class FileServer extends BaseAction {
     /**
      *  this action doesn't require a login as we still need to serve
      *  images and css and stuff when the user isn't logged in
-     * 
+     *
      *  @return false
-     * 
+     *
      */
-    
+
     @Override
     public boolean requiresLogin() {
 
@@ -89,26 +88,26 @@ public class FileServer extends BaseAction {
 
     /**
      *  no login required at all so no need to start a session
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     @Override
     public boolean requiresSession() {
 
         return false;
 
     }
-    
+
     /**
      *  serves a request file to the client
-     * 
+     *
      *  @throws IOException
      *  @throws BadRequestException
-     * 
+     *
      */
-    
+
     public void serveFile() throws IOException, BadRequestException {
 
         serveResource( getPathFromRequest() );
@@ -117,21 +116,21 @@ public class FileServer extends BaseAction {
 
     /**
      *  Returns the file path from the request
-     * 
-     *  @return 
-     * 
+     *
+     *  @return
+     *
      */
 
     protected String getPathFromRequest() {
 
         final Request req = getRequest();
         final StringBuffer path = new StringBuffer( "htdocs" );
-        
+
         for ( int i=1; i<req.getParamCount(); i++ ) {
             path.append( "/" );
             path.append( req.getUrlParam(i) );
         }
-        
+
         return path.toString()
                    .replace( "..", "" );
 
@@ -139,12 +138,12 @@ public class FileServer extends BaseAction {
 
     /**
      *  serves the resource to the client
-     * 
+     *
      *  @param path path to the resource
-     * 
+     *
      *  @throws IOException
      *  @throws BadRequestException
-     * 
+     *
      */
 
     private void serveResource( final String path ) throws IOException, BadRequestException {
@@ -159,32 +158,32 @@ public class FileServer extends BaseAction {
                 getResponse().enableGzip();
 
         try {
-            
+
             in = new DataInputStream( r.getResourceAsStream(path) );
-            
+
             sendHeaders( path );
             getResponse().sendData( in );
-            
+
         }
 
         catch ( final FileNotFoundException e ) {
             throw new BadRequestException( locale.getString("www.error.fileNotFound"), 404 );
         }
-        
+
         finally {
             Utils.close( in );
         }
 
     }
-    
+
     /**
      *  send the headers for serving a resource, just need to give the name of
      *  the file we're serving to work out content types and stuff
-     * 
+     *
      *  @param filename
-     * 
+     *
      */
-    
+
     protected void sendHeaders( final String filename ) {
 
         final SimpleDateFormat formatter = new SimpleDateFormat( Constants.HTTP_DATE_FORMAT );
@@ -195,7 +194,7 @@ public class FileServer extends BaseAction {
 
         final Response res = getResponse();
         final Properties p = getProperties();
-        
+
         // only cache if not in dev mode
         if ( !p.get(Constants.DEV_ENABLED).equals(Properties.YES) ) {
             res.addHeader( "Date", formatter.format(dateNow) );
@@ -399,22 +398,22 @@ public class FileServer extends BaseAction {
      *  returns unique directories associated with an itemName (eg. ar123).  this
      *  is worked out by getting all the tracks for this item, and using the
      *  directory that they're in.
-     * 
+     *
      *  @param itemName (eg. ar123)
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     protected File[] getLocalCoverDirectories( final String itemName ) throws SQLException {
 
         final Vector<File> dirs = new Vector<File>();
 
         ResultSet rs = null;
         PreparedStatement st = null;
-        
+
         try {
 
             final HashSet<String> taken = new HashSet<String>();
@@ -426,10 +425,10 @@ public class FileServer extends BaseAction {
                                " from tracks t " +
                                " where t." +typeName+ "_id = " +id;
             final Database db = getDatabase();
-            
+
             st = db.prepare( sql );
             rs = st.executeQuery();
-        
+
             while ( rs.next() ) {
                 final String path = rs.getString( "path" );
                 if ( !taken.contains(path) ) {
@@ -437,45 +436,45 @@ public class FileServer extends BaseAction {
                     taken.add( path );
                 }
             }
-            
+
         }
 
         finally {
             Utils.close( rs );
             Utils.close( st );
         }
-        
+
         return dirs.toArray( new File[0] );
-        
+
     }
-    
+
     /**
      *  determines if an item name (eg. ar123) is an artist
-     * 
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     protected boolean isArtist( final String itemName ) {
-        
+
         return itemName != null
             && itemName.length() > 2
             && itemName.substring( 0, 2 ).toLowerCase().equals( "ar" );
-        
+
     }
 
     /**
      *  returns the filename for local covers.  there are defaults for both
      *  artists ("artist") and albums ("album"), but the user can override this themselves
-     * 
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     protected String getLocalCoverFileName( final String itemName ) {
 
         final Properties p = getProperties();
@@ -531,27 +530,27 @@ public class FileServer extends BaseAction {
                 }
             }
 
-            
+
         }
 
         return files.toArray( new File[0] );
-        
+
     }
-    
+
     /**
      *  Checks for a file in the track directory to use as a fallback
-     * 
+     *
      *  @param files
      *  @param exts
-     *  @param track 
-     * 
+     *  @param track
+     *
      */
     protected File checkForFallbackFile( final String[] exts, final File track ) {
-        
+
         final File[]fallbackFiles = track.getParentFile().listFiles(new FileFilter() {
             @Override
             public boolean accept(File f) {
-                
+
                 if (f.isFile()) {
                     for (final String ext : exts) {
                         if (f.getName().endsWith(ext)) {
@@ -559,9 +558,9 @@ public class FileServer extends BaseAction {
                         }
                     }
                 }
-                
+
                 return false;
-                
+
             }
         });
 
@@ -570,26 +569,26 @@ public class FileServer extends BaseAction {
                             + " Picking first: " + fallbackFiles[0].getAbsolutePath());
             return fallbackFiles[ 0 ];
         }
-        
+
         return null;
 
     }
-    
+
     /**
      *  looks on the filesystem to see if the user has cover art stored with
      *  their music.  if found it returns the path to the file, otherwise null.
      *  The itemName is the name of the music item, eg. ar123, al456, etc...
-     * 
+     *
      *  @param itemName
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws SQLException
-     * 
+     *
      */
-    
+
     protected String getLocalCoverPath( final String itemName ) throws SQLException {
-       
+
         final String coverFileName = getLocalCoverFileName( itemName );
         final File[] trackDirs = getLocalCoverDirectories( itemName );
         final File[] possibleCovers = getLocalCoverFiles( trackDirs, coverFileName, isArtist(itemName) );
