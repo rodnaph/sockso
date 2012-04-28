@@ -9,7 +9,7 @@ import com.pugh.sockso.tests.TestRequest;
 public class FileServerTest extends SocksoTestCase {
 
     private FileServer action;
-
+    
     @Override
     protected void setUp() {
         action = new FileServer( null );

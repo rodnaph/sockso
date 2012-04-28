@@ -19,14 +19,14 @@ public class RemoteCoverer extends BaseCoverer {
     }
 
     /**
-     *  Try and fetch a cover from a remote source (Amazon)
-     *
+     *  Try and fetch a cover from a remote source (Amaxon)
+     * 
      *  @param itemName
-     *
+     * 
      *  @return
-     *
-     *  @throws IOException
-     *
+     * 
+     *  @throws IOException 
+     * 
      */
 
     public boolean serveCover( final String itemName ) throws IOException {
