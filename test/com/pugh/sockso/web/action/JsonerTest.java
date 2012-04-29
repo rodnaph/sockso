@@ -138,7 +138,7 @@ public class JsonerTest extends SocksoTestCase {
 
         String data = res.getOutput();
 
-        assertContains( data, "requiresLogin\": \"1\"" );
+        assertContains( data, "requiresLogin\":\"1\"" );
 
     }
 
