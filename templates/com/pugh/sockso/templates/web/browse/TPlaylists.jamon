@@ -53,12 +53,12 @@
         <%for Playlist playlist : userPlaylists %>
             <li class="playlist" id="userPlaylist<% playlist.getId() %>">
                 <& IMusicLinks; type="pl"; id=playlist.getId(); name=playlist.getName(); locale=locale; properties=properties; &>
-                <a href="<% properties.getUrl("/browse/playlist/"+playlist.getId()) #n %>"><% Utils.u2e(playlist.getName()) #n %></a>
+                <a href="<% properties.getUrl("/browse/playlist/"+playlist.getId()) #n %>"><% Utils.XMLEncode(playlist.getName()) #n %></a>
                 by
                 <%if user != null && (user.getId() == playlist.getUser().getId()) %>
                     <b>you</b>
                 <%else>
-                    <% Utils.u2e(playlist.getUser().getName()) #n %>
+                    <% Utils.XMLEncode(playlist.getUser().getName()) #n %>
                 </%if>
                 (<% playlist.getTrackCount() %> track<%if playlist.getTrackCount() != 1 %>s</%if>)
                 <%if user != null && (playlist.getUser().getId() == user.getId()) %>

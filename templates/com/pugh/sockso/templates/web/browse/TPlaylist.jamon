@@ -23,11 +23,11 @@
     Vector<User> recentUsers = null;
 </%args>
 
-<& ../IHeader; properties=properties; title="Playlist: " + playlist.getName(); user=user; locale=locale; &>
+<& ../IHeader; properties=properties; title="Playlist: " + Utils.XMLEncode(playlist.getName()); user=user; locale=locale; &>
 
 <h2>
     <div class="links">
-        <% Utils.u2e(playlist.getName()) #n %>
+        <% Utils.XMLEncode(playlist.getName()) #n %>
         <div class="links">
             <& IMusicLinks; type="pl"; id=playlist.getId(); name=playlist.getName(); shareLink=true; playRandomLink=true; locale=locale; properties=properties; &>
         </div>
