@@ -1,42 +1,51 @@
 #
 #  web errors
 #
-www.error.title=Crôa !
-www.error.stackTrace=Trace de la pile d'exécution
-www.error.desc=Ouuuuups...
-www.error.unknownRequest=qu'il ne sait pas comment faire ce que vous avez demandé
-www.error.unknownUser=que l'utilisateur n'est pas inscrit
+www.error.title=Badaboum big-bada-big-badaboum&nbsp;!
+www.error.stackTrace=Trace de la pile d’exécution
+www.error.desc=Sockso dit que...
+www.error.unknownRequest=il ne sait pas comment faire ce que vous avez demandé
+www.error.unknownUser=l’utilisateur n’est pas inscrit
 www.error.passwordIncorrect=votre mot de passe est incorrect
-www.error.duplicateUsername=que l'utilisateur existe déjà
-www.error.duplicateEmail=que cette adresse électronique existe déjà
-www.error.passwordsDontMatch=vos mots de passe ne correspondent pas
-www.error.invalidEmail=votre adresse électronique n'est pas correcte
+www.error.duplicateUsername=l’utilisateur existe déjà
+www.error.duplicateEmail=Cette adresse électronique existe déjà
+www.error.passwordsDontMatch=Vos mots de passe ne correspondent pas
+www.error.invalidEmail=votre adresse électronique n’est pas valide
 www.error.missingField=vous avez oublié un champ
-www.error.registrationDisabled=l'inscription d'utilisateurs n'est pas autorisée
+www.error.registrationDisabled=l’inscription d’utilisateurs n’est pas autorisée
 www.error.alreadyLoggedIn=vous êtes déjà identifié !
 www.error.downloadsDisabled=les téléchargements ne sont pas autorisés
 www.error.noAnonymousUploads=vous devez vous identifier pour envoyer de la musique
-www.error.uploadsNotEnabled=l'envoi est désactivé
-www.error.noUploadsDirectory=le répertoire d'envoi n'a pas été indiqué
-www.error.uploadsDirNotWritable=le répertoire d'envoi n'est pas accessible en écriture
-www.error.noFileUploaded=vous n'avez pas envoyé de fichier
-www.error.unsupportedAudioFormat=sockso ne supporte pas ce format audio(seulement mp3, ogg, wma et flac)
-www.error.cantCreateTrackFolder=il ne peut pas créer le répertoire d'envoi
-www.error.browseFoldersNotEnabled=la navigation par répertoire n'est pas autorisée
-www.error.invalidCollectionId=identifiant de collection invalide
-www.error.folderDoesntExist=le répertoire n'existe pas
-www.error.trackNotFound=plage non trouvée
-www.error.fileNotFound=fichier non trouvé
-www.error.couldNotCreateUniqueFilename=impossible de créer le nom de fichier unique
+www.error.uploadsNotEnabled=l’envoi est désactivé
+www.error.noUploadsDirectory=le répertoire d’envoi n’a pas été indiqué
+www.error.uploadsDirNotWritable=le répertoire d’envoi n’est pas accessible en écriture
+www.error.noFileUploaded=vous n’avez pas envoyé de fichier
+www.error.unsupportedAudioFormat=Sockso ne prend pas en charge ce format audio (seulement mp3, ogg, wma et flac)
+www.error.cantCreateTrackFolder=il ne peut pas créer le répertoire d’envoi
+www.error.browseFoldersNotEnabled=la navigation par répertoire n’est pas autorisée
+www.error.invalidCollectionId=l’identifiant de collection est invalide
+www.error.folderDoesntExist=le répertoire n’existe pas
+www.error.trackNotFound=la plage est introuvable
+www.error.fileNotFound=le fichier est introuvable
+www.error.couldNotCreateUniqueFilename=il est impossible de créer un nom de fichier unique
 www.error.coversDisabled=les pochettes sont désactivées
+www.error.remoteErrorDesc=Désolé, cette page n’existe pas. Il semble que le lien sur <a href="%1%2">%2</a> soit périmé. Vous pourriez en avertir le responsable pour qu’il mette à jour le lien.
+www.error.localErrorDesc=Désolé, cette page n’existe pas. Il semble que vous avez suivi un lien invalide dans Sockso. Si vous pensez qu’il s’agit d’un bug, merci de <a href="http://forums.pu-gh.com">le signaler</a>.
+www.error.noRefererErrorDesc=Désolé, cette page n’existe pas. Il semble que vous ayez soit copié-collé une URL incorrecte soit suivi un marque-page périmé.
+www.error.nothingToPlay=Il faudrait déjà choisir un truc à jouer, andouille&nbsp;!
+www.error.nothingToDownload=Il faudrait déjà choisir un truc à envoyer, gros malin&nbsp;!
+www.error.nothingToShare=Il faudrait déjà choisir un truc à partager, dugenou&nbsp;!
+www.error.passwordsDontMatch=Les mots de passe ne correspondent pas
+www.error.notAnAdmin=Vous devez être administrateur pour faire cela.
+www.error.loginFailed=Connexion impossible&nbsp;: les informations entrées sont incorrectes ou votre compte est désactivé
 
 #
 #  json messages
 #
 www.json.error.unknown=Erreur inconnue
-www.json.error.noName=Pas de nom indiqué
-www.json.error.noArguments=Pas d'argument
-www.json.error.notLoggedIn=Vous n'êtes pas connecté
+www.json.error.noName=Aucun nom indiqué
+www.json.error.noArguments=Aucun argument
+www.json.error.notLoggedIn=Vous n’êtes pas connecté
 
 #
 #  web links
@@ -46,7 +55,7 @@ www.link.logout=Déconnexion
 www.link.register=Inscription
 www.link.home=Accueil
 www.link.browse=Parcourir
-www.link.latest=Derniers
+www.link.latest=Nouveautés
 www.link.popular=Populaires
 www.link.playlists=Listes de lecture
 www.link.random=Aléatoire
@@ -61,47 +70,62 @@ www.link.misc=Divers
 www.link.folders=Répertoires
 www.link.playRandom=Lire dans le désordre
 www.link.editUser=Éditer
-www.link.scrobbleLog=Créer le journal d'écoute
+www.link.scrobbleLog=Créer le journal d’écoute
 
 #
 #  web titles
 #
-www.title.playlist=Listes de lecture
+www.title.playlist=Liste de lecture
 www.title.recentlyPlayedTracks=Plages ajoutées récemment
 www.title.topArtists=Artistes les plus joués
 www.title.about=À propos
 www.title.sitePlaylists=Listes de lecture du site
-www.title.userPlaylists=Listes de lecture de l'utilisateur
+www.title.userPlaylists=Listes de lecture de l’utilisateur
 www.title.mostPopularTracks=Plages les plus populaires
 www.title.latestTracks=Plages les plus récentes
 www.title.latestArtists=Artistes les plus récents
 www.title.share=Partager
 www.title.login=Connexion
 www.title.register=Inscription
-www.title.registerComplete=Inscription terminée !
+www.title.registerComplete=Inscription terminée&nbsp;!
 www.title.upload=Envoi de musique
 www.title.uploadComplete=Envoi terminé
 www.title.recentlyPlayedAlbums=Albums joués récemment
 www.title.editProfile=Votre profil
-www.title.userUpdated=Profil mis à jour !
+www.title.userUpdated=Profil mis à jour&nbsp;!
 www.title.recentUsers=Utilisateurs récents
+www.title.latestAlbums=Derniers albums
+www.title.sharePopup=Sockso – Partageons la musique
+www.title.activationRequired=Activation requise&nbsp;!
+
+#
+#  web admin
+#
+www.admin.title.console=Sockso – Console d’administration
 
 #
 #  web text
 #
 www.text.loggedInAs=Connecté en tant que
 www.text.noResults=Aucun résultat...
-www.text.uploadComplete=Merci pour la plage, elle est maintenant dans la collection !
-www.text.noCover=Pochette non trouvée...
-www.text.userUpdated=Vos détails ont été mis à jour.
-www.text.confirmLogout=Êtes-vous sûr de vouloir vous déconnecter ?
-www.text.confirmScrobbleLog=Quand vous créez votre journal d'écoute, tous vos morceaux vont être indiqués comme écoutés. Êtes-vous sûr de vouloir le créer maintenant ?
+www.text.uploadComplete=Merci pour cette plage, elle est maintenant dans la collection&nbsp;!
+www.text.noCover=Pochette introuvable...
+www.text.userUpdated=Les détails vous concernant ont été mis à jour.
+www.text.confirmLogout=Êtes-vous sûr de vouloir vous déconnecter&nbsp;?
+www.text.confirmScrobbleLog=Quand vous créez votre journal d’écoute, tous vos morceaux vont être indiqués comme écoutés. Êtes-vous sûr de vouloir le créer maintenant&nbsp;?
 www.text.recentUsersInfo=(Utilisateurs qui ont joué une plage au cours des 5 dernières minutes)
+www.text.about=<a href="http://sockso.pu-gh.com">Sockso</a> est un serveur de musique personnel <a href="http://www.gnu.org/licenses/gpl.txt">libre</a> et <em><a href="http://sockso.pu-gh.com/source">open-source</a></em>&nbsp;!
+www.text.share=Pour partager votre musique, vous pouvez ajouter un lecteur en flash à votre site web en utilisant le code HTML suivant...
+www.text.login=Si vous vous avez un compte, entrez les informations demandées ci-dessous pour vous identifier. Sinon, veuillez<a href="%1"> vous enregistrer</a>.
+www.text.register=Si vous voulez vous connecter, il faut au préalable que vous vous créiez un compte. Entrez les informations voulues ci-dessous, cliquez sur le bouton <b>Enregistrement</b> et le tour est joué&nbsp;!
+www.text.registerComplete=Bien joué,%1&nbsp;! Votre compte est maintenant créé et vous êtes connecté&nbsp;; à vous la musique&nbsp;!
+www.text.emptyPlaylist=Votre liste de lecture est actuellement vide. Pour y ajouter des plages, cliquez sur les icônes bleues <img src="/file/skins/%1/images/add.png" /> accompagnant les chansons, albums, etc.
+www.text.activationRequired=Merci&nbsp;! Vos informations sont enregistrées mais votre compte doit être activé. L’administrateur devrait vous envoyer un courriel dès que votre compte le sera.
 
 #
 #  web labels
 #
-www.label.dateAdded=Date d'ajout
+www.label.dateAdded=Date d’ajout
 www.label.playCount=Nombre de lectures
 www.label.trackCount=Nombre de plages
 www.label.username=Nom
@@ -121,7 +145,8 @@ www.label.save=Sauver
 #
 #  www confirm prompts
 #
-www.confirm.deletePlaylist=Êtes-vous sûr de vouloir supprimer cette liste de lecture ?
+www.confirm.deletePlaylist=Êtes-vous sûr de vouloir supprimer cette liste de lecture&nbsp;?
+www.confirm.playlistName=Comment voulez-vous nommer cette liste de lecture&nbsp;?
 
 #
 #  gui window titles
@@ -133,11 +158,11 @@ gui.window.console= Sockso – Console
 #
 #  gui labels
 #
-gui.label.portForward=Configuration NAT (expérimental !)
+gui.label.portForward=Configuration NAT (expérimental&nbsp;!)
 gui.label.exit=Quitter
 gui.label.hide=Cacher
 gui.label.options=Options
-gui.label.gettingIPAddress=Récupération de l'adresse IP
+gui.label.gettingIPAddress=Récupération de l’adresse IP
 gui.label.yourAddress=Votre adresse
 gui.label.music=Musique
 gui.label.collection=Collection
@@ -147,7 +172,7 @@ gui.label.internetAddress=Adresse internet (par défaut)
 gui.label.refresh=Rafraîchir
 gui.label.addFolder=Ajouter un répertoire
 gui.label.removeFolder=Enlever
-gui.label.username=Nom d'utilisateur
+gui.label.username=Nom d’utilisateur
 gui.label.password=Mot de passe
 gui.label.passwordRepeat=Répétez le mot de passe
 gui.label.email=Adresse électronique
@@ -166,47 +191,56 @@ gui.label.bitrate=Débit
 gui.label.command=Commande
 gui.label.webServer=Serveur Web
 gui.label.port=Port
+gui.label.basepath=Racine du serveur
 gui.label.wwwTitle=Titre
 gui.label.wwwTagline=Slogan
-gui.label.disableDownloads=Interdire les téléchargements ?
-gui.label.scanOnStartup=Mettre à jour au démarrage ?
-gui.label.scanInterval=Intervalle de mise à jour (minutes)
+gui.label.disableDownloads=Interdire les téléchargements&nbsp;?
+gui.label.scanOnStartup=Mettre à jour au démarrage&nbsp;?
+gui.label.scanCoverArt=Rechercher les pochettes&nbsp;?
+gui.label.scanInterval=Intervalle de mise à jour (en minutes)
 gui.label.uploads=Envois
-gui.label.enableUploads=Autoriser les envois ?
-gui.label.anonymousUploads=Sans authentification nécessaire ?
+gui.label.enableUploads=Autoriser les envois&nbsp;?
+gui.label.anonymousUploads=Sans authentification nécessaire&nbsp;?
 gui.label.uploadsDirectory=Répertoire
 gui.label.general=Général
-gui.label.startMinimized=Démarrer réduit ?
-gui.label.confirmExit=Confirmer avant de quitter ?
+gui.label.startMinimized=Démarrer réduit&nbsp;?
+gui.label.confirmExit=Confirmer avant de quitter&nbsp;?
 gui.label.natSetup=Configuration NAT
 gui.label.logging=Journal
-gui.label.enableRequestLog=Journaliser les demandes ?
-gui.label.exportRequestLogAs=Exporter en tant que :
+gui.label.enableRequestLog=Journaliser les requêtes&nbsp;?
+gui.label.exportRequestLogAs=Exporter en tant que&nbsp;:
 gui.label.export=Exporter
 gui.label.import=Importer
 gui.label.consoleCommandGo=Exécuter
 gui.label.showReportsWindow=Rapports
 gui.label.showConsoleWindow=Console
-gui.label.enableFolderBrowsing=Autoriser la navigation à travers les répertoires?
+gui.label.enableFolderBrowsing=Autoriser la navigation à travers les répertoires&nbsp;?
 gui.label.clearRequestLog=Vider (%1 enregistrements)
 gui.label.tracks=Plages
 gui.label.playlists=Listes de lecture
 gui.label.userPlaylists=Listes de lecture utilisateur
+gui.label.rescanCollection=Analyser maintenant
+gui.label.isAdmin=Administrateur&nbsp;?
+gui.label.community=Communauté
+gui.label.communityEnabled=Lister mon serveur dans la communauté Sockso
+gui.label.scanEntireCollection=Toute la collection
+gui.label.scanSelectFolder=Sélectionner un répertoire
 
 #
 #  gui errors
 #
 gui.error.browserNotFound=Aucun navigateur trouvé
 gui.error.missingField=Vous avez omis un champ obligatoire
-gui.error.invalidEmail=L'adresse électronique n'est pas valide
+gui.error.invalidEmail=L’adresse électronique n’est pas valide
 gui.error.passwordsDontMatch=Vos mots de passe ne correspondent pas
 gui.error.duplicateUsername=Cet utilisateur existe déjà
 gui.error.duplicateEmail=Cette adresse électronique existe déjà
+gui.error.duplicateEmail=Ce répertoire n’est pas dans votre collection
 
 #
 #  gui titles
 #
-gui.title.creatingUser=Création d'un nouvel utilisateur
+gui.title.creatingUser=Création d’un nouvel utilisateur
 gui.title.options=Options
 
 #
@@ -216,18 +250,18 @@ gui.tooltip.music=Votre musique/vos listes de lecture
 gui.tooltip.collection=Gérez votre collection
 gui.tooltip.users=Gestion des utilisateurs
 gui.tooltip.general=Options générales
-gui.tooltip.encoders=Options d'encodage
+gui.tooltip.encoders=Options d’encodage
 
 #
 #  gui messages
 #
-gui.message.natTestOk=Succès du test NAT. Votre configuration semble correcte !
+gui.message.natTestOk=Succès du test NAT. Votre configuration semble correcte&nbsp;!
 gui.message.natTestFailed=Échec du test NAT...
-gui.message.exportComplete=Export terminé !
-gui.message.confirmClearRequestLog=L'annulation est impossible : êtes-vous sûr(e) de vouloir vider le journal ?
-gui.message.requestLogCleared=Journal vidé !
-gui.message.playlistImported=Liste de lecture importée !
-gui.message.playlistImportFailed=L'import a échoué...
+gui.message.exportComplete=Export terminé&nbsp;!
+gui.message.confirmClearRequestLog=L’annulation est impossible&nbsp;: êtes-vous sûr(e) de vouloir vider le journal&nbsp;?
+gui.message.requestLogCleared=Journal vidé&nbsp;!
+gui.message.playlistImported=Liste de lecture importée&nbsp;!
+gui.message.playlistImportFailed=L’import a échoué...
 
 #
 #  gui reports
@@ -235,49 +269,51 @@ gui.message.playlistImportFailed=L'import a échoué...
 gui.reports.refresh=Rafraîchir
 gui.reports.browsers.title=Navigateurs
 gui.reports.browsers.titleLong=Navigateurs des utilisateurs
-gui.reports.requestsPerDay.title=Demandes par jour
-gui.reports.requestsPerDay.xAxis=
-gui.reports.requestsPerDay.yAxis=# Demandes
+gui.reports.requestsPerDay.title=Requêtes par jour
+gui.reports.requestsPerDay.xAxis=Axe des abscisses
+gui.reports.requestsPerDay.yAxis=Axe des ordonnées
 
 #
 #  console errors
 #
 con.err.usernameExists=Cet utilisateur existe déjà
 con.err.emailExists=Cette adresse mail existe déjà
-con.err.errorCreatingUser=Erreur lors la création de l'utilisateur...
-con.err.errorDeletingUser=Erreur lors de la suppression de l'utilisateur...
+con.err.errorCreatingUser=Erreur lors la création de l’utilisateur...
+con.err.errorDeletingUser=Erreur lors de la suppression de l’utilisateur...
 con.err.directoryNotInColl=Désolé, ce répertoire ne fait pas partie de votre collection
-con.err.pathNotExist=%1 n'existe pas...
-con.err.propertyDoesntExist=La propriété n'existe pas...
+con.err.pathNotExist=%1 n’existe pas...
+con.err.propertyDoesntExist=La propriété n’existe pas...
+con.err.invalidUserId=Identifiant d’utilisateur incorrect...
 
 #
 #  console messages
 #
-con.msg.userCreated=Utilisateur créé !
-con.msg.userDeleted=Utilisateur détruit !
-con.msg.directoryDeleted=Répertoire enlevé !
-con.msg.propertySaved=Propriété sauvée !
-con.msg.propertyDeleted=Propriété enlevée !
-con.msg.directoryAdded=Répertoire ajouté !
+con.msg.userCreated=Utilisateur créé&nbsp;!
+con.msg.userDeleted=Utilisateur détruit&nbsp;!
+con.msg.directoryDeleted=Répertoire enlevé&nbsp;!
+con.msg.propertySaved=Propriété sauvée&nbsp;!
+con.msg.propertyDeleted=Propriété enlevée&nbsp;!
+con.msg.directoryAdded=Répertoire ajouté&nbsp;!
+con.msg.userUpdated=Utilisateur mis à jour&nbsp;!
 
 #
 #  console command descriptions
 #
-con.desc.addDirectory=ajoute un répertoire à la collection
-con.desc.removeDirectory=enlève un répertoire de la collection
-con.desc.listDirectories=liste les répertoires de la collection
-con.desc.exit=quitte l'application
-con.desc.listProperties=liste les propriétés
-con.desc.setProperty=affecte une valeur à une propriété
-con.desc.listUsers=liste les utilisateurs inscrits
-con.desc.addUser=ajoute un utilisateur
-con.desc.deleteUser=supprime un utilisateur à partir de son identifiant
-con.desc.commands=Commandes :
-con.desc.delProperty=supprime une propriété
-con.desc.version=affiche la version en cours
+con.desc.addDirectory=ajouter un répertoire à la collection
+con.desc.removeDirectory=enlever un répertoire de la collection
+con.desc.listDirectories=lister les répertoires de la collection
+con.desc.exit=quitter l’application
+con.desc.listProperties=lister les propriétés
+con.desc.setProperty=affecter une valeur à une propriété
+con.desc.listUsers=lister les utilisateurs inscrits
+con.desc.addUser=ajouter un utilisateur
+con.desc.deleteUser=supprimer un utilisateur à partir de son identifiant
+con.desc.commands=Commandes&nbsp;:
+con.desc.delProperty=supprimer une propriété
+con.desc.version=afficher la version en cours
+con.desc.rescanCollection=réanalyser la collection maintenant
 
 #
 #  misc messages
 #
 misc.msg.updateAvailable=Une nouvelle version de Sockso est disponible (%1) 
- 
