@@ -48,8 +48,8 @@ public class DefaultCoverer extends BaseCoverer {
         final Locale locale = getLocale();
 
         return coverCache.isCached( noCoverId ) 
-	    ? coverCache.getCoverArt(noCoverId)
-            : new CoverArt(noCoverId, CoverArt.createNoCoverImage(locale));
+                ? coverCache.getCoverArt(noCoverId) 
+                : new CoverArt(noCoverId, CoverArt.createNoCoverImage(locale));
 
     }
     

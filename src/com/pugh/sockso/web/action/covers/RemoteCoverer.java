@@ -15,7 +15,7 @@ public class RemoteCoverer extends BaseCoverer {
 
     @Inject
     public RemoteCoverer( CoverSearch cs ) {
-	this.search = cs;
+        this.search = cs;
     }
 
     /**

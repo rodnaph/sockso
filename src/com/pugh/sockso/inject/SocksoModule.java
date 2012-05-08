@@ -58,7 +58,7 @@ public class SocksoModule extends AbstractModule {
         bind( Server.class ).to( getWebServerClass() );
         bind( Manager.class ).to( getManagerClass() );
         bind( Locale.class ).toProvider( LocaleProvider.class );
-	bind( CoverSearch.class ).to( AmazonCoverSearch.class );
+        bind( CoverSearch.class ).to( AmazonCoverSearch.class );
         
     }
     
