@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.google.inject.Inject;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
@@ -32,6 +33,7 @@ public class AmazonCoverSearch extends AbstractCoverSearch {
 
     protected static final Logger log = Logger.getLogger( AbstractCoverSearch.class );
 
+    @Inject
     public AmazonCoverSearch( final Database db ) {
 
         super( db );

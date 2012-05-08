@@ -21,6 +21,8 @@ import com.pugh.sockso.music.indexing.TrackIndexer;
 import com.pugh.sockso.resources.FileResources;
 import com.pugh.sockso.resources.JarResources;
 import com.pugh.sockso.resources.Resources;
+import com.pugh.sockso.web.action.AmazonCoverSearch;
+import com.pugh.sockso.web.action.CoverSearch;
 import com.pugh.sockso.web.HttpServer;
 import com.pugh.sockso.web.HttpsServer;
 import com.pugh.sockso.web.Server;
@@ -56,6 +58,7 @@ public class SocksoModule extends AbstractModule {
         bind( Server.class ).to( getWebServerClass() );
         bind( Manager.class ).to( getManagerClass() );
         bind( Locale.class ).toProvider( LocaleProvider.class );
+	bind( CoverSearch.class ).to( AmazonCoverSearch.class );
         
     }
     

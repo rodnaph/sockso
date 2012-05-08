@@ -22,11 +22,9 @@ public class DefaultCovererTest extends SocksoTestCase {
         assertTrue( coverer.serveCover("") );
     }
 
-    public void testCoverIsAddedToResponse() throws Exception {
-    }
-
 }
 
 class NeuteredDefaultCoverer extends DefaultCoverer {
+    @Override
     protected void serveCover( final CoverArt cover, final String itemName, final boolean addToCache) throws IOException {}
 }

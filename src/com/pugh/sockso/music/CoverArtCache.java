@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import com.google.inject.Singleton;
 
 @Singleton
-public class CoverArtCache {
+public class CoverArtCache implements ImageCache {
 
     public static final String[] CACHE_IMAGE_EXTENSIONS = {"jpg", "gif", "png"};
     public static final String DEFAULT_IMAGE_TYPE = "jpg";

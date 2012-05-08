@@ -21,8 +21,13 @@ public class DefaultCoverer extends BaseCoverer {
 
     public boolean serveCover( final String itemName ) throws IOException {
         
-        serveCover( getNoCoverArt(), "noCover", false );
-        
+        final Locale locale = getLocale();
+        final String noCoverId = "nocover-" + locale.getLangCode();
+
+        boolean coverIsCached = coverCache.isCached( noCoverId );
+        CoverArt cover = getNoCoverArt( noCoverId );
+
+        serveCover( cover, "noCover", coverIsCached );
         return true;
         
     }
@@ -30,19 +35,20 @@ public class DefaultCoverer extends BaseCoverer {
     /**
      *  Returns the image to use to indicate no cover art was found
      * 
+     *  @param itemName
+     *
      *  @return
      * 
      *  @throws IOException 
      * 
      */
 
-    protected CoverArt getNoCoverArt() throws IOException {
+    protected CoverArt getNoCoverArt( String noCoverId ) throws IOException {
 
         final Locale locale = getLocale();
-        final String noCoverId = "nocover-" + locale.getLangCode();
 
-        return coverCache.isCached( noCoverId )
-            ? coverCache.getCoverArt(noCoverId)
+        return coverCache.isCached( noCoverId ) 
+	    ? coverCache.getCoverArt(noCoverId)
             : new CoverArt(noCoverId, CoverArt.createNoCoverImage(locale));
 
     }
