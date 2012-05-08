@@ -1,6 +1,7 @@
 
 package com.pugh.sockso;
 
+import com.pugh.sockso.cache.ObjectCacheGC;
 import com.pugh.sockso.inject.SocksoModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;

@@ -1,7 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
-import com.pugh.sockso.ObjectCache;
+import com.pugh.sockso.cache.ObjectCache;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.BadRequestException;

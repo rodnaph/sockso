@@ -1,5 +1,5 @@
 
-package com.pugh.sockso;
+package com.pugh.sockso.cache;
 
 import com.pugh.sockso.tests.SocksoTestCase;
 
