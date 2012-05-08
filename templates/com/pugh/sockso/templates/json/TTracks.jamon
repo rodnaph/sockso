@@ -18,16 +18,16 @@
         <%if !firstItem %>,</%if>
 {
         id: <% track.getId() %>,
-        name: '<% Utils.escapeJs(track.getName()) %>',
+        name: "<% Utils.escapeJs(track.getName()) %>",
 
         artist: {
             id: <% track.getArtist().getId() %>,
-            name: '<% Utils.escapeJs(track.getArtist().getName()) %>'
+            name: "<% Utils.escapeJs(track.getArtist().getName()) %>"
         },
 
         album: {
             id: <% track.getAlbum().getId() %>,
-            name: '<% Utils.escapeJs(track.getAlbum().getName()) %>'
+            name: "<% Utils.escapeJs(track.getAlbum().getName()) %>"
         }
 }
         <%java>

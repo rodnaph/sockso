@@ -6,9 +6,11 @@
  */
 
 function Folder( name, path ) {
-    this.name = name;
-    this.path = decodeURIComponent(path);
-    this.isFolder = true;
+    return {
+        name: name,
+        path: decodeURIComponent(path),
+        isFolder: true
+    };
 }
 
 /**
@@ -18,9 +20,11 @@ function Folder( name, path ) {
  */
 
 function File( name, path ) {
-    this.name = name;
-    this.path = decodeURIComponent(path).replace( /\\/g, '/' );
-    this.isFolder = false;
+    return {
+        name: name,
+        path: decodeURIComponent(path).replace( /\\/g, '/' ),
+        isFolder: false
+    };
 }
 
 /**

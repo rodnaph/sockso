@@ -47,7 +47,7 @@ public class DBExporterTest extends SocksoTestCase {
         
         DBExporter exporter = new DBExporter( getTestDatabase() );
         String expected = "[\r\n" +
-                          "{'name': 'value','another': 'some & value < >'}]";
+                          "{\"name\": \"value\",\"another\": \"some & value < >\"}]";
         String actual = exporter.export( "", DBExporter.Format.JSON );
 
         System.out.println( "Expected: " + expected + "END" );

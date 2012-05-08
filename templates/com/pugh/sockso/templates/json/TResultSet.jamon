@@ -34,7 +34,7 @@ try {
                 jamonWriter.write( "," );
             if ( columnValue == null )
                 columnValue = "";
-            jamonWriter.write( "'" +Utils.escapeJs(columnName)+ "': '" +Utils.escapeJs(columnValue)+ "'" );
+            jamonWriter.write( "\"" +Utils.escapeJs(columnName)+ "\": \"" +Utils.escapeJs(columnValue)+ "\"" );
         }
 
         jamonWriter.write( "}" );
