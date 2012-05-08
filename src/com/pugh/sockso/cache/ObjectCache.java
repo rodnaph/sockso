@@ -1,5 +1,5 @@
 
-package com.pugh.sockso;
+package com.pugh.sockso.cache;
 
 import com.google.inject.Singleton;
 
@@ -9,7 +9,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 @Singleton
-public class ObjectCache {
+public class ObjectCache implements Cache {
 
     private static final Logger log = Logger.getLogger( ObjectCache.class );
 

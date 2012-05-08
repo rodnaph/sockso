@@ -1,7 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
-import com.pugh.sockso.ObjectCache;
+import com.pugh.sockso.cache.ObjectCache;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.web.*;
 import com.pugh.sockso.Utils;
