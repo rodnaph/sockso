@@ -1,7 +1,7 @@
 
 package com.pugh.sockso.tests;
 
-import com.pugh.sockso.ObjectCache;
+import com.pugh.sockso.cache.ObjectCache;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.MyHttpURLConnection;
 import com.pugh.sockso.tests.SocksoTestCase;

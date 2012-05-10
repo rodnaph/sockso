@@ -181,18 +181,18 @@ public class JsonerTest extends SocksoTestCase {
 
     public void testGettingTracksForAPathOutputsAllThatMatch() throws Exception {
         String json = getTracksForPath();
-        assertContains( json, "'1'" );
-        assertContains( json, "'2'" );
+        assertContains( json, "\"1\"" );
+        assertContains( json, "\"2\"" );
     }
 
     public void testGettingTracksForAPathDoesntReturnTracksThatDontMatch() throws Exception {
         String json = getTracksForPath();
-        assertNotContains( json, "'3'" );
+        assertNotContains( json, "\"3\"" );
     }
 
     public void testGettingTracksForAPathReturnsTheTracksOrderedByTheFullPath() throws Exception {
         String json = getTracksForPath();
-        if ( json.indexOf("'2'") > json.indexOf("'1'") ) {
+        if ( json.indexOf("\"2\"") > json.indexOf("\"1\"") ) {
             fail( "Track 2 should have been ordered before track 1" );
         }
     }

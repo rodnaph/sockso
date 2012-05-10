@@ -9,6 +9,6 @@
 </%args>
 
 {
-    id: '<% track.getId() %>',
-    name: '<% Utils.u2e(Utils.escapeJs(track.getName())) #n %>'
+    id: "<% track.getId() %>",
+    name: "<% Utils.u2e(Utils.escapeJs(track.getName())) #n %>"
 }

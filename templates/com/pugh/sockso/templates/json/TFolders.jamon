@@ -17,9 +17,9 @@
         <%if !file.getName().substring(0,1).equals(".") %>
             <%if !firstItem %>,</%if><%java>firstItem = false;</%java>
             <%if file.isDirectory() %>
-                new Folder( '<% Utils.u2e(Utils.escapeJs(file.getName())) #n %>', '<% Utils.URLEncode(file.getPath()).replace("+","%20") #n %>' )
+                Folder( "<% Utils.u2e(Utils.escapeJs(file.getName())) #n %>", "<% Utils.URLEncode(file.getPath()).replace("+","%20") #n %>" )
             <%else>
-                new File( '<% Utils.u2e(Utils.escapeJs(file.getName())) #n %>', '<% Utils.URLEncode(file.getPath()).replace("+","%20") #n %>' )
+                File( "<% Utils.u2e(Utils.escapeJs(file.getName())) #n %>", "<% Utils.URLEncode(file.getPath()).replace("+","%20") #n %>" )
             </%if>
         </%if>
     </%for>

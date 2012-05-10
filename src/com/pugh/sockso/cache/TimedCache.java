@@ -1,30 +1,17 @@
 
-package com.pugh.sockso;
-
-import com.google.inject.Singleton;
-
-import java.util.HashMap;
-import java.util.Set;
+package com.pugh.sockso.cache;
 
 import org.apache.log4j.Logger;
 
-@Singleton
-public class ObjectCache {
-
-    private static final Logger log = Logger.getLogger( ObjectCache.class );
-
-    private HashMap<String,CachedObject> data;
-
-    /**
-     *  Create a new object cache
-     *
-     */
+/**
+ *  Timed cached implements simple cache with optional timeout for keys.  At
+ *  the moment this is implemented through extension, but might be a good idea
+ *  at some point to refactor to use composition instead.
+ * 
+ */
+abstract public class TimedCache implements Cache {
     
-    public ObjectCache() {
-
-        data = new HashMap<String,CachedObject>();
-        
-    }
+    private static final Logger log = Logger.getLogger( ObjectCache.class );
 
     /**
      *  Indicates if the key is cached
@@ -40,7 +27,7 @@ public class ObjectCache {
         final CachedObject object = readRaw( key );
         final boolean isCached = isCacheOk( object );
 
-        log.debug( "Cache " +(isCached ? "hit" : "miss")+ " for " +key );
+        log.debug( "TimedCache " +(isCached ? "hit" : "miss")+ " for " +key );
 
         return isCached;
         
@@ -77,7 +64,7 @@ public class ObjectCache {
             ( timeout != -1 ? " expires in " +timeout+ " seconds" : "" )
         );
 
-        data.put( key, new CachedObject( value, timeout ) );
+        writeRaw( key, new CachedObject( value, timeout ) );
         
     }
 
@@ -116,7 +103,7 @@ public class ObjectCache {
     }
 
     /**
-     *  Does a raw read on the internal data store
+     *  Does a raw read on the internal data store, returns null on cache miss
      *
      *  @param key
      *
@@ -124,36 +111,16 @@ public class ObjectCache {
      *
      */
 
-    private synchronized CachedObject readRaw( final String key ) {
+    abstract protected CachedObject readRaw( final String key );
 
-        return data.get( key );
-
-    }
-    
     /**
-     *  Returns an enumeration of all the keys in the cache
+     *  Performs a raw write for a cached object
      * 
-     *  @return 
+     *  @param key
+     *  @param object 
      * 
      */
-    
-    public Set<String> getKeys() {
-        
-        return data.keySet();
-        
-    }
-    
-    /**
-     *  Deletes a key and it's value from the cache
-     * 
-     *  @param key 
-     * 
-     */
-    
-    public void delete( final String key ) {
-        
-        data.remove( key );
-        
-    }
 
+    abstract protected void writeRaw( final String key, final CachedObject object );
+    
 }
