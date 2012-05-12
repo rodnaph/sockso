@@ -15,10 +15,9 @@
 [
     <%for final Artist artist : artists %>
         <%if !firstItem %>,</%if><%java>firstItem = false;</%java>
-        new MusicItem(
-            "ar<% artist.getId() %>",
-            "<% Utils.escapeJs(artist.getName()) %>",
-            null
-        )
+        {
+            "id": "ar<% artist.getId() %>",
+            "name": "<% Utils.escapeJs(artist.getName()) %>"
+        }
     </%for>
 ]

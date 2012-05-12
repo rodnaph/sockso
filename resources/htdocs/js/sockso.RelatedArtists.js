@@ -35,16 +35,14 @@ sockso.RelatedArtists = function( options ) {
             currentRequest.abort();
         }
 
-        currentRequest = $.ajax({
-            type: 'GET',
-            url: Properties.getUrl('/json/similarArtists/' +artistId),
-            success: function( responseText ) {
+        currentRequest = $.getJSON(
+            Properties.getUrl( '/json/similarArtists/' +artistId ),
+            {},
+            function( artists ) {
                 currentRequest = null;
-                var artists = null;
-                eval( 'artists = ' +responseText );
                 callback( artists );
             }
-        });
+        );
 
     };
 
