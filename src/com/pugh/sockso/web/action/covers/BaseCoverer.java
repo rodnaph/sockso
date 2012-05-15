@@ -4,7 +4,7 @@ package com.pugh.sockso.web.action.covers;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
-import com.pugh.sockso.music.CoverArtCache;
+import com.pugh.sockso.cache.CoverArtCache;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;

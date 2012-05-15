@@ -1,5 +1,6 @@
-package com.pugh.sockso.music;
+package com.pugh.sockso.cache;
 
+import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.tests.SocksoTestCase;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,7 +29,10 @@ public class CoverArtCacheTest extends SocksoTestCase {
 
     public void testIsCached() throws IOException {
         String itemName = "al123";
-        BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
+        System.err.println(System.getProperty( "user.home") );
+        File f = new File("test/data/covers/" + itemName + ".jpg");
+        System.err.println(f.toString());
+        BufferedImage image = ImageIO.read(f);
         CoverArt coverArt = new CoverArt(itemName, image);
 
         cache.addToCache(coverArt);

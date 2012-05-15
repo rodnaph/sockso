@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  */
 abstract public class TimedCache implements Cache {
     
-    private static final Logger log = Logger.getLogger( ObjectCache.class );
+    private static final Logger log = Logger.getLogger( TimedCache.class );
 
     /**
      *  Indicates if the key is cached

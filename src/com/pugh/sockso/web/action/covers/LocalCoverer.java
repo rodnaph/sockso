@@ -6,7 +6,7 @@ import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
-import com.pugh.sockso.music.CoverArtCache;
+import com.pugh.sockso.cache.CoverArtCache;
 
 import java.awt.image.BufferedImage;
 

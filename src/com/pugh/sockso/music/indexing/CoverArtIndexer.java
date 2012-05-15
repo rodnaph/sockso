@@ -2,7 +2,7 @@ package com.pugh.sockso.music.indexing;
 
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.music.CoverArt;
-import com.pugh.sockso.music.CoverArtCache;
+import com.pugh.sockso.cache.CoverArtCache;
 import com.pugh.sockso.Properties;
 
 import java.io.IOException;
