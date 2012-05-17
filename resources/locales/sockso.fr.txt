@@ -1,9 +1,9 @@
 #
 #  web errors
 #
-www.error.title=Badaboum big-bada-big-badaboum&nbsp;!
+www.error.title=Badaboum big-bada-big-badaboum !
 www.error.stackTrace=Trace de la pile d’exécution
-www.error.desc=Sockso dit que...
+www.error.desc=Sockso dit que
 www.error.unknownRequest=il ne sait pas comment faire ce que vous avez demandé
 www.error.unknownUser=l’utilisateur n’est pas inscrit
 www.error.passwordIncorrect=votre mot de passe est incorrect
@@ -32,12 +32,12 @@ www.error.coversDisabled=les pochettes sont désactivées
 www.error.remoteErrorDesc=Désolé, cette page n’existe pas. Il semble que le lien sur <a href="%1%2">%2</a> soit périmé. Vous pourriez en avertir le responsable pour qu’il mette à jour le lien.
 www.error.localErrorDesc=Désolé, cette page n’existe pas. Il semble que vous avez suivi un lien invalide dans Sockso. Si vous pensez qu’il s’agit d’un bug, merci de <a href="http://forums.pu-gh.com">le signaler</a>.
 www.error.noRefererErrorDesc=Désolé, cette page n’existe pas. Il semble que vous ayez soit copié-collé une URL incorrecte soit suivi un marque-page périmé.
-www.error.nothingToPlay=Il faudrait déjà choisir un truc à jouer, andouille&nbsp;!
-www.error.nothingToDownload=Il faudrait déjà choisir un truc à envoyer, gros malin&nbsp;!
-www.error.nothingToShare=Il faudrait déjà choisir un truc à partager, dugenou&nbsp;!
+www.error.nothingToPlay=Il faudrait déjà choisir un truc à jouer, andouille !
+www.error.nothingToDownload=Il faudrait déjà choisir un truc à envoyer, gros malin !
+www.error.nothingToShare=Il faudrait déjà choisir un truc à partager, dugenou !
 www.error.passwordsDontMatch=Les mots de passe ne correspondent pas
 www.error.notAnAdmin=Vous devez être administrateur pour faire cela.
-www.error.loginFailed=Connexion impossible&nbsp;: les informations entrées sont incorrectes ou votre compte est désactivé
+www.error.loginFailed=Connexion impossible : les informations entrées sont incorrectes ou votre compte est désactivé
 
 #
 #  json messages
@@ -87,16 +87,16 @@ www.title.latestArtists=Artistes les plus récents
 www.title.share=Partager
 www.title.login=Connexion
 www.title.register=Inscription
-www.title.registerComplete=Inscription terminée&nbsp;!
+www.title.registerComplete=Inscription terminée !
 www.title.upload=Envoi de musique
 www.title.uploadComplete=Envoi terminé
 www.title.recentlyPlayedAlbums=Albums joués récemment
 www.title.editProfile=Votre profil
-www.title.userUpdated=Profil mis à jour&nbsp;!
+www.title.userUpdated=Profil mis à jour !
 www.title.recentUsers=Utilisateurs récents
 www.title.latestAlbums=Derniers albums
 www.title.sharePopup=Sockso – Partageons la musique
-www.title.activationRequired=Activation requise&nbsp;!
+www.title.activationRequired=Activation requise !
 
 #
 #  web admin
@@ -108,19 +108,19 @@ www.admin.title.console=Sockso – Console d’administration
 #
 www.text.loggedInAs=Connecté en tant que
 www.text.noResults=Aucun résultat...
-www.text.uploadComplete=Merci pour cette plage, elle est maintenant dans la collection&nbsp;!
+www.text.uploadComplete=Merci pour cette plage, elle est maintenant dans la collection !
 www.text.noCover=Pochette introuvable...
 www.text.userUpdated=Les détails vous concernant ont été mis à jour.
-www.text.confirmLogout=Êtes-vous sûr de vouloir vous déconnecter&nbsp;?
-www.text.confirmScrobbleLog=Quand vous créez votre journal d’écoute, tous vos morceaux vont être indiqués comme écoutés. Êtes-vous sûr de vouloir le créer maintenant&nbsp;?
+www.text.confirmLogout=Êtes-vous sûr de vouloir vous déconnecter ?
+www.text.confirmScrobbleLog=Quand vous créez votre journal d’écoute, tous vos morceaux vont être indiqués comme écoutés. Êtes-vous sûr de vouloir le créer maintenant ?
 www.text.recentUsersInfo=(Utilisateurs qui ont joué une plage au cours des 5 dernières minutes)
-www.text.about=<a href="http://sockso.pu-gh.com">Sockso</a> est un serveur de musique personnel <a href="http://www.gnu.org/licenses/gpl.txt">libre</a> et <em><a href="http://sockso.pu-gh.com/source">open-source</a></em>&nbsp;!
+www.text.about=<a href="http://sockso.pu-gh.com">Sockso</a> est un serveur de musique personnel <a href="http://www.gnu.org/licenses/gpl.txt">libre</a> et <em><a href="http://sockso.pu-gh.com/source">open-source</a></em> !
 www.text.share=Pour partager votre musique, vous pouvez ajouter un lecteur en flash à votre site web en utilisant le code HTML suivant...
 www.text.login=Si vous vous avez un compte, entrez les informations demandées ci-dessous pour vous identifier. Sinon, veuillez<a href="%1"> vous enregistrer</a>.
-www.text.register=Si vous voulez vous connecter, il faut au préalable que vous vous créiez un compte. Entrez les informations voulues ci-dessous, cliquez sur le bouton <b>Enregistrement</b> et le tour est joué&nbsp;!
-www.text.registerComplete=Bien joué,%1&nbsp;! Votre compte est maintenant créé et vous êtes connecté&nbsp;; à vous la musique&nbsp;!
+www.text.register=Si vous voulez vous connecter, il faut au préalable que vous vous créiez un compte. Entrez les informations voulues ci-dessous, cliquez sur le bouton <b>Enregistrement</b> et le tour est joué !
+www.text.registerComplete=Bien joué,%1 ! Votre compte est maintenant créé et vous êtes connecté ; à vous la musique !
 www.text.emptyPlaylist=Votre liste de lecture est actuellement vide. Pour y ajouter des plages, cliquez sur les icônes bleues <img src="/file/skins/%1/images/add.png" /> accompagnant les chansons, albums, etc.
-www.text.activationRequired=Merci&nbsp;! Vos informations sont enregistrées mais votre compte doit être activé. L’administrateur devrait vous envoyer un courriel dès que votre compte le sera.
+www.text.activationRequired=Merci ! Vos informations sont enregistrées mais votre compte doit être activé. L’administrateur devrait vous envoyer un courriel dès que votre compte le sera.
 
 #
 #  web labels
@@ -145,8 +145,8 @@ www.label.save=Sauver
 #
 #  www confirm prompts
 #
-www.confirm.deletePlaylist=Êtes-vous sûr de vouloir supprimer cette liste de lecture&nbsp;?
-www.confirm.playlistName=Comment voulez-vous nommer cette liste de lecture&nbsp;?
+www.confirm.deletePlaylist=Êtes-vous sûr de vouloir supprimer cette liste de lecture ?
+www.confirm.playlistName=Comment voulez-vous nommer cette liste de lecture ?
 
 #
 #  gui window titles
@@ -158,7 +158,7 @@ gui.window.console= Sockso – Console
 #
 #  gui labels
 #
-gui.label.portForward=Configuration NAT (expérimental&nbsp;!)
+gui.label.portForward=Configuration NAT (expérimental !)
 gui.label.exit=Quitter
 gui.label.hide=Cacher
 gui.label.options=Options
@@ -194,33 +194,33 @@ gui.label.port=Port
 gui.label.basepath=Racine du serveur
 gui.label.wwwTitle=Titre
 gui.label.wwwTagline=Slogan
-gui.label.disableDownloads=Interdire les téléchargements&nbsp;?
-gui.label.scanOnStartup=Mettre à jour au démarrage&nbsp;?
-gui.label.scanCoverArt=Rechercher les pochettes&nbsp;?
+gui.label.disableDownloads=Interdire les téléchargements ?
+gui.label.scanOnStartup=Mettre à jour au démarrage ?
+gui.label.scanCoverArt=Rechercher les pochettes ?
 gui.label.scanInterval=Intervalle de mise à jour (en minutes)
 gui.label.uploads=Envois
-gui.label.enableUploads=Autoriser les envois&nbsp;?
-gui.label.anonymousUploads=Sans authentification nécessaire&nbsp;?
+gui.label.enableUploads=Autoriser les envois ?
+gui.label.anonymousUploads=Sans authentification nécessaire ?
 gui.label.uploadsDirectory=Répertoire
 gui.label.general=Général
-gui.label.startMinimized=Démarrer réduit&nbsp;?
-gui.label.confirmExit=Confirmer avant de quitter&nbsp;?
+gui.label.startMinimized=Démarrer réduit ?
+gui.label.confirmExit=Confirmer avant de quitter ?
 gui.label.natSetup=Configuration NAT
 gui.label.logging=Journal
-gui.label.enableRequestLog=Journaliser les requêtes&nbsp;?
-gui.label.exportRequestLogAs=Exporter en tant que&nbsp;:
+gui.label.enableRequestLog=Journaliser les requêtes ?
+gui.label.exportRequestLogAs=Exporter en tant que :
 gui.label.export=Exporter
 gui.label.import=Importer
 gui.label.consoleCommandGo=Exécuter
 gui.label.showReportsWindow=Rapports
 gui.label.showConsoleWindow=Console
-gui.label.enableFolderBrowsing=Autoriser la navigation à travers les répertoires&nbsp;?
+gui.label.enableFolderBrowsing=Autoriser la navigation à travers les répertoires ?
 gui.label.clearRequestLog=Vider (%1 enregistrements)
 gui.label.tracks=Plages
 gui.label.playlists=Listes de lecture
 gui.label.userPlaylists=Listes de lecture utilisateur
 gui.label.rescanCollection=Analyser maintenant
-gui.label.isAdmin=Administrateur&nbsp;?
+gui.label.isAdmin=Administrateur ?
 gui.label.community=Communauté
 gui.label.communityEnabled=Lister mon serveur dans la communauté Sockso
 gui.label.scanEntireCollection=Toute la collection
@@ -255,12 +255,12 @@ gui.tooltip.encoders=Options d’encodage
 #
 #  gui messages
 #
-gui.message.natTestOk=Succès du test NAT. Votre configuration semble correcte&nbsp;!
+gui.message.natTestOk=Succès du test NAT. Votre configuration semble correcte !
 gui.message.natTestFailed=Échec du test NAT...
-gui.message.exportComplete=Export terminé&nbsp;!
-gui.message.confirmClearRequestLog=L’annulation est impossible&nbsp;: êtes-vous sûr(e) de vouloir vider le journal&nbsp;?
-gui.message.requestLogCleared=Journal vidé&nbsp;!
-gui.message.playlistImported=Liste de lecture importée&nbsp;!
+gui.message.exportComplete=Export terminé !
+gui.message.confirmClearRequestLog=L’annulation est impossible : êtes-vous sûr(e) de vouloir vider le journal ?
+gui.message.requestLogCleared=Journal vidé !
+gui.message.playlistImported=Liste de lecture importée !
 gui.message.playlistImportFailed=L’import a échoué...
 
 #
@@ -288,13 +288,13 @@ con.err.invalidUserId=Identifiant d’utilisateur incorrect...
 #
 #  console messages
 #
-con.msg.userCreated=Utilisateur créé&nbsp;!
-con.msg.userDeleted=Utilisateur détruit&nbsp;!
-con.msg.directoryDeleted=Répertoire enlevé&nbsp;!
-con.msg.propertySaved=Propriété sauvée&nbsp;!
-con.msg.propertyDeleted=Propriété enlevée&nbsp;!
-con.msg.directoryAdded=Répertoire ajouté&nbsp;!
-con.msg.userUpdated=Utilisateur mis à jour&nbsp;!
+con.msg.userCreated=Utilisateur créé !
+con.msg.userDeleted=Utilisateur détruit !
+con.msg.directoryDeleted=Répertoire enlevé !
+con.msg.propertySaved=Propriété sauvée !
+con.msg.propertyDeleted=Propriété enlevée !
+con.msg.directoryAdded=Répertoire ajouté !
+con.msg.userUpdated=Utilisateur mis à jour !
 
 #
 #  console command descriptions
@@ -308,7 +308,7 @@ con.desc.setProperty=affecter une valeur à une propriété
 con.desc.listUsers=lister les utilisateurs inscrits
 con.desc.addUser=ajouter un utilisateur
 con.desc.deleteUser=supprimer un utilisateur à partir de son identifiant
-con.desc.commands=Commandes&nbsp;:
+con.desc.commands=Commandes :
 con.desc.delProperty=supprimer une propriété
 con.desc.version=afficher la version en cours
 con.desc.rescanCollection=réanalyser la collection maintenant
