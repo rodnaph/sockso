@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  */
 abstract public class TimedCache implements Cache {
     
-    private static final Logger log = Logger.getLogger( ObjectCache.class );
+    private static final Logger log = Logger.getLogger( TimedCache.class );
 
     /**
      *  Indicates if the key is cached
@@ -22,9 +22,14 @@ abstract public class TimedCache implements Cache {
      *
      */
 
-    public boolean isCached( final String key ) {
+    public boolean isCached( final String key ) throws CacheException {
 
-        final CachedObject object = readRaw( key );
+        final CachedObject object;
+        try {
+            object = readRaw( key );
+        } catch ( Exception e ) {
+            throw new CacheException(e);
+        }
         final boolean isCached = isCacheOk( object );
 
         log.debug( "TimedCache " +(isCached ? "hit" : "miss")+ " for " +key );
@@ -42,7 +47,7 @@ abstract public class TimedCache implements Cache {
      *
      */
 
-    public void write( final String key, final Object value ) {
+    public void write( final String key, final Object value ) throws CacheException {
 
         write( key, value, -1 );
 
@@ -57,14 +62,17 @@ abstract public class TimedCache implements Cache {
      *
      */
     
-    public synchronized void write( final String key, final Object value, final int timeout ) {
+    public synchronized void write( final String key, final Object value, final int timeout ) throws CacheException {
 
         log.debug(
             "Write key " +key+
             ( timeout != -1 ? " expires in " +timeout+ " seconds" : "" )
         );
-
-        writeRaw( key, new CachedObject( value, timeout ) );
+        try {
+            writeRaw( key, new CachedObject( value, timeout ) );
+        } catch ( Exception e ) {
+            throw new CacheException(e);
+        }
         
     }
 
@@ -77,9 +85,14 @@ abstract public class TimedCache implements Cache {
      *
      */
     
-    public Object read( final String key ) {
+    public Object read( final String key ) throws CacheException {
         
-        final CachedObject object = readRaw( key );
+        final CachedObject object;
+        try {
+            object = readRaw( key );
+        } catch ( Exception e ) {
+            throw new CacheException( e );
+        }
 
         return isCacheOk( object )
             ? object.getValue()
@@ -111,7 +124,7 @@ abstract public class TimedCache implements Cache {
      *
      */
 
-    abstract protected CachedObject readRaw( final String key );
+    abstract protected CachedObject readRaw( final String key ) throws Exception;
 
     /**
      *  Performs a raw write for a cached object
@@ -121,6 +134,6 @@ abstract public class TimedCache implements Cache {
      * 
      */
 
-    abstract protected void writeRaw( final String key, final CachedObject object );
+    abstract protected void writeRaw( final String key, final CachedObject object ) throws Exception;
     
 }

@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.google.inject.Inject;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
@@ -23,15 +24,16 @@ import org.apache.log4j.Logger;
 
 /**
  *  searches amazon for album covers
- * 
+ *
  *  @author rod
- * 
+ *
  */
 
 public class AmazonCoverSearch extends AbstractCoverSearch {
 
     protected static final Logger log = Logger.getLogger( AbstractCoverSearch.class );
 
+    @Inject
     public AmazonCoverSearch( final Database db ) {
 
         super( db );
@@ -81,49 +83,49 @@ public class AmazonCoverSearch extends AbstractCoverSearch {
 
     /**
      *  searches amazon for an image matching the speficied keywords
-     * 
+     *
      *  @param keywords the search criteria
-     * 
+     *
      *  @return the image url
-     * 
+     *
      *  @throws IOException
-     * 
+     *
      */
 
     protected String getCoverUrl( final String keywords  ) throws IOException {
-        
+
         final String searchUrl = "http://www.amazon.com/s/?url=search-alias%3Dpopular&field-keywords=" + Utils.URLEncode(keywords);
 
         log.debug( "Amazon query: " +searchUrl );
-        
+
         final URL url = new URL( searchUrl );
         final HttpURLConnection cnn = (HttpURLConnection) url.openConnection();
 
         cnn.setRequestMethod( "GET" );
 
         return getCoverFromSearchResults( cnn );
-        
+
     }
-    
+
     /**
      *  read through an amazon search to try and extract the url of a cover image.
      *  if nothing is found then null is returned.
-     * 
+     *
      *  @param cnn
-     * 
+     *
      *  @return
-     * 
+     *
      *  @throws java.io.IOException
-     * 
+     *
      */
-    
+
     protected String getCoverFromSearchResults( final HttpURLConnection cnn ) throws IOException {
-        
+
         String s = "";
         BufferedReader in = null;
-        
+
         try {
-            
+
             in = new BufferedReader(new InputStreamReader(cnn.getInputStream()) );
             while ( (s = in.readLine()) != null ) {
                 final String imageUrl = getCoverFromData( s );
@@ -155,18 +157,18 @@ public class AmazonCoverSearch extends AbstractCoverSearch {
             ".*img src=\"(http://\\w+.images-amazon.com/images/\\w+/.+?_SL.+?_A.+?_\\.(jpg|gif|png))\\\".*",
             ".*img src=\"(http://\\w+.images-amazon.com/images/\\w+/.+?_AA\\d+_\\.(jpg|gif|png))\\\".*"
         };
-        
+
         for ( final String patternString : patterns ) {
-            
+
             final Pattern pattern = Pattern.compile( patternString );
             final Matcher m = pattern.matcher( data );
 
             if ( m.matches() ) {
                 return m.group( 1 );
             }
-            
+
         }
-        
+
         return null;
 
     }

@@ -2,6 +2,7 @@
 package com.pugh.sockso.web;
 
 import com.pugh.sockso.Utils;
+import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.web.action.AudioScrobbler;
@@ -43,7 +44,7 @@ public class RelatedArtists {
      * 
      */
     
-    public Artist[] getRelatedArtistsFor( final int artistId ) throws SQLException, IOException, BadRequestException {
+    public Artist[] getRelatedArtistsFor( final int artistId ) throws SQLException, IOException, BadRequestException, CacheException {
         
         ResultSet rs = null;
         PreparedStatement st = null;

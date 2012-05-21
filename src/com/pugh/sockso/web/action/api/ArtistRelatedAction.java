@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action.api;
 
+import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.RelatedArtists;
 import com.pugh.sockso.web.BadRequestException;
@@ -28,7 +29,7 @@ public class ArtistRelatedAction extends BaseApiAction {
      *
      */
 
-    public void handleRequest() throws BadRequestException, SQLException, IOException {
+    public void handleRequest() throws BadRequestException, SQLException, IOException, CacheException {
 
         final int artistId = Integer.parseInt( getRequest().getUrlParam(2) );
 

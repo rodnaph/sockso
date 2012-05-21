@@ -38,7 +38,7 @@ import org.apache.log4j.PropertyConfigurator;
 import java.util.logging.LogManager;
 
 public class Main {
-    
+
     private static final Logger log = Logger.getLogger( Main.class );
 
     private static volatile boolean shutdownStarted = false;
@@ -87,7 +87,7 @@ public class Main {
             parser.printHelpOn( System.out );
             exit( false );
         }
-        
+
         // print version info?
         if ( options.has(Options.OPT_VERSION) ) {
             System.out.println( "Sockso " +Sockso.VERSION );
@@ -105,9 +105,9 @@ public class Main {
         }
 
         setupAppDirectory();
-        
+
         injector = Guice.createInjector( new SocksoModule(options) );
-        
+
         try {
             db = injector.getInstance( Database.class );
             db.connect( options );
@@ -116,7 +116,7 @@ public class Main {
             log.error( e );
             exit( 1 );
         }
-        
+
         //
         //  final setup from command line options before we try and do
         //  something kinda useful
@@ -144,15 +144,15 @@ public class Main {
 
     /**
      *  performs a database query and outputs the results
-     * 
+     *
      *  @param options
-     * 
+     *
      */
-    
+
     private static void actionQuery( final OptionSet options ) {
 
         BufferedReader in = null;
-        
+
         try {
 
             String sql = "", line = "";
@@ -168,43 +168,43 @@ public class Main {
             // read in query, then output xml
             while ( (line = in.readLine()) != null )
                 sql += line + "\n";
-            
+
             final DBExporter exporter = new DBExporter( db );
             System.out.print(
                 exporter.export( sql, DBExporter.Format.XML )
             );
 
         }
-        
+
         catch ( final IOException e ) {
             log.error( e );
         }
-        
+
         finally { Utils.close(in); }
-        
+
     }
-    
+
     /**
      *  starts sockso normally in either GUI or Console mode
-     * 
+     *
      *  @param options
-     * 
+     *
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
+
     private static void actionDefault( final OptionSet options ) throws Exception {
 
         final boolean useGui = getUseGui( options );
         final String localeString = getLocale( options );
-        
+
         log.info( "Initializing Resources (" + locale + ")" );
         r = injector.getInstance( Resources.class );
         r.init( localeString );
 
         LocaleFactory localeFactory = injector.getInstance( LocaleFactory.class );
         localeFactory.init( localeString );
-        
+
         if ( useGui ) {
             Splash.start( r );
         }
@@ -218,7 +218,7 @@ public class Main {
         sched.start();
 
         indexer = injector.getInstance( Indexer.class );
-        
+
         log.info( "Starting Collection Manager" );
         cm = injector.getInstance( CollectionManager.class );
         indexer.addIndexListener( (DBCollectionManager) cm );
@@ -226,7 +226,7 @@ public class Main {
         injector.getInstance( CommunityUpdater.class ).start();
 
         injector.getInstance( SessionCleaner.class ).init();
-        
+
         injector.getInstance( ObjectCacheGC.class ).start();
 
         final IpFinder ipFinder = injector.getInstance( IpFinder.class );
@@ -237,7 +237,7 @@ public class Main {
 
         dispatcher = injector.getInstance( Dispatcher.class );
         dispatcher.init( protocol, port );
-        
+
         log.info( "Starting Web Server" );
         sv = injector.getInstance( Server.class );
         sv.start( options, port );
@@ -252,35 +252,35 @@ public class Main {
         final VersionChecker versionChecker = injector.getInstance( VersionChecker.class );
         versionChecker.addLatestVersionListener( manager );
         versionChecker.fetchLatestVersion();
-        
+
         manager.open();
 
     }
 
     /**
      *  returns a boolean indicating if we should start the GUI or not
-     * 
+     *
      *  @param options
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     protected static boolean getUseGui( final OptionSet options ) {
 
         return !options.has( Options.OPT_NOGUI );
-        
+
     }
-    
+
     /**
      *  returns the locale to use (eg. "en", "nb", etc...)
-     * 
+     *
      *  @param options
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     protected static String getLocale( final OptionSet options ) {
 
         return options.has( Options.OPT_LOCALE )
@@ -288,7 +288,7 @@ public class Main {
             : Resources.DEFAULT_LOCALE;
 
     }
-    
+
     /**
      *  Returns the protocol to use for web serving
      *
@@ -297,13 +297,13 @@ public class Main {
      *  @return
      *
      */
-    
+
     protected static String getProtocol( final OptionSet options ) {
-        
+
         return options.has( Options.OPT_SSL )
             ? "https"
             : "http";
-        
+
     }
 
     /**
@@ -367,14 +367,14 @@ public class Main {
     public static void exit( int status ) {
         exit( status, true );
     }
-    
+
     public static void exit( boolean showOutput ) {
         exit( 0, showOutput );
     }
-    
+
     /**
-     *  shuts down the application and exits with the specifed exit code
-     * 
+     *  shuts down the application and exits with the specified exit code
+     *
      *  @param status the exit code
      *
      */
@@ -432,7 +432,7 @@ public class Main {
      *  @return
      *
      */
-    
+
     public static void shutdownDatabase() {
 
         // finally shutdown database (do this last so
@@ -444,20 +444,20 @@ public class Main {
         }
 
     }
-    
+
     /**
      *  creates the folder in the users home directory that is used
      *  to store application stuff (the database)
      *
      */
-    
+
     private static void setupAppDirectory() {
-        
+
         final String[] dirs = {
             Utils.getApplicationDirectory(),
             Utils.getCoversDirectory()
         };
-        
+
         for ( final String dir : dirs ) {
             final File file = new File( dir );
             if ( !file.exists() ) {

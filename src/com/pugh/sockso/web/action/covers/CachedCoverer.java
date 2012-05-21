@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action.covers;
 
+import com.pugh.sockso.cache.CacheException;
 import java.io.IOException;
 
 public class CachedCoverer extends BaseCoverer {
@@ -16,7 +17,7 @@ public class CachedCoverer extends BaseCoverer {
      * 
      */
 
-    public boolean serveCover( final String itemName ) throws IOException {
+    public boolean serveCover( final String itemName ) throws IOException, CacheException {
 
         if ( coverCache.isCached(itemName) ) {
             serveCover( 
