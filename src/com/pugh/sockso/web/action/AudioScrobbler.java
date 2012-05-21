@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.cache.ObjectCache;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
@@ -59,7 +60,7 @@ public class AudioScrobbler {
      *
      */
 
-    public String[] getSimilarArtists( final int artistId ) throws IOException, SQLException, BadRequestException {
+    public String[] getSimilarArtists( final int artistId ) throws IOException, SQLException, BadRequestException, CacheException {
 
         final String cacheKey = "web.action.AudioScrobbler.similar." +artistId;
 

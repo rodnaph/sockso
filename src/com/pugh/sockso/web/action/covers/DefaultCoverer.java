@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action.covers;
 
+import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.resources.Locale;
 
@@ -19,7 +20,7 @@ public class DefaultCoverer extends BaseCoverer {
      * 
      */
 
-    public boolean serveCover( final String itemName ) throws IOException {
+    public boolean serveCover( final String itemName ) throws IOException, CacheException {
         
         final Locale locale = getLocale();
         final String noCoverId = "nocover-" + locale.getLangCode();
@@ -43,7 +44,7 @@ public class DefaultCoverer extends BaseCoverer {
      * 
      */
 
-    protected CoverArt getNoCoverArt( String noCoverId ) throws IOException {
+    protected CoverArt getNoCoverArt( String noCoverId ) throws IOException, CacheException {
 
         final Locale locale = getLocale();
 

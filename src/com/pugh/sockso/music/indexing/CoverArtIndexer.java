@@ -5,7 +5,8 @@ import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.cache.CoverArtCache;
 import com.pugh.sockso.Properties;
 
-import java.io.IOException;
+
+import com.pugh.sockso.cache.CacheException;
 
 import org.apache.log4j.Logger;
 
@@ -32,7 +33,7 @@ public class CoverArtIndexer {
             String imgExt = p.get(Constants.DEFAULT_ARTWORK_TYPE, "jpg");
             try {
                 coverCache.addToCache(coverArt);
-            } catch (IOException e) {
+            } catch (CacheException e) {
                 log.error("Could not create cover image file " + coverArt.getItemName() + ": " + e.getMessage());
             }
         }

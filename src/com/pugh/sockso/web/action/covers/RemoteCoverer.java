@@ -4,6 +4,7 @@ package com.pugh.sockso.web.action.covers;
 import com.google.inject.Inject;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.web.action.CoverSearch;
 
@@ -29,7 +30,7 @@ public class RemoteCoverer extends BaseCoverer {
      * 
      */
 
-    public boolean serveCover( final String itemName ) throws IOException {
+    public boolean serveCover( final String itemName ) throws IOException, CacheException {
 
         if ( !getProperties().get(Constants.COVERS_DISABLE_REMOTE_FETCHING).equals(Properties.YES) ) {
 

@@ -27,14 +27,10 @@ public class CoverArtCacheTest extends SocksoTestCase {
         cache = null;
     }
 
-    public void testIsCached() throws IOException {
+    public void testIsCached() throws IOException, CacheException {
         String itemName = "al123";
-        System.err.println(System.getProperty( "user.home") );
-        File f = new File("test/data/covers/" + itemName + ".jpg");
-        System.err.println(f.toString());
-        BufferedImage image = ImageIO.read(f);
+        BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
         CoverArt coverArt = new CoverArt(itemName, image);
-
         cache.addToCache(coverArt);
 
         boolean expResult = true;

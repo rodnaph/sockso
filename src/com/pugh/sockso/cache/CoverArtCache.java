@@ -48,22 +48,18 @@ public class CoverArtCache extends TimedCache {
         return null;
     }
 
-    public void addToCache(final CoverArt cover) throws IOException {
+    public void addToCache(final CoverArt cover) throws CacheException {
         
         CachedObject obj = new CachedObject(cover, -1);
         writeRaw(cover.getItemName(), obj);
     }
 
-    public CoverArt getCoverArt(String itemName) throws IOException {
+    public CoverArt getCoverArt(String itemName) throws CacheException {
         
         CoverArt cover = null;
+        
         CachedObject obj = readRaw(itemName);
-        if(obj != null){
-            cover = (CoverArt) obj.getValue();
-        }
-        else {
-            throw new IOException("Couldn't read object from cache");
-        }
+        cover = (CoverArt) obj.getValue();
 
         return cover;
     }
@@ -83,7 +79,7 @@ public class CoverArtCache extends TimedCache {
     }
 
     @Override
-    protected CachedObject readRaw( String key ) {
+    protected CachedObject readRaw( String key ) throws CacheException {
         
         CachedObject obj = null;
         CoverArt cover = null;
@@ -97,7 +93,7 @@ public class CoverArtCache extends TimedCache {
                 obj = new CachedObject(cover, -1);
             } 
             catch(IOException e) {
-                // TODO
+                throw new CacheException("Error reading image: " + coverFile.toString(), e );
             }
         }
 
@@ -105,7 +101,7 @@ public class CoverArtCache extends TimedCache {
     }
 
     @Override
-    protected void writeRaw( String key, CachedObject object ) {
+    protected void writeRaw( String key, CachedObject object ) throws CacheException {
 
         CoverArt cover = (CoverArt) object.getValue();
         BufferedImage image = cover.getImage();
@@ -114,7 +110,7 @@ public class CoverArtCache extends TimedCache {
         try {
             ImageIO.write(image, extension, imageFile);
         } catch ( IOException e ) {
-            // TODO
+            throw new CacheException("Error w\riting image to file: " + imageFile.toString(), e);
         }
     }
 }
