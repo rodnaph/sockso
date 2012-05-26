@@ -38,8 +38,11 @@ public class ObjectCacheGC extends Thread {
                 Thread.sleep( (1000 * 60) * GC_INTERVAL_IN_MINUTES );
                 
                 log.debug( "Running cleanup" );
-                
-                cleanCache();
+                try {
+                    cleanCache();
+                } catch ( CacheException e ) {
+                    log.error( "Error cleaning cache" , e );
+                }
                 
             }
 
@@ -54,7 +57,7 @@ public class ObjectCacheGC extends Thread {
      * 
      */
     
-    protected void cleanCache() {
+    protected void cleanCache() throws CacheException {
         
         final Set<String> keySet = objectCache.getKeys();
         final String[] keys = keySet.toArray( new String[] {} );

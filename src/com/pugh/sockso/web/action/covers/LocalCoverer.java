@@ -4,9 +4,10 @@ package com.pugh.sockso.web.action.covers;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
+import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.CoverArt;
-import com.pugh.sockso.music.CoverArtCache;
+import com.pugh.sockso.cache.CoverArtCache;
 
 import java.awt.image.BufferedImage;
 
@@ -41,7 +42,7 @@ public class LocalCoverer extends BaseCoverer {
      * 
      */
 
-    public boolean serveCover( final String itemName ) throws SQLException, IOException {
+    public boolean serveCover( final String itemName ) throws SQLException, IOException, CacheException {
 
         final String localPath = getLocalCoverPath( itemName );
 
@@ -65,7 +66,7 @@ public class LocalCoverer extends BaseCoverer {
      *
      */
 
-    protected void serveLocalCover( final String itemName, final String localPath ) throws IOException {
+    protected void serveLocalCover( final String itemName, final String localPath ) throws IOException, CacheException {
 
         final Properties p = getProperties();
         final BufferedImage originalImage = ImageIO.read( new File( localPath ) );

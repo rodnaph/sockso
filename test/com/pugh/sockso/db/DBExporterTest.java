@@ -23,7 +23,8 @@ public class DBExporterTest extends SocksoTestCase {
     public void testExportXml() throws SQLException {
         
         DBExporter exporter = new DBExporter( getTestDatabase() );
-        String expected = "<?xml version=\"1.0\"?>\n\n" +
+        String eol = System.getProperty("line.separator");
+        String expected = "<?xml version=\"1.0\"?>" +eol+eol+
                             "<results><row><name>value</name><another>" +
                             "some &amp; value &lt; &gt;</another></row></results>";        
         String actual = exporter.export( "", DBExporter.Format.XML );

@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.cache.ObjectCache;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.web.*;
@@ -65,7 +66,7 @@ public class Jsoner extends BaseAction {
      * 
      */
     
-    public void handleRequest() throws SQLException, IOException, BadRequestException {
+    public void handleRequest() throws SQLException, IOException, BadRequestException, CacheException {
         
         final Request req = getRequest();
         final String type = req.getUrlParam( 1 );
@@ -141,7 +142,7 @@ public class Jsoner extends BaseAction {
      * 
      */
     
-    protected void similarArtists() throws BadRequestException, SQLException, IOException {
+    protected void similarArtists() throws BadRequestException, SQLException, IOException, CacheException {
         
         final AudioScrobbler scrobbler = new AudioScrobbler( getDatabase(), cache );
         final RelatedArtists related = new RelatedArtists( getDatabase(), scrobbler );

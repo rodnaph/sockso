@@ -34,9 +34,14 @@ class FakeCoverArtCache extends CoverArtCache {
     public boolean isCached( String name ) {
         return isCached;
     }
+    @Override
+    public CoverArt getCoverArt(String item){
+        return new CoverArt(item);
+    }
 }
 
 // does not do any IO
 class NeuteredCachedCoverer extends CachedCoverer {
+    @Override
     protected void serveCover( final CoverArt cover, final String itemName, final boolean addToCache) throws IOException {}
 }

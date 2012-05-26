@@ -10,7 +10,7 @@ public class ObjectCacheGCTest extends SocksoTestCase {
     private ObjectCacheGC ogc;
     
     @Override
-    protected void setUp() {
+    protected void setUp() throws CacheException {
         oc = new ObjectCache();
         oc.write( "foo", "bar", 2 );
         ogc = new ObjectCacheGC( oc );

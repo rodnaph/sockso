@@ -13,7 +13,7 @@ public interface Cache<T> {
      *  @return true if the object is cached, false otherwise
      * 
      */
-    public boolean isCached( final String key );
+    public boolean isCached( final String key ) throws CacheException;
 
     /**
      *  Adds an object to the cache with no timeout (ie. forever)
@@ -24,7 +24,7 @@ public interface Cache<T> {
      *  @throws IOException
      * 
      */
-    public void write( final String key, final T object ) throws IOException;
+    public void write( final String key, final T object ) throws CacheException;
 
     /**
      *  Adds an object to the cache
@@ -36,7 +36,7 @@ public interface Cache<T> {
      *  @throws IOException
      * 
      */
-    public void write( final String key, final T object, final int timeout ) throws IOException;
+    public void write( final String key, final T object, final int timeout ) throws CacheException;
 
     /**
      *  Retrieves an object from the cache
@@ -48,6 +48,6 @@ public interface Cache<T> {
      *  @throws IOException
      * 
      */
-    public T read( final String key ) throws IOException;
+    public T read( final String key ) throws CacheException;
 
 }
