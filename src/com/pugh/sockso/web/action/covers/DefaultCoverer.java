@@ -24,11 +24,11 @@ public class DefaultCoverer extends BaseCoverer {
         
         final Locale locale = getLocale();
         final String noCoverId = "nocover-" + locale.getLangCode();
-
-        boolean coverIsCached = coverCache.isCached( noCoverId );
-        CoverArt cover = getNoCoverArt( noCoverId );
+        final boolean coverIsCached = coverCache.isCached( noCoverId );
+        final CoverArt cover = getNoCoverArt( noCoverId );
 
         serveCover( cover, "noCover", coverIsCached );
+
         return true;
         
     }
