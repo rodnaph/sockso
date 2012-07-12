@@ -155,12 +155,25 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         final int artistId = addArtist( tag.getArtist() );
         final int albumId = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
         final int trackId = addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
-        BufferedImage coverArt = tag.getCoverArt();
-        if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) && coverArt != null) {
-            addCoverArt( trackId, tag.getTrack(), albumId, tag.getAlbum(), coverArt );
+
+        if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) ) {
+            final BufferedImage coverArt = tag.getCoverArt();
+            if ( coverArt != null ) {
+                addCoverArt( trackId, tag.getTrack(), albumId, tag.getAlbum(), coverArt );
+            }
         }
     }
 
+    /**
+     *  Adds cover art extracted from the tag for this track
+     * 
+     *  @param trackId
+     *  @param track
+     *  @param albumId
+     *  @param album
+     *  @param coverArt 
+     * 
+     */
 
     protected void addCoverArt( final int trackId, final String track, final int albumId, final String album, final BufferedImage coverArt ){
 
@@ -182,8 +195,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             coverId = "tr" + trackId;
         }
 
-        CoverArtIndexer coverArtIndexer = new CoverArtIndexer(p);
+        final CoverArtIndexer coverArtIndexer = new CoverArtIndexer(p);
         coverArtIndexer.indexCover(new CoverArt( coverId, coverArt ));
+
     }
 
     /**
@@ -199,6 +213,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         try {
             indexer.scanDirectory( collectionId, directory );
         }
+
         catch ( final Exception e ) {
             log.error( e );
         }

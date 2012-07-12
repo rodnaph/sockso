@@ -69,6 +69,8 @@ public class Constants {
     public static final String WWW_LOG_REQUESTS_ENABLED = "log.requests.enable";
     // meta tags
     public static final String WWW_METATAGS = "www.metatags";
+    // cross-domain requests
+    public static final String WWW_CORS = "www.cors";
     //
     //  collection manager
     //

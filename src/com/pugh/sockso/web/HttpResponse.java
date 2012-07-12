@@ -17,6 +17,7 @@
 
 package com.pugh.sockso.web;
 
+import com.pugh.sockso.Constants;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
@@ -201,17 +202,13 @@ public class HttpResponse implements Response {
 
         out.print( "HTTP/1.0 " +status+ " " +getStatusText(status) + HTTP_EOL );
 
-        // are we using gzip?
-        if ( canGzip && useGzip ) {
-            addHeader( "Content-Encoding", "gzip" );
-        }
+        checkGzip();
+        checkCors();
 
-        // send headers
         for ( final String name : headers.keySet() ) {
             writeHeader( out, name, headers.get(name) );
         }
 
-        // then send cookies if they're enabled
         if ( cookiesEnabled ) {
             for ( final HttpResponseCookie cookie : cookies ) {
                 writeHeader( out, "Set-Cookie", cookie.toString() );
@@ -220,6 +217,34 @@ public class HttpResponse implements Response {
 
         out.print( HTTP_EOL );
         out.flush();
+
+    }
+
+    /**
+     *  Adds gzip header if we are using gzip
+     * 
+     */
+
+    protected void checkGzip() {
+
+        if ( canGzip && useGzip ) {
+            addHeader( "Content-Encoding", "gzip" );
+        }
+
+    }
+
+    /**
+     *  Adds cross-domain header if it is specified
+     * 
+     */
+
+    protected void checkCors() {
+       
+        final String cors = p.get( Constants.WWW_CORS, null );
+
+        if ( cors != null ) {
+            addHeader( "Access-Control-Allow-Origin", cors );
+        }
 
     }
 

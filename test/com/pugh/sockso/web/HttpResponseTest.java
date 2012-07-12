@@ -9,10 +9,11 @@
 
 package com.pugh.sockso.web;
 
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
-import com.pugh.sockso.tests.TestResponse;
 
 import java.io.OutputStream;
 import java.io.IOException;
@@ -31,12 +32,13 @@ public class HttpResponseTest extends SocksoTestCase {
     
     private ResponseStream out = null;
     private HttpResponse res;
-
+    private StringProperties p;
 
     @Override
     public void setUp() {
+        p = new StringProperties();
         out = new ResponseStream();
-        res = new HttpResponse( out, null, null, null, null, false );
+        res = new HttpResponse( out, null, p, null, null, false );
     }
     
     @Override
@@ -156,7 +158,7 @@ public class HttpResponseTest extends SocksoTestCase {
         res.showHtml( getRenderer() );
         assertEquals( true, res.responseSent() );
 
-        HttpResponse res2 = new HttpResponse( out, null, null, null, null, false );
+        HttpResponse res2 = new HttpResponse( out, null, p, null, null, false );
         assertEquals( false, res2.responseSent() );
         res2.redirect( "/" );
         assertEquals( true, res2.responseSent() );
@@ -206,21 +208,35 @@ public class HttpResponseTest extends SocksoTestCase {
     }
     
     public void testGetUsersQuery() throws Exception {
-     
         final Database db = new TestDatabase();
-        final HttpResponse res = new HttpResponse( null, db, null, null, null, false );
-
+        final HttpResponse res = new HttpResponse( null, db, p, null, null, false );
         res.getRecentUsers();
-        
     }
 
     public void testSendingStringTextViaTheResponse() throws IOException {
         StringOutputStream stream = new StringOutputStream();
-        HttpResponse res = new HttpResponse( stream, null, null, null, null, false );
+        HttpResponse res = new HttpResponse( stream, null, p, null, null, false );
         res.showText( "SOME TEXT" );
         assertContains( stream.toString(), "SOME TEXT" );
     }
-    
+   
+    public void testCrossDomainHeaderNotSentByDefault() {
+        res.sendHeaders();
+        assertNotContains( out.getData(), "Access-Control-Allow-Origin" );
+    }
+
+    public void testCrossDomainHeaderSentWhenEnabled() {
+        p.set( Constants.WWW_CORS, "*" ); 
+        res.sendHeaders();
+        assertContains( out.getData(), "Access-Control-Allow-Origin: *" );
+    }
+
+    public void testCrossDomainHeaderCanBeLimitedToSpecificDomains() {
+        p.set( Constants.WWW_CORS, "http://www.google.com http://www.fb.com" ); 
+        res.sendHeaders();
+        assertContains( out.getData(), "Access-Control-Allow-Origin: http://www.google.com http://www.fb.com" );
+    }
+
 }
 
 class ResponseStream extends OutputStream {
