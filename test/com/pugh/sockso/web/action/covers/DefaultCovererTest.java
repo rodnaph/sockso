@@ -2,7 +2,7 @@
 package com.pugh.sockso.web.action.covers;
 
 import com.pugh.sockso.music.CoverArt;
-import com.pugh.sockso.music.CoverArtCache;
+import com.pugh.sockso.cache.CoverArtCache;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestLocale;
 import java.io.IOException;
