@@ -1,9 +1,12 @@
 
 package com.pugh.sockso.web;
 
+import com.pugh.sockso.music.Album;
+import com.pugh.sockso.templates.api.TAlbums;
 import com.pugh.sockso.tests.SocksoTestCase;
 
 import java.io.StringWriter;
+import java.util.Vector;
 
 public class JsonWriterTest extends SocksoTestCase {
 
@@ -27,8 +30,16 @@ public class JsonWriterTest extends SocksoTestCase {
     }
 
     public void testIssue109() throws Exception {
-        String input = "{  \"name\":   \"vinyl 12\\\"\",    \n  \"id\"    :    123 }";
-        assertEquals( "{\"name\":\"vinyl 12\\\"\",\"id\":123}", write(input) );
+        TAlbums tpl = new TAlbums();
+        Vector<Album> albums = new Vector<Album>();
+        albums.add( new Album( 1, "Artist\"", 2, "Album\"", "1980") );
+        tpl.setAlbums(albums);
+        tpl.makeRenderer().renderTo(jsonWriter);
+
+        String expected = "[{\"id\":2,\"name\":\"Album\\\"\",\"artist\":{\"id\":1,\"name\":\"Artist\\\"\"}}]";
+        String actual = stringWriter.toString();
+
+        assertEquals( expected, actual );
     }
     
 }
