@@ -35,10 +35,11 @@ public class JsonWriterTest extends SocksoTestCase {
         albums.add( new Album( 1, "Artist\"", 2, "Album\"", "1980") );
         tpl.setAlbums(albums);
         tpl.makeRenderer().renderTo(jsonWriter);
-        assertEquals( 
-            "{\"id\":2,\"name\":\"Album\\\"\",\"artist\":{\"id\":1,\"name\":\"Artist\\\"\"}}",
-            stringWriter.toString()
-        );
+
+        String expected = "[{\"id\":2,\"name\":\"Album\\\"\",\"artist\":{\"id\":1,\"name\":\"Artist\\\"\"}}]";
+        String actual = stringWriter.toString();
+
+        assertEquals( expected, actual );
     }
     
 }

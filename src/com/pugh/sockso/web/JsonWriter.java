@@ -73,8 +73,8 @@ public class JsonWriter extends Writer {
 
     public void write( char[] chars, int offset, int length ) throws IOException {
 
-        for ( char c : chars ) {
-            write( c );
+        for ( int i = 0; i < length; i++ ) {
+            write( chars[i] );
         }
         
     }
