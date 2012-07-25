@@ -17,6 +17,11 @@ public class JsonWriter extends Writer {
     private boolean inString;
 
     /**
+     * Last char written to stream
+     */
+    private int lastChar;
+
+    /**
      *  Create a JSON writer that wraps the specified standard writer
      * 
      *  @param writer 
@@ -26,6 +31,7 @@ public class JsonWriter extends Writer {
     public JsonWriter( final Writer writer ) {
         this.writer = writer;
         this.inString = false;
+        this.lastChar = -1;
     }
 
     /**
@@ -39,21 +45,38 @@ public class JsonWriter extends Writer {
      * 
      */
     
-    public void write( final char[] cs, int x, int y ) throws IOException {
+    @Override
+    public void write( int c ) throws IOException {
 
-        char[] newChars = new char[ y ];
-        int size = 0;
-        
-        for ( int i=x; i<y; i++ ) {
-            char c = cs[ i ];
-            if ( c == '"' && (i == x || cs[i-1] != '\\') ) { inString = !inString; }
-            if ( inString || !Character.isWhitespace(c) ) {
-                newChars[ size++ ] = c;
-            }
+        if ( c == '"' && lastChar != '\\' ) {
+            inString = !inString;
         }
 
-        writer.write( newChars, 0, size );
+        if ( inString || !Character.isWhitespace(c) ) {
+            writer.write( c );
+        }
 
+        lastChar = c;
+
+    }
+
+    /**
+     *  Pass on to write(int) to make sure we intercept all char writes
+     * 
+     *  @param chars
+     *  @param offset
+     *  @param length
+     * 
+     *  @throws IOException 
+     * 
+     */
+
+    public void write( char[] chars, int offset, int length ) throws IOException {
+
+        for ( int i = 0; i < length; i++ ) {
+            write( chars[i] );
+        }
+        
     }
 
     /**
