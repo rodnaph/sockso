@@ -4,11 +4,8 @@ package com.pugh.sockso.tests;
 import com.pugh.sockso.web.HttpRequest;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.UploadFile;
-import java.io.IOException;
 
 import java.io.InputStream;
-
-import java.util.Hashtable;
 
 public class TestRequest extends HttpRequest implements Request {
 

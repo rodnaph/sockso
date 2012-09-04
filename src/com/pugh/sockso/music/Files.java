@@ -62,7 +62,9 @@ public class Files {
             "pls", "audio/x-scpls",
             "m3u", "audio/mpegurl",
             "xml", "text/xml",
-            "m4a", "audio/mp4"
+            "m4a", "audio/mp4",
+            "mp4", "audio/mp4",
+            "aac", "audio/aac"
         };
 
         for ( int i=0; i<mimes.length; i+=2 ) {
