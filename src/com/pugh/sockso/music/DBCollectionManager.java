@@ -188,10 +188,10 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         String coverId = null;
         // if the track has an album, we use that
         // if not, we use the trackId
-        if (albumId > 0) {
+        if (albumId >= 0) {
             coverId = "al" + albumId;
         }
-        else if (trackId > 0) {
+        else if (trackId >= 0) {
             coverId = "tr" + trackId;
         }
 
