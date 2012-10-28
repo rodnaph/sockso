@@ -4,6 +4,7 @@
  */
 package com.pugh.sockso.music;
 
+import com.pugh.sockso.StringProperties;
 import java.awt.image.BufferedImage;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestLocale;
@@ -65,7 +66,7 @@ public class CoverArtTest extends SocksoTestCase {
     }
 
     public void testCreateNoCoverImage() {
-        BufferedImage result = CoverArt.createNoCoverImage(new TestLocale());
+        BufferedImage result = CoverArt.createNoCoverImage(new StringProperties(), new TestLocale());
         assertNotNull(result);
     }
 }
