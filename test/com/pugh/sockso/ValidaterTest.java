@@ -65,6 +65,12 @@ public class ValidaterTest extends SocksoTestCase {
         
     }
     
+    public void testEmailAddressCanStartWithANumber() {
+        
+        assertTrue( v.isValidEmail("13cats@gmail.com") );
+        
+    }
+    
     public void testUsernameExists() {
         
     }
