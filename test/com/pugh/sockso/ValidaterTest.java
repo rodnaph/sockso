@@ -18,10 +18,14 @@ import javax.swing.text.JTextComponent;
 import static org.easymock.EasyMock.*;
 
 public class ValidaterTest extends SocksoTestCase {
+    
+    private Validater v;
+    
+    protected void setUp() {
+        this.v = new Validater( createMock(Database.class) );
+    }
 
     public void testCheckRequiredFieldsTextCmps() {
-        
-        Validater v = new Validater( createMock(Database.class) );
         
         JTextComponent[] valid = {
             new JTextField( "data" )
@@ -37,8 +41,6 @@ public class ValidaterTest extends SocksoTestCase {
     
     public void testCheckRequiredFieldsStrings() {
 
-        Validater v = new Validater( createMock(Database.class) );
-        
         String[] valid = {
             "data"
         };
@@ -53,9 +55,6 @@ public class ValidaterTest extends SocksoTestCase {
     
     public void testIsValidEmail() {
 
-        Database db = createNiceMock( Database.class );
-        Validater v = new Validater( db );
-        
         assertTrue( v.isValidEmail("foo@bar.com") );
         assertTrue( v.isValidEmail("foo.bar@baz.net") );
         assertTrue( v.isValidEmail("wikibar_me@mp.ar-pa.it") );
