@@ -19,7 +19,7 @@
 
         {
             "id": <% playlist.getId() %>,
-            "name": <% JsonUtils.string(playlist.getName()) %>,
+            "name": <% JsonUtils.string(playlist.getName()) #n %>,
 
             <%if playlist.getUser() != null %>
                 , "user": {

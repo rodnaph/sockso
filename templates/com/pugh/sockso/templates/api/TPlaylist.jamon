@@ -14,7 +14,7 @@
 {
 
     "id": <% playlist.getId() %>,
-    "name": <% JsonUtils.string(playlist.getName()) %>,
+    "name": <% JsonUtils.string(playlist.getName()) #n %>,
     "tracks": <& TTracks; tracks=tracks; &>
 
     <%if playlist.getUser() != null %>
