@@ -7,6 +7,7 @@ import com.pugh.sockso.db.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -207,6 +208,56 @@ public class Album extends MusicItem {
     }
     
     /**
+     *  Finds all albums, returns listed alphabetically, with the specified offset and limit
+     *  since the given datetime
+     * 
+     *  @param db
+     *  @param limit
+     *  @param offset
+     *  @param fromDate
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+
+    public static List<Album> findAll( final Database db, final int limit, final int offset, final long fromDate  ) throws SQLException {
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
+        try {
+            
+            String sql = getSelectAllFromSql();
+            
+            if ( fromDate > 0 ) {    
+                Timestamp timestamp = new Timestamp( fromDate );
+                sql += " where al.date_added >= '" + timestamp + "' ";
+            }
+              
+            sql += " order by al.name asc ";
+            
+            if ( limit != -1 ) {
+                sql += " limit " +limit+
+                       " offset " +offset;
+            }
+          
+            st = db.prepare( sql );
+            rs = st.executeQuery();
+            
+            return createListFromResultSet( rs );
+            
+        }
+        
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
+        
+    }
+    
+    /**
      *  Finds all albums, returns listed alphabetically
      * 
      *  @param db
@@ -221,31 +272,8 @@ public class Album extends MusicItem {
     
     public static List<Album> findAll( final Database db, final int limit, final int offset ) throws SQLException {
         
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        
-        try {
-            
-            String sql = getSelectAllFromSql() +
-                         " order by al.name asc ";
-            
-            if ( limit != -1 ) {
-                sql += " limit " +limit+ " " +
-                       " offset " +offset;
-            }
-
-            st = db.prepare( sql );
-            rs = st.executeQuery();
-            
-            return createListFromResultSet( rs );
-            
-        }
-        
-        finally {
-            Utils.close( rs );
-            Utils.close( st );
-        }
-        
+        return findAll( db, limit, offset, 0 );
     }
+
     
 }

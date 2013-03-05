@@ -11,6 +11,7 @@ import com.pugh.sockso.web.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -375,11 +376,12 @@ public class Track extends MusicItem {
     }
 
     /**
-     *  Find all tracks, with optional limit and offset
+     *  Find all tracks, with optional limit and offset since the given datetime
      * 
      *  @param db
      *  @param limit
      *  @param offset
+     *  @param fromDate
      * 
      *  @return
      * 
@@ -387,7 +389,7 @@ public class Track extends MusicItem {
      * 
      */
     
-    public static List<Track> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+    public static List<Track> findAll( final Database db, final int limit, final int offset, final long fromDate  ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -395,6 +397,11 @@ public class Track extends MusicItem {
         try {
             
             String sql = getSelectFromSql();
+            
+            if ( fromDate > 0 ) {    
+                Timestamp timestamp = new Timestamp( fromDate );
+                sql += " where t.date_added >= '" + timestamp + "' ";
+            }
             
             if ( limit != -1 ) {
                 sql += " limit " +limit+
@@ -413,6 +420,24 @@ public class Track extends MusicItem {
             Utils.close( st );
         }
         
+    }
+    
+    /**
+     *  Find all tracks, with optional limit and offset
+     * 
+     *  @param db
+     *  @param limit
+     *  @param offset
+     * 
+     *  @return
+     * 
+     *  @throws SQLException 
+     * 
+     */
+    
+    public static List<Track> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+        
+        return findAll( db, limit, offset, 0 );
     }
     
     /**

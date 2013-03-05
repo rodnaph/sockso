@@ -24,7 +24,8 @@ public class AlbumsAction extends BaseApiAction {
         List<Album> albums = Album.findAll(
             getDatabase(),
             getLimit(),
-            getOffset()
+            getOffset(), 
+            getFromDate()
         );
         
         showAlbums( albums );

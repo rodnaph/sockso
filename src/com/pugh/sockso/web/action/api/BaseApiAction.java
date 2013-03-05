@@ -9,6 +9,29 @@ abstract public class BaseApiAction extends BaseAction implements ApiAction {
     
     public static final int DEFAULT_LIMIT = 100;
     
+    public static final long DEFAULT_SINCE = 0;
+    
+    public static final String FROM_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    @Override
+    public long getFromDate() {
+        
+        try {
+
+            if ( getRequest().hasArgument( "fromDate" ) ) {
+
+                long dateFrom = Long.parseLong( getRequest().getArgument( "fromDate" ) );
+                
+                return dateFrom;
+            }
+
+        }
+        
+        catch ( final NumberFormatException ignored ) {}
+
+        return DEFAULT_SINCE;
+    }
+    
     /**
      *  Return the number of results to limit by
      *
