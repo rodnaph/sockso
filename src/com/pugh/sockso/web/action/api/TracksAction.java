@@ -23,7 +23,8 @@ public class TracksAction extends BaseApiAction {
         Vector<Track> tracks = Track.findAll(
             getDatabase(),
             getLimit(),
-            getOffset()
+            getOffset(),
+            getFromDate()
         );
         
         showTracks( tracks );

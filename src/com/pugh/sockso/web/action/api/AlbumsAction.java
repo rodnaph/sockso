@@ -26,7 +26,8 @@ public class AlbumsAction extends BaseApiAction {
         Vector<Album> albums = Album.findAll(
             getDatabase(),
             getLimit(),
-            getOffset()
+            getOffset(), 
+            getFromDate()
         );
         
         showAlbums( albums );

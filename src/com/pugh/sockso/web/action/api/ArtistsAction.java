@@ -37,7 +37,7 @@ public class ArtistsAction extends BaseApiAction {
     public void handleRequest() throws SQLException, IOException {
         
         final Vector<Artist> artists = Artist.findAll(
-            getDatabase(), getLimit(), getOffset()
+            getDatabase(), getLimit(), getOffset(), getFromDate()
         );
         
         showArtists( artists.toArray( new Artist[] {} ) );
