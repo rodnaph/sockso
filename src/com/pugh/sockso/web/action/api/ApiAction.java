@@ -35,4 +35,12 @@ public interface ApiAction extends WebAction {
     
     public int getOffset();
     
+    /**
+     *  Returns the start datetime to restrict the results by
+     *
+     *  @return
+     *
+     */
+    
+    public long getFromDate();
 }
