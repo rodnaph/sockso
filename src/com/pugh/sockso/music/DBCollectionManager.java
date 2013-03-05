@@ -179,7 +179,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     protected void addCoverArt( final int itemId, final String itemType, final BufferedImage coverArt ){
 
-        log.info("Adding Cover Art for itemId: " + itemId + ", itemType: " + itemType);
+        log.debug("Adding Cover Art for itemId: " + itemId + ", itemType: " + itemType);
 
         // -1 if nothing inserted into db
         if (itemId < 0) {
