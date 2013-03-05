@@ -18,7 +18,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.File;
-import java.io.EOFException;
 
 import java.net.SocketException;
 
@@ -37,7 +36,24 @@ public class Streamer extends BaseAction {
     private static final int STREAM_BUFFER_SIZE = 1024 * 8; // 8Kb
 
     private static final Logger log = Logger.getLogger( Streamer.class );
+    
+    private RangeStreamer range = null;
    
+    private static class RangeStreamer {
+        
+        long beginPos;
+        long endPos;  
+        
+        public RangeStreamer(long beginPos, long endPos) {
+            this.beginPos = beginPos;
+            this.endPos   = endPos;
+        }
+        
+        public long getContentLength() {
+            return (endPos - beginPos + 1);
+        }
+    }
+    
     /**
      *  handles a request
      * 
@@ -65,7 +81,7 @@ public class Streamer extends BaseAction {
 
         final Properties p = getProperties();
 
-        return p.get( Constants.STREAM_REQUIRE_LOGIN ).equals( p.YES );
+        return p.get( Constants.STREAM_REQUIRE_LOGIN ).equals( Properties.YES );
 
     }
     
@@ -80,7 +96,19 @@ public class Streamer extends BaseAction {
      *  @throws BadRequestException
      * 
      */
-    
+            
+/**
+ * 
+GET /2390/2253727548_a413c88ab3_s.jpg HTTP/1.1
+Host: farm3.static.flickr.com
+Range: bytes=1000-
+
+HTTP/1.0 206 Partial Content
+* 
+Content-Length: 2980
+Content-Range: bytes 1000-3979/3980
+ * 
+ */
     protected void playTrack( final int trackId ) throws SQLException, IOException, BadRequestException {
 
         final Track track = Track.find( getDatabase(), trackId );
@@ -90,11 +118,14 @@ public class Streamer extends BaseAction {
         }
         
         final MusicStream ms = getMusicStream( track );
-
+            
         logTrackPlayed( track );
+        
+        processRangeRequest( track );
+        
         sendTrackHeaders( track, ms.getMimeType() );
 
-        playMusicStream( ms );
+        playMusicStream( track, ms );
 
     }
 
@@ -246,7 +277,7 @@ public class Streamer extends BaseAction {
      * 
      */
     
-    protected boolean playMusicStream( final MusicStream ms ) throws IOException {
+    protected boolean playMusicStream( final Track track, final MusicStream ms ) throws IOException {
         
         DataInputStream audio = null;
         byte[] buffer = new byte[ STREAM_BUFFER_SIZE ];
@@ -256,20 +287,37 @@ public class Streamer extends BaseAction {
             final DataOutputStream client = new DataOutputStream( getResponse().getOutputStream() );
 
             audio = ms.getAudioStream();
-            int bytesRead = 0;
             
-            processRangeRequest( audio );
-
-            while ( true ) {
-                bytesRead = audio.read( buffer );
+            long contentLength = new File( track.getPath() ).length();  
+            
+            if ( range != null) {
+                audio.skip( range.beginPos );
+                contentLength = range.getContentLength();
+                
+                log.debug( "Skipped " + range.beginPos + " bytes" );
+            }
+            
+            long totalBytes = 0;
+            int readBlock = STREAM_BUFFER_SIZE;
+            
+            for ( int bytesRead = 0; bytesRead >= 0 && totalBytes < contentLength; bytesRead = audio.read( buffer, 0, readBlock ) ) {
+                totalBytes += bytesRead;
+                
+                if ( totalBytes + readBlock > contentLength ) {
+                    readBlock = (int) (contentLength - totalBytes);
+                }
+                
                 client.write( buffer, 0, bytesRead );
+		log.info( String.format("Sent %2d%%", (int)(((double)totalBytes/(double)contentLength) * 100)));
             }
 
         }
 
-        catch ( final EOFException e ) {}
         /* if the client disconnected then we didn't finish playing the track */
-        catch ( final SocketException e ) { return false; }
+        catch ( final SocketException e ) { 
+            log.debug( "SocketException: " + e.getMessage() );
+            return false;
+        }
 
         finally {
             Utils.close( audio );
@@ -283,20 +331,45 @@ public class Streamer extends BaseAction {
      * 
      */
     
-    protected void processRangeRequest( final DataInputStream audio ) throws IOException {
+    protected void processRangeRequest( final Track track ) throws IOException {               
         
-        final String range = getRequest().getHeader( "Range" );
+        final String rangeHeader = getRequest().getHeader( "Range" );
         
-        if ( range.length() > 0 ) {
+        if ( rangeHeader.length() > 0 ) {
             
-            final Pattern pattern = Pattern.compile( "bytes=(\\d+)-\\d+" );
-            final Matcher matcher = pattern.matcher( range );
+            final Pattern pattern = Pattern.compile( "bytes=(\\d+)-(\\d+)?" );
+            final Matcher matcher = pattern.matcher( rangeHeader );
             
             if ( matcher.matches() ) {
-                
-                final int seekTo = Integer.parseInt( matcher.group(1) );
-                
-                audio.skipBytes( seekTo );
+      
+                try {
+                    long beginPos = Long.parseLong(matcher.group(1));
+                    
+                    long endPos = -1;                    
+                    String endMatch = matcher.group(2);
+                    
+                    if (endMatch != null) {
+                        endPos = Long.parseLong(endMatch);
+                    }
+                                   
+                    final long trackLength = new File( track.getPath() ).length();  
+                    
+                    if ( endPos < 0 ) {
+                        endPos = trackLength - 1;
+                    }
+
+                    if ( beginPos >= 0 && beginPos < trackLength && 
+                            endPos < trackLength && endPos > beginPos ) {
+                        this.range = new RangeStreamer(beginPos, endPos);
+                    }
+                    else {
+                        log.error("Bad \"Range\" values: " + beginPos + "-" + endPos);
+                    }
+
+                } 
+                catch (NumberFormatException e) {
+                    log.error("Bad \"Range\" header: " + e.getMessage());
+                }
                 
             }
             
@@ -315,12 +388,27 @@ public class Streamer extends BaseAction {
     protected void sendTrackHeaders( final Track track, final String mimeType ) {
 
         final Response res = getResponse();
-        final String contentLength = Long.toString( new File(track.getPath()).length() );
+        
+        final long trackLength = new File( track.getPath() ).length();
+        long contentLength = trackLength;
+        
+        // set headers required to satisfy Range requests:
+        if ( range != null ) {
+            // Content-Length: 2980
+            contentLength = range.getContentLength();
+            // Content-Range: bytes 1000-3979/3980
+            final String contentRange = "bytes " + range.beginPos + "-" + range.endPos + "/" + trackLength;
+            
+            res.setStatus(206); // Partial Content
+            res.addHeader("Content-Range", contentRange);
+        }
+        
         final String filename = track.getArtist().getName() + " - " + track.getName();
 
-        res.addHeader( "Content-Type", mimeType );
-        res.addHeader( "Content-Length", contentLength );
         res.addHeader( "Content-Disposition", "filename=\"" + filename + "\"" );
+        res.addHeader( "Content-Type", mimeType );
+        res.addHeader( "Content-Length", Long.toString(contentLength) );
+        
         res.sendHeaders();
 
     }
