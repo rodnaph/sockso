@@ -4,13 +4,14 @@ package com.pugh.sockso.resources;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class LocaleFactory {
 
     private String defaultLocaleCode;
-    private Hashtable<String,Locale> locales = null;
+    private Map<String,Locale> locales = null;
     
     private final Resources r;
     
@@ -22,7 +23,7 @@ public class LocaleFactory {
     }
     
     /**
-     *  Initialise the factory with a default locale
+     *  Initialize the factory with a default locale
      * 
      *  @param defaultLocaleCode 
      * 
@@ -49,7 +50,7 @@ public class LocaleFactory {
             
             final Locale defaultLocale = new FileLocale( r, Resources.DEFAULT_LOCALE );
             
-            locales = new Hashtable<String,Locale>();
+            locales = new HashMap<String,Locale>();
             
             for ( final String lc : ((AbstractResources) r).getLocales() ) {
                 locales.put( lc, new FileLocale(r,lc,defaultLocale) );

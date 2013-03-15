@@ -6,10 +6,10 @@
     com.pugh.sockso.music.Album;
     com.pugh.sockso.music.Artist;
     com.pugh.sockso.music.Track;
-    java.util.Vector;
+    java.util.List;
     </%import>
 <%args>
-    Vector<MusicItem> items = null;
+    List<MusicItem> items = null;
 </%args>
 
 <%java>

@@ -1,11 +1,11 @@
 
 <%import>
     com.pugh.sockso.music.Track;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%args>
-    Vector<Track> tracks = null;
+    List<Track> tracks = null;
 </%args>
 
 <%java>

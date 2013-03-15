@@ -3,17 +3,16 @@ package com.pugh.sockso.music.indexing;
 
 import com.pugh.sockso.db.Database;
 
-import java.util.Vector;
-
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Date;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileFilter;
-
-import org.apache.log4j.Logger;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  Scans and indexes files in the collection.
@@ -29,7 +28,7 @@ public abstract class BaseIndexer implements Indexer {
 
     public static Logger log = Logger.getLogger( BaseIndexer.class );
 
-    private final Vector<IndexListener> indexListeners;
+    private final List<IndexListener> indexListeners;
 
     private final Database db;
     private final IndexCache cache;
@@ -62,7 +61,7 @@ public abstract class BaseIndexer implements Indexer {
         this.db = db;
         this.cache = cache;
 
-        indexListeners = new Vector<IndexListener>();
+        indexListeners = new ArrayList<IndexListener>();
         isIndexing = false;
         
     }
@@ -102,6 +101,7 @@ public abstract class BaseIndexer implements Indexer {
      * 
      */
 
+    @Override
     public void scan() {
 
         if ( !isIndexing ) {
@@ -134,7 +134,7 @@ public abstract class BaseIndexer implements Indexer {
      *  check has already been run so the cache is up to date with all the files
      *  we currently have in the collection.
      *
-     *  New files are signalled with a IndexEvent.UNKNOWN event.
+     *  New files are signaled with a IndexEvent.UNKNOWN event.
      * 
      */
 
@@ -246,6 +246,7 @@ public abstract class BaseIndexer implements Indexer {
      *
      */
     
+    @Override
     public void scanDirectory( final int directoryId, final File directory ) throws SQLException {
 
         updateCache();
@@ -450,6 +451,7 @@ public abstract class BaseIndexer implements Indexer {
      *
      */
 
+    @Override
     public void addIndexListener( final IndexListener listener ) {
 
         indexListeners.add( listener );

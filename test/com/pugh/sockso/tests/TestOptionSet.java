@@ -1,16 +1,17 @@
 
 package com.pugh.sockso.tests;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import joptsimple.OptionSetProxy;
 
 public class TestOptionSet extends OptionSetProxy {
 
-    private final Hashtable<String,String> options;
+    private final Map<String,String> options;
 
     public TestOptionSet() {
-        options = new Hashtable<String,String>();
+        options = new HashMap<String,String>();
     }
 
     public void addHas( final String name, final String value ) {

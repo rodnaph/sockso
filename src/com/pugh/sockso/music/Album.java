@@ -8,9 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 public class Album extends MusicItem {
 
@@ -75,7 +75,7 @@ public class Album extends MusicItem {
      * 
      */
     
-    public static Vector<Album> findByArtistId( final Database db, final int artistId ) throws SQLException {
+    public static List<Album> findByArtistId( final Database db, final int artistId ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -89,7 +89,7 @@ public class Album extends MusicItem {
             st.setInt( 1, artistId );
             rs = st.executeQuery();
             
-            return createVectorFromResultSet( rs );
+            return createListFromResultSet( rs );
             
         }
         
@@ -143,7 +143,7 @@ public class Album extends MusicItem {
     }
     
     /**
-     *  Creates a vector of albums from the result set
+     *  Creates a list of albums from the result set
      * 
      *  @param rs
      * 
@@ -153,9 +153,9 @@ public class Album extends MusicItem {
      * 
      */
     
-    protected static Vector<Album> createVectorFromResultSet( final ResultSet rs ) throws SQLException {
+    protected static List<Album> createListFromResultSet( final ResultSet rs ) throws SQLException {
         
-        final Vector<Album> albums = new Vector<Album>();
+        final List<Album> albums = new ArrayList<Album>();
         
         while ( rs.next() ) {
             albums.add( createFromResultSet(rs) );
@@ -221,7 +221,7 @@ public class Album extends MusicItem {
      * 
      */
     
-    public static Vector<Album> findAll( final Database db, final int limit, final int offset, final long fromDate ) throws SQLException {
+    public static List<Album> findAll( final Database db, final int limit, final int offset, final long fromDate ) throws SQLException {
                 
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -245,7 +245,7 @@ public class Album extends MusicItem {
             st = db.prepare( sql );
             rs = st.executeQuery();
             
-            return createVectorFromResultSet( rs );
+            return createListFromResultSet( rs );
             
         }
         
@@ -269,7 +269,7 @@ public class Album extends MusicItem {
      * 
      */
     
-    public static Vector<Album> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+    public static List<Album> findAll( final Database db, final int limit, final int offset ) throws SQLException {
         
         return findAll( db, limit, offset, 0 );
     }

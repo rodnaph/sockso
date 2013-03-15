@@ -4,7 +4,7 @@
     com.pugh.sockso.music.Track;
     com.pugh.sockso.web.Request;
     com.pugh.sockso.web.User;
-    java.util.Vector;
+    java.util.List;
 </%import>
 <%implements>
     com.pugh.sockso.web.action.playlist.PlaylistTemplate;

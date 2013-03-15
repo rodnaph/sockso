@@ -1,23 +1,27 @@
 
 package com.pugh.sockso.music;
 
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.Properties;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
+import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.tag.Tag;
-import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.SocksoTestCase;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.pugh.sockso.tests.TestDatabase;
 
 import java.io.File;
 import java.io.IOException;
-
-import static org.easymock.EasyMock.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DBCollectionManagerTest extends SocksoTestCase {
     

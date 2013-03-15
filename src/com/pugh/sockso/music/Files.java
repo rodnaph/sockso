@@ -1,4 +1,3 @@
-
 package com.pugh.sockso.music;
 
 import com.pugh.sockso.Utils;
@@ -8,7 +7,6 @@ import java.util.Arrays;
 public class Files {
 
     public static final String DEFAULT_MIME_TYPE = "text/plain";
-
     /**
      * Valid mime types of accepted media
      */
@@ -19,7 +17,6 @@ public class Files {
         "audio/x-ms-wma",
         "audio/flac"
     };
-
     /**
      * Valid file extentions
      */
@@ -33,15 +30,14 @@ public class Files {
     };
 
     /**
-     *  returns the mime type for the file an the given path.  if the file type
-     *  is not known then text/plain is returned (just needs extension really).
+     * returns the mime type for the file an the given path. if the file type
+     * is not known then text/plain is returned (just needs extension really).
      *
-     *  @param path file system path of file
+     * @param path file system path of file
      *
-     *  @return String mime type
+     * @return String mime type
      *
      */
-
     public static String getMimeType( String path ) {
 
         final String ext = Utils.getExt( path );
@@ -67,45 +63,42 @@ public class Files {
             "aac", "audio/aac"
         };
 
-        for ( int i=0; i<mimes.length; i+=2 ) {
-            if ( mimes[i].equals(ext) ) return mimes[i+1];
+        for (int i = 0; i < mimes.length; i += 2) {
+            if ( mimes[i].equals( ext ) ) {
+                return mimes[i + 1];
+            }
         }
 
         return DEFAULT_MIME_TYPE;
-        
+
     }
 
     /**
-     *  checks if we support this mime type.  returns true if we do,
-     *  false otherwise
-     * 
-     *  @param mimeType the content type to check
-     * 
-     *  @return true if ok, false otherwise
-     * 
+     * checks if we support this mime type. returns true if we do,
+     * false otherwise
+     *
+     * @param mimeType the content type to check
+     *
+     * @return true if ok, false otherwise
+     *
      */
-    
     public static boolean isValidMimeType( final String mimeType ) {
 
-        return Arrays.asList( mimeTypes )
-                     .contains( mimeType );
+        return Arrays.asList( mimeTypes ).contains( mimeType );
 
     }
 
     /**
      * Checks if the given file extension is valid
-     * 
+     *
      * @param ext
-     * 
-     * @return 
-     * 
+     *
+     * @return
+     *
      */
-    
     public static boolean isValidFileExtension( final String ext ) {
 
-        return Arrays.asList( fileExtensions )
-                     .contains( ext.toLowerCase() );
-        
+        return Arrays.asList( fileExtensions ).contains( ext.toLowerCase() );
+
     }
- 
 }

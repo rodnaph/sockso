@@ -3,8 +3,8 @@
     com.pugh.sockso.Properties;
     com.pugh.sockso.Utils;
     com.pugh.sockso.music.Track;
-    java.util.Vector;
     com.pugh.sockso.resources.Locale;
+    java.util.List;
 </%import>
 
 <%args>

@@ -4,18 +4,20 @@ import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.resources.Locale;
 
+import org.apache.log4j.Logger;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import org.apache.log4j.Logger;
 
 public class CoverArt {
+    
+    private static Logger log = Logger.getLogger(CoverArt.class);
 
     private String itemName;
     private BufferedImage image;
-    private static Logger log = Logger.getLogger(CoverArt.class);
 
     public CoverArt(String itemName) {
         this.itemName = itemName;
