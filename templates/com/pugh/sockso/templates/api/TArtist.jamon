@@ -3,12 +3,12 @@
     com.pugh.sockso.music.Artist;
     com.pugh.sockso.music.Album;
     com.pugh.sockso.JsonUtils;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%args>
     Artist artist = null;
-    Vector<Album> albums = null;
+    List<Album> albums = null;
 </%args>
 
 <%java>

@@ -8,7 +8,7 @@
     com.pugh.sockso.music.Collection;
     com.pugh.sockso.web.User;
     com.pugh.sockso.resources.Locale;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%implements>
@@ -19,8 +19,8 @@
     Properties properties = null;
     User user = null;
     Locale locale = null;
-    Vector<Collection> folders = null;
-    Vector<User> recentUsers = null;
+    List<Collection> folders = null;
+    List<User> recentUsers = null;
 </%args>
 
 <& ../IHeader; properties=properties; title=locale.getString("www.title.browseFolders"); user=user; locale=locale; &>

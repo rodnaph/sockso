@@ -9,11 +9,9 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.BaseAction;
 
-import java.sql.SQLException;
-
 import java.io.IOException;
-
-import java.util.Vector;
+import java.sql.SQLException;
+import java.util.List;
 
 public class Playlister extends BaseAction {
     
@@ -31,6 +29,7 @@ public class Playlister extends BaseAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws SQLException, IOException, BadRequestException {
 
         final Request req = getRequest();
@@ -66,7 +65,7 @@ public class Playlister extends BaseAction {
             throw new BadRequestException( "Invalid playlist ID", 404 );
         }
         
-        final Vector<Track> tracks = playlist.getTracks( db );
+        final List<Track> tracks = playlist.getTracks( db );
 
         showPlaylist( playlist, tracks );
         
@@ -82,7 +81,7 @@ public class Playlister extends BaseAction {
      * 
      */
     
-    protected void showPlaylist( final Playlist playlist, final Vector<Track> tracks ) throws IOException, SQLException {
+    protected void showPlaylist( final Playlist playlist, final List<Track> tracks ) throws IOException, SQLException {
         
         final TPlaylist tpl = new TPlaylist();
             

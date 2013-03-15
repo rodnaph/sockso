@@ -8,10 +8,8 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
-
-import java.util.Vector;
+import java.util.List;
 
 public class ArtistAction extends BaseApiAction {
     
@@ -24,6 +22,7 @@ public class ArtistAction extends BaseApiAction {
      * 
      */
     
+    @Override
     public boolean canHandle( final Request req ) {
         
         return req.getParamCount() == 3
@@ -41,6 +40,7 @@ public class ArtistAction extends BaseApiAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws IOException, SQLException, BadRequestException {
         
         final Artist artist = Artist.find(
@@ -52,7 +52,7 @@ public class ArtistAction extends BaseApiAction {
             throw new BadRequestException( "Invalid artist ID", 404 );
         }
         
-        final Vector<Album> albums = Album.findByArtistId(
+        final List<Album> albums = Album.findByArtistId(
             getDatabase(),
             artist.getId()
         );
@@ -71,7 +71,7 @@ public class ArtistAction extends BaseApiAction {
      * 
      */
     
-    protected void showArtist( final Artist artist, final Vector<Album> albums ) throws IOException {
+    protected void showArtist( final Artist artist, final List<Album> albums ) throws IOException {
         
         final TArtist tpl = new TArtist();
         tpl.setArtist( artist );

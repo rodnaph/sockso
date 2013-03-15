@@ -3,15 +3,16 @@ package com.pugh.sockso;
 
 import com.pugh.sockso.tests.SocksoTestCase;
 
-import java.util.Hashtable;
-
 import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 public class StringPropertiesTest extends SocksoTestCase implements PropertiesListener {
 
     private static Logger log = Logger.getLogger( StringPropertiesTest.class  );
     private boolean propertiesSavedFlag;
 
+    @Override
     public void propertiesSaved( Properties p ) {
         propertiesSavedFlag = true;
     }
@@ -51,7 +52,7 @@ public class StringPropertiesTest extends SocksoTestCase implements PropertiesLi
         final Properties p = new StringProperties();
         p.set( "prop.a", "b" );
         p.set( "prop.b", "c" );
-        Hashtable<String,String> h = p.getMatches( "prop" );
+        Map<String,String> h = p.getMatches( "prop" );
         assertEquals( "b", h.get("a") );
         assertEquals( "c", h.get("b") );
     }

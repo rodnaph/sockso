@@ -2,15 +2,14 @@
 package com.pugh.sockso.web.action.api;
 
 import com.pugh.sockso.cache.CacheException;
-import com.pugh.sockso.web.Request;
-import com.pugh.sockso.web.RelatedArtists;
-import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.templates.api.TArtists;
+import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.RelatedArtists;
+import com.pugh.sockso.web.Request;
 
 import com.google.inject.Inject;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
 
 public class ArtistRelatedAction extends BaseApiAction {
@@ -29,6 +28,7 @@ public class ArtistRelatedAction extends BaseApiAction {
      *
      */
 
+    @Override
     public void handleRequest() throws BadRequestException, SQLException, IOException, CacheException {
 
         final int artistId = Integer.parseInt( getRequest().getUrlParam(2) );
@@ -49,6 +49,7 @@ public class ArtistRelatedAction extends BaseApiAction {
      * 
      */
     
+    @Override
     public boolean canHandle( final Request req ) {
         
         return req.getUrlParam( 1 ).equals( "artists" )

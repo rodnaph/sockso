@@ -17,6 +17,7 @@ public class M3uer extends Playlister {
         super.init( protocol, "m3u" );
     }
 
+    @Override
     public PlaylistTemplate getPlaylistTemplate() {
         return new TM3u();
     }

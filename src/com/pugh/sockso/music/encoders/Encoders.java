@@ -1,11 +1,12 @@
 /*
- * A class to do with using different builtins within sockso
+ * A class to do with using different built-ins within sockso
  * 
  */
 
 package com.pugh.sockso.music.encoders;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Encoders {
 
@@ -19,11 +20,11 @@ public class Encoders {
     public enum Builtin {
         
         //
-        // add builtins here
+        // add built-ins here
         //
-        Lame (new LameEncoder()),
-        OggDecToLame (new OggDecToLame()),
-        FlacToLame (new FlacToLame()),
+        Lame(new LameEncoder()),
+        OggDecToLame(new OggDecToLame()),
+        FlacToLame(new FlacToLame()),
         FfmpegToLame(new FfmpegToLame());
         
         private BuiltinEncoder encoder;
@@ -35,22 +36,22 @@ public class Encoders {
     };
     
     /**
-     *  returns all the builtin builtins we have that support the specified
+     *  returns all the built-in built-ins we have that support the specified
      *  format.
      * 
      *  @param format the format (mp3, ogg, etc...)
-     *  @return builtins that support this format
+     *  @return built-ins that support this format
      * 
      */
     
     public static Builtin[] getBuiltinEncoders( String format ) {
         
-        Vector<Builtin> builtins = new Vector<Builtin>();
+        List<Builtin> builtins = new ArrayList<Builtin>();
         
         for ( Builtin b : Builtin.values() )
             for ( String supportedFormat : b.getEncoder().getSupportedFormats() )
                 if ( format.toLowerCase().equals(supportedFormat.toLowerCase()) )
-                    builtins.addElement( b );
+                    builtins.add( b );
         
         // messy generics... :(
         return builtins.toArray( new Builtin[builtins.size()] );
@@ -58,7 +59,7 @@ public class Encoders {
     }
     
     /**
-     *  tries to fetch a builtin b by name, if none are found
+     *  tries to fetch a built-in b by name, if none are found
      *  then returns null
      * 
      *  @param name the name of the b to find

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Vector;
+import java.util.List;
 
 /**
  *  This object wraps a request for some tracks and allows a central way of 
@@ -48,9 +48,9 @@ public class TracksRequest {
 
     public Track[] getRequestedTracks() throws SQLException, BadRequestException {
 
-        final Vector<Track> allTracks = new Vector<Track>();
-        final Vector<Track> urlParamTracks = getUrlParamTracks();
-        final Vector<Track> pathTracks = getPathTracks();
+        final List<Track> allTracks = new ArrayList<Track>();
+        final List<Track> urlParamTracks = getUrlParamTracks();
+        final List<Track> pathTracks = getPathTracks();
         
         allTracks.addAll( urlParamTracks );
         allTracks.addAll( pathTracks );
@@ -81,7 +81,12 @@ public class TracksRequest {
         for ( final String type : trackTypes.split(",") ) {
             if ( !type.equals("") ) {
                 final int length = type.length();
-                filterBuffer.append( " and lower(substr(t.path,length(t.path)-" +(length-1)+ "," +length+ ")) = '"+type+"' " );
+                filterBuffer.append(" and lower(substr(t.path,length(t.path)-")
+                        .append(length - 1)
+                        .append(",")
+                        .append(length)
+                        .append(")) = '")
+                        .append(type).append("' ");
             }
         }
 
@@ -94,7 +99,7 @@ public class TracksRequest {
     }
 
     /**
-     *  Returns a random Vector of Track objects from the collection.  The number
+     *  Returns a random array of Track objects from the collection.  The number
      *  of tracks returned is specified by the Constants.WWW_RANDOM_TRACK_LIMIT
      *  property.
      * 
@@ -119,7 +124,7 @@ public class TracksRequest {
             st = db.prepare( sql );
             st.setInt( 1, Integer.parseInt(limit) );
 
-            return Track.createVectorFromResultSet( st.executeQuery() )
+            return Track.createListFromResultSet( st.executeQuery() )
                     .toArray( new Track[] {} );
 
         }
@@ -132,7 +137,7 @@ public class TracksRequest {
     
  
     /**
-     *  Returns tracks specifed via play args in the request resource
+     *  Returns tracks specified via play args in the request resource
      * 
      *  @return
      * 
@@ -141,12 +146,12 @@ public class TracksRequest {
      * 
      */
 
-    protected Vector<Track> getUrlParamTracks() throws SQLException, BadRequestException {
+    protected List<Track> getUrlParamTracks() throws SQLException, BadRequestException {
         
         final String orderBySql = isRandomRequest()
                 ? " order by " +db.getRandomFunction()+ "() "
                 : "";
-        final Vector<Track> tracks = Track.getTracksFromPlayArgs( db, getUrlParams(), orderBySql );
+        final List<Track> tracks = Track.getTracksFromPlayArgs( db, getUrlParams(), orderBySql );
         
         return tracks;
 
@@ -171,7 +176,7 @@ public class TracksRequest {
      * 
      */
     
-    protected Vector<Track> getPathTracks() throws SQLException {
+    protected List<Track> getPathTracks() throws SQLException {
 
         if ( Utils.isFeatureEnabled(p,Constants.WWW_BROWSE_FOLDERS_ENABLED) ) {
             final String path = req.getArgument( "path" );
@@ -180,7 +185,7 @@ public class TracksRequest {
             }
         }
         
-        return new Vector<Track>();
+        return new ArrayList<Track>();
         
     }
 

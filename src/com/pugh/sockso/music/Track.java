@@ -151,6 +151,92 @@ public class Track extends MusicItem {
         return genre;
     }
 
+    public Track( Builder builder ) {
+        super(MusicItem.TRACK, builder.id, builder.name);
+
+        this.artist = builder.artist;
+        this.album = builder.album;
+        this.path = builder.path;
+        this.number = builder.number;
+        this.dateAdded = builder.dateAdded;
+    }
+
+    public static class Builder {
+
+        private Artist artist;
+        private Album album;
+        private String path;
+        private int number;
+        private Date dateAdded;
+        private int id;
+        private String name;
+
+        // private int playCount = 0;
+        public Builder artist( Artist artist ) {
+            this.artist = artist;
+            return this;
+        }
+
+        public Builder album( Album album ) {
+            this.album = album;
+            return this;
+        }
+
+        public Builder path( String path ) {
+            this.path = path;
+            return this;
+        }
+
+        public Builder number( int number ) {
+            this.number = number;
+            return this;
+        }
+
+        public Builder dateAdded( Date dateAdded ) {
+            this.dateAdded = dateAdded;
+            return this;
+        }
+
+        public Builder id( int id ) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name( String name ) {
+            this.name = name;
+            return this;
+        }
+
+        public Track build() {
+
+            return new Track(this);
+        }
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public int getPlayCount() {
+        return playCount;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
     public void setPlayCount( final int playCount ) {
         this.playCount = playCount;
     }

@@ -11,17 +11,16 @@ package com.pugh.sockso.resources;
 
 import com.pugh.sockso.Utils;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
+import com.google.inject.Singleton;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-
-import java.util.Vector;
-
-import com.google.inject.Singleton;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class JarResources extends AbstractResources {
@@ -60,6 +59,7 @@ public class JarResources extends AbstractResources {
      * 
      */
 
+    @Override
     public InputStream getResourceAsStream( final String name ) {
 
         return classLoader.getResourceAsStream( name );
@@ -74,6 +74,7 @@ public class JarResources extends AbstractResources {
      * 
      */
 
+    @Override
     public Image getImage( final String name ) {
         
         return Toolkit.getDefaultToolkit().createImage(
@@ -82,9 +83,10 @@ public class JarResources extends AbstractResources {
         
     }
  
+    @Override
     public String[] getLocales() {
 
-        final Vector<String> locales = new Vector<String>();
+        final List<String> locales = new ArrayList<String>();
         
         BufferedReader in = null;
 
@@ -97,7 +99,7 @@ public class JarResources extends AbstractResources {
             String line = null;
 
             while ( (line = in.readLine()) != null )
-                locales.addElement( line );
+                locales.add( line );
 
         }
 
@@ -110,7 +112,7 @@ public class JarResources extends AbstractResources {
         }
         
         return getLocalesFromFiles(
-            (String[]) locales.toArray( new String[locales.size()] )
+            locales.toArray( new String[locales.size()] )
         );
 
     }

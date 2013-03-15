@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -64,7 +64,7 @@ public class Downloader extends BaseAction {
         
         final Database db = getDatabase();
         final String[] args = req.getPlayParams( false );
-        final Vector<Track> tracks = Track.getTracksFromPlayArgs( db, args );
+        final List<Track> tracks = Track.getTracksFromPlayArgs( db, args );
         final String fileName = getFileName( tracks );
 
         res.addHeader( "Content-length", Long.toString(getContentLength(tracks)) );
@@ -88,14 +88,14 @@ public class Downloader extends BaseAction {
     }
     
     /**
-     *  returns the size in bytes of all the tracks in the vector
+     *  returns the size in bytes of all the tracks in the list
      * 
      *  @param tracks the tracks to get the size for
      *  @return the total size
      * 
      */
     
-    private long getContentLength( final Vector<Track> tracks ) {
+    private long getContentLength( final List<Track> tracks ) {
         
         long total = 0;
         
@@ -188,13 +188,13 @@ public class Downloader extends BaseAction {
      *  append VARIOUS_ARTISTS.  Then append the album name if all the tracks
      *  are from the same album, otherwise use VARIOUS_ALBUMS
      *
-     *  @param tracks Vector<Track>
+     *  @param tracks list of tracks
      *
      *  @return the name of the downloadable zip file - format: <artist>-<album>.zip
      *
      */
 
-    protected String getFileName( final Vector<Track> tracks ) {
+    protected String getFileName( final List<Track> tracks ) {
 
         return getArtistName( tracks ) +
                "-" +
@@ -208,13 +208,13 @@ public class Downloader extends BaseAction {
      *
      *  @param track Track
      *
-     *  @TODO this is *so* similair to getAlbumName()
+     *  @TODO this is *so* similar to getAlbumName()
      *
      *  @return the String value of the artist's name.  Empty String if no name exists.
      *
      */
 
-    private String getArtistName( final Vector<Track> tracks ) {
+    private String getArtistName( final List<Track> tracks ) {
 
         String previousArtist = null;
 
@@ -242,13 +242,13 @@ public class Downloader extends BaseAction {
      * 
      *  @param track Track
      *
-     *  @TODO this is *so* similair to getArtistName()
+     *  @TODO this is *so* similar to getArtistName()
      *
      *  @return the String value of the album's name.  "album" if no name exists.
      *
      */
     
-    private String getAlbumName( final Vector<Track> tracks ) {
+    private String getAlbumName( final List<Track> tracks ) {
 
         String previousAlbum = null;
 

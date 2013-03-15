@@ -1,21 +1,21 @@
 
 package com.pugh.sockso.web.action.browse;
 
-import com.pugh.sockso.web.BadRequestException;
-import com.pugh.sockso.web.Request;
-import com.pugh.sockso.web.action.BaseAction;
-import com.pugh.sockso.db.Database;
 import com.pugh.sockso.Utils;
+import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.templates.web.browse.TArtist;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
+import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.Request;
+import com.pugh.sockso.web.action.BaseAction;
 
 import java.io.IOException;
-import java.util.Vector;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Artister extends BaseAction {
     
@@ -31,12 +31,13 @@ public class Artister extends BaseAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws IOException, SQLException, BadRequestException {
         
         final Request req = getRequest();
         final int id = Integer.parseInt( req.getUrlParam(2)  );
         final Artist artist = getArtist( id );
-        final Vector<Album> albums = getArtistAlbums( id );
+        final List<Album> albums = getArtistAlbums( id );
         
         showArtist( artist, albums );
         
@@ -52,7 +53,7 @@ public class Artister extends BaseAction {
      * 
      */
     
-    protected void showArtist( final Artist artist, final Vector<Album> albums  ) throws IOException, SQLException {
+    protected void showArtist( final Artist artist, final List<Album> albums  ) throws IOException, SQLException {
         
         final TArtist tpl = new TArtist();
 
@@ -74,7 +75,7 @@ public class Artister extends BaseAction {
      * 
      */
     
-    protected Vector<Album> getArtistAlbums( final int artistId ) throws SQLException {
+    protected List<Album> getArtistAlbums( final int artistId ) throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -96,10 +97,10 @@ public class Artister extends BaseAction {
             st.setInt( 1, artistId );
             rs = st.executeQuery();
 
-            final Vector<Album> albums = new Vector<Album>();
+            final List<Album> albums = new ArrayList<Album>();
             
             while ( rs.next() )
-                albums.addElement(
+                albums.add(
                     new Album(
                         new Artist( rs.getInt("artistId"), rs.getString("artistName") ),
                         rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear"), rs.getInt("trackCount")                  

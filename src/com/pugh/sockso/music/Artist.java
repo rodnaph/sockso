@@ -1,18 +1,18 @@
 
 package com.pugh.sockso.music;
 
-import com.pugh.sockso.Utils;
-import com.pugh.sockso.db.Database;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.util.Date;
 import java.sql.Timestamp;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+
+import com.pugh.sockso.Utils;
+import com.pugh.sockso.db.Database;
 
 public class Artist extends MusicItem {
     
@@ -117,7 +117,7 @@ public class Artist extends MusicItem {
      * 
      */
 
-    public static Vector<Artist> findAll( final Database db, final int limit, final int offset, final long fromDate ) throws SQLException {
+    public static List<Artist> findAll( final Database db, final int limit, final int offset, final long fromDate ) throws SQLException {
     
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -142,7 +142,7 @@ public class Artist extends MusicItem {
             st = db.prepare( sql );
             rs = st.executeQuery();
 
-            final Vector<Artist> artists = new Vector<Artist>();
+            final List<Artist> artists = new ArrayList<Artist>();
             
             while ( rs.next() ) {
                 Artist artist = new Artist(
@@ -179,7 +179,7 @@ public class Artist extends MusicItem {
      * 
      */
         
-    public static Vector<Artist> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+    public static List<Artist> findAll( final Database db, final int limit, final int offset ) throws SQLException {
         
         return findAll(db, limit, offset, 0);
     }
