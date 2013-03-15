@@ -7,4 +7,4 @@ artists:1,My Artist,now(),My Artist
 
 albums:1,1,My Album,1984,now()
 
-tracks:1,1,1,My Track,/music/track.mp3,180,now(),1,1
+tracks:1,1,1,My Track,/music/track.mp3,180,now(),1,1,rock

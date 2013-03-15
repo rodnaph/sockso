@@ -50,12 +50,13 @@ public class WmaTag extends AudioTag {
     public String getArtist() { return notnull(_artist); }
     @Override
     public String getTrack() { return notnull(_title); }
+    @Override
+    public String getGenre() { return _genre; }
     
     String getTitle() { return _title; }
     String getYear() { return _year; }
     String getCopyright() { return _copyright; }
     String getRating() { return _rating; }
-    String getGenre() { return _genre; }
     String getComment() { return _comment; }
     int getBitrate() { return _bitrate; }
     int getLength() { return _length; }

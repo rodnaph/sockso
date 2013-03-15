@@ -71,5 +71,6 @@ public class AACTag extends AudioTag {
 		this.artistTitle = aacMetaData.getArtist();
 		this.trackNumber = aacMetaData.getNumber();
 		this.trackTitle = aacMetaData.getTrack();
+                this.genre = aacMetaData.getTrack();
 	}	
 }

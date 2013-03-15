@@ -37,6 +37,7 @@ public class SQLiteDatabase extends JDBCDatabase {
             createStructure();
 
             checkUserIsActiveColumnExists();
+            checkTrackGenreColumnExists();
 
         }
         
@@ -227,6 +228,15 @@ public class SQLiteDatabase extends JDBCDatabase {
 
         return "random";
 
+    }
+
+    @Override
+    protected void checkTrackGenreColumnExists() {
+        
+        final String sql = " alter table tracks " +
+                           " add column genre text null";
+
+        safeUpdate ( sql );
     }
     
 }

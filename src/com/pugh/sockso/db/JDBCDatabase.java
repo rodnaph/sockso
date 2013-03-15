@@ -303,6 +303,14 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         update( "insert into properties ( name, value ) values ( '" +Constants.APP_CONFIRM_EXIT+ "', '" + Properties.YES + "' )" );
         update( "insert into properties ( name, value ) values ( '" +Constants.APP_START_MINIMIZED+ "', '" + Properties.NO + "' )" );
 
+        update( "insert into properties ( name, value ) values ( '" +Constants.DEFAULT_ARTWORK_HEIGHT+ "', '300' )" );
+        update( "insert into properties ( name, value ) values ( '" +Constants.DEFAULT_ARTWORK_WIDTH+ "', '300' )" );
+        update( "insert into properties ( name, value ) values ( '" +Constants.DEFAULT_ARTWORK_TYPE+ "', 'png' )" );
+        
+        
+        update( "insert into properties ( name, value ) values ( '" +Constants.COLLMAN_SCAN_COVERS+ "', '" + Properties.YES + "' )" );
+        update( "insert into properties ( name, value ) values ( '" +Constants.COVERS_DISABLE_REMOTE_FETCHING+ "', '" + Properties.YES + "' )" );
+
     }
     
     /**
@@ -332,6 +340,20 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
 
     }
 
+    
+    /**
+     * Checks the track.genre column
+     *
+     */
+    protected void checkTrackGenreColumnExists() {
+
+        final String sql = " alter table tracks " +
+                           " add genre varchar(30) null";
+
+        safeUpdate ( sql );
+
+    }
+    
     /**
      * Creates the users.is_active column if it doesn't exist
      *

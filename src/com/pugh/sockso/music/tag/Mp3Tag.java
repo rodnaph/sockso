@@ -6,10 +6,7 @@
 
 package com.pugh.sockso.music.tag;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
-
 import java.io.IOException;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.mp3.MP3File;
@@ -50,6 +47,7 @@ public class Mp3Tag extends AudioTag {
         albumTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_ALBUM );
         trackTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_TITLE );
         albumYear = v2tag.getFirst( ID3v24Frames.FRAME_ID_YEAR );
+        genre = v2tag.getFirst( ID3v24Frames.FRAME_ID_GENRE );
         String trackN = v2tag.getFirst( ID3v24Frames.FRAME_ID_TRACK );
 
         try {
@@ -81,6 +79,8 @@ public class Mp3Tag extends AudioTag {
                 trackTitle = tag.getTitle().get(0).toString();
             if ( albumYear.equals( "" ) )
                 albumYear = tag.getYear().get(0).toString();
+            if ( genre.equals( "" ) )
+                genre = tag.getGenre().get(0).toString();
             if ( trackNumber == 0 )
                 try {
                     String trackN = tag.getTrack().get(0).toString();
