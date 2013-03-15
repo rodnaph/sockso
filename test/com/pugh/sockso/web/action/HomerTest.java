@@ -1,21 +1,26 @@
 
 package com.pugh.sockso.web.action;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestResponse;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
-
-import static org.easymock.EasyMock.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomerTest extends SocksoTestCase {
     
@@ -42,7 +47,7 @@ public class HomerTest extends SocksoTestCase {
         final Homer h = new Homer();
         h.setDatabase( db );
         
-        final Vector<Album> albums = h.getRecentlyPlayedAlbums( total );
+        final List<Album> albums = h.getRecentlyPlayedAlbums( total );
         
         assertNotNull( albums );
         assertEquals( 2, albums.size() );
@@ -87,7 +92,7 @@ public class HomerTest extends SocksoTestCase {
         final Homer h = new Homer();
         h.setDatabase( db );
         
-        final Vector<Track> tracks = h.getRecentlyPlayedTracks( 10 );
+        final List<Track> tracks = h.getRecentlyPlayedTracks( 10 );
         
         assertNotNull( tracks );
         assertEquals( 2, tracks.size() );
@@ -131,7 +136,7 @@ public class HomerTest extends SocksoTestCase {
         final Homer h = new Homer();
         h.setDatabase( db );
         
-        final Vector<Artist> artists = h.getTopArtists( 10 );
+        final List<Artist> artists = h.getTopArtists( 10 );
         
         assertNotNull( artists );
         assertEquals( 2, artists.size() );
@@ -155,9 +160,9 @@ public class HomerTest extends SocksoTestCase {
     public void testShowMain() throws Exception {
 
         final Database db = new TestDatabase();
-        final Vector<Track> recentlyPlayedTracks = new Vector<Track>();
-        final Vector<Artist> topArtists = new Vector<Artist>();
-        final Vector<Album> recentlyPlayedAlbums = new Vector<Album>();
+        final List<Track> recentlyPlayedTracks = new ArrayList<Track>();
+        final List<Artist> topArtists = new ArrayList<Artist>();
+        final List<Album> recentlyPlayedAlbums = new ArrayList<Album>();
         final TestResponse res = new TestResponse( db );
         final Homer h = new Homer();
 

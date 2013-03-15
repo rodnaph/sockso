@@ -16,6 +16,7 @@ import com.pugh.sockso.web.Server;
 
 public class SocksoTestModule extends AbstractModule {
     
+    @Override
     public void configure() {
         
         bind( Database.class ).to( TestDatabase.class ).in( Singleton.class );

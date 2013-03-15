@@ -9,33 +9,42 @@
 
 package com.pugh.sockso.web.action;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.Constants;
-import com.pugh.sockso.Utils;
-import com.pugh.sockso.tests.TestResponse;
-import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.auth.DBAuthenticator;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Track;
 import com.pugh.sockso.resources.Locale;
+import com.pugh.sockso.tests.SocksoTestCase;
+import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.tests.TestRequest;
-import com.pugh.sockso.web.*;
+import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.HttpResponseCookie;
+import com.pugh.sockso.web.Request;
+import com.pugh.sockso.web.Response;
+import com.pugh.sockso.web.Submission;
+import com.pugh.sockso.web.User;
 
 import java.io.IOException;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Date;
-
-import static org.easymock.EasyMock.*;
+import java.util.List;
 
 public class UsererTest extends SocksoTestCase {
 
@@ -384,7 +393,7 @@ public class UsererTest extends SocksoTestCase {
         final Userer u = new Userer();
 
         u.setDatabase( db );
-        final Vector<Track> tracks = u.getNonScrobbledTracks( user );
+        final List<Track> tracks = u.getNonScrobbledTracks( user );
         
         assertNotNull( tracks );
         assertEquals( 2, tracks.size() );
@@ -445,7 +454,7 @@ public class UsererTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final Userer u = new Userer();
-        final Vector<Track> tracks = new Vector<Track>();
+        final List<Track> tracks = new ArrayList<Track>();
         
         final Date theDate = new Date();
         final Artist artist = new Artist( 1, "myArtist" );

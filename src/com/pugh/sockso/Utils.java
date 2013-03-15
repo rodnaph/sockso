@@ -12,33 +12,28 @@ package com.pugh.sockso;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.web.BadRequestException;
 
+import org.apache.log4j.Logger;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.io.BufferedReader;
 import java.io.Writer;
-
+import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-import java.util.Random;
-import java.util.Date;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-import java.text.SimpleDateFormat;
-
+import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import java.security.MessageDigest;
-
-import org.apache.log4j.Logger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -535,7 +530,7 @@ public class Utils {
     
     public static boolean isFeatureEnabled( final Properties p, final String property ) {
 
-        return p.get( property ).equals( p.YES );
+        return p.get( property ).equals( Properties.YES );
 
     }
     
@@ -560,7 +555,7 @@ public class Utils {
     /**
      *  u2e = unicode to entities
      * 
-     *  coverts any unicode characters in a string to their numeric entity
+     *  converts any unicode characters in a string to their numeric entity
      * 
      */
     
@@ -569,9 +564,9 @@ public class Utils {
         final int length = orig.length();
         final StringBuffer buffer = new StringBuffer( length * 2 );
         
-        for ( int i = 0; i<length; i++ ) {
+        for ( int i = 0; i < length; i++ ) {
             char c = orig.charAt(i);
-            int code = (int) c;
+            int code = c;
             buffer.append( code < 0x80
                 ? c
                 : "&#" +( (int) c )+';'

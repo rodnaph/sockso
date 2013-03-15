@@ -12,25 +12,25 @@ package com.pugh.sockso.resources;
 
 import com.pugh.sockso.Utils;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-
-import java.util.Hashtable;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import com.google.inject.Singleton;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Singleton;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Singleton
 public class FileLocale implements Locale {
 
     private static final Logger log = Logger.getLogger( Locale.class );
     
-    private final Hashtable<String,String> strings;
+    private final Map<String,String> strings;
     private final String langCode;
 
     /**
@@ -58,7 +58,7 @@ public class FileLocale implements Locale {
     
     public FileLocale( final Resources r, final String langCode, final Locale defaultLocale ) {
 
-        this.strings = new Hashtable<String,String>();
+        this.strings = new HashMap<String,String>();
         this.langCode = langCode;
         
         BufferedReader in = null;
@@ -103,6 +103,7 @@ public class FileLocale implements Locale {
      * 
      */
     
+    @Override
     public String getLangCode() {
         
         return langCode;
@@ -117,6 +118,7 @@ public class FileLocale implements Locale {
      * 
      */
 
+    @Override
     public String getString( final String name ) {
 
         String value = strings.get( name );
@@ -137,6 +139,7 @@ public class FileLocale implements Locale {
      * 
      */
     
+    @Override
     public String getString( final String name, final String[] replacements ) {
         
         String value = getString( name );
@@ -155,6 +158,7 @@ public class FileLocale implements Locale {
      * 
      */
     
+    @Override
     public Set<String> getNames() {
         
         return strings.keySet();

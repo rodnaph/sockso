@@ -6,7 +6,7 @@
     com.pugh.sockso.music.Artist;
     com.pugh.sockso.web.User;
     com.pugh.sockso.resources.Locale;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%implements>
@@ -16,10 +16,10 @@
 <%args>
     Properties properties = null;
     String letter = null;
-    Vector<Artist> artists = null;
+    List<Artist> artists = null;
     User user = null;
     Locale locale = null;
-    Vector<User> recentUsers = null;
+    List<User> recentUsers = null;
 </%args>
 
 <& ../IHeader; properties=properties; title="Browsing Artists: " + letter.toUpperCase(); user=user; locale=locale; &>

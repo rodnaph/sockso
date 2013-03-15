@@ -8,14 +8,14 @@ import com.pugh.sockso.templates.web.browse.TByLetter;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.BaseAction;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Vector;
-
-import org.apache.log4j.Logger;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  shows artists by letter
@@ -37,6 +37,7 @@ public class ByLetterer extends BaseAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws IOException, SQLException {
         
         final Request req = getRequest();
@@ -59,7 +60,7 @@ public class ByLetterer extends BaseAction {
      * 
      */
     
-    protected void showByLetter( final String letter, final Vector<Artist> artists ) throws IOException, SQLException {
+    protected void showByLetter( final String letter, final List<Artist> artists ) throws IOException, SQLException {
 
         final TByLetter tpl = new TByLetter();
 
@@ -81,7 +82,7 @@ public class ByLetterer extends BaseAction {
      * 
      */
     
-    protected Vector<Artist> getArtistsByLetter( final String letter ) throws SQLException {
+    protected List<Artist> getArtistsByLetter( final String letter ) throws SQLException {
         
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -112,9 +113,9 @@ public class ByLetterer extends BaseAction {
 
             rs = st.executeQuery();
 
-            final Vector<Artist> artists = new Vector<Artist>();
+            final List<Artist> artists = new ArrayList<Artist>();
             while ( rs.next() )
-                artists.addElement( new Artist(
+                artists.add( new Artist(
                     rs.getInt("id"), rs.getString("name"),
                     null, rs.getInt("albumCount"), -1
                 ));

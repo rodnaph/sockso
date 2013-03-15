@@ -1,25 +1,29 @@
 
 package com.pugh.sockso.web.action.browse;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
-import com.pugh.sockso.tests.TestUtils;
-import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestResponse;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
-
-import static org.easymock.EasyMock.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LatesterTest extends SocksoTestCase {
 
@@ -48,7 +52,7 @@ public class LatesterTest extends SocksoTestCase {
         b.setProperties( p );
         b.setDatabase( db );
         
-        final Vector<Artist> artists = b.getLatestArtists();
+        final List<Artist> artists = b.getLatestArtists();
         
         assertNotNull( artists );
         assertEquals( 2, artists.size() );
@@ -75,9 +79,9 @@ public class LatesterTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final Latester b = new Latester();
-        final Vector<Track> tracks = new Vector<Track>();
-        final Vector<Artist> artists = new Vector<Artist>();
-        final Vector<Album> albums = new Vector<Album>();
+        final List<Track> tracks = new ArrayList<Track>();
+        final List<Artist> artists = new ArrayList<Artist>();
+        final List<Album> albums = new ArrayList<Album>();
         final Artist artist = new Artist( 1, "my artist" );
         final Album album = new Album( artist, 1, "my album", "year" );
         final Track track = new Track( artist, null, 1, "my track", "", 1, null );
@@ -121,7 +125,7 @@ public class LatesterTest extends SocksoTestCase {
         b.setProperties( p );
         b.setDatabase( db );
         
-        final Vector<Album> albums = b.getLatestAlbums();
+        final List<Album> albums = b.getLatestAlbums();
         
         assertNotNull( albums );
         assertEquals( 2, albums.size() );

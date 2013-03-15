@@ -9,8 +9,8 @@ import com.pugh.sockso.web.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Playlist extends MusicItem {
     
@@ -51,7 +51,7 @@ public class Playlist extends MusicItem {
      * 
      */
     
-    public Vector<Track> getTracks( final Database db ) throws SQLException, BadRequestException {
+    public List<Track> getTracks( final Database db ) throws SQLException, BadRequestException {
         
         return Track.getTracks( db, "pl", getId() );
         
@@ -98,7 +98,7 @@ public class Playlist extends MusicItem {
      *  
      */
     
-    public static Vector<Playlist> findAll( final Database db, int limit, int offset ) throws SQLException {
+    public static List<Playlist> findAll( final Database db, int limit, int offset ) throws SQLException {
         
         return findPlaylistsForSql( db, limit, offset,  "" );
                     
@@ -118,14 +118,14 @@ public class Playlist extends MusicItem {
      * 
      */
     
-    protected static Vector<Playlist> findPlaylistsForSql( final Database db, final int limit, final int offset, final String whereSql ) throws SQLException {
+    protected static List<Playlist> findPlaylistsForSql( final Database db, final int limit, final int offset, final String whereSql ) throws SQLException {
     	
         PreparedStatement st = null;
         ResultSet rs = null;
 
     	try {
 
-            final Vector<Playlist> lists = new Vector<Playlist>();
+            final List<Playlist> lists = new ArrayList<Playlist>();
             
             String sql = getSelectFromSql() +
                         whereSql +
@@ -168,11 +168,11 @@ public class Playlist extends MusicItem {
      * 
      */
     
-    public static Vector<Playlist> findAllForUser( final Database db, final User user, final int limit, final int offset ) throws SQLException {
+    public static List<Playlist> findAllForUser( final Database db, final User user, final int limit, final int offset ) throws SQLException {
         
         return user != null
             ? findPlaylistsForSql( db, limit, offset, " where p.user_id = '" +user.getId()+ "' " )
-            : new Vector<Playlist>();
+            : new ArrayList<Playlist>();
         
     }
     
@@ -189,7 +189,7 @@ public class Playlist extends MusicItem {
      * 
      */
     
-    public static Vector<Playlist> findAllForSite( final Database db, final int limit, final int offset ) throws SQLException {
+    public static List<Playlist> findAllForSite( final Database db, final int limit, final int offset ) throws SQLException {
         
         return findPlaylistsForSql( db, limit, offset, " where p.user_id = -1 " );
         

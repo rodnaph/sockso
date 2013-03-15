@@ -3,11 +3,11 @@
     com.pugh.sockso.music.Track;
     java.sql.ResultSet;
     java.sql.SQLException;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%args>
-    Vector<Track> tracks = null;
+    List<Track> tracks = null;
 </%args>
 
 <%java>

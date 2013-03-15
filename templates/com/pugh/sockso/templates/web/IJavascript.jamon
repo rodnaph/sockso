@@ -14,19 +14,16 @@
     User user = null;
 </%args>
 
-<%if properties.get("dev.enabled").equals(properties.YES) %>
+<%if properties.get("dev.enabled").equals(Properties.YES) %>
     <%java>
         final String[] jsFiles = new String[] {
 
             "jquery", "jquery.corner", "persistjs",
-
             "sockso", "sockso.Base", "sockso.Hashtable", "sockso.Session",
             "sockso.Locale", "sockso.Properties", "sockso.Player", "sockso.Playlist",
             "sockso.SearchBox", "sockso.UploadForm", "sockso.User", "sockso.RelatedArtists",
             "sockso.Sharer", "sockso.ImageFlow", "sockso.FolderBrowsing", "sockso.AdminConsole",
-            "sockso.Page", "sockso.Ajaxer", "sockso.Html5Player",
-
-            "init"
+            "sockso.Page", "sockso.Ajaxer", "sockso.Html5Player", "init"
 
         };
     </%java>

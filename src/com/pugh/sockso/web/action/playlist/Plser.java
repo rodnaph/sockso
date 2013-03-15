@@ -17,6 +17,7 @@ public class Plser extends Playlister {
         super.init( protocol, "pls" );
     }
 
+    @Override
     public PlaylistTemplate getPlaylistTemplate() {
         return new TPls();
     }

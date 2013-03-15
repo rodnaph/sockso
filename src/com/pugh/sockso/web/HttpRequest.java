@@ -12,22 +12,22 @@ package com.pugh.sockso.web;
 import com.pugh.sockso.Utils;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
-
-import java.util.Hashtable;
-import java.util.regex.Pattern;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HttpRequest implements Request {
 
     public static final int MAX_HEADERS = 100;
 
     private final Server server;
-    protected final Hashtable<String,String> cookies;
-    protected final Hashtable<String,String> arguments;
-    private final Hashtable<String,String> headers;
-    private final Hashtable<String,UploadFile> files;
+    protected final Map<String,String> cookies;
+    protected final Map<String,String> arguments;
+    private final Map<String,String> headers;
+    private final Map<String,UploadFile> files;
 
     private String[] params = null;
     private String host = null, statusLine = null;
@@ -48,10 +48,10 @@ public class HttpRequest implements Request {
     public HttpRequest( final Server server ) {
 
         this.server = server;
-        this.cookies = new Hashtable<String,String>();
-        this.arguments = new Hashtable<String,String>();
-        this.headers = new Hashtable<String,String>();
-        this.files = new Hashtable<String,UploadFile>();
+        this.cookies = new HashMap<String,String>();
+        this.arguments = new HashMap<String,String>();
+        this.headers = new HashMap<String,String>();
+        this.files = new HashMap<String,UploadFile>();
 
     }
 
@@ -65,6 +65,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public void process( final InputStream stream ) throws IOException, BadRequestException, EmptyRequestException {
 
         final InputBuffer buffer = new InputBuffer( stream, 100 );
@@ -326,6 +327,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String getResource() {
 
         return statusLine;
@@ -343,6 +345,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String getHeader( final String name ) {
 
         final String value = headers.get( name.toLowerCase() );
@@ -360,6 +363,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String getArgument( final String name ) {
 
         final String value = arguments.get( name );
@@ -369,10 +373,11 @@ public class HttpRequest implements Request {
     }
 
     /**
-     *  indicates if an arugment was present
+     *  indicates if an argument was present
      *
      */
 
+    @Override
     public boolean hasArgument( final String name ) {
 
         return !getArgument(name).equals("");
@@ -389,6 +394,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public UploadFile getFile( final String name ) {
 
        return files.get( name );
@@ -430,6 +436,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String getCookie( final String name ) {
 
         final String value = cookies.get( name );
@@ -447,6 +454,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String getHost() {
 
         return host != null
@@ -463,6 +471,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String getUrlParam( final int index ) {
         return ( index < params.length )
             ? Utils.URLDecode(params[ index ])
@@ -476,6 +485,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public int getParamCount() {
        return params.length;
     }
@@ -492,10 +502,12 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String[] getPlayParams( final boolean skipFirstArg ) {
         return getPlayParams( skipFirstArg ? 1 : 0 );
     }
 
+    @Override
     public String[] getPlayParams( final int skipNumArgs ) {
 
         final int offset = 1 + skipNumArgs;
@@ -517,6 +529,7 @@ public class HttpRequest implements Request {
      *
      */
 
+    @Override
     public String getPreferredLangCode() {
 
         final String langs = getHeader( "Accept-Language" );
