@@ -80,6 +80,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             checkUserAdminColumnExists();
             checkUserIsActiveColumnExists();
             checkAlbumYearColumnExists();
+            checkTrackGenreColumnExists();
 
         }
         
