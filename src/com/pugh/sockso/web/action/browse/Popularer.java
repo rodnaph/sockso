@@ -91,7 +91,7 @@ public class Popularer extends BaseAction {
                             " left outer join play_log l " +
                             " on l.track_id = t.id " +
                         " group by artistId, artistName, albumId, albumName, albumYear, trackId, " +
-                            " trackName, trackPath, trackNo, dateAdded " +
+                            " trackName, trackPath, trackNo, dateAdded, genre " +
                         " having count(l.id) > 0 " +
                         " order by count(l.id) desc " +
                         " limit ? ";

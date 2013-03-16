@@ -175,7 +175,8 @@ public class Track extends MusicItem {
                 .name(rs.getString("trackName")) //
                 .path(rs.getString("trackPath")) //
                 .number(rs.getInt("trackNo")) //
-                .dateAdded(rs.getDate("dateAdded"));
+                .dateAdded(rs.getDate("dateAdded")) //
+                .genre(rs.getString("genre"));
 
         return builder.build();
     }
@@ -206,10 +207,17 @@ public class Track extends MusicItem {
      * @return the sql
      */
     public static String getSelectSql() {
-        return " select ar.id as artistId, ar.name as artistName, "
-                + " al.id as albumId, al.name as albumName, al.year as albumYear, "
-                + " t.id as trackId, t.name as trackName, t.path as trackPath, "
-                + " t.track_no as trackNo, t.date_added as dateAdded ";
+        return " select ar.id as artistId"
+                + ", ar.name as artistName"
+                + ", al.id as albumId"
+                + ", al.name as albumName"
+                + ", al.year as albumYear"
+                + ", t.id as trackId"
+                + ", t.name as trackName"
+                + ", t.path as trackPath"
+                + ", t.track_no as trackNo"
+                + ", t.date_added as dateAdded"
+                + ", t.genre as genre ";
     }
 
     /**
@@ -219,7 +227,8 @@ public class Track extends MusicItem {
      * @return the sql
      */
     public static String getSelectFromSql() {
-        return getSelectSql() + " from tracks t " + " inner join artists ar " + " on ar.id = t.artist_id "
+        return getSelectSql() + " from tracks t "
+                + " inner join artists ar " + " on ar.id = t.artist_id "
                 + " inner join albums al " + " on al.id = t.album_id ";
     }
 
@@ -371,8 +380,8 @@ public class Track extends MusicItem {
 
         final String description = removeSpecialChars(getArtist().getName()) + "-" + removeSpecialChars(getName());
 
-        final String sessionArgs = p.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(p.YES)
-                && p.get(Constants.STREAM_REQUIRE_LOGIN).equals(p.YES) && user != null ? "?sessionId="
+        final String sessionArgs = p.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(Properties.YES)
+                && p.get(Constants.STREAM_REQUIRE_LOGIN).equals(Properties.YES) && user != null ? "?sessionId="
                 + user.getSessionId() + "&sessionCode=" + user.getSessionCode() : "";
 
         return p.getUrl("/stream/" + getId() + "/" + description + sessionArgs);

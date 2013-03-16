@@ -152,8 +152,8 @@ public class Homer extends BaseAction {
                         " on ar.id = t.artist_id " +
                         " inner join albums al " +
                         " on al.id = t.album_id " +
-                        " group by artistId, artistName, albumId, albumName, albumYear, trackId, " +
-                        " trackName, trackPath, trackNo, dateAdded " +
+                        " group by artistId, artistName, albumId, albumName, albumYear, " + 
+                        "trackId, trackName, trackPath, trackNo, dateAdded, genre " +
                     " limit ? ";
             
             st = db.prepare( sql );
@@ -161,8 +161,7 @@ public class Homer extends BaseAction {
             rs = st.executeQuery();
             
             return Track.createListFromResultSet( rs );
-                    
-                    
+            
         }
         
         finally {

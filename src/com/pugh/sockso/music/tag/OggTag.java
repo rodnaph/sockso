@@ -29,7 +29,7 @@ public class OggTag extends AudioTag {
     private static final Logger log = Logger.getLogger( OggTag.class );
     
     private State state = null;
-    private static int CHUNKSIZE = 4096;
+    private static final int CHUNKSIZE = 4096;
 
     public void parse( final File file ) throws IOException {
 
@@ -59,7 +59,8 @@ public class OggTag extends AudioTag {
                     trackTitle = value;
                 else if ( name.equalsIgnoreCase( "date" ) )
                     albumYear = value;
-                
+                else if ( name.equalsIgnoreCase("genre") )
+                    this.genre = value;
             }
 
         }
@@ -206,7 +207,7 @@ class State {
 
     private static final Logger log = Logger.getLogger( State.class );
     
-    private static int CHUNKSIZE = 4096;
+    private static final int CHUNKSIZE = 4096;
 
     SyncState oy;
     StreamState os;
@@ -275,5 +276,3 @@ class State {
     }
     
 }
-
-

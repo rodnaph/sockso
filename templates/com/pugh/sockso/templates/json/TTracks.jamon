@@ -19,6 +19,8 @@
 {
         id: <% track.getId() %>,
         name: "<% Utils.escapeJs(track.getName()) %>",
+        number: <% track.getNumber() %>,
+        genre: "<% Utils.escapeJs(track.getGenre()) %>",
 
         artist: {
             id: <% track.getArtist().getId() %>,

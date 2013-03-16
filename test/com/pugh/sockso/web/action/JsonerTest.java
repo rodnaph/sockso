@@ -6,7 +6,6 @@ import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestLocale;
@@ -17,7 +16,7 @@ import com.pugh.sockso.web.*;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.Vector;
+import java.util.List;
 import java.util.ArrayList;
 
 public class JsonerTest extends SocksoTestCase {
@@ -35,7 +34,7 @@ public class JsonerTest extends SocksoTestCase {
     @Override
     public void setUp() {
         p = new StringProperties();
-        p.set( Constants.WWW_BROWSE_FOLDERS_ENABLED, p.YES );
+        p.set( Constants.WWW_BROWSE_FOLDERS_ENABLED, Properties.YES );
         db = new TestDatabase();
         res = new TestResponse();
         req = new TestRequest( "GET / HTTP/1.1" );
@@ -65,7 +64,7 @@ public class JsonerTest extends SocksoTestCase {
     
     public void testShowTracks() throws IOException {
         
-        final Vector<Track> tracks = new Vector<Track>();
+        final List<Track> tracks = new ArrayList<Track>();
         final Jsoner j = new Jsoner( null, null );
         final Response res = new TestResponse();
         final Track track = TestUtils.getTrack();

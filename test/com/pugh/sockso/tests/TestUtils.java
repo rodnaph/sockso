@@ -9,7 +9,6 @@
 
 package com.pugh.sockso.tests;
 
-import com.pugh.sockso.Properties;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
@@ -183,7 +182,7 @@ public class TestUtils {
         
         return new Track(
             getArtist(), getAlbum(),
-            123, "foo", "/my/path", 1, new Date()
+            123, "foo", "/my/path", 1, new Date(), "rock"
         );
         
     }

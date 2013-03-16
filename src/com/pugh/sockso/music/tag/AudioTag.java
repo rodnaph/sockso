@@ -90,7 +90,6 @@ public abstract class AudioTag implements Tag {
         if ( tag.artistTitle.equals("") ) tag.artistTitle = guessArtist( file );
         if ( tag.albumTitle.equals("") ) tag.albumTitle = guessAlbum( file );
         if ( tag.trackTitle.equals("") ) tag.trackTitle = guessTrack( file );
-        //if ( tag.genre.equals("") ) tag.genre = guessGenre(file);
         if ( tag.trackNumber == 0 ) tag.setTrackNumber( guessTrackNumber(file) );
         
         return tag;

@@ -12,6 +12,7 @@
     "id": <% track.getId() %>,
     "name": <% JsonUtils.string(track.getName()) #n %>,
     "number": <% track.getNumber() %>,
+    "genre": <% track.getGenre() #n %>,
 
     "album": {
         "id": <% track.getAlbum().getId() %>,

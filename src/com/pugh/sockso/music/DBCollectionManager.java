@@ -151,11 +151,16 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         final Tag tag = AudioTag.getTag( file );
 
-        log.debug( tag.getArtist() + " - " + tag.getAlbum() + " - " + tag.getAlbumYear() + " - " + tag.getTrack() );
+        log.debug( tag.getArtist() + " - " 
+                 + tag.getAlbum() + " - " 
+                 + tag.getAlbumYear() + " - " 
+                 + tag.getTrack() + " - " 
+                 + tag.getGenre() );
 
         final int artistId = addArtist( tag.getArtist() );
         final int albumId  = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
-        final int trackId  = addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
+        final int trackId  = addTrack( artistId, albumId, tag.getTrack(), 
+                tag.getTrackNumber(), file, collectionId, tag.getGenre() );
 
         if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) ) {
             
@@ -243,8 +248,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     protected void checkAlbumTagInfo( final int artistId, final Tag tag, final Track track ) throws SQLException {
 
         // need to ignore case because that's how the DB does it
-        if ( !track.getAlbum().getName().toLowerCase().equals(tag.getAlbum().toLowerCase()) ||
-             !track.getAlbum().getYear().toLowerCase().equals(tag.getAlbumYear().toLowerCase()) ) {
+        if ( !track.getAlbum().getName().equalsIgnoreCase(tag.getAlbum()) ||
+             !track.getAlbum().getYear().equalsIgnoreCase(tag.getAlbumYear()) ) {
 
             ResultSet rs = null;
             PreparedStatement st = null;
@@ -304,9 +309,11 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     }
 
     /**
-     *  checks if the artist information has changed, if it has the the database
-     *  is updated, and the new artist id returned (otherwise the artist id that's
-     *  returned will be the one from the track that hasn't changed)
+     *  Checks if the artist information has changed.
+     *  If it has changed, then the database is updated and the new artist id is
+     *  returned.
+     *  Otherwise, the artist id that's returned will be the one from the track 
+     *  that hasn't changed.
      *
      *  @param tag
      *  @param track
@@ -317,10 +324,10 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *
      */
 
-    protected int checkArtistTagInfo( final Tag tag, final Track track) throws SQLException {
+    protected int checkArtistTagInfo( final Tag tag, final Track track ) throws SQLException {
 
         // need to ignore case because that's how the DB does it
-        if ( !track.getArtist().getName().toLowerCase().equals(tag.getArtist().toLowerCase()) ) {
+        if ( !track.getArtist().getName().equalsIgnoreCase(tag.getArtist()) ) {
 
             PreparedStatement st = null;
             ResultSet rs = null;
@@ -437,7 +444,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     protected void checkTrackTagInfo( final Tag tag, final Track track ) throws SQLException {
 
-        if ( !track.getName().equals(tag.getTrack()) || (track.getNumber() != tag.getTrackNumber()) ) {
+        if ( !track.getName().equalsIgnoreCase(tag.getTrack()) || (track.getNumber() != tag.getTrackNumber()) ) {
 
             PreparedStatement st = null;
 
@@ -511,7 +518,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     protected String getArtistBrowseName( final String[] prefixes, final String name ) {
 
         for ( final String prefix : prefixes ) {
-            if ( name.substring(0,prefix.length()).toLowerCase().equals(prefix.toLowerCase()) ) {
+            if ( name.substring(0,prefix.length()).equalsIgnoreCase(prefix) ) {
                 return name.substring( prefix.length() );
             }
         }
@@ -543,9 +550,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     protected void removeTrack( final int trackId ) throws SQLException {
 
-        String sql = "";
-
-        sql = " delete from play_log " +
+        String sql = " delete from play_log " +
                 " where track_id = '" +trackId+ "' ";
         db.update( sql );
 
@@ -807,7 +812,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *
      */
 
-    private int addTrack( final int artistId, final int albumId, String name, final int trackNo, final File file, final int collectionId ) {
+    private int addTrack( final int artistId, final int albumId, String name, 
+            final int trackNo, final File file, final int collectionId, final String genre ) {
 
         if ( name.equals("") )
             name = "Unknown Track (" + trackNo + ")";
@@ -820,8 +826,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             try {
 
                 final String sql = " insert into tracks ( artist_id, album_id, name, path, " +
-                        " length, collection_id, date_added, track_no ) " +
-                    " values ( ?, ?, ?, ?, 100, ?, current_timestamp, ? ) ";
+                                   " length, collection_id, date_added, track_no, genre ) " +
+                                   " values ( ?, ?, ?, ?, 100, ?, current_timestamp, ?, ? ) ";
 
                 st = db.prepare( sql );
                 st.setInt( 1, artistId );
@@ -830,6 +836,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                 st.setString( 4, file.getAbsolutePath() );
                 st.setInt( 5, collectionId );
                 st.setInt( 6, trackNo );
+                st.setString( 7, genre);
                 st.execute();
 
                 log.debug( "Added Track: " + name );
@@ -977,12 +984,10 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     protected void removeEmptyArtistsAndAlbums() throws SQLException {
 
-        String sql = null;
-
         // remove any artists left without tracks
-        sql = " delete from artists " +
-                " where id not in ( select artist_id " +
-                                    " from tracks ) ";
+        String sql = " delete from artists " +
+                     " where id not in ( select artist_id " +
+                                       " from tracks ) ";
         db.update( sql );
         // remove any albums left without tracks
         sql = " delete from albums " +

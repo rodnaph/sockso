@@ -8,6 +8,7 @@ package com.pugh.sockso.music.tag;
 
 import java.io.File;
 import java.io.IOException;
+import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.mp3.MP3File;
 import org.jaudiotagger.tag.datatype.Artwork;
@@ -17,6 +18,8 @@ import org.jaudiotagger.tag.id3.ID3v24Tag;
 
 public class Mp3Tag extends AudioTag {
 
+    private static final Logger log = Logger.getLogger( AudioTag.class );
+    
     /**
      *  Returns ID3Data for the file.
      *
@@ -35,7 +38,9 @@ public class Mp3Tag extends AudioTag {
             if ( f.hasID3v1Tag() )
                 parseID3v1Tag( f );
 
-        } catch ( Exception e ) {}
+        } catch ( Exception e ) {
+            log.error( "Error parsing MP3 tag: " + e.getMessage() );
+        }
 
     }
 
@@ -59,7 +64,7 @@ public class Mp3Tag extends AudioTag {
             try {
                 coverArt = artwork.getImage();
             } catch (final IOException ioe) {
-                // TODO log warning/error
+                log.warn("Unable to extract cover art image: " + ioe.getMessage());
             }
         }
 
@@ -92,7 +97,7 @@ public class Mp3Tag extends AudioTag {
                     try {
                         coverArt = artwork.getImage();
                     } catch (final IOException ioe) {
-                        // TODO log warning/error
+                        log.warn("Unable to extract cover art image: " + ioe.getMessage());
                     }
                 }
             }

@@ -112,6 +112,7 @@ public class TrackTest extends SocksoTestCase {
         expect( rs.getString((String)anyObject()) ).andReturn( "1" ).times( 2 );
         expect( rs.getInt("trackNo") ).andReturn( 1 ).times( 1 );
         expect( rs.getDate("dateAdded") ).andReturn( null ).times( 1 );
+        expect( rs.getString("genre") ).andReturn("");
         expect( rs.next() ).andReturn( false );
         replay( rs );
         
