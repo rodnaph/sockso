@@ -38,7 +38,6 @@ public abstract class AudioTag implements Tag {
     public String getAlbum() { return albumTitle; }
     public String getTrack() { return trackTitle; }
     public String getGenre() { return genre; }
-    public String getk() { return trackTitle; }
     public int getTrackNumber() { return trackNumber; }
     public String getAlbumYear() { return albumYear; }
     public BufferedImage getCoverArt() { return coverArt; }

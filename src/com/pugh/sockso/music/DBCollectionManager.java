@@ -444,7 +444,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     protected void checkTrackTagInfo( final Tag tag, final Track track ) throws SQLException {
 
-        if ( !track.getName().equalsIgnoreCase(tag.getTrack()) || (track.getNumber() != tag.getTrackNumber()) ) {
+        if ( !track.getName().equalsIgnoreCase(tag.getTrack()) ||
+             (track.getNumber() != tag.getTrackNumber()) || 
+             (!tag.getGenre().equalsIgnoreCase(track.getGenre())) ) {
 
             PreparedStatement st = null;
 
@@ -452,13 +454,15 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
                 final String sql = " update tracks " +
                                    " set name = ?, " +
-                                       " track_no = ? " +
+                                       " track_no = ?, " +
+                                       " genre = ? " +
                                    " where id = ? ";
 
                 st = db.prepare( sql );
                 st.setString( 1, tag.getTrack() );
                 st.setInt( 2, tag.getTrackNumber() );
-                st.setInt( 3, track.getId() );
+                st.setString( 3, tag.getGenre() );
+                st.setInt( 4, track.getId() );
                 st.execute();
 
             }
