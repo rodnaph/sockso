@@ -20,12 +20,13 @@ import java.util.List;
 public class Track extends MusicItem {
 
     private static final Logger log = Logger.getLogger(Track.class);
+    
     private final Artist artist;
     private final Album album;
     private final String path;
     private final int number;
     private final Date dateAdded;
-    private final String genre;
+    private final Genre genre;
     private int playCount = 0;
 
     /**
@@ -44,7 +45,7 @@ public class Track extends MusicItem {
     }
 
     public Track( final Artist artist, final Album album, final int id, final String name, final String path,
-            final int number, final Date dateAdded, final String genre ) {
+            final int number, final Date dateAdded, final Genre genre ) {
         super(MusicItem.TRACK, id, name);
         this.artist = artist;
         this.album = album;
@@ -69,12 +70,12 @@ public class Track extends MusicItem {
 
         private Artist artist;
         private Album album;
+        private Genre genre;
+        private String name;
         private String path;
         private int number;
         private Date dateAdded;
-        private String genre;
         private int id;
-        private String name;
 
         // private int playCount = 0;
         public Builder artist( Artist artist ) {
@@ -102,7 +103,7 @@ public class Track extends MusicItem {
             return this;
         }
 
-        public Builder genre( String genre ) {
+        public Builder genre( Genre genre ) {
             this.genre = genre;
             return this;
         }
@@ -147,7 +148,7 @@ public class Track extends MusicItem {
         return dateAdded;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
@@ -167,16 +168,17 @@ public class Track extends MusicItem {
         final Artist artist = new Artist(rs.getInt("artistId"), rs.getString("artistName"));
         final Album album = new Album(artist, rs.getInt("albumId"), rs.getString("albumName"),
                 rs.getString("albumYear"));
-
+        final Genre genre = new Genre(rs.getInt("genreId"), rs.getString("genreName"));
+        
         final Builder builder = new Track.Builder();
         builder.artist(artist) //
                 .album(album) //
+                .genre(genre) //
                 .id(rs.getInt("trackId")) //
                 .name(rs.getString("trackName")) //
                 .path(rs.getString("trackPath")) //
                 .number(rs.getInt("trackNo")) //
-                .dateAdded(rs.getDate("dateAdded")) //
-                .genre(rs.getString("genre"));
+                .dateAdded(rs.getDate("dateAdded"));
 
         return builder.build();
     }
@@ -217,7 +219,8 @@ public class Track extends MusicItem {
                 + ", t.path as trackPath"
                 + ", t.track_no as trackNo"
                 + ", t.date_added as dateAdded"
-                + ", t.genre as genre ";
+                + ", g.id as genreId"
+                + ", g.name as genreName";
     }
 
     /**
@@ -229,7 +232,8 @@ public class Track extends MusicItem {
     public static String getSelectFromSql() {
         return getSelectSql() + " from tracks t "
                 + " inner join artists ar " + " on ar.id = t.artist_id "
-                + " inner join albums al " + " on al.id = t.album_id ";
+                + " inner join albums al " + " on al.id = t.album_id "
+                + " inner join genres g " + " on g.id = t.genre_id";
     }
 
     /**

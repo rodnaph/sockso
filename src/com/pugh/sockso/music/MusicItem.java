@@ -20,6 +20,7 @@ public class MusicItem implements Transferable {
 
     public static final String ARTIST = "artist";
     public static final String ALBUM = "album";
+    public static final String GENRE = "genre";
     public static final String TRACK = "track";
     public static final String COLLECTION = "collection";
     public static final String PLAYLIST = "playlist";

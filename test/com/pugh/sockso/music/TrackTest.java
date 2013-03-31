@@ -99,6 +99,7 @@ public class TrackTest extends SocksoTestCase {
 
         final String albumName = "my album name";
         final String albumYear = "1984";
+        final String genre     = "rock";
         
         // set up result set to return the info for 1 track
         final ResultSet rs = createMock( ResultSet.class );
@@ -108,11 +109,12 @@ public class TrackTest extends SocksoTestCase {
         expect( rs.getInt("albumId") ).andReturn( -1 );
         expect( rs.getString("albumName") ).andReturn( albumName );
         expect( rs.getString("albumYear") ).andReturn( albumYear );
+        expect( rs.getInt("genreId") ).andReturn( -1 );
+        expect( rs.getString("genreName") ).andReturn( genre );
         expect( rs.getInt("trackId") ).andReturn( -1 );
         expect( rs.getString((String)anyObject()) ).andReturn( "1" ).times( 2 );
         expect( rs.getInt("trackNo") ).andReturn( 1 ).times( 1 );
         expect( rs.getDate("dateAdded") ).andReturn( null ).times( 1 );
-        expect( rs.getString("genre") ).andReturn("");
         expect( rs.next() ).andReturn( false );
         replay( rs );
         
@@ -123,6 +125,7 @@ public class TrackTest extends SocksoTestCase {
             final Track track = tracks.get( 0 );
             assertEquals( albumName, track.getAlbum().getName() );
             assertEquals( albumYear, track.getAlbum().getYear() );
+            assertEquals( genre, track.getGenre().getName() );
             verify( rs );
         }
         

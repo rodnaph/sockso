@@ -290,7 +290,7 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         assertTableSize( db, "albums", 1 );
         assertTableSize( db, "tracks", 0 );
         
-        cm.removeEmptyArtistsAndAlbums();
+        cm.removeOrphans();
 
         assertTableSize( db, "artists", 0 );
         assertTableSize( db, "albums", 0 );
@@ -302,7 +302,7 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         assertTableSize( db, "albums", 1 );
         assertTableSize( db, "tracks", 1 );
 
-        cm.removeEmptyArtistsAndAlbums();
+        cm.removeOrphans();
 
         assertTableSize( db, "artists", 1 );
         assertTableSize( db, "albums", 1 );

@@ -185,6 +185,8 @@ public class Userer extends BaseAction {
                                   " on ar.id = t.artist_id " +
                                   " inner join albums al " +
                                   " on al.id = t.album_id " +
+                                  " inner join genres g " +
+                                  " on g.id = t.genre_id " +
                               " where l.user_id = ? " +
                                   " and l.scrobbled = 0 ";
 

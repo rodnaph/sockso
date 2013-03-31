@@ -134,6 +134,14 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                   " ) character set utf8 ";
             update( sql );
             
+            sql = " create table genres ( " +
+                      " id int unsigned not null auto_increment, " +
+                      " name varchar(255) not null, " +
+                      " primary key ( id ), " +
+                      " unique ( name ) " +
+                  " ) character set utf8 ";
+            update( sql );
+            
             sql = " create table play_log ( " +
                       " id int unsigned not null auto_increment, " +
                       " track_id int unsigned null, " +

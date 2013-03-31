@@ -11,6 +11,7 @@ package com.pugh.sockso.tests;
 
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.resources.Locale;
 
@@ -171,6 +172,20 @@ public class TestUtils {
         
     }
     
+        
+    /**
+     *  returns a Genre
+     * 
+     *  @return
+     * 
+     */
+    
+    public static Genre getGenre() {
+        
+        return new Genre( 123, "rock" );
+        
+    }
+    
     /**
      *  returns a Track
      * 
@@ -182,7 +197,7 @@ public class TestUtils {
         
         return new Track(
             getArtist(), getAlbum(),
-            123, "foo", "/my/path", 1, new Date(), "rock"
+            123, "foo", "/my/path", 1, new Date(), getGenre()
         );
         
     }

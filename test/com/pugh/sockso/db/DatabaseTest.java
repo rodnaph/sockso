@@ -74,8 +74,10 @@ public class DatabaseTest extends SocksoTestCase {
         doTableTest( "artists", new String[] { "id", "name", "date_added", "browse_name" }, db );
         
         doTableTest( "albums", new String[] { "id", "artist_id", "name", "year", "date_added" }, db );
+        
+        doTableTest( "genres", new String[] { "id", "name" }, db );
 
-        doTableTest( "tracks", new String[] { "id", "artist_id", "album_id", "name", "path", "length", "date_added", "collection_id", "track_no", "genre" }, db );
+        doTableTest( "tracks", new String[] { "id", "artist_id", "album_id", "name", "path", "length", "date_added", "collection_id", "track_no", "genre_id" }, db );
 
         doTableTest( "properties", new String[] { "id", "name", "value" }, db );
 

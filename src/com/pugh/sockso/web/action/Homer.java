@@ -148,12 +148,14 @@ public class Homer extends BaseAction {
                             " order by l.date_played desc ) r " +
                         " inner join tracks t " +
                         " on r.track_id = t.id " +
+                        " inner join genres g " +
+                        " on g.id = t.genre_id " +
                         " inner join artists ar " +
                         " on ar.id = t.artist_id " +
                         " inner join albums al " +
                         " on al.id = t.album_id " +
                         " group by artistId, artistName, albumId, albumName, albumYear, " + 
-                        "trackId, trackName, trackPath, trackNo, dateAdded, genre " +
+                        "trackId, trackName, trackPath, trackNo, genreId, genreName, dateAdded " +
                     " limit ? ";
             
             st = db.prepare( sql );

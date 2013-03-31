@@ -348,7 +348,8 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
     protected void checkTrackGenreColumnExists() {
 
         final String sql = " alter table tracks " +
-                           " add genre varchar(30) null";
+                           " add genre_id integer null " +
+                           " unique ( genre_id )";
 
         safeUpdate ( sql );
 
