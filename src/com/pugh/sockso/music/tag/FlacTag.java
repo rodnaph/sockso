@@ -47,6 +47,7 @@ public class FlacTag extends AudioTag {
 
                     this.artistTitle = getComment( comment, "ARTIST" );
                     this.albumTitle = getComment( comment, "ALBUM" );
+                    this.albumArtist = getComment( comment, "ALBUMARTIST" );
                     this.trackTitle = getComment( comment, "TITLE" );
                     this.albumYear = getComment( comment, "DATE" );
                     setTrackNumber( getComment( comment,"TRACKNUMBER") );

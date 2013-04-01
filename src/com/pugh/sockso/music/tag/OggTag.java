@@ -21,6 +21,7 @@ import com.jcraft.jogg.Page;
 import com.jcraft.jogg.Packet;
 import com.jcraft.jorbis.Comment;
 import com.jcraft.jorbis.Info;
+import com.pugh.sockso.Utils;
 
 import org.apache.log4j.Logger;
 
@@ -55,6 +56,8 @@ public class OggTag extends AudioTag {
                     artistTitle = value;
                 else if ( name.equals("album") )
                     albumTitle = value;
+                else if ( name.equals("albumartist") )
+                    albumArtist = value;
                 else if ( name.equals("title") )
                     trackTitle = value;
                 else if ( name.equalsIgnoreCase( "date" ) )
@@ -66,7 +69,7 @@ public class OggTag extends AudioTag {
         }
 
         finally {
-            try{in.close();} catch( final Exception e ){}
+            Utils.close( in );
         }
         
     }
