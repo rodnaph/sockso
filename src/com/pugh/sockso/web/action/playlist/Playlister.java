@@ -3,17 +3,14 @@ package com.pugh.sockso.web.action.playlist;
 
 import com.pugh.sockso.music.Files;
 import com.pugh.sockso.music.Track;
+import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
-import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.TracksRequest;
 import com.pugh.sockso.web.action.BaseAction;
 
-import com.pugh.sockso.web.TracksRequest;
 import java.io.IOException;
-
 import java.sql.SQLException;
-
-import java.util.Vector;
 
 /**
  * Handles creating playlists (eg. M3u, Pls, etc...)
@@ -42,6 +39,7 @@ public abstract class Playlister extends BaseAction {
         
     }
 
+    @Override
     public void handleRequest() throws IOException, SQLException, BadRequestException {
         
         final Request req = getRequest();

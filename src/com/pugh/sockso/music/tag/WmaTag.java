@@ -38,7 +38,7 @@ public class WmaTag extends AudioTag {
     private static final int TYPE_INT = 3;
     private static final int TYPE_LONG = 4;
    
-    private String _album, _artist, _title, _year, _copyright,
+    private String _album, _artist, _albumArtist, _title, _year, _copyright,
                    _rating, _genre, _comment, _drmType;
     private short _track = -1;
     private int _bitrate = -1, _length = -1, _width = -1, _height = -1;
@@ -49,13 +49,16 @@ public class WmaTag extends AudioTag {
     @Override
     public String getArtist() { return notnull(_artist); }
     @Override
+    public String getAlbumArtist() { return notnull(_albumArtist); }
+    @Override
     public String getTrack() { return notnull(_title); }
+    @Override
+    public String getGenre() { return notnull(_genre); }
     
     String getTitle() { return _title; }
     String getYear() { return _year; }
     String getCopyright() { return _copyright; }
     String getRating() { return _rating; }
-    String getGenre() { return _genre; }
     String getComment() { return _comment; }
     int getBitrate() { return _bitrate; }
     int getLength() { return _length; }
@@ -405,6 +408,8 @@ public class WmaTag extends AudioTag {
             _artist = info;
         else if ( Extended.WM_ALBUMTITLE.equals(field) && _album == null )
             _album = info;
+        else if ( Extended.WM_ALBUMARTIST.equals(field) && _albumArtist == null )
+            _albumArtist = info;
         else if ( Extended.WM_TRACK_NUMBER.equals(field) && _track == -1 )
             _track = toShort(info);
         else if ( Extended.WM_YEAR.equals(field) && _year == null )
@@ -535,6 +540,7 @@ public class WmaTag extends AudioTag {
             { (byte)0xFB, (byte)0xB3, (byte)0x11, (byte)0x22, (byte)0x23, (byte)0xBD, (byte)0xD2, (byte)0x11,
               (byte)0xB4, (byte)0xB7, (byte)0x00, (byte)0xA0, (byte)0xC9, (byte)0x55, (byte)0xFC, (byte)0x6E };
             
+        @SuppressWarnings("unused")
         private static final byte EXTENDED_CONTENT_ENCRYPTION_ID[] =
             { (byte)0x14, (byte)0xE6, (byte)0x8A, (byte)0x29, (byte)0x22, (byte)0x26, (byte)0x17, (byte)0x4C,
               (byte)0xB9, (byte)0x35, (byte)0xDA, (byte)0xE0, (byte)0x7E, (byte)0xE9, (byte)0x28, (byte)0x9C };
@@ -560,7 +566,7 @@ public class WmaTag extends AudioTag {
         /** the title of the file */
         private static final String WM_TITLE = "WM/Title";
         
-        /** the author of the fiel */
+        /** the author of the file */
         private static final String WM_AUTHOR = "WM/Author";
         
         /** the title of the album the file is on */
@@ -679,6 +685,7 @@ class CountingInputStream extends FilterInputStream {
         
     }
     
+    @Override
     public void close() throws IOException {
         in.close();
     }

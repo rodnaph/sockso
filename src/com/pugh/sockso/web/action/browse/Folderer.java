@@ -9,14 +9,14 @@ import com.pugh.sockso.templates.web.browse.TFolders;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.action.BaseAction;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Vector;
-
-import org.apache.log4j.Logger;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  shows folder browsing
@@ -36,6 +36,7 @@ public class Folderer extends BaseAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws IOException, SQLException, BadRequestException {
 
         // check folder browsing is enabled
@@ -54,7 +55,7 @@ public class Folderer extends BaseAction {
      * 
      */
     
-    protected void showFolders( final Vector<Collection> folders ) throws IOException, SQLException {
+    protected void showFolders( final List<Collection> folders ) throws IOException, SQLException {
 
         final TFolders tpl = new TFolders();
         
@@ -73,7 +74,7 @@ public class Folderer extends BaseAction {
      * 
      */
     
-    protected Vector<Collection> getCollections() throws SQLException {
+    protected List<Collection> getCollections() throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -87,7 +88,7 @@ public class Folderer extends BaseAction {
 
             rs = st.executeQuery();
 
-            final Vector<Collection> folders = new Vector<Collection>();
+            final List<Collection> folders = new ArrayList<Collection>();
             while ( rs.next() )
                 folders.add( new Collection(
                     rs.getInt( "id" ),

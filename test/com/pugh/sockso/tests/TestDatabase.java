@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 
 public class TestDatabase extends HSQLDatabase {
 
+    @SuppressWarnings("unused")
     private static final Logger log = Logger.getLogger( TestDatabase.class );
 
     public TestDatabase() {
@@ -44,7 +45,7 @@ public class TestDatabase extends HSQLDatabase {
      *
      *  table:field value,another field value
      *
-     *  Lines start with the table name of the data, then a commer seperated
+     *  Lines start with the table name of the data, then a comma separated
      *  list of field values to insert (needs to match column order of table)
      *
      *  Field values are usually just strings, but you can use the following
@@ -92,7 +93,7 @@ public class TestDatabase extends HSQLDatabase {
                         sql.append( "current_timestamp" );
                     }
                     else {
-                        sql.append( "'" +escape(field)+ "'" );
+                        sql.append( "'").append(escape(field)).append("'" );
                     }
 
                 }

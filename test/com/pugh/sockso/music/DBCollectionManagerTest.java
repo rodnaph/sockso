@@ -1,23 +1,27 @@
 
 package com.pugh.sockso.music;
 
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.Properties;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
+import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.tag.Tag;
-import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.SocksoTestCase;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.pugh.sockso.tests.TestDatabase;
 
 import java.io.File;
 import java.io.IOException;
-
-import static org.easymock.EasyMock.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DBCollectionManagerTest extends SocksoTestCase {
     
@@ -275,32 +279,101 @@ public class DBCollectionManagerTest extends SocksoTestCase {
 
     }
 
-    public void testRemoveEmptyArtistsAndAlbums() throws Exception {
+    public void testRemoveEmptyArtists() throws Exception {
 
         final TestDatabase db = new TestDatabase();
         final DBCollectionManager cm = new DBCollectionManager( db, p, indexer );
 
-        db.fixture( "emptyArtistsAndAlbums" );
+        // Should delete Artists with no Track or Album references
+        db.fixture( "artists" );
 
-        assertTableSize( db, "artists", 1 );
-        assertTableSize( db, "albums", 1 );
+        assertTableSize( db, "artists", 3 );
+        assertTableSize( db, "albums", 0 );
         assertTableSize( db, "tracks", 0 );
-        
-        cm.removeEmptyArtistsAndAlbums();
+
+        cm.removeOrphanedArtists();
 
         assertTableSize( db, "artists", 0 );
         assertTableSize( db, "albums", 0 );
         assertTableSize( db, "tracks", 0 );
+    }
 
-        db.fixture( "singleTrack" );
+
+    public void testDoesNotRemoveArtistsWithAlbums() throws Exception {
+
+        final TestDatabase db = new TestDatabase();
+        final DBCollectionManager cm = new DBCollectionManager( db, p, indexer );
+
+        // Should not delete an Artist that has Albums referencing it
+        db.fixture( "artistsWithAlbums" );
 
         assertTableSize( db, "artists", 1 );
         assertTableSize( db, "albums", 1 );
-        assertTableSize( db, "tracks", 1 );
+        assertTableSize( db, "tracks", 0 );
 
-        cm.removeEmptyArtistsAndAlbums();
+        cm.removeOrphanedArtists();
 
         assertTableSize( db, "artists", 1 );
+        assertTableSize( db, "albums", 1 );
+        assertTableSize( db, "tracks", 0 );
+    }
+
+        public void testDoesNotRemoveArtistsWithTracks() throws Exception {
+
+        final TestDatabase db = new TestDatabase();
+        final DBCollectionManager cm = new DBCollectionManager( db, p, indexer );
+
+        // Should not delete an Artist that has Tracks referencing it
+        db.fixture( "artistsWithTracks" );
+
+        assertTableSize( db, "artists", 1 );
+        assertTableSize( db, "albums", 0 );
+        assertTableSize( db, "tracks", 1 );
+
+        cm.removeOrphanedArtists();
+
+        assertTableSize( db, "artists", 1 );
+        assertTableSize( db, "albums", 0 );
+        assertTableSize( db, "tracks", 1 );
+
+    }
+
+    
+    public void testRemoveEmptyAlbums() throws Exception {
+
+        final TestDatabase db = new TestDatabase();
+        final DBCollectionManager cm = new DBCollectionManager( db, p, indexer );
+
+        // Should delete Albums that have no Tracks referencing them (Artists OK)
+        db.fixture( "artistsWithAlbums" );
+
+        assertTableSize( db, "artists", 1 );
+        assertTableSize( db, "albums", 1 );
+        assertTableSize( db, "tracks", 0 );
+
+        cm.removeOrphanedAlbums();
+
+        assertTableSize( db, "artists", 1 );
+        assertTableSize( db, "albums", 0 );
+        assertTableSize( db, "tracks", 0 );
+    }
+
+    
+    public void testDoesNotRemoveAlbumsWithTracks() throws Exception {
+
+        final TestDatabase db = new TestDatabase();
+        final DBCollectionManager cm = new DBCollectionManager( db, p, indexer );
+
+        // Should not delete an Album that has Tracks referencing it
+        db.fixture( "albumsWithTracks" );
+
+        assertTableSize( db, "artists", 0 );
+        assertTableSize( db, "albums", 1 );
+        assertTableSize( db, "tracks", 1 );
+
+        cm.removeOrphanedAlbums();
+
+        assertTableSize( db, "artists", 0 );
         assertTableSize( db, "albums", 1 );
         assertTableSize( db, "tracks", 1 );
 

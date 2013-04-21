@@ -126,7 +126,8 @@ public class HSQLDatabase extends JDBCDatabase {
         checkUserAdminColumnExists();
         checkUserIsActiveColumnExists();
         checkAlbumYearColumnExists();
-
+        checkTrackGenreColumnExists();
+        
     }
     
     /**
@@ -618,6 +619,17 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'tracks' table" );
+            
+            // genre
+            update(
+                " create table genres ( " +
+                    " id integer not null identity, " +
+                    " name varchar(255) not null, " +
+                    " unique ( name ), " +
+                    " primary key ( id ) " +
+                " ) "
+            );
+            log.debug( "Created 'genres' table" );
             
             // properties
             update(

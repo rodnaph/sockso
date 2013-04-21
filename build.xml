@@ -30,7 +30,7 @@
     <property name="dir.scripts" value="scripts" />
     <property name="dir.javadocs" value="${dir.docs}/javadocs" />
     <property name="dir.www" value="www" />
-    
+
     <!-- set classpaths for jars -->
     <fileset id="sockso.jars" dir=".">
         <include name="${dir.lib}/*.jar" />
@@ -62,7 +62,7 @@
     </pathconvert>
 
     <property name="junit.classpath" value="${dir.build}:${dir.build.test}:${app.classpath}:${dev.classpath}:${opt.classpath}" />
-    
+
     <taskdef name="jamon"
             classname="org.jamon.ant.JamonTask"
             classpath="${dir.lib}/jamon-runtime-2.3.1.jar:${dir.lib-dev}/jamon-api-2.3.0.jar:${dir.lib-dev}/jamon-processor-2.3.2.jar:${dir.lib-dev}/jamon-anttask-2.3.1.jar" />
@@ -113,7 +113,7 @@ public class Sockso {
 }
         </echo>
     </target>
-    
+
     <!-- compiles the project to build/ -->
     <target name="compile" depends="create-properties,compile-templates">
         <!-- then do compile -->
@@ -121,6 +121,7 @@ public class Sockso {
                 destdir="${dir.build}"
                 classpath="${app.classpath}:${opt.classpath}"
                 target="1.5"
+                source="1.5"
                 debug="${debug}"
                 includeantruntime="true">
             <compilerarg value="-Xlint:unchecked" />
@@ -179,7 +180,7 @@ public class Sockso {
 
     <!-- creates all the main sockso jar files -->
     <target name="jars" depends="jar,resources" />
-    
+
     <!-- cleans any compiles tests -->
     <target name="clean-tests">
         <delete dir="${dir.build.test}" />
@@ -209,7 +210,7 @@ public class Sockso {
         <exec executable="rhino" failonerror="true">
             <arg value="scripts/lint.js" />
         </exec>
-        
+
     </target>
 
     <!--
@@ -292,52 +293,149 @@ public class Sockso {
             <fileset dir="${dir.lib-opt}" />
         </copy>
     </target>
-    
+
     <!--
         ##################
             RUN/DEBUG
         ##################
     -->
 
+    <target name="-runargs.init">
+        <condition property="run.opt.admin"
+                   value="--admin" else="">
+            <isset property="run.arg.admin" />
+        </condition>
+        <condition property="run.opt.datadir"
+                   value="--datadir=${run.arg.datadir}" else="">
+            <isset property="run.arg.datadir" />
+        </condition>
+        <condition property="run.opt.logtype"
+                   value="--logtype=${run.arg.logtype}" else="">
+            <isset property="run.arg.logtype" />
+        </condition>
+        <condition property="run.opt.nogui"
+                   value="--nogui" else="">
+            <isset property="run.arg.nogui" />
+        </condition>
+        <condition property="run.opt.resourcestype"
+                   value="--resourcestype=${run.arg.resourcestype}" else="">
+            <isset property="run.arg.resourcestype" />
+        </condition>
+        <condition property="run.opt.ip"
+                   value="--ip=${run.arg.ip}" else="">
+            <isset property="run.arg.ip" />
+        </condition>
+        <condition property="run.opt.locale"
+                   value="--locale=${run.arg.locale}" else="">
+            <isset property="run.arg.locale" />
+        </condition>
+        <condition property="run.opt.dbtype"
+                   value="--dbtype=${run.arg.dbtype}" else="">
+            <isset property="run.arg.dbtype" />
+        </condition>
+        <condition property="run.opt.dbhost"
+                   value="--dbhost=${run.arg.dbhost}" else="">
+            <isset property="run.arg.dbhost" />
+        </condition>
+        <condition property="run.opt.dbuser"
+                   value="--dbuser=${run.arg.dbuser}" else="">
+            <isset property="run.arg.dbuser" />
+        </condition>
+        <condition property="run.opt.dbpass"
+                   value="--dbpass=${run.arg.dbpass}" else="">
+            <isset property="run.arg.dbpass" />
+        </condition>
+        <condition property="run.opt.dbname"
+                   value="--dbname=${run.arg.dbname}" else="">
+            <isset property="run.arg.dbname" />
+        </condition>
+        <condition property="run.opt.ssl"
+                   value="--ssl" else="">
+            <isset property="run.arg.ssl" />
+        </condition>
+        <condition property="run.opt.sslKeystore"
+                   value="--sslKeystore=${run.arg.sslKeystore}" else="">
+            <isset property="run.arg.sslKeystore" />
+        </condition>
+        <condition property="run.opt.sslKeystorePassword"
+                   value="--sslKeystorePassword=${run.arg.sslKeystorePassword}" else="">
+            <isset property="run.arg.sslKeystorePassword" />
+        </condition>
+        <condition property="run.opt.upnp"
+                   value="--upnp" else="">
+            <isset property="run.arg.upnp" />
+        </condition>
+    </target>
+
     <!-- runs the project -->
-    <target name="run" depends="dist,optionals">
+    <target name="run" depends="dist,optionals,-runargs.init">
         <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
-            <arg value="--logtype=${run.arg.logtype}" />
-            <arg value="--resourcestype=${run.arg.resourcestype}" />
-            <arg value="--dbtype=${run.arg.dbtype}" />
-            <arg value="--dbhost=${run.arg.dbhost}" />
-            <arg value="--dbuser=${run.arg.dbuser}" />
-            <arg value="--dbpass=${run.arg.dbpass}" />
-            <arg value="--dbname=${run.arg.dbname}" />
+            <sysproperty key="java.library.path" value="${dir.lib}" />
+            <arg value="${run.opt.admin}" />
+            <arg value="${run.opt.datadir}" />
+            <arg value="${run.opt.logtype}" />
+            <arg value="${run.opt.nogui}" />
+            <arg value="${run.opt.resourcestype}" />
+            <arg value="${run.opt.ip}" />
+            <arg value="${run.opt.locale}" />
+            <arg value="${run.opt.dbtype}" />
+            <arg value="${run.opt.dbhost}" />
+            <arg value="${run.opt.dbuser}" />
+            <arg value="${run.opt.dbpass}" />
+            <arg value="${run.opt.dbname}" />
+            <arg value="${run.opt.ssl}" />
+            <arg value="${run.opt.sslKeystore}" />
+            <arg value="${run.opt.sslKeystorePassword}" />
+            <arg value="${run.opt.upnp}" />
         </java>
     </target>
 
     <!-- starts a project in debug mode -->
-    <target name="debug" depends="clean,dist,optionals" if="netbeans.home">
+    <target name="debug" depends="clean,dist,optionals,-runargs.init" if="netbeans.home">
         <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
-            <arg value="--logtype=${run.arg.logtype}" />
-            <arg value="--resourcestype=${run.arg.resourcestype}" />
-            <arg value="--dbtype=${run.arg.dbtype}" />
-            <arg value="--dbhost=${run.arg.dbhost}" />
-            <arg value="--dbuser=${run.arg.dbuser}" />
-            <arg value="--dbpass=${run.arg.dbpass}" />
-            <arg value="--dbname=${run.arg.dbname}" />
+            <sysproperty key="java.library.path" value="${dir.lib}" />
+            <arg value="${run.opt.admin}" />
+            <arg value="${run.opt.datadir}" />
+            <arg value="${run.opt.logtype}" />
+            <arg value="${run.opt.nogui}" />
+            <arg value="${run.opt.resourcestype}" />
+            <arg value="${run.opt.ip}" />
+            <arg value="${run.opt.locale}" />
+            <arg value="${run.opt.dbtype}" />
+            <arg value="${run.opt.dbhost}" />
+            <arg value="${run.opt.dbuser}" />
+            <arg value="${run.opt.dbpass}" />
+            <arg value="${run.opt.dbname}" />
+            <arg value="${run.opt.ssl}" />
+            <arg value="${run.opt.sslKeystore}" />
+            <arg value="${run.opt.sslKeystorePassword}" />
+            <arg value="${run.opt.upnp}" />
             <jvmarg value="-Xdebug" />
             <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,address=8888,suspend=n" />
         </java>
     </target>
 
-    <target name="profile" depends="dist,optionals" if="netbeans.home">
+    <target name="profile" depends="dist,optionals,-runargs.init" if="netbeans.home">
         <nbprofiledirect>
         </nbprofiledirect>
         <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
-            <arg value="--logtype=${run.arg.logtype}" />
-            <arg value="--resourcestype=${run.arg.resourcestype}" />
-            <arg value="--dbtype=${run.arg.dbtype}" />
-            <arg value="--dbhost=${run.arg.dbhost}" />
-            <arg value="--dbuser=${run.arg.dbuser}" />
-            <arg value="--dbpass=${run.arg.dbpass}" />
-            <arg value="--dbname=${run.arg.dbname}" />
+            <sysproperty key="java.library.path" value="${dir.lib}" />
+            <arg value="${run.opt.admin}" />
+            <arg value="${run.opt.datadir}" />
+            <arg value="${run.opt.logtype}" />
+            <arg value="${run.opt.nogui}" />
+            <arg value="${run.opt.resourcestype}" />
+            <arg value="${run.opt.ip}" />
+            <arg value="${run.opt.locale}" />
+            <arg value="${run.opt.dbtype}" />
+            <arg value="${run.opt.dbhost}" />
+            <arg value="${run.opt.dbuser}" />
+            <arg value="${run.opt.dbpass}" />
+            <arg value="${run.opt.dbname}" />
+            <arg value="${run.opt.ssl}" />
+            <arg value="${run.opt.sslKeystore}" />
+            <arg value="${run.opt.sslKeystorePassword}" />
+            <arg value="${run.opt.upnp}" />
             <jvmarg value="${profiler.info.jvmargs.agent}" />
         </java>
     </target>
@@ -354,6 +452,7 @@ public class Sockso {
                 destdir="${dir.build.test}"
                 classpath="${dir.build}:${app.classpath}:${dev.classpath}"
                 target="1.5"
+                source="1.5"
                 debug="on"
                 includeantruntime="true">
             <compilerarg value="-Xlint:unchecked" />
@@ -384,13 +483,13 @@ public class Sockso {
         -Dclass=FULL_CLASSNAME -->
     <target name="test-single" depends="compile,compile-tests,init-tests">
         <fail unless="class">Must set property 'class'</fail>
-        <junit haltonfailure="true">
+
+        <junit haltonfailure="true" fork="yes" dir=".">
             <classpath path="${junit.classpath}" />
-            <formatter type="plain" usefile="false" />            
-            <test name="${class}" />
+	    <test name="${class}"/>
         </junit>
     </target>
-    
+
     <!-- run all tests and generate reports -->
     <target name="test" depends="clean,compile,compile-tests,init-tests">
 

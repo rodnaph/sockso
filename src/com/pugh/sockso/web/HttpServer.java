@@ -5,22 +5,21 @@ import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.PropertiesListener;
 
-import java.io.IOException;
-
-import java.net.Socket;
-import java.net.ServerSocket;
-
-import java.util.Vector;
-
-import javax.swing.JOptionPane; // @TODO remove
-
-import joptsimple.OptionSet;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Singleton;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import joptsimple.OptionSet;
 
 /**
  * 
@@ -35,7 +34,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
 
     private final Injector injector;
     private final Properties p;
-    private final Vector<ServerThread> threads;
+    private final List<ServerThread> threads;
     
     private int port = DEFAULT_PORT;
     private ServerSocket ss;
@@ -57,7 +56,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
         this.injector = injector;
         this.p = p;
 
-        threads = new Vector<ServerThread>();
+        threads = new ArrayList<ServerThread>();
 
     }
     
@@ -69,6 +68,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *
      */
 
+    @Override
     public void start( final OptionSet options, final int port ) {
 
         this.port = port;
@@ -97,7 +97,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
         }
 
         catch ( final IOException e ) {
-            // the socket being closed "shouldnt" be an error... i think?
+            // the socket being closed "shouldn't" be an error... i think?
             if ( !e.getMessage().equals("Socket closed") )
                 log.error(e);
         }
@@ -117,7 +117,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
 
         final ServerThread st = injector.getInstance( ServerThread.class );
         
-        threads.addElement( st );
+        threads.add( st );
         
         st.setClientSocket( client );
         st.start();
@@ -130,6 +130,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *
      */
 
+    @Override
     public void shutdown() {
 
         log.info( "Shutting Down " + threads.size() + " Thread(s)" );
@@ -156,11 +157,12 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      * @param thread the thread that has completed
      */
 
+    @Override
     public void requestComplete( final ServerThread thread ) {
 
         //log.debug( "Thread Complete Signal Received" );
 
-        threads.removeElement(thread);
+        threads.remove(thread);
 
     }
 
@@ -174,6 +176,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      * 
      */
 
+    @Override
     public String getHost() {
 
         return p.get( Constants.SERVER_HOST ) + ":" + getPort();
@@ -187,6 +190,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *
      */
 
+    @Override
     public int getPort() {
 
         return port;
@@ -201,6 +205,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *
      */
 
+    @Override
     public void propertiesSaved( final Properties p ) {
 
         try {
@@ -241,6 +246,7 @@ public class HttpServer extends Thread implements Server, PropertiesListener {
      *
      */
 
+    @Override
     public String getProtocol() {
         
         return "http";

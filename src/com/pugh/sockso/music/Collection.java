@@ -5,7 +5,6 @@ import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 
 import java.io.File;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,25 +18,25 @@ public class Collection extends MusicItem {
 
     private final int id;
     private final String path;
-    
+
     /**
      * Create a collection with id -1
-     * 
+     *
      */
     public Collection() {
-        
+
         this( -1, "" );
-        
+
     }
-    
+
     /**
      *  Create a collection with the specified ID and path
-     * 
+     *
      *  @param id
-     *  @param path 
-     * 
+     *  @param path
+     *
      */
-    
+
     public Collection( final int id, final String path ) {
 
         super( MusicItem.COLLECTION, -1, null );
@@ -49,31 +48,31 @@ public class Collection extends MusicItem {
 
     /**
      *  Returns the collection id
-     * 
-     *  @return 
-     * 
+     *
+     *  @return
+     *
      */
-    
+
     @Override
     public int getId() { return id; }
-    
+
     /**
      *  Returns the string "Collection"
-     * 
-     *  @return 
-     * 
+     *
+     *  @return
+     *
      */
-    
+
     @Override
     public String toString() { return "Collection"; }
 
     /**
      *  Returns the path to the root of this collection
-     * 
-     *  @return 
-     * 
+     *
+     *  @return
+     *
      */
-    
+
     public String getPath() { return path; }
 
     /**
@@ -86,15 +85,15 @@ public class Collection extends MusicItem {
      *  @return
      *
      */
-    
+
     public static Collection findByPath( final Database db, final String path ) throws SQLException {
-        
+
         return findByPathWithSeparator( db, path, File.separator );
     }
 
     /**
      *  Finds a collection based on a directory path, which could be inside the
-     *  collection.  The separator parameter is appended to the path if the path 
+     *  collection.  The separator parameter is appended to the path if the path
      *  contains no trailing slash.
      *
      *  @param db
@@ -104,12 +103,12 @@ public class Collection extends MusicItem {
      *  @return
      *
      */
-    
+
     protected static Collection findByPathWithSeparator( final Database db, final String path, final String separator ) throws SQLException {
-        
+
         PreparedStatement st = null;
         ResultSet rs = null;
-        
+
         try {
 
             final String matchPath = path.endsWith( separator ) ? path : path + separator;
@@ -131,12 +130,10 @@ public class Collection extends MusicItem {
             return null;
 
         }
-        
+
         finally {
             Utils.close( st );
             Utils.close( rs );
         }
-        
     }
-
 }

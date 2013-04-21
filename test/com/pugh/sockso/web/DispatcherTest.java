@@ -1,12 +1,15 @@
 
 package com.pugh.sockso.web;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.inject.SocksoModule;
-
+import com.pugh.sockso.web.action.BaseAction;
 import com.pugh.sockso.web.action.Downloader;
 import com.pugh.sockso.web.action.Feeder;
 import com.pugh.sockso.web.action.FileServer;
@@ -18,10 +21,7 @@ import com.pugh.sockso.web.action.Sharer;
 import com.pugh.sockso.web.action.Streamer;
 import com.pugh.sockso.web.action.Uploader;
 import com.pugh.sockso.web.action.Userer;
-import com.pugh.sockso.web.action.BaseAction;
-
 import com.pugh.sockso.web.action.admin.Console;
-
 import com.pugh.sockso.web.action.browse.Albumer;
 import com.pugh.sockso.web.action.browse.Artister;
 import com.pugh.sockso.web.action.browse.ByLetterer;
@@ -30,18 +30,18 @@ import com.pugh.sockso.web.action.browse.Latester;
 import com.pugh.sockso.web.action.browse.Playlister;
 import com.pugh.sockso.web.action.browse.Playlistser;
 import com.pugh.sockso.web.action.browse.Popularer;
-
 import com.pugh.sockso.web.action.playlist.M3uer;
 import com.pugh.sockso.web.action.playlist.Plser;
 import com.pugh.sockso.web.action.playlist.Xspfer;
 
-import java.util.Hashtable;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import joptsimple.OptionSet;
-
 import junit.framework.TestCase;
-
-import static org.easymock.EasyMock.*;
 
 public class DispatcherTest extends TestCase {
 
@@ -80,7 +80,7 @@ public class DispatcherTest extends TestCase {
     
     public void testGetWebAction() {
         
-        final Hashtable<String,Class> dt = new Hashtable<String,Class>();
+        final Map<String,Class> dt = new HashMap<String,Class>();
         
         dt.put( "/file/some/thing", FileServer.class );
         dt.put( "/xspf/some/thing", Xspfer.class );

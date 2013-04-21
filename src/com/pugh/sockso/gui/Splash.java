@@ -53,16 +53,16 @@ public class Splash extends JWindow {
             }
         }.start();
     }
-    
+
     /**
      *  Closes the splash window
-     * 
+     *
      */
-    
+
     public static void closeNow() {
-        
+
         instance.dispose();
-        
+
     }
 
 }

@@ -1,11 +1,12 @@
 
 package com.pugh.sockso.music.indexing;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IndexCache {
 
-    private final Hashtable<String,Integer> cache;
+    private final Map<String,Integer> cache;
 
     /**
      *  Constructor
@@ -14,7 +15,7 @@ public class IndexCache {
 
     public IndexCache() {
 
-        cache = new Hashtable<String,Integer>();
+        cache = new HashMap<String,Integer>();
 
     }
 

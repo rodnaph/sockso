@@ -4,6 +4,7 @@
  */
 package com.pugh.sockso.music;
 
+import com.pugh.sockso.StringProperties;
 import java.awt.image.BufferedImage;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestLocale;
@@ -55,7 +56,7 @@ public class CoverArtTest extends SocksoTestCase {
     public void testScale() throws IOException {
         int width  = 200;  // 115 <- scaling factor 200/115
         int height = 170;  //  (200/115) * 98 = 170 (+-1)
-        int delta = 1;     
+        int delta = 1;
         String itemName = "al123";
         BufferedImage image = ImageIO.read(new File("test/data/covers/" + itemName + ".jpg"));
         CoverArt coverArt = new CoverArt(itemName, image);
@@ -65,7 +66,7 @@ public class CoverArtTest extends SocksoTestCase {
     }
 
     public void testCreateNoCoverImage() {
-        BufferedImage result = CoverArt.createNoCoverImage(new TestLocale());
+        BufferedImage result = CoverArt.createNoCoverImage(new StringProperties(), new TestLocale());
         assertNotNull(result);
     }
 }

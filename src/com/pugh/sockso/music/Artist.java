@@ -1,17 +1,18 @@
 
 package com.pugh.sockso.music;
 
-import com.pugh.sockso.Utils;
-import com.pugh.sockso.db.Database;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+
+import com.pugh.sockso.Utils;
+import com.pugh.sockso.db.Database;
 
 public class Artist extends MusicItem {
     
@@ -22,7 +23,7 @@ public class Artist extends MusicItem {
     private final Date dateAdded;
 
     /**
-     *  Constructors for creating artists with carying amount of info
+     *  Constructors for creating artists with carrying amount of info
      * 
      */
     
@@ -100,40 +101,48 @@ public class Artist extends MusicItem {
         return null;
         
     }
-    
+        
     /**
      *  Find all artists, listed alphabetically, with the specified offset and limit
+     *  since the given datetime
      * 
      *  @param db
      *  @param limit
      *  @param offset
+     *  @param fromDate
      * 
      *  @throws SQLException
      * 
      *  @return 
      * 
      */
+
+    public static List<Artist> findAll( final Database db, final int limit, final int offset, final long fromDate ) throws SQLException {
     
-    public static Vector<Artist> findAll( final Database db, final int limit, final int offset ) throws SQLException {
-        
         PreparedStatement st = null;
         ResultSet rs = null;
         
         try {
             
             String sql = " select ar.id, ar.name, ar.date_added " +
-                               " from artists ar " +
-                               " order by ar.name asc ";
+                         " from artists ar ";
+            
+            if ( fromDate > 0 ) {    
+                Timestamp timestamp = new Timestamp( fromDate );
+                sql += " where ar.date_added >= '" + timestamp + "' ";
+            }
+            
+            sql += " order by ar.name asc ";
             
             if ( limit != -1 ) {
                 sql += " limit " +limit+ " " +
                        " offset " +offset;
-            }
-
+            }            
+                        
             st = db.prepare( sql );
             rs = st.executeQuery();
 
-            final Vector<Artist> artists = new Vector<Artist>();
+            final List<Artist> artists = new ArrayList<Artist>();
             
             while ( rs.next() ) {
                 Artist artist = new Artist(
@@ -154,7 +163,25 @@ public class Artist extends MusicItem {
             Utils.close( rs );
             Utils.close( st );
         }
+           
+    }
+    
+    /**
+     *  Find all artists, listed alphabetically, with the specified offset and limit
+     * 
+     *  @param db
+     *  @param limit
+     *  @param offset
+     * 
+     *  @throws SQLException
+     * 
+     *  @return 
+     * 
+     */
         
+    public static List<Artist> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+        
+        return findAll(db, limit, offset, 0);
     }
     
 }

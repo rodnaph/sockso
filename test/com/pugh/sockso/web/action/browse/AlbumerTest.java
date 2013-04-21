@@ -1,23 +1,28 @@
 
 package com.pugh.sockso.web.action.browse;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.web.BadRequestException;
-import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.web.BadRequestException;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Date;
-
-import static org.easymock.EasyMock.*;
+import java.util.List;
 
 public class AlbumerTest extends SocksoTestCase {
 
@@ -109,7 +114,7 @@ public class AlbumerTest extends SocksoTestCase {
         final Albumer b = new Albumer();
         b.setDatabase( db );
         
-        final Vector<Track> tracks = b.getAlbumTracks( 123 );
+        final List<Track> tracks = b.getAlbumTracks( 123 );
         
         assertNotNull( tracks );
         assertEquals( 2, tracks.size() );
@@ -149,7 +154,7 @@ public class AlbumerTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final Albumer b = new Albumer();
-        final Vector<Track> tracks = new Vector<Track>();
+        final List<Track> tracks = new ArrayList<Track>();
         final Artist artist = new Artist( 1, "my artist", new Date(), 1, 1 );
         final Album album = new Album( artist, 1, "foo", "year", new Date(), 1, 1 );
         final Track track = new Track( artist, album, 1, "myTrack", "", 1, null );

@@ -2,11 +2,11 @@
 <%import>
     com.pugh.sockso.Utils;
     com.pugh.sockso.music.Track;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%args>
-    Vector<Track> tracks = null;
+    List<Track> tracks = null;
 </%args>
 
 <%java>
@@ -19,6 +19,12 @@
 {
         id: <% track.getId() %>,
         name: "<% Utils.escapeJs(track.getName()) %>",
+        number: <% track.getNumber() %>,
+
+        genre: {
+            id: <% track.getGenre().getId() %>,
+            name: "<% Utils.escapeJs(track.getGenre().getName()) %>"
+        },
 
         artist: {
             id: <% track.getArtist().getId() %>,

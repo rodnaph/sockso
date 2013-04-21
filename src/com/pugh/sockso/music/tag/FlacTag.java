@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import com.pugh.sockso.Utils;
 
 /**
- *  class to read tag information from flac files
+ *  class to read tag information from Flac files
  *
  */
 
@@ -40,15 +40,18 @@ public class FlacTag extends AudioTag {
 
             // look for the vorbis comment
             for ( final Metadata item : metadata ) {
+               
                 if ( item.getClass().equals(VorbisComment.class) ) {
 
                     final VorbisComment comment = (VorbisComment) item;
 
-                    artistTitle = getComment( comment, "ARTIST" );
-                    albumTitle = getComment( comment, "ALBUM" );
-                    trackTitle = getComment( comment, "TITLE" );
-                    albumYear = getComment( comment, "DATE" );
-                    setTrackNumber( getComment(comment,"TRACKNUMBER") );
+                    this.artistTitle = getComment( comment, "ARTIST" );
+                    this.albumTitle = getComment( comment, "ALBUM" );
+                    this.albumArtist = getComment( comment, "ALBUMARTIST" );
+                    this.trackTitle = getComment( comment, "TITLE" );
+                    this.albumYear = getComment( comment, "DATE" );
+                    setTrackNumber( getComment( comment,"TRACKNUMBER") );
+                    this.genre = getComment( comment, "GENRE");
 
                 }
             }

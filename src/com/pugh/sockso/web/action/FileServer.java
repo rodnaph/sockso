@@ -27,17 +27,17 @@ public class FileServer extends BaseAction {
     public FileServer( final Resources r ) {
         this.r = r;
     }
-    
+
     /**
      *  handles the "file" command, which is a request for a resource from
      *  the applications htdocs folder
-     * 
+     *
      *  @throws IOException
      *  @throws BadRequestException
      *  @throws SQLException
-     * 
+     *
      */
-    
+
     public void handleRequest() throws IOException, BadRequestException, SQLException {
 
         final Request req = getRequest();
@@ -53,11 +53,11 @@ public class FileServer extends BaseAction {
     /**
      *  this action doesn't require a login as we still need to serve
      *  images and css and stuff when the user isn't logged in
-     * 
+     *
      *  @return false
-     * 
+     *
      */
-    
+
     @Override
     public boolean requiresLogin() {
 
@@ -67,26 +67,26 @@ public class FileServer extends BaseAction {
 
     /**
      *  no login required at all so no need to start a session
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     @Override
     public boolean requiresSession() {
 
         return false;
 
     }
-    
+
     /**
      *  serves a request file to the client
-     * 
+     *
      *  @throws IOException
      *  @throws BadRequestException
-     * 
+     *
      */
-    
+
     public void serveFile() throws IOException, BadRequestException {
 
         serveResource( getPathFromRequest() );
@@ -95,21 +95,21 @@ public class FileServer extends BaseAction {
 
     /**
      *  Returns the file path from the request
-     * 
-     *  @return 
-     * 
+     *
+     *  @return
+     *
      */
 
     protected String getPathFromRequest() {
 
         final Request req = getRequest();
         final StringBuffer path = new StringBuffer( "htdocs" );
-        
+
         for ( int i=1; i<req.getParamCount(); i++ ) {
             path.append( "/" );
             path.append( req.getUrlParam(i) );
         }
-        
+
         return path.toString()
                    .replaceAll( "\\.\\.", "" )         // remove double dots
                    .replaceAll( "\\/{2,999}", "/" );   // remove groups of forward slashes
@@ -118,12 +118,12 @@ public class FileServer extends BaseAction {
 
     /**
      *  serves the resource to the client
-     * 
+     *
      *  @param path path to the resource
-     * 
+     *
      *  @throws IOException
      *  @throws BadRequestException
-     * 
+     *
      */
 
     private void serveResource( final String path ) throws IOException, BadRequestException {
@@ -138,32 +138,32 @@ public class FileServer extends BaseAction {
                 getResponse().enableGzip();
 
         try {
-            
+
             in = new DataInputStream( r.getResourceAsStream(path) );
-            
+
             sendHeaders( path );
             getResponse().sendData( in );
-            
+
         }
 
         catch ( final FileNotFoundException e ) {
             throw new BadRequestException( locale.getString("www.error.fileNotFound"), 404 );
         }
-        
+
         finally {
             Utils.close( in );
         }
 
     }
-    
+
     /**
      *  send the headers for serving a resource, just need to give the name of
      *  the file we're serving to work out content types and stuff
-     * 
+     *
      *  @param filename
-     * 
+     *
      */
-    
+
     protected void sendHeaders( final String filename ) {
 
         FileHeaders fh = new FileHeaders(
@@ -174,5 +174,4 @@ public class FileServer extends BaseAction {
         fh.sendHeaders( filename );
 
     }
-
 }

@@ -7,15 +7,14 @@ import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.inject.SocksoModule;
 import com.pugh.sockso.tests.TestOptionSet;
 
-import java.io.IOException;
-
-import java.net.Socket;
-import java.net.ServerSocket;
-
-import junit.framework.TestCase;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import junit.framework.TestCase;
 
 public class HttpServerTest extends TestCase {
 
@@ -35,9 +34,11 @@ public class HttpServerTest extends TestCase {
         public MyHttpServer( final Properties p ) {
             super( injector, p );
         }
+        @Override
         public ServerSocket getServerSocket( final int port ) throws IOException {
             return null;
         }
+        @Override
         public String getProtocol() {
             return "http";
         }

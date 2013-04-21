@@ -18,18 +18,21 @@ public class UserList extends BaseCommand {
         
     }
 
+    @Override
     public String getName() {
         
         return "userlist";
         
     }
     
+    @Override
     public String getDescription() {
         
         return "Lists the users";
         
     }
     
+    @Override
     public String execute( final String[] args ) throws SQLException {
         
         final StringBuffer sb = new StringBuffer();

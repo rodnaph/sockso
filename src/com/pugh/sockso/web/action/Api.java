@@ -2,21 +2,34 @@
 package com.pugh.sockso.web.action;
 
 import com.pugh.sockso.Constants;
-import com.pugh.sockso.cache.ObjectCache;
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.cache.ObjectCache;
 import com.pugh.sockso.templates.api.TException;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
-import com.pugh.sockso.web.action.api.*;
-
-import org.apache.log4j.Logger;
-
-import java.io.IOException;
+import com.pugh.sockso.web.action.api.AlbumAction;
+import com.pugh.sockso.web.action.api.AlbumTracksAction;
+import com.pugh.sockso.web.action.api.AlbumsAction;
+import com.pugh.sockso.web.action.api.ApiAction;
+import com.pugh.sockso.web.action.api.ArtistAction;
+import com.pugh.sockso.web.action.api.ArtistRelatedAction;
+import com.pugh.sockso.web.action.api.ArtistTracksAction;
+import com.pugh.sockso.web.action.api.ArtistsAction;
+import com.pugh.sockso.web.action.api.PlaylistAction;
+import com.pugh.sockso.web.action.api.PlaylistsAction;
+import com.pugh.sockso.web.action.api.RootAction;
+import com.pugh.sockso.web.action.api.SessionAction;
+import com.pugh.sockso.web.action.api.TrackAction;
+import com.pugh.sockso.web.action.api.TracksAction;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import java.util.Vector;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  End point for Sockso Web API methods.
@@ -150,13 +163,12 @@ public class Api extends BaseAction {
      */
     protected ApiAction[] getApiActions() {
 
-        final Vector<ApiAction> actions = new Vector<ApiAction>();
+        final List<ApiAction> actions = new ArrayList<ApiAction>();
 
-        @SuppressWarnings( "unchecked" )
         Class<ApiAction>[] actionClasses = getApiActionClasses();
 
         for ( final Class<ApiAction> actionClass : actionClasses ) {
-            actions.add( (ApiAction) injector.getInstance( actionClass ) );
+            actions.add( injector.getInstance( actionClass ) );
         }
 
         return actions.toArray( new ApiAction[] {} );

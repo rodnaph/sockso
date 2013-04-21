@@ -5,20 +5,20 @@ import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.web.browse.TLatest;
 import com.pugh.sockso.web.action.BaseAction;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Vector;
-
-import org.apache.log4j.Logger;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  shows the latest tracks/artists added to the collection
@@ -40,12 +40,13 @@ public class Latester extends BaseAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws SQLException, IOException {
         
         final Properties p = getProperties();
-        final Vector<Track> tracks = getLatestTracks( (int) p.get(Constants.WWW_BROWSE_LATEST_TRACKS_COUNT,20) );
-        final Vector<Artist> artists = getLatestArtists();
-        final Vector<Album> albums = getLatestAlbums();
+        final List<Track> tracks = getLatestTracks( (int) p.get(Constants.WWW_BROWSE_LATEST_TRACKS_COUNT,20) );
+        final List<Artist> artists = getLatestArtists();
+        final List<Album> albums = getLatestAlbums();
         
         showLatest( tracks, artists, albums );
         
@@ -62,7 +63,7 @@ public class Latester extends BaseAction {
      * 
      */
     
-    protected void showLatest( final Vector<Track> tracks, final Vector<Artist> artists, final Vector<Album> albums ) throws IOException, SQLException {
+    protected void showLatest( final List<Track> tracks, final List<Artist> artists, final List<Album> albums ) throws IOException, SQLException {
 
         final TLatest tpl = new TLatest();
         
@@ -83,13 +84,13 @@ public class Latester extends BaseAction {
      * 
      */
     
-    protected Vector<Artist> getLatestArtists() throws SQLException {
+    protected List<Artist> getLatestArtists() throws SQLException {
         
         final ResultSet rs = getLatestMusic( "artist", Constants.WWW_BROWSE_LATEST_ARTISTS_COUNT );
-        final Vector<Artist> artists = new Vector<Artist>();
+        final List<Artist> artists = new ArrayList<Artist>();
 
         while ( rs.next() )
-            artists.addElement(
+            artists.add(
                 new Artist( rs.getInt("id"), rs.getString("name") )
             );
 
@@ -141,13 +142,13 @@ public class Latester extends BaseAction {
      * 
      */
     
-    protected Vector<Album> getLatestAlbums() throws SQLException {
+    protected List<Album> getLatestAlbums() throws SQLException {
         
         final ResultSet rs = getLatestMusic( "album", Constants.WWW_BROWSE_LATEST_ALBUMS_COUNT );
-        final Vector<Album> albums = new Vector<Album>();
+        final List<Album> albums = new ArrayList<Album>();
 
         while ( rs.next() )
-            albums.addElement(
+            albums.add(
                 new Album( null, rs.getInt("id"), rs.getString("name"), "" )
             );
 

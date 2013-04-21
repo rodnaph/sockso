@@ -1,11 +1,11 @@
 <%import>
     com.pugh.sockso.JsonUtils;
     com.pugh.sockso.music.Playlist;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%args>
-    Vector<Playlist> playlists = null;
+    List<Playlist> playlists = null;
 </%args>
 
 <%java>
@@ -19,7 +19,7 @@
 
         {
             "id": <% playlist.getId() %>,
-            "name": <% JsonUtils.string(playlist.getName()) %>,
+            "name": <% JsonUtils.string(playlist.getName()) #n %>,
 
             <%if playlist.getUser() != null %>
                 , "user": {

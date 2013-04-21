@@ -5,7 +5,9 @@ artists:1,My Artist,now(),My Artist
 
 albums:1,1,My Album,1984,now()
 
-tracks:1,1,1,My Track,/music/01 - track.mp3,180,now(),1,1
-tracks:2,1,1,Second Track,/music/subfolder/03 - can track.mp3,180,now(),1,1
-tracks:3,1,1,Third Track,/home/user/music/01 - some track.mp3,180,now(),1,1
-tracks:4,1,1,Fourth Track,S:\My Music\James Hunter - All Through Cryin'.mp3,180,now(),1,1
+genres:1,Rock
+
+tracks:1,1,1,My Track,/music/01 - track.mp3,180,now(),1,1,1
+tracks:2,1,1,Second Track,/music/subfolder/03 - can track.mp3,180,now(),1,1,1
+tracks:3,1,1,Third Track,/home/user/music/01 - some track.mp3,180,now(),1,1,1
+tracks:4,1,1,Fourth Track,S:\My Music\James Hunter - All Through Cryin'.mp3,180,now(),1,1,1

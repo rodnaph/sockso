@@ -8,7 +8,7 @@
     com.pugh.sockso.music.Track;
     com.pugh.sockso.resources.Locale;
     com.pugh.sockso.web.User;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%implements>
@@ -18,10 +18,10 @@
 <%args>
     Properties properties = null;
     String title = "Sockso";
-    Vector<Track> recentTracks = null;
-    Vector<Artist> topArtists = null;
-    Vector<Album> recentAlbums = null;
-    Vector<User> recentUsers = null;
+    List<Track> recentTracks = null;
+    List<Artist> topArtists = null;
+    List<Album> recentAlbums = null;
+    List<User> recentUsers = null;
     User user = null;
     Locale locale = null;
 </%args>

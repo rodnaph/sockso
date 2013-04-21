@@ -1,24 +1,28 @@
 
 package com.pugh.sockso.web.action.browse;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Collection;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.BadRequestException;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
-
-import java.io.IOException;
-
-import static org.easymock.EasyMock.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoldererTest extends SocksoTestCase {
 
@@ -42,7 +46,7 @@ public class FoldererTest extends SocksoTestCase {
         final Folderer b = new Folderer();
         b.setDatabase( db );
         
-        final Vector<Collection> folders = b.getCollections();
+        final List<Collection> folders = b.getCollections();
         
         assertNotNull( folders );
         assertEquals( 2, folders.size() );
@@ -90,7 +94,7 @@ public class FoldererTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final Folderer b = new Folderer();
-        final Vector<Collection> folders = new Vector<Collection>();
+        final List<Collection> folders = new ArrayList<Collection>();
         
         folders.add( new Collection(12321,"/some/path") );
         

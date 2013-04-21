@@ -18,32 +18,31 @@
 package com.pugh.sockso.web;
 
 import com.pugh.sockso.Constants;
-import com.pugh.sockso.Utils;
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.resources.Locale;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.IOException;
+import org.apache.log4j.Logger;
+import org.jamon.Renderer;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
-
-import java.sql.Timestamp;
-import java.sql.SQLException;
-import java.sql.ResultSet;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.sql.PreparedStatement;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPOutputStream;
-
-import org.jamon.Renderer;
-
-import org.apache.log4j.Logger;
 
 public class HttpResponse implements Response {
     
@@ -54,8 +53,8 @@ public class HttpResponse implements Response {
     private final Properties p;
     private final Locale locale;
     private final boolean canGzip;
-    private final Hashtable<String,String> headers;
-    protected final Vector<HttpResponseCookie> cookies;
+    private final Map<String,String> headers;
+    protected final List<HttpResponseCookie> cookies;
 
     private Database db;
     private User user;
@@ -88,14 +87,14 @@ public class HttpResponse implements Response {
         useGzip = false;
         cookiesEnabled = true;
         status = 200;
-        headers = new Hashtable<String,String>( 10 );
-        cookies = new Vector<HttpResponseCookie>();
+        headers = new HashMap<String,String>( 10 );
+        cookies = new ArrayList<HttpResponseCookie>();
         responseSent = false;
 
         // default headers
         addHeader( "Server", "Sockso" );
         addHeader( "Connection", "close" ); // we don't support keep-alive connections at the moment
-        addHeader( "Accept-Ranges", "none" );
+        addHeader( "Accept-Ranges", "bytes");
 
     }
  
@@ -106,6 +105,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void setCookiesEnabled( final boolean cookiesEnabled ) {
         
         this.cookiesEnabled = cookiesEnabled;
@@ -118,6 +118,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void enableGzip() {
         
         useGzip = true;
@@ -131,6 +132,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void setStatus( final int status ) {
         
         this.status = status;
@@ -144,6 +146,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void setUser( final User user ) {
         
         this.user = user;
@@ -172,10 +175,11 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void addCookie( final HttpResponseCookie cookie ) {
         
         cookies.remove( cookie );
-        cookies.addElement( cookie );
+        cookies.add( cookie );
         
     }
     
@@ -187,6 +191,7 @@ public class HttpResponse implements Response {
      *
      */
     
+    @Override
     public void addHeader( final String name, final String value ) {
         headers.put( name, value );
     }
@@ -196,6 +201,7 @@ public class HttpResponse implements Response {
      *
      */
     
+    @Override
     public void sendHeaders() {
 
         final PrintWriter out = new PrintWriter( stream, true );
@@ -261,7 +267,7 @@ public class HttpResponse implements Response {
         
         out.print( name + ": " + value + HTTP_EOL );
         
-        //log.debug( "Sent HTTP Header: " + name + " = '" + value + "'" );
+        log.debug( "Sent HTTP Header: " + name + " = '" + value + "'" );
 
     }
     
@@ -273,6 +279,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public OutputStream getOutputStream() {
         return stream;
     }
@@ -286,6 +293,7 @@ public class HttpResponse implements Response {
      * 
      */
 
+    @Override
     public void showHtml( final Renderer renderer ) throws IOException {
         
         showTemplate( renderer, "text/html; charset=\"UTF-8\"" );
@@ -302,6 +310,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void showHtml( final PageTemplate tpl ) throws IOException, SQLException {
 
         tpl.setRecentUsers( getRecentUsers() );
@@ -320,14 +329,14 @@ public class HttpResponse implements Response {
      * 
      */
     
-    protected Vector<User> getRecentUsers() throws SQLException {
+    protected List<User> getRecentUsers() throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
         
         try {
 
-            final Vector<User> users = new Vector<User>();
+            final List<User> users = new ArrayList<User>();
             final String sql = " select distinct u.id, u.name " +
                                " from play_log l " +
                                    " inner join users u " +
@@ -377,6 +386,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void showRss( final Renderer renderer ) throws IOException {
 
         showTemplate( renderer, "text/xml; charset=\"UTF-8\"" );
@@ -392,6 +402,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void showJson( final Renderer renderer ) throws IOException {
 
         showTemplate( 
@@ -410,6 +421,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void showText( final Renderer renderer ) throws IOException {
        
         showTemplate( renderer, "text/plain" );
@@ -425,6 +437,7 @@ public class HttpResponse implements Response {
      *
      */
     
+    @Override
     public void showText( final String text ) throws IOException {
 
         addHeader( "Content-type", "text/plain" );
@@ -448,6 +461,7 @@ public class HttpResponse implements Response {
      * 
      */
 
+    @Override
     public void showTemplate( final Renderer renderer, final String contentType ) throws IOException {
 
         addHeader( "Content-type", contentType );
@@ -465,6 +479,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void showTemplate( final Renderer renderer ) throws IOException {
 
         addHeader( "Cache-Control", "private" );
@@ -496,6 +511,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public void sendData( final DataInputStream in ) throws IOException {
         
         DataOutputStream out = null;
@@ -520,13 +536,14 @@ public class HttpResponse implements Response {
     
     /**
      *  redirects the user.  we try and do the redirect with the HTTP Location
-     *  header, but incase this fails we also send html with a meta refresh,
-     *  and a clickable redirect link.  just incase.
+     *  header, but in case this fails we also send html with a meta refresh,
+     *  and a clickable redirect link.  just in case.
      * 
      *  @param path redirect to
      * 
      */
     
+    @Override
     public void redirect( final String path ) throws IOException {
 
         setStatus( 302 );
@@ -546,6 +563,7 @@ public class HttpResponse implements Response {
      * 
      */
     
+    @Override
     public boolean responseSent() {
         
         return responseSent;

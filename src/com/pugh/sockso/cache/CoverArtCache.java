@@ -18,103 +18,50 @@ public class CoverArtCache extends TimedCache {
     public static final String[] CACHE_IMAGE_EXTENSIONS = {"jpg", "gif", "png"};
     public static final String DEFAULT_IMAGE_TYPE = "jpg";
 
-    /**
-     *  Indicates if the item is cached
-     * 
-     *  @param itemName
-     *  @param extension
-     * 
-     *  @return 
-     * 
-     */
-
     private boolean isCached(final String itemName, final String extension) {
 
-        final File coverFile = getCoverCacheFile(itemName, extension);
-
+        File coverFile = getCoverCacheFile(itemName, extension);
         return (coverFile.isFile() && coverFile.exists());
-
     }
-
-    /**
-     *  Indicates if the item is cached
-     * 
-     *  @param itemName
-     * 
-     *  @return 
-     * 
-     */
 
     @Override
     public boolean isCached(final String itemName) {
 
-        final String ext = getCachedImageExtension(itemName);
-
+        String ext = getCachedImageExtension(itemName);
         if (ext != null) {
             return true;
         }
 
         return false;
-
     }
 
-    /**
-     *  Any image extension could exist in the cache.
-     *  Return the first one found, otherwise null
-     * 
-     *  @param itemName
-     * 
-     *  @return 
-     * 
-     */
-
+    // Any image extension could exist in the cache.
+    // Return the first one found, otherwise null
     protected String getCachedImageExtension(final String itemName) {
 
-        for ( final String ext : CACHE_IMAGE_EXTENSIONS ) {
-            if ( isCached(itemName,ext) ) {
+        for (String ext : CACHE_IMAGE_EXTENSIONS) {
+            if (isCached(itemName, ext)) {
                 return ext;
             }
         }
 
         return null;
-
     }
-
-    /**
-     *  Convenience method to add some cover art to the cache
-     * 
-     *  @param cover
-     * 
-     *  @throws CacheException 
-     * 
-     */
 
     public void addToCache(final CoverArt cover) throws CacheException {
         
-        final CachedObject obj = new CachedObject(cover, -1);
-
+        CachedObject obj = new CachedObject(cover, -1);
         writeRaw(cover.getItemName(), obj);
-
     }
-
-    /**
-     *  Convenience method to fetch cover art from cache
-     *  
-     *  @param itemName
-     * 
-     *  @return
-     * 
-     *  @throws CacheException 
-     * 
-     */
 
     public CoverArt getCoverArt(String itemName) throws CacheException {
         
-        final CachedObject obj = readRaw(itemName);
-        final CoverArt cover = (CoverArt) obj.getValue();
+        CoverArt cover = null;
+        
+        CachedObject obj = readRaw(itemName);
+        cover = (CoverArt) obj.getValue();
 
         return cover;
-
     }
 
     /**
@@ -126,75 +73,44 @@ public class CoverArtCache extends TimedCache {
      *  @return the cache file path
      *
      */
-
     protected File getCoverCacheFile(final String itemName, final String extension) {
 
         return new File(Utils.getCoversDirectory() + File.separator + itemName + "." + extension);
     }
 
-    /**
-     *  Implements raw reading of image cache files
-     * 
-     *  @param key
-     * 
-     *  @return
-     * 
-     *  @throws CacheException 
-     * 
-     */
-
     @Override
     protected CachedObject readRaw( String key ) throws CacheException {
         
-        final String ext = getCachedImageExtension(key);
-
+        CachedObject obj = null;
+        CoverArt cover = null;
+        
+        String ext = getCachedImageExtension(key);
         if (ext != null) {
-
-            final File coverFile = getCoverCacheFile(key, ext);
-
+            File coverFile = getCoverCacheFile(key, ext);
             try {
-                final BufferedImage image = ImageIO.read(coverFile);
-                final CoverArt cover = new CoverArt(key, image);
-                return new CachedObject(cover, -1);
+                BufferedImage image = ImageIO.read(coverFile);
+                cover = new CoverArt(key, image);
+                obj = new CachedObject(cover, -1);
             } 
-
             catch(IOException e) {
                 throw new CacheException("Error reading image: " + coverFile.toString(), e );
             }
-
         }
 
-        return null;
-
+        return obj;
     }
-
-    /**
-     *  Implements raw writing of data to cache
-     * 
-     *  @param key
-     * 
-     *  @param object
-     * 
-     *  @throws CacheException 
-     * 
-     */
 
     @Override
     protected void writeRaw( String key, CachedObject object ) throws CacheException {
 
-        final CoverArt cover = (CoverArt) object.getValue();
-        final BufferedImage image = cover.getImage();
-        final String extension = DEFAULT_IMAGE_TYPE;
-        final File imageFile = getCoverCacheFile(key, extension);
-
+        CoverArt cover = (CoverArt) object.getValue();
+        BufferedImage image = cover.getImage();
+        String extension = DEFAULT_IMAGE_TYPE;
+        File imageFile = getCoverCacheFile(key, extension);
         try {
             ImageIO.write(image, extension, imageFile);
-        } 
-        
-        catch ( final IOException e ) {
+        } catch ( IOException e ) {
             throw new CacheException("Error w\riting image to file: " + imageFile.toString(), e);
         }
-
     }
-
 }

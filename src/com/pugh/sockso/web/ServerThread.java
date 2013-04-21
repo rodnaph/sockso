@@ -81,14 +81,13 @@ public class ServerThread extends Thread {
         Response res = null;
         Request req = null;
         User user = null;
-        Locale locale = localeFactory.getDefaultLocale();
         
         try {
 
             req = new HttpRequest( sv );
             req.process( new BufferedInputStream(client.getInputStream()) );
 
-            locale = localeFactory.getLocale( req.getPreferredLangCode() );
+            Locale locale = localeFactory.getLocale( req.getPreferredLangCode() );
 
             final WebAction action = dispatcher.getAction( req );
             action.setRequest( req );
@@ -160,7 +159,7 @@ public class ServerThread extends Thread {
 
     protected void process( final WebAction action, final User user, final Request req, final Locale locale, final Response res ) throws Exception {
 
-        if ( p.get(Constants.WWW_LOG_REQUESTS_ENABLED).equals(p.YES) ) {
+        if ( p.get(Constants.WWW_LOG_REQUESTS_ENABLED).equals(Properties.YES) ) {
             final RequestLogger logger = new DbRequestLogger( db );
             logger.log( user, client.getInetAddress().getHostAddress(),
                 req.getResource(), req.getHeader("User-Agent"),

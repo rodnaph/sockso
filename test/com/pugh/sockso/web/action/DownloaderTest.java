@@ -7,13 +7,13 @@ import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
-import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.web.BadRequestException;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 public class DownloaderTest extends SocksoTestCase {
 
@@ -47,7 +47,7 @@ public class DownloaderTest extends SocksoTestCase {
     }
 
     public void testGettingTheFileNameWhenAllArtistsAreTheSame() {
-        Vector<Track> tracks = new Vector<Track>();
+        List<Track> tracks = new ArrayList<Track>();
         tracks.add( getTrack("artist") );
         tracks.add( getTrack("artist") );
         Downloader d = new Downloader();
@@ -55,7 +55,7 @@ public class DownloaderTest extends SocksoTestCase {
     }
     
     public void testGettingFilenameWhenDifferentArtists() {
-        Vector<Track> tracks = new Vector<Track>();
+        List<Track> tracks = new ArrayList<Track>();
         tracks.add( getTrack("artist1") );
         tracks.add( getTrack("artist2") );
         Downloader d = new Downloader();
@@ -63,7 +63,7 @@ public class DownloaderTest extends SocksoTestCase {
     }
     
     public void testGettingFilenameWhenDifferentAlbumsUsesMultipleAlbums() {
-        Vector<Track> tracks = new Vector<Track>();
+        List<Track> tracks = new ArrayList<Track>();
         tracks.add( getTrack("artist","album1","year") );
         tracks.add( getTrack("artist","album2","year") );
         Downloader d = new Downloader();
@@ -73,7 +73,7 @@ public class DownloaderTest extends SocksoTestCase {
     public void testExceptionThrownWhenDownloadsAreDisabled() throws Exception {
         Downloader d = new Downloader();
         Properties p = new StringProperties();
-        p.set( Constants.WWW_DOWNLOADS_DISABLE, p.YES );
+        p.set( Constants.WWW_DOWNLOADS_DISABLE, Properties.YES );
         boolean gotException = false;
         d.setProperties( p );
         d.setLocale( new TestLocale() );

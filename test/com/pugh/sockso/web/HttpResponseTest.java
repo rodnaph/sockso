@@ -9,24 +9,27 @@
 
 package com.pugh.sockso.web;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 
-import java.io.OutputStream;
-import java.io.IOException;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import java.util.Date;
-import java.util.Vector;
-
 import org.jamon.Renderer;
 
-import static org.easymock.EasyMock.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Date;
+import java.util.List;
 
 public class HttpResponseTest extends SocksoTestCase {
     
@@ -194,12 +197,12 @@ public class HttpResponseTest extends SocksoTestCase {
         replay( db );
         
         final HttpResponse res = new HttpResponse( null, db, null, null, null, false );
-        final Vector<User> users = res.getRecentUsers();
+        final List<User> users = res.getRecentUsers();
         
         assertNotNull( users );
         assertEquals( 1, users.size() );
-        assertEquals( user.getId(), users.elementAt(0).getId() );
-        assertEquals( user.getName(), users.elementAt(0).getName() );
+        assertEquals( user.getId(), users.get(0).getId() );
+        assertEquals( user.getName(), users.get(0).getName() );
         
         verify( db );
         verify( st );

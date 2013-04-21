@@ -9,15 +9,14 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.web.browse.TPopular;
 import com.pugh.sockso.web.action.BaseAction;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
-
-import java.util.Vector;
-
-import org.apache.log4j.Logger;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  shows popular track information
@@ -39,6 +38,7 @@ public class Popularer extends BaseAction {
      * 
      */
 
+    @Override
     public void handleRequest() throws IOException, SQLException {
         
         showPopularTracks( getPopularTracks() );
@@ -46,7 +46,7 @@ public class Popularer extends BaseAction {
     }
 
     /**
-     *  shows the page displaying populat tracks
+     *  shows the page displaying populate tracks
      * 
      *  @param tracks
      * 
@@ -54,7 +54,7 @@ public class Popularer extends BaseAction {
      * 
      */
     
-    protected void showPopularTracks( final Vector<Track> tracks ) throws IOException, SQLException {
+    protected void showPopularTracks( final List<Track> tracks ) throws IOException, SQLException {
         
         final TPopular tpl = new TPopular();
         
@@ -73,7 +73,7 @@ public class Popularer extends BaseAction {
      * 
      */
     
-    protected Vector<Track> getPopularTracks() throws SQLException {
+    protected List<Track> getPopularTracks() throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -88,10 +88,12 @@ public class Popularer extends BaseAction {
                             " on ar.id = t.artist_id " +
                             " inner join albums al " +
                             " on al.id = t.album_id " +
+                            " inner join genres g " +
+                            " on g.id = t.genre_id " +
                             " left outer join play_log l " +
                             " on l.track_id = t.id " +
                         " group by artistId, artistName, albumId, albumName, albumYear, trackId, " +
-                            " trackName, trackPath, trackNo, dateAdded " +
+                            " trackName, trackPath, trackNo, genreId, genreName, dateAdded " +
                         " having count(l.id) > 0 " +
                         " order by count(l.id) desc " +
                         " limit ? ";
@@ -101,11 +103,11 @@ public class Popularer extends BaseAction {
             
             rs = st.executeQuery();
 
-            final Vector<Track> tracks = new Vector<Track>();
+            final List<Track> tracks = new ArrayList<Track>();
             while ( rs.next() ) {
                 final Track track = Track.createFromResultSet( rs );
                 track.setPlayCount( rs.getInt("playCount") );
-                tracks.addElement( track );
+                tracks.add( track );
             }
             
             return tracks;

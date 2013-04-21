@@ -138,7 +138,7 @@ public class Constants {
     //**********************************************************
 
     public static final String DEV_ENABLED = "dev.enabled";
- 
+
     //**********************************************************
     //**********************************************************
     //
@@ -165,7 +165,7 @@ public class Constants {
     public static final String SCHED = "scheduler";
     public static final String SCHED_SIMPLE_INTERVAL = "scheduler.simple.interval";
     public static final String SCHED_CRON_TAB = "scheduler.cron.tab";
-    
+
     //**********************************************************
     //**********************************************************
     //

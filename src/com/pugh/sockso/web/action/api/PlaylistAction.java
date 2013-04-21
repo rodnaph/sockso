@@ -9,10 +9,8 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
-
-import java.util.Vector;
+import java.util.List;
 
 public class PlaylistAction extends BaseApiAction {
 
@@ -48,7 +46,7 @@ public class PlaylistAction extends BaseApiAction {
      * 
      */
     
-    protected void showPlaylist( final Playlist playlist, final Vector<Track> tracks ) throws IOException {
+    protected void showPlaylist( final Playlist playlist, final List<Track> tracks ) throws IOException {
         
         TPlaylist tpl = new TPlaylist();
         tpl.setPlaylist( playlist );

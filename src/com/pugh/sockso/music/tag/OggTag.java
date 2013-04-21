@@ -21,6 +21,7 @@ import com.jcraft.jogg.Page;
 import com.jcraft.jogg.Packet;
 import com.jcraft.jorbis.Comment;
 import com.jcraft.jorbis.Info;
+import com.pugh.sockso.Utils;
 
 import org.apache.log4j.Logger;
 
@@ -29,7 +30,7 @@ public class OggTag extends AudioTag {
     private static final Logger log = Logger.getLogger( OggTag.class );
     
     private State state = null;
-    private static int CHUNKSIZE = 4096;
+    private static final int CHUNKSIZE = 4096;
 
     public void parse( final File file ) throws IOException {
 
@@ -55,17 +56,20 @@ public class OggTag extends AudioTag {
                     artistTitle = value;
                 else if ( name.equals("album") )
                     albumTitle = value;
+                else if ( name.equals("albumartist") )
+                    albumArtist = value;
                 else if ( name.equals("title") )
                     trackTitle = value;
                 else if ( name.equalsIgnoreCase( "date" ) )
                     albumYear = value;
-                
+                else if ( name.equalsIgnoreCase("genre") )
+                    this.genre = value;
             }
 
         }
 
         finally {
-            try{in.close();} catch( final Exception e ){}
+            Utils.close( in );
         }
         
     }
@@ -206,7 +210,7 @@ class State {
 
     private static final Logger log = Logger.getLogger( State.class );
     
-    private static int CHUNKSIZE = 4096;
+    private static final int CHUNKSIZE = 4096;
 
     SyncState oy;
     StreamState os;
@@ -275,5 +279,3 @@ class State {
     }
     
 }
-
-

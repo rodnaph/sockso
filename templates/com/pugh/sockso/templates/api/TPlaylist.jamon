@@ -3,18 +3,18 @@
     com.pugh.sockso.music.Playlist;
     com.pugh.sockso.music.Track;
     com.pugh.sockso.JsonUtils;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%args>
     Playlist playlist = null;
-    Vector<Track> tracks = null;
+    List<Track> tracks = null;
 </%args>
 
 {
 
     "id": <% playlist.getId() %>,
-    "name": <% JsonUtils.string(playlist.getName()) %>,
+    "name": <% JsonUtils.string(playlist.getName()) #n %>,
     "tracks": <& TTracks; tracks=tracks; &>
 
     <%if playlist.getUser() != null %>
