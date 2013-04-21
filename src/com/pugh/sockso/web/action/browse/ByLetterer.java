@@ -90,20 +90,27 @@ public class ByLetterer extends BaseAction {
         try {
             
             final Database db = getDatabase();
-            final String sql = " select ar.id as id, ar.name as name, count(al.id) as albumCount " +
-                               " from artists ar " +
-                                   " left outer join albums al " +
-                                   " on al.artist_id = ar.id " +
-                               " where " +
-                               ( letter.equals("")
+
+            // Get the count of the albums based on track album_id, NOT the count of
+            // album rows for artist, as the artist may appear on albums for which
+            // they are NOT the album artist
+            final String sql = "" +
+                   " select id, name, count(*) as albumCount " +
+                   " from (select ar.id as id, ar.name as name, count(tr.album_id) " +
+                         " from artists ar " +
+                             " left outer join tracks tr " +
+                             " on tr.artist_id = ar.id " +
+                         " where " +
+                         ( letter.equals("")
                                    // doesn't start with a-z
                                    // @TODO ascii() not sqlite compatible
                                    ? " ascii(lower(ar.name)) < 96 " +
                                          " or ascii(lower(ar.name)) > 123 "
                                    // starts with a particular letter
                                    : " ar.browse_name like ? ") +
-                               " group by ar.id, ar.name " +
-                               " order by ar.name asc ";
+                         " group by tr.album_id, ar.id, ar.name) " +
+                   " group by name, id " +
+                   " order by name asc ";
 
             st = db.prepare( sql );
 
