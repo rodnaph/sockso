@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action.covers;
 
+import com.pugh.sockso.Properties;
 import com.pugh.sockso.cache.CacheException;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.resources.Locale;
@@ -47,10 +48,11 @@ public class DefaultCoverer extends BaseCoverer {
     protected CoverArt getNoCoverArt( String noCoverId ) throws IOException, CacheException {
 
         final Locale locale = getLocale();
-
+        final Properties properties = getProperties();
+        
         return coverCache.isCached( noCoverId ) 
                 ? coverCache.getCoverArt(noCoverId) 
-                : new CoverArt(noCoverId, CoverArt.createNoCoverImage(locale));
+                : new CoverArt(noCoverId, CoverArt.createNoCoverImage(properties, locale));
 
     }
     
