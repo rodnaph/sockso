@@ -153,13 +153,17 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         log.debug( tag.getArtist() + " - " + tag.getAlbum() + " - " + tag.getAlbumYear() + " - " + tag.getTrack() );
 
         final int artistId = addArtist( tag.getArtist() );
-        final int albumId = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
-        final int trackId = addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
+        final int albumId  = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
+        final int trackId  = addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
 
         if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) ) {
+            
             final BufferedImage coverArt = tag.getCoverArt();
+            
             if ( coverArt != null ) {
-                addCoverArt( trackId, tag.getTrack(), albumId, tag.getAlbum(), coverArt );
+                addCoverArt( trackId, "tr", coverArt );
+                addCoverArt( albumId, "al", coverArt );
+                addCoverArt( artistId, "ar", coverArt );
             }
         }
 
@@ -168,37 +172,27 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     /**
      *  Adds cover art extracted from the tag for this track
      * 
-     *  @param trackId
-     *  @param track
-     *  @param albumId
-     *  @param album
+     *  @param itemId
+     *  @param itemType 
      *  @param coverArt 
      * 
      */
 
-    protected void addCoverArt( final int trackId, final String track, final int albumId, final String album, final BufferedImage coverArt ){
+    protected void addCoverArt( final int itemId, final String itemType, final BufferedImage coverArt ){
 
-        log.info("Adding Cover Art for trackId " + trackId + " and albumId " + albumId + "...");
+        log.info("Adding Cover Art for itemId: " + itemId + ", itemType: " + itemType);
 
         // -1 if nothing inserted into db
-        if (albumId < 0 && trackId < 0) {
-            log.warn("addCoverArt: Both trackId and albumId params were -1");
+        if (itemId < 0) {
+            log.warn("addCoverArt: itemId param was -1");
             return;
         }
 
-        String coverId = null;
-        // if the track has an album, we use that
-        // if not, we use the trackId
-        if (albumId >= 0) {
-            coverId = "al" + albumId;
-        }
-        else if (trackId >= 0) {
-            coverId = "tr" + trackId;
-        }
+        // TODO Would be nice if we had some sort of helper to build a coverId from arbitrary music item types
+        String coverId = itemType + itemId;
 
         final CoverArtIndexer coverArtIndexer = new CoverArtIndexer(p);
         coverArtIndexer.indexCover(new CoverArt( coverId, coverArt ));
-
     }
 
     /**
