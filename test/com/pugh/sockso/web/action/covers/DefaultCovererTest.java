@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.web.action.covers;
 
+import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.music.CoverArt;
 import com.pugh.sockso.cache.CoverArtCache;
 import com.pugh.sockso.tests.SocksoTestCase;
@@ -14,6 +15,7 @@ public class DefaultCovererTest extends SocksoTestCase {
     @Override
     protected void setUp() {
         coverer = new NeuteredDefaultCoverer();
+        coverer.setProperties( new StringProperties() );
         coverer.setLocale( new TestLocale() );
         coverer.coverCache = new CoverArtCache();
     }

@@ -1,5 +1,7 @@
 package com.pugh.sockso.music;
 
+import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
 import com.pugh.sockso.resources.Locale;
 
 import java.awt.Color;
@@ -129,19 +131,21 @@ public class CoverArt {
      *  @return
      *
      */
-    public static BufferedImage createNoCoverImage(final Locale locale) {
+    public static BufferedImage createNoCoverImage(final Properties properties, final Locale locale) {
+        
+        final int width  = (int) properties.get(Constants.DEFAULT_ARTWORK_WIDTH, 115);
+        final int height = (int) properties.get(Constants.DEFAULT_ARTWORK_HEIGHT, 115);
 
-        final int dim = 115;
-        final BufferedImage cover = new BufferedImage(dim, dim, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage cover = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         final Graphics2D g = cover.createGraphics();
 
         // background
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, dim, dim);
+        g.fillRect(0, 0, width, height);
 
         // border
         g.setColor(new Color(200, 200, 200));
-        g.drawRect(0, 0, dim - 1, dim - 1);
+        g.drawRect(0, 0, width - 1, height - 1);
 
         // text
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
