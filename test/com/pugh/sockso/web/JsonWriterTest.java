@@ -6,7 +6,8 @@ import com.pugh.sockso.templates.api.TAlbums;
 import com.pugh.sockso.tests.SocksoTestCase;
 
 import java.io.StringWriter;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonWriterTest extends SocksoTestCase {
 
@@ -31,7 +32,7 @@ public class JsonWriterTest extends SocksoTestCase {
 
     public void testIssue109() throws Exception {
         TAlbums tpl = new TAlbums();
-        Vector<Album> albums = new Vector<Album>();
+        List<Album> albums = new ArrayList<Album>();
         albums.add( new Album( 1, "Artist\"", 2, "Album\"", "1980") );
         tpl.setAlbums(albums);
         tpl.makeRenderer().renderTo(jsonWriter);

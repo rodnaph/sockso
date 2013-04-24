@@ -11,8 +11,6 @@ import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.playlist.XspfPlayer;
 
-import java.util.Vector;
-
 import static org.easymock.EasyMock.*;
 
 public class PlayerTest extends SocksoTestCase {

@@ -17,8 +17,9 @@ import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.Server;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 import static org.easymock.EasyMock.*;
 
@@ -29,7 +30,7 @@ public class FeederTest extends SocksoTestCase {
         final Artist artist = new Artist( 1, "artistFoo" );
         final Album album = new Album( artist, 2, "albumBar", "year");
         final Track track = new Track( artist, album, 3, "track name", "/path", 1, new Date() );
-        final Vector<Track> tracks = new Vector<Track>();
+        final List<Track> tracks = new ArrayList<Track>();
         final Server sv = createNiceMock( Server.class );
         final TestResponse res = new TestResponse();
 

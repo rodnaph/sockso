@@ -3,13 +3,13 @@
     com.pugh.sockso.Properties;
     com.pugh.sockso.web.Server;
     com.pugh.sockso.music.Track;
-    java.util.Vector;
+    java.util.List;
     java.text.SimpleDateFormat;
 </%import>
 <%args>
     Properties properties = null;
     String host = null;
-    Vector<Track> tracks = null;
+    List<Track> tracks = null;
 </%args>
 <?xml version="1.0" encoding="UTF-8"?>
 <%java>

@@ -6,10 +6,8 @@ import com.pugh.sockso.templates.api.TAlbums;
 import com.pugh.sockso.web.Request;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
-
-import java.util.Vector;
+import java.util.List;
 
 public class AlbumsAction extends BaseApiAction {
 
@@ -23,7 +21,7 @@ public class AlbumsAction extends BaseApiAction {
     
     public void handleRequest() throws SQLException, IOException {
     
-        Vector<Album> albums = Album.findAll(
+        List<Album> albums = Album.findAll(
             getDatabase(),
             getLimit(),
             getOffset()
@@ -42,7 +40,7 @@ public class AlbumsAction extends BaseApiAction {
      * 
      */
     
-    protected void showAlbums( final Vector<Album> albums ) throws IOException {
+    protected void showAlbums( final List<Album> albums ) throws IOException {
         
         TAlbums tpl = new TAlbums();
         tpl.setAlbums( albums );
@@ -59,12 +57,12 @@ public class AlbumsAction extends BaseApiAction {
      *  @return 
      * 
      */
-    
+    @Override
     public boolean canHandle( final Request req ) {
         
         return req.getParamCount() == 2
             && req.getUrlParam( 1 ).equals( "albums" );
 
     }
-    
+
 }

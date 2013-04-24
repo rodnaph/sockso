@@ -15,16 +15,14 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 
-import java.io.OutputStream;
-import java.io.IOException;
+import org.jamon.Renderer;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import java.util.Date;
-import java.util.Vector;
-
-import org.jamon.Renderer;
+import java.util.List;
 
 import static org.easymock.EasyMock.*;
 
@@ -194,12 +192,12 @@ public class HttpResponseTest extends SocksoTestCase {
         replay( db );
         
         final HttpResponse res = new HttpResponse( null, db, null, null, null, false );
-        final Vector<User> users = res.getRecentUsers();
+        final List<User> users = res.getRecentUsers();
         
         assertNotNull( users );
         assertEquals( 1, users.size() );
-        assertEquals( user.getId(), users.elementAt(0).getId() );
-        assertEquals( user.getName(), users.elementAt(0).getName() );
+        assertEquals( user.getId(), users.get(0).getId() );
+        assertEquals( user.getName(), users.get(0).getName() );
         
         verify( db );
         verify( st );

@@ -28,7 +28,7 @@ import java.sql.PreparedStatement;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.Vector;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -107,7 +107,7 @@ public class Jsoner extends BaseAction {
     protected void tracks() throws IOException, SQLException, BadRequestException {
     
         final Request req = getRequest();
-        final Vector<Track> tracks = Track.getTracksFromPlayArgs( getDatabase(), req.getPlayParams(true) );
+        final List<Track> tracks = Track.getTracksFromPlayArgs( getDatabase(), req.getPlayParams(true) );
         
         showTracks( tracks );
         
@@ -122,7 +122,7 @@ public class Jsoner extends BaseAction {
      * 
      */
     
-    protected void showTracks( final Vector<Track> tracks ) throws IOException {
+    protected void showTracks( final List<Track> tracks ) throws IOException {
 
         final TTracks tpl = new TTracks();
         
@@ -265,7 +265,7 @@ public class Jsoner extends BaseAction {
      *  be resolved to the tracks internal ID.  this can then be used normally
      *  for playing music.  the path coming in is assumed to have forward slashes
      *  to delimit path components, but this needs to be converted to whatever
-     *  the actual path seperator is for the current system BEFORE we try and
+     *  the actual path separator is for the current system BEFORE we try and
      *  query the database, otherwise, well, it just won't work.
      * 
      *  NB!  ATM, this feature is only here for the the folder browsing stuff,
@@ -314,7 +314,7 @@ public class Jsoner extends BaseAction {
     }
 
     /**
-     *  converts a path with / as the path seperator to be correct for the
+     *  converts a path with / as the path separator to be correct for the
      *  current system.
      * 
      *  @param path
@@ -335,7 +335,7 @@ public class Jsoner extends BaseAction {
      *  path after the json action name is prefixed by the collection path
      *  specified in the query string.
      * 
-     *  eg. /json/action/File/System/Path?collectionId=2
+     *  e.g. /json/action/File/System/Path?collectionId=2
      * 
      *  Will return /home/rod/File/System/Path because the collection with id = 2
      *  is rooted at /home/rod
@@ -473,11 +473,11 @@ public class Jsoner extends BaseAction {
         else {
             
             final Database db = getDatabase();
-            final Vector<Track> vTracks = Track.getTracksFromPlayArgs( db, args );
+            final List<Track> vTracks = Track.getTracksFromPlayArgs( db, args );
             final Track[] tracks = new Track[ vTracks.size() ];
             
             for ( int i=0; i<vTracks.size(); i++ )
-                tracks[i] = vTracks.elementAt( i );
+                tracks[i] = vTracks.get( i );
             
             result = Integer.toString(
                 cm.savePlaylist( name, tracks, user )

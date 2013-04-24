@@ -8,10 +8,8 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
-
-import java.util.Vector;
+import java.util.List;
 
 public class AlbumTracksAction extends BaseApiAction {
     
@@ -50,7 +48,7 @@ public class AlbumTracksAction extends BaseApiAction {
             throw new BadRequestException( "Invalid album id" );
         }
         
-        final Vector<Track> tracks = Track.getTracks( getDatabase(), "al", albumId );
+        final List<Track> tracks = Track.getTracks( getDatabase(), "al", albumId );
         
         showTracks( tracks );
         
@@ -65,7 +63,7 @@ public class AlbumTracksAction extends BaseApiAction {
      * 
      */
     
-    protected void showTracks( final Vector<Track> tracks ) throws IOException {
+    protected void showTracks( final List<Track> tracks ) throws IOException {
         
         TTracks tpl = new TTracks();
         tpl.setTracks( tracks );

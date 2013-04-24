@@ -4,14 +4,14 @@ package com.pugh.sockso.web.action.browse;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestResponse;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.easymock.EasyMock.*;
 
@@ -38,7 +38,7 @@ public class ByLettererTest extends SocksoTestCase {
         final ByLetterer b = new ByLetterer();
         b.setDatabase( db );
         
-        final Vector<Artist> artists = b.getArtistsByLetter( "a" );
+        final List<Artist> artists = b.getArtistsByLetter( "a" );
         
         assertNotNull( artists  );
         assertEquals( 2, artists.size() );
@@ -79,7 +79,7 @@ public class ByLettererTest extends SocksoTestCase {
         final ByLetterer b = new ByLetterer();
         b.setDatabase( db );
         
-        final Vector<Artist> artists = b.getArtistsByLetter( "" );
+        final List<Artist> artists = b.getArtistsByLetter( "" );
         
         assertNotNull( artists  );
         assertEquals( 2, artists.size() );
@@ -94,7 +94,7 @@ public class ByLettererTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final ByLetterer b = new ByLetterer();
-        final Vector<Artist> artists = new Vector<Artist>();
+        final List<Artist> artists = new ArrayList<Artist>();
         final Artist artist = new Artist( 1, "my artist" );
         final String letter = "G";
 

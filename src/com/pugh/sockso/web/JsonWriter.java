@@ -71,6 +71,7 @@ public class JsonWriter extends Writer {
      * 
      */
 
+    @Override
     public void write( char[] chars, int offset, int length ) throws IOException {
 
         for ( int i = 0; i < length; i++ ) {
@@ -83,7 +84,10 @@ public class JsonWriter extends Writer {
      *  Proxy on to wrapped writer object
      */
 
+    @Override
     public void close() throws IOException { this.writer.close(); }
+
+    @Override
     public void flush() throws IOException { this.writer.flush(); }
 
 }

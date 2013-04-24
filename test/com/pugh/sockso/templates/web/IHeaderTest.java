@@ -3,16 +3,13 @@ package com.pugh.sockso.templates.web;
 
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
-import com.pugh.sockso.Utils;
 import com.pugh.sockso.StringProperties;
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.tests.TemplateTestCase;
-import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.web.User;
 
 import org.jamon.Renderer;
-
-import static org.easymock.EasyMock.*;
 
 public class IHeaderTest extends TemplateTestCase {
     
@@ -29,6 +26,7 @@ public class IHeaderTest extends TemplateTestCase {
         assertTrue( render().length() > 0 );
     }
 
+    @Override
     public Renderer getTemplate() {
 
         final IHeader tpl = new IHeader();

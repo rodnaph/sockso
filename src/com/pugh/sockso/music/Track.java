@@ -12,8 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -85,21 +86,21 @@ public class Track extends MusicItem {
     }
 
     /**
-     *  creates a vector of tracks from a result set
+     *  creates a list of tracks from a result set
      * 
      *  @param rs the result set to use
-     *  @return the track vector
+     *  @return list of Tracks
      * 
      *  @throws SQLException
      * 
      */
     
-    public static Vector<Track> createVectorFromResultSet( final ResultSet rs ) throws SQLException {
+    public static List<Track> createListFromResultSet( final ResultSet rs ) throws SQLException {
         
-        final Vector<Track> tracks = new Vector<Track>();
+        final List<Track> tracks = new ArrayList<Track>();
         
         while ( rs.next() )
-            tracks.addElement( Track.createFromResultSet(rs) );
+            tracks.add( Track.createFromResultSet(rs) );
 
         return tracks;
         
@@ -172,24 +173,24 @@ public class Track extends MusicItem {
     }
 
     /**
-     *  returns a vector of tracks based on the type and id criteria
+     *  returns a list of tracks based on the type and id criteria
      *
      *  @param db the database connection
      *  @param type the filter type
      *  @param id the filter id
      * 
-     *  @return vector of tracks found
+     *  @return list of tracks found
      * 
      *  @throws SQLException
      *  @throws BadRequestException
      *  
      */
     
-    public static Vector<Track> getTracks( final Database db, final String type, final int id  ) throws SQLException, BadRequestException {
+    public static List<Track> getTracks( final Database db, final String type, final int id  ) throws SQLException, BadRequestException {
         return getTracks( db, type, id, "" );
     }
     
-    public static Vector<Track> getTracks( final Database db, final String type, final int id, final String orderBySql  ) throws SQLException, BadRequestException {
+    public static List<Track> getTracks( final Database db, final String type, final int id, final String orderBySql  ) throws SQLException, BadRequestException {
 
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -197,7 +198,7 @@ public class Track extends MusicItem {
         try {
 
             final String sql = getPlaylistSql( type, id, orderBySql );
-            final Vector<Track> songs = new Vector<Track>();
+            final List<Track> songs = new ArrayList<Track>();
             
             st = db.prepare( sql );
             rs = st.executeQuery();
@@ -217,25 +218,25 @@ public class Track extends MusicItem {
     }
 
     /**
-     *  returns a vector of track objects that are loaded from an array
+     *  returns a list of track objects that are loaded from an array
      *  of custom url arguments of the form "tr123/al456/ar789"
      * 
      *  @param db the database connection
      *  @param args the custom arguments
-     *  @return vector of track objects
+     *  @return list of track objects
      * 
      *  @throws SQLException
      *  @throws BadRequestException
      * 
      */
 
-    public static Vector<Track> getTracksFromPlayArgs( final Database db, final String[] args ) throws SQLException, BadRequestException {
+    public static List<Track> getTracksFromPlayArgs( final Database db, final String[] args ) throws SQLException, BadRequestException {
         return getTracksFromPlayArgs( db, args, "" );
     }
     
-    public static Vector<Track> getTracksFromPlayArgs( final Database db, final String[] args, final String orderBySql ) throws SQLException, BadRequestException {
+    public static List<Track> getTracksFromPlayArgs( final Database db, final String[] args, final String orderBySql ) throws SQLException, BadRequestException {
 
-        final Vector<Track> tracks = new Vector<Track>();
+        final List<Track> tracks = new ArrayList<Track>();
         
         for ( final String arg : args ) {
             
@@ -262,7 +263,7 @@ public class Track extends MusicItem {
      * 
      */
     
-    public static Vector<Track> getTracksFromPath( final Database db, final String path ) throws SQLException {
+    public static List<Track> getTracksFromPath( final Database db, final String path ) throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -278,7 +279,7 @@ public class Track extends MusicItem {
 
             rs = st.executeQuery();
             
-            return createVectorFromResultSet( rs );
+            return createListFromResultSet( rs );
             
         }
         
@@ -386,7 +387,7 @@ public class Track extends MusicItem {
      * 
      */
     
-    public static Vector<Track> findAll( final Database db, final int limit, final int offset ) throws SQLException {
+    public static List<Track> findAll( final Database db, final int limit, final int offset ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -403,7 +404,7 @@ public class Track extends MusicItem {
             st = db.prepare( sql );
             rs = st.executeQuery();
             
-            return createVectorFromResultSet( rs );
+            return createListFromResultSet( rs );
             
         }
         

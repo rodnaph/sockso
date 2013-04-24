@@ -2,7 +2,7 @@
 <%import>
     com.pugh.sockso.music.Artist;
     com.pugh.sockso.JsonUtils;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%args>

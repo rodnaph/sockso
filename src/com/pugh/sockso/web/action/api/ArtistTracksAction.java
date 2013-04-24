@@ -7,9 +7,8 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.List;
 
 public class ArtistTracksAction extends BaseApiAction {
     
@@ -22,6 +21,7 @@ public class ArtistTracksAction extends BaseApiAction {
      * 
      */
     
+    @Override
     public boolean canHandle( final Request req ) {
         
         return req.getUrlParam( 1 ).equals( "artists" )
@@ -39,9 +39,10 @@ public class ArtistTracksAction extends BaseApiAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws BadRequestException, SQLException, IOException {
         
-        final Vector<Track> tracks = Track.getTracks(
+        final List<Track> tracks = Track.getTracks(
             getDatabase(),
             "ar",
             Integer.parseInt(getRequest().getUrlParam(2))
@@ -60,7 +61,7 @@ public class ArtistTracksAction extends BaseApiAction {
      * 
      */
     
-    protected void showTracks( final Vector<Track> tracks ) throws IOException {
+    protected void showTracks( final List<Track> tracks ) throws IOException {
         
         final TTracks tpl = new TTracks();
         tpl.setTracks( tracks );

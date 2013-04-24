@@ -40,6 +40,7 @@ public class FlacTag extends AudioTag {
 
             // look for the vorbis comment
             for ( final Metadata item : metadata ) {
+
                 if ( item.getClass().equals(VorbisComment.class) ) {
 
                     final VorbisComment comment = (VorbisComment) item;
