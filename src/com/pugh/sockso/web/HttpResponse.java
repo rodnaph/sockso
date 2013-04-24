@@ -94,7 +94,7 @@ public class HttpResponse implements Response {
         // default headers
         addHeader( "Server", "Sockso" );
         addHeader( "Connection", "close" ); // we don't support keep-alive connections at the moment
-        addHeader( "Accept-Ranges", "none" );
+        addHeader( "Accept-Ranges", "bytes");
 
     }
  
@@ -267,7 +267,7 @@ public class HttpResponse implements Response {
         
         out.print( name + ": " + value + HTTP_EOL );
         
-        //log.debug( "Sent HTTP Header: " + name + " = '" + value + "'" );
+        log.debug( "Sent HTTP Header: " + name + " = '" + value + "'" );
 
     }
     
