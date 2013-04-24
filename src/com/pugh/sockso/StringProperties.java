@@ -1,8 +1,10 @@
 
 package com.pugh.sockso;
 
-import java.util.Vector;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,13 +20,13 @@ public class StringProperties implements Properties {
      *  The property data
      *
      */
-    protected final Hashtable<String,String> data;
+    protected final Map<String,String> data;
 
     /**
      *  Listeners registered for property change events
      *
      */
-    private final Vector<PropertiesListener> listeners;
+    private final List<PropertiesListener> listeners;
 
     /**
      *  creates the properties object.
@@ -35,8 +37,8 @@ public class StringProperties implements Properties {
 
     public StringProperties() {
 
-        data = new Hashtable<String,String>();
-        listeners = new Vector<PropertiesListener>();
+        data = new HashMap<String,String>();
+        listeners = new ArrayList<PropertiesListener>();
 
     }
 
@@ -47,6 +49,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public void init() throws Exception {}
 
     /**
@@ -56,6 +59,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public String[] getProperties() {
 
         final Set<String> props = data.keySet();
@@ -71,6 +75,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public void addPropertiesListener( final PropertiesListener listener ) {
 
         listeners.add( listener );
@@ -99,6 +104,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public void set( final String name, final String value ) {
 
         data.put( name, value );
@@ -114,6 +120,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public void set( final String name, final boolean value ) {
 
         set( name, value ? YES : NO );
@@ -128,6 +135,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public void set( final String name, final long value ) {
 
         set( name, Long.toString(value) );
@@ -143,6 +151,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public String get( final String name ) {
 
         return get( name, "" );
@@ -159,6 +168,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public String get( final String name, final String defaultValue ) {
 
         final String value = data.get( name );
@@ -180,6 +190,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public long get( final String name, final long defaultValue ) {
 
         long returnValue = defaultValue;
@@ -199,16 +210,17 @@ public class StringProperties implements Properties {
     }
 
     /**
-     *  returns hashtable of matched values
+     *  returns Map of matched values
      *
      *  @param name
      *  @return
      *
      */
 
-    public Hashtable<String,String> getMatches( final String name ) {
+    @Override
+    public Map<String,String> getMatches( final String name ) {
 
-        final Hashtable<String,String> hash = new Hashtable<String,String>();
+        final Map<String,String> hash = new HashMap<String,String>();
         final int nameLength = name.length();
 
         for ( final String key : data.keySet() ) {
@@ -227,6 +239,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public void save() {
 
         firePropertiesSavedEvent();
@@ -240,6 +253,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public void delete( final String name ) {
 
         data.remove( name );
@@ -255,6 +269,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public boolean exists( final String name ) {
 
         return ( data.get(name) != null );
@@ -270,6 +285,7 @@ public class StringProperties implements Properties {
      *
      */
 
+    @Override
     public String getUrl( final String url ) {
 
         String newUrl = url;

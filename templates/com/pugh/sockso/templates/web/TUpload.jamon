@@ -6,7 +6,7 @@
     com.pugh.sockso.music.Artist;
     com.pugh.sockso.resources.Locale;
     com.pugh.sockso.web.User;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%implements>
@@ -16,11 +16,11 @@
 <%args>
     Properties properties = null;
     String title = "Sockso";
-    Vector<Track> recentTracks = null;
-    Vector<Artist> topArtists = null;
+    List<Track> recentTracks = null;
+    List<Artist> topArtists = null;
     User user = null;
     Locale locale = null;
-    Vector<User> recentUsers = null;
+    List<User> recentUsers = null;
 </%args>
 
 <& IHeader; properties=properties; title="Upload"; user=user; locale=locale; &>

@@ -4,13 +4,14 @@ package com.pugh.sockso.music;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 
+import com.google.inject.Singleton;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import java.util.Vector;
-
-import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  a class for searching for music
@@ -46,7 +47,7 @@ public class MusicSearch {
      * 
      */
     
-    public Vector<MusicItem> search( final String query ) throws SQLException {
+    public List<MusicItem> search( final String query ) throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -126,9 +127,9 @@ public class MusicSearch {
      * 
      */
     
-    protected Vector<MusicItem> createResults( final ResultSet rs ) throws SQLException {
+    protected List<MusicItem> createResults( final ResultSet rs ) throws SQLException {
         
-        final Vector<MusicItem> items = new Vector<MusicItem>();
+        final List<MusicItem> items = new ArrayList<MusicItem>();
             
         while ( rs.next() ) {
 
@@ -140,7 +141,7 @@ public class MusicSearch {
                     new Album( null, rs.getInt("album_id"), rs.getString("album_name"), "" ),
                     rs.getInt("id"), rs.getString("name"), "", -1, null
                 );
-                items.addElement( track );
+                items.add( track );
             }
 
             else if ( type.equals(MusicItem.ALBUM) ) {
@@ -148,7 +149,7 @@ public class MusicSearch {
                     rs.getInt("artist_id"), rs.getString("artist_name"),
                     rs.getInt("id"), rs.getString("name"), ""
                 );
-                items.addElement( album );
+                items.add( album );
             }
                     
             else if ( type.equals(MusicItem.PLAYLIST) ) {
@@ -156,11 +157,11 @@ public class MusicSearch {
                     rs.getInt("id"),
                     rs.getString("name")
                 );
-                items.addElement( playlist );
+                items.add( playlist );
             }
 
             else {
-                items.addElement( new MusicItem(rs.getString("type"),rs.getInt("id"),rs.getString("name")) );
+                items.add( new MusicItem(rs.getString("type"),rs.getInt("id"),rs.getString("name")) );
             }
 
         }

@@ -14,10 +14,12 @@ public class JsonRenderer implements Renderer {
         this.renderer = renderer;
     }
     
+    @Override
     public String asString() {
         return null;
     }
 
+    @Override
     public void renderTo( final Writer writer ) throws IOException {
         this.renderer.renderTo( new JsonWriter(writer) );
     }

@@ -1,24 +1,10 @@
 
 package com.pugh.sockso.web.action.browse;
 
-import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.Album;
-import com.pugh.sockso.music.Artist;
-import com.pugh.sockso.music.Playlist;
-import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.BadRequestException;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
-import java.util.Date;
-
-import static org.easymock.EasyMock.*;
 
 public class PlaylisterTest extends SocksoTestCase {
 

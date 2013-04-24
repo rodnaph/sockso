@@ -7,7 +7,7 @@
     com.pugh.sockso.resources.FileResources;
     com.pugh.sockso.resources.Locale;
     com.pugh.sockso.web.User;
-    java.util.Vector;
+    java.util.List;
     java.util.Calendar;
 </%import>
 
@@ -15,7 +15,7 @@
     User user = null;
     Locale locale = null;
     Properties properties = null;
-    Vector<User> recentUsers = null;
+    List<User> recentUsers = null;
 </%args>
 
 <%java>

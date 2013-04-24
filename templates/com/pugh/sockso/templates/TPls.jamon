@@ -1,5 +1,4 @@
 <%import>
-    java.util.Vector;
     com.pugh.sockso.Utils;
     com.pugh.sockso.Properties;
     com.pugh.sockso.Constants;

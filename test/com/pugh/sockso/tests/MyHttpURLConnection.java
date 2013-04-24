@@ -42,10 +42,13 @@ public class MyHttpURLConnection extends HttpURLConnection {
         return out.toString();
     }
 
+    @Override
     public boolean usingProxy() { return false; }
     
+    @Override
     public void disconnect() {}
     
+    @Override
     public void connect() {}
     
 }

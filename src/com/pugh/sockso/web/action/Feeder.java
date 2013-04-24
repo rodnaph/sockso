@@ -15,10 +15,8 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.templates.TRSSLatest;
 
 import java.sql.SQLException;
-
 import java.io.IOException;
-
-import java.util.Vector;
+import java.util.List;
 
 public class Feeder extends BaseAction {
 
@@ -71,7 +69,7 @@ public class Feeder extends BaseAction {
      * 
      */
     
-    public void latest( final Vector<Track> tracks ) throws SQLException, IOException {
+    public void latest( final List<Track> tracks ) throws SQLException, IOException {
         
         final TRSSLatest tpl = new TRSSLatest();
         

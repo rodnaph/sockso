@@ -5,16 +5,16 @@ import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.tests.SocksoTestCase;
-import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.BadRequestException;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.easymock.EasyMock.*;
 
@@ -108,7 +108,7 @@ public class ArtisterTest extends SocksoTestCase {
         final Artister b = new Artister();
         b.setDatabase( db );
         
-        final Vector<Album> albums = b.getArtistAlbums( 123 );
+        final List<Album> albums = b.getArtistAlbums( 123 );
         
         assertNotNull( albums );
         assertEquals( 2, albums.size() );
@@ -149,7 +149,7 @@ public class ArtisterTest extends SocksoTestCase {
         
         final TestResponse res = new TestResponse();
         final Artister b = new Artister();
-        final Vector<Album> albums = new Vector<Album>();
+        final List<Album> albums = new ArrayList<Album>();
         final Artist artist = new Artist( 1, "my artist", new Date(), 1, 1 );
         final Album album = new Album( artist, 1, "foo", "year" );
 

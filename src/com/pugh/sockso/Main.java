@@ -2,43 +2,43 @@
 package com.pugh.sockso;
 
 import com.pugh.sockso.cache.ObjectCacheGC;
-import com.pugh.sockso.inject.SocksoModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.pugh.sockso.db.Database;
 import com.pugh.sockso.db.DBExporter;
+import com.pugh.sockso.db.Database;
 import com.pugh.sockso.gui.Splash;
+import com.pugh.sockso.inject.SocksoModule;
 import com.pugh.sockso.music.CollectionManager;
 import com.pugh.sockso.music.DBCollectionManager;
 import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.scheduling.SchedulerRunner;
-import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.resources.LocaleFactory;
+import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.web.Dispatcher;
+import com.pugh.sockso.web.HttpServer;
 import com.pugh.sockso.web.IpFinder;
 import com.pugh.sockso.web.Server;
 import com.pugh.sockso.web.SessionCleaner;
-import com.pugh.sockso.web.HttpServer;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.InputStream;
-
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.LogManager;
 
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+
 public class Main {
-    
+
     private static final Logger log = Logger.getLogger( Main.class );
 
     private static volatile boolean shutdownStarted = false;
@@ -316,12 +316,12 @@ public class Main {
      *
      */
 
-    protected static int getSavedPort( final Properties p ) {
+    protected static int getSavedPort( final Properties props ) {
 
         int thePort = HttpServer.DEFAULT_PORT;
 
         try {
-            thePort = Integer.parseInt(p.get(Constants.SERVER_PORT));
+            thePort = Integer.parseInt(props.get(Constants.SERVER_PORT));
         }
         catch ( final NumberFormatException e ) {
             log.error( "Invalid port number: " + e );
@@ -471,7 +471,7 @@ public class Main {
     }
 
     /**
-     *  initialises the logger for the test cases
+     *  Initializes the logger for the test cases
      *
      */
 

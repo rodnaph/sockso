@@ -5,7 +5,7 @@ import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 public class AlbumTest extends SocksoTestCase {
     
@@ -82,12 +82,12 @@ public class AlbumTest extends SocksoTestCase {
     
     public void testFindbyartistidReturnsAllAlbumsForTheSpecifiedArtist() throws Exception {
         db.fixture( "artistsAlbumsAndTracks" );
-        Vector<Album> albums = Album.findByArtistId( db, 1 );
+        List<Album> albums = Album.findByArtistId( db, 1 );
         assertEquals( 2, albums.size() );
     }
     
     public void testFindbyartistidReturnsNoAlbumsOnInvalidArtistId() throws Exception {
-        Vector<Album> albums = Album.findByArtistId( db, 999 );
+        List<Album> albums = Album.findByArtistId( db, 999 );
         assertEquals( 0, albums.size() );
     }
     
@@ -110,31 +110,31 @@ public class AlbumTest extends SocksoTestCase {
     
     public void testFindallReturnsAllAlbums() throws Exception {
         db.fixture( "albums" );
-        Vector<Album> albums = Album.findAll( db, 100, 0 );
+        List<Album> albums = Album.findAll( db, 100, 0 );
         assertEquals( 3, albums.size() );
     }
     
     public void testFindallCanBeLimited() throws Exception {
         db.fixture( "albums" );
-        Vector<Album> albums = Album.findAll( db, 2, 0 );
+        List<Album> albums = Album.findAll( db, 2, 0 );
         assertEquals( 2, albums.size() );
     }
     
     public void testFindallCanBeOffset() throws Exception {
         db.fixture( "albums" );
-        Vector<Album> albums = Album.findAll( db, 3, 1 );
+        List<Album> albums = Album.findAll( db, 3, 1 );
         assertEquals( 2, albums.size() );
     }
     
     public void testLimitOfMinusOneToFindallMeansNoLimit() throws Exception {
         db.fixture( "albums" );
-        Vector<Album> albums = Album.findAll( db, -1, 0 );
+        List<Album> albums = Album.findAll( db, -1, 0 );
         assertEquals( 3, albums.size() );
     }
     
     public void testFindallReturnsAlbumsLexicographically() throws Exception {
         db.fixture( "albums" );
-        Vector<Album> albums = Album.findAll( db, -1, 0 );
+        List<Album> albums = Album.findAll( db, -1, 0 );
         assertEquals( "Another Album", albums.get(0).getName() );
         assertEquals( "Beta Third", albums.get(1).getName() );
         assertEquals( "Zan Album", albums.get(2).getName() );
@@ -142,7 +142,7 @@ public class AlbumTest extends SocksoTestCase {
     
     public void testFindallReturnsArtistsWithAlbums() throws Exception {
         db.fixture( "albums" );
-        Vector<Album> albums = Album.findAll( db, -1, 0 );
+        List<Album> albums = Album.findAll( db, -1, 0 );
         assertEquals( "A Artist", albums.get(0).getArtist().getName() );
     }
     

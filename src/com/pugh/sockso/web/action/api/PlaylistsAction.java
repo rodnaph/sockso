@@ -8,10 +8,8 @@ import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.User;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
-
-import java.util.Vector;
+import java.util.List;
 
 public class PlaylistsAction extends BaseApiAction {
 
@@ -24,6 +22,7 @@ public class PlaylistsAction extends BaseApiAction {
      * 
      */
     
+    @Override
     public boolean canHandle( final Request req ) {
         
         return (
@@ -53,7 +52,8 @@ public class PlaylistsAction extends BaseApiAction {
      *  @throws BadRequestException 
      * 
      */
-    
+
+    @Override
     public void handleRequest() throws SQLException, IOException, BadRequestException {
         
         final Request req = getRequest();
@@ -112,7 +112,7 @@ public class PlaylistsAction extends BaseApiAction {
      * 
      */
     
-    protected void showPlaylists( final Vector<Playlist> playlists ) throws IOException {
+    protected void showPlaylists( final List<Playlist> playlists ) throws IOException {
         
         final TPlaylists tpl = new TPlaylists();
         tpl.setPlaylists( playlists );

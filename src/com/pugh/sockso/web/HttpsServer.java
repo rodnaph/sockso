@@ -4,16 +4,16 @@ package com.pugh.sockso.web;
 import com.pugh.sockso.Options;
 import com.pugh.sockso.Properties;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
+
 import java.io.IOException;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 
 import joptsimple.OptionSet;
-
-import com.google.inject.Singleton;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 
 /**
  *  extends the main HttpServer class to add HTTPS support
@@ -56,6 +56,7 @@ public class HttpsServer extends HttpServer {
      * 
      */
     
+    @Override
     protected SSLServerSocket getServerSocket( final int port ) throws IOException {
 
         System.setProperty( "javax.net.ssl.keyStore", sslKeystore );
@@ -82,6 +83,7 @@ public class HttpsServer extends HttpServer {
         
     }
 
+    @Override
     public String getProtocol() {
         
         return "https";

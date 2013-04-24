@@ -3,7 +3,7 @@
     com.pugh.sockso.Properties;
     com.pugh.sockso.resources.Locale;
     com.pugh.sockso.web.User;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%implements>
@@ -11,7 +11,7 @@
 </%implements>
 
 <%args>
-    Vector<User> recentUsers = null;
+    List<User> recentUsers = null;
     Properties properties = null;
     Locale locale = null;
     User user = null;

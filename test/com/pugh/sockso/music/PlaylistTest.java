@@ -10,11 +10,11 @@
 package com.pugh.sockso.music;
 
 import com.pugh.sockso.Utils;
-import com.pugh.sockso.web.User;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
+import com.pugh.sockso.web.User;
 
-import java.util.Vector;
+import java.util.List;
 
 public class PlaylistTest extends SocksoTestCase {
 
@@ -68,26 +68,26 @@ public class PlaylistTest extends SocksoTestCase {
     }
     
     public void testFindallReturnsAllPlaylists() throws Exception {
-        Vector<Playlist> playlists = Playlist.findAll( db, 100, 0 );
+        List<Playlist> playlists = Playlist.findAll( db, 100, 0 );
         assertEquals( 3, playlists.size() );
     }
     
     public void testFindallCanBeOffset() throws Exception {
-        Vector<Playlist> playlists = Playlist.findAll( db, 100, 1 );
+        List<Playlist> playlists = Playlist.findAll( db, 100, 1 );
         assertEquals( 2, playlists.size() );
         assertEquals( "A Playlist", playlists.get(0).getName() );
         assertEquals( "Foo Foo", playlists.get(1).getName() );
     }
     
     public void testFindallCanBeLimited() throws Exception {
-        Vector<Playlist> playlists = Playlist.findAll( db, 2, 0 );
+        List<Playlist> playlists = Playlist.findAll( db, 2, 0 );
         assertEquals( 2, playlists.size() );
         assertEquals( "Bar Bar", playlists.get(0).getName() );
         assertEquals( "A Playlist", playlists.get(1).getName() );
     }
     
     public void testFindallReturnsNewestPlaylistsFirst() throws Exception {
-        Vector<Playlist> playlists = Playlist.findAll( db, 100, 0 );
+        List<Playlist> playlists = Playlist.findAll( db, 100, 0 );
         assertEquals( "Bar Bar", playlists.get(0).getName() );
         assertEquals( "Foo Foo", playlists.get(2).getName() );
     }
@@ -97,12 +97,12 @@ public class PlaylistTest extends SocksoTestCase {
             db.update( " insert into playlists ( name, date_created, date_modified ) " +
                        " values ( '" +Utils.getRandomString(20)+ "', now(), now() )" );
         }
-        Vector<Playlist> playlists = Playlist.findAll( db, -1, 0 );
+        List<Playlist> playlists = Playlist.findAll( db, -1, 0 );
         assertEquals( 203, playlists.size() );
     }
     
     public void testFindallReturnsUsersWithPlaylistsTheyHaveCreated() throws Exception {
-        Vector<Playlist> playlists = Playlist.findAll( db, 100, 0 );
+        List<Playlist> playlists = Playlist.findAll( db, 100, 0 );
         assertEquals( "MyUser", playlists.get(1).getUser().getName() );
     }
     
@@ -112,67 +112,67 @@ public class PlaylistTest extends SocksoTestCase {
     }
     
     public void testGettracksReturnsTheTracksForThePlaylist() throws Exception {
-        Vector<Track> tracks = Playlist.find( db, 2 ).getTracks( db );
+        List<Track> tracks = Playlist.find( db, 2 ).getTracks( db );
         assertEquals( 3, tracks.size() );
     }
     
     public void testGettracksReturnsEmptyWhenThereAreNoTracksForThePlaylist() throws Exception {
-        Vector<Track> tracks = Playlist.find( db, 1 ).getTracks( db );
+        List<Track> tracks = Playlist.find( db, 1 ).getTracks( db );
         assertEquals( 0, tracks.size() );
     }
     
     public void testGettracksReturnsEmptyWhenThePlaylistDoesntExistInTheDatabase() throws Exception {
-        Vector<Track> tracks = new Playlist(99999,"Foo").getTracks( db );
+        List<Track> tracks = new Playlist(99999,"Foo").getTracks( db );
         assertEquals( 0, tracks.size() );
     }
     
     public void testFindallforuserReturnsPlaylistsForSpecifiedUser() throws Exception {
         userPlaylists();
-        Vector<Playlist> tracks = Playlist.findAllForUser( db, user, 100, 0 );
+        List<Playlist> tracks = Playlist.findAllForUser( db, user, 100, 0 );
         assertEquals( 2, tracks.size() );
     }
     
     public void testFindallforuserReturnsPlaylistsEmptyWhenNullSpecifiedForUser() throws Exception {
         userPlaylists();
-        Vector<Playlist> tracks = Playlist.findAllForUser( db, null, 100, 0 );
+        List<Playlist> tracks = Playlist.findAllForUser( db, null, 100, 0 );
         assertEquals( 0, tracks.size() );
     }
     
     public void testFindallforuserCanBeLimited() throws Exception {
         userPlaylists();
-        Vector<Playlist> tracks = Playlist.findAllForUser( db, user, 1, 0 );
+        List<Playlist> tracks = Playlist.findAllForUser( db, user, 1, 0 );
         assertEquals( 1, tracks.size() );
     }
     
     public void testFindallforuserCanBeOffset() throws Exception {
         userPlaylists();
-        Vector<Playlist> tracks = Playlist.findAllForUser( db, user, 100, 1 );
+        List<Playlist> tracks = Playlist.findAllForUser( db, user, 100, 1 );
         assertEquals( 1, tracks.size() );
     }
     
     public void testFindallforuserWithLimitOfMinusOneMeansNoLimit() throws Exception {
         userPlaylists();
-        Vector<Playlist> tracks = Playlist.findAllForUser( db, user, -1, 0 );
+        List<Playlist> tracks = Playlist.findAllForUser( db, user, -1, 0 );
         assertEquals( 2, tracks.size() );
     }
     
     public void testFindallforsiteReturnsOnlySitePlaylists() throws Exception {
-        Vector<Playlist> tracks = Playlist.findAllForSite( db, 100, 0 );
+        List<Playlist> tracks = Playlist.findAllForSite( db, 100, 0 );
         assertEquals( 2, tracks.size() );
     }
     
     public void testFindallforsiteCanBeLimited() throws Exception {
-        Vector<Playlist> tracks = Playlist.findAllForSite( db, 1, 0 );
+        List<Playlist> tracks = Playlist.findAllForSite( db, 1, 0 );
         assertEquals( 1, tracks.size() );
     }
     
     public void testFindallforsiteCanBeOffset() throws Exception {
-        Vector<Playlist> tracks = Playlist.findAllForSite( db, 100, 1 );
+        List<Playlist> tracks = Playlist.findAllForSite( db, 100, 1 );
         assertEquals( 1, tracks.size() );
     }
     
     public void testFindallforsiteWithLimitMinusOneMeansNoLimit() throws Exception {
-        Vector<Playlist> tracks = Playlist.findAllForSite( db, -1, 0 );
+        List<Playlist> tracks = Playlist.findAllForSite( db, -1, 0 );
         assertEquals( 2, tracks.size() );
     }
     

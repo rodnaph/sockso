@@ -1,18 +1,23 @@
 
 package com.pugh.sockso.music;
 
-import com.pugh.sockso.Utils;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.indexing.CoverArtIndexer;
-import com.pugh.sockso.music.indexing.Indexer;
 import com.pugh.sockso.music.indexing.IndexEvent;
 import com.pugh.sockso.music.indexing.IndexListener;
+import com.pugh.sockso.music.indexing.Indexer;
+import com.pugh.sockso.music.tag.AudioTag;
 import com.pugh.sockso.music.tag.InvalidTagException;
 import com.pugh.sockso.music.tag.Tag;
-import com.pugh.sockso.music.tag.AudioTag;
 import com.pugh.sockso.web.User;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import org.apache.log4j.Logger;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,12 +26,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.Vector;
-
-import org.apache.log4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class DBCollectionManager extends Thread implements CollectionManager, IndexListener {
@@ -35,7 +36,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     private final Database db;
     private final Properties p;
-    private final Vector<CollectionManagerListener> listeners;
+    private final List<CollectionManagerListener> listeners;
     private final Indexer indexer;
 
     /**
@@ -50,7 +51,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         this.p = p;
         this.indexer = indexer;
 
-        listeners = new Vector<CollectionManagerListener>();
+        listeners = new ArrayList<CollectionManagerListener>();
 
     }
 

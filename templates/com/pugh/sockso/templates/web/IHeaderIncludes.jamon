@@ -3,7 +3,9 @@
     com.pugh.sockso.Constants;
     com.pugh.sockso.Properties;
     java.util.Enumeration;
-    java.util.Hashtable;
+    java.util.Map;
+    java.util.Set;
+    java.util.Iterator;
 </%import>
 
 <%args>
@@ -11,13 +13,14 @@
 </%args>
 
 <%java>
-    final Hashtable metatags = properties.getMatches( Constants.WWW_METATAGS );
-    final Enumeration keys = metatags.keys();
+    final Map<String, String> metatags = properties.getMatches( Constants.WWW_METATAGS );
+    final Set<String> keys = metatags.keySet();
+    final Iterator<String> iter = keys.iterator();
 </%java>
 
-<%while keys.hasMoreElements() %>
+<%while iter.hasNext() %>
     <%java>
-        final String key = keys.nextElement().toString();
+        final String key = iter.next();
     </%java>
     <meta name="<% key %>" content="<% metatags.get(key) %>" />
 </%while>

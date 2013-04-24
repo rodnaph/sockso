@@ -4,7 +4,7 @@
     com.pugh.sockso.resources.Locale;
     com.pugh.sockso.web.User;
     com.pugh.sockso.web.BadRequestException;
-    java.util.Vector;
+    java.util.List;
     java.util.regex.Pattern;
     java.util.regex.Matcher;
 </%import>
@@ -22,7 +22,7 @@
     User user = null;
     Locale locale = null;
     boolean showStackTrace = false;
-    Vector<User> recentUsers = null;
+    List<User> recentUsers = null;
     int statusCode = 200;
 </%args>
 
