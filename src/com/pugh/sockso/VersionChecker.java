@@ -4,26 +4,24 @@ package com.pugh.sockso;
 import com.pugh.sockso.events.LatestVersionEvent;
 import com.pugh.sockso.events.LatestVersionListener;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-
-import java.net.URL;
-import java.net.HttpURLConnection;
-
-import java.util.Vector;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.log4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.apache.log4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  *  This class handles checking for the latest version from the website, and
- *  allowing listeners to be nofitied of this information when it's received.
+ *  allowing listeners to be notified of this information when it's received.
  *
  */
 
@@ -34,7 +32,7 @@ public class VersionChecker {
 
     private final Properties p;
     
-    private final Vector<LatestVersionListener> listeners;
+    private final List<LatestVersionListener> listeners;
 
     /**
      *  Constructor
@@ -46,7 +44,7 @@ public class VersionChecker {
 
         this.p = p;
 
-        this.listeners = new Vector<LatestVersionListener>();
+        this.listeners = new ArrayList<LatestVersionListener>();
 
     }
 
@@ -115,7 +113,7 @@ public class VersionChecker {
 
     protected void fetchLatestVersionFrom( final HttpURLConnection cnn ) {
 
-        if ( p.get(Constants.VERSION_CHECK_DISABLED).equals(p.YES) ) {
+        if ( p.get(Constants.VERSION_CHECK_DISABLED).equals(Properties.YES) ) {
             return;
         }
         

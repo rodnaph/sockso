@@ -7,7 +7,7 @@
     com.pugh.sockso.music.Playlist;
     com.pugh.sockso.resources.Locale;
     com.pugh.sockso.web.User;
-    java.util.Vector;
+    java.util.List;
 </%import>
 
 <%implements>
@@ -16,11 +16,11 @@
 
 <%args>
     Properties properties = null;
-    Vector<Track> tracks = null;
+    List<Track> tracks = null;
     Playlist playlist = null;
     User user = null;
     Locale locale = null;
-    Vector<User> recentUsers = null;
+    List<User> recentUsers = null;
 </%args>
 
 <& ../IHeader; properties=properties; title="Playlist: " + Utils.XMLEncode(playlist.getName()); user=user; locale=locale; &>

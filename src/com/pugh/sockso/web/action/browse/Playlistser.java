@@ -8,13 +8,12 @@ import com.pugh.sockso.templates.web.browse.TPlaylists;
 import com.pugh.sockso.web.User;
 import com.pugh.sockso.web.action.BaseAction;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.io.IOException;
-
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  shows the list of site and user playlists
@@ -34,10 +33,11 @@ public class Playlistser extends BaseAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws IOException, SQLException {
         
-        final Vector<Playlist> sitePlaylists = getSitePlaylists();
-        final Vector<Playlist> userPlaylists = getUserPlaylists();
+        final List<Playlist> sitePlaylists = getSitePlaylists();
+        final List<Playlist> userPlaylists = getUserPlaylists();
         
         showPlaylists( sitePlaylists, userPlaylists );
            
@@ -53,7 +53,7 @@ public class Playlistser extends BaseAction {
      * 
      */
     
-    protected void showPlaylists( final Vector<Playlist> sitePlaylists, final Vector<Playlist> userPlaylists ) throws IOException, SQLException {
+    protected void showPlaylists( final List<Playlist> sitePlaylists, final List<Playlist> userPlaylists ) throws IOException, SQLException {
 
         final TPlaylists tpl = new TPlaylists();
 
@@ -73,7 +73,7 @@ public class Playlistser extends BaseAction {
      * 
      */
     
-    protected Vector<Playlist> getUserPlaylists() throws SQLException {
+    protected List<Playlist> getUserPlaylists() throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -95,9 +95,9 @@ public class Playlistser extends BaseAction {
             st = db.prepare( sql );
             rs = st.executeQuery();
             
-            final Vector<Playlist> userPlaylists = new Vector<Playlist>();
+            final List<Playlist> userPlaylists = new ArrayList<Playlist>();
             while ( rs.next() )
-                userPlaylists.addElement( new Playlist(
+                userPlaylists.add( new Playlist(
                     rs.getInt("id"), rs.getString("name"), rs.getInt("trackCount"),
                     new User( rs.getInt("userId"), rs.getString("userName") )
                 ));
@@ -122,7 +122,7 @@ public class Playlistser extends BaseAction {
      * 
      */
     
-    protected Vector<Playlist> getSitePlaylists() throws SQLException {
+    protected List<Playlist> getSitePlaylists() throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -140,10 +140,10 @@ public class Playlistser extends BaseAction {
             st = db.prepare( sql );
             rs = st.executeQuery();
             
-            final Vector<Playlist> sitePlaylists = new Vector<Playlist>();
-            new Vector<Playlist>();
+            final List<Playlist> sitePlaylists = new ArrayList<Playlist>();
+
             while ( rs.next() )
-                sitePlaylists.addElement( new Playlist(
+                sitePlaylists.add( new Playlist(
                     rs.getInt("id"), rs.getString("name"), rs.getInt("trackCount")
                 ));
             

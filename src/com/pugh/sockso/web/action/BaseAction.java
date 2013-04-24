@@ -10,15 +10,14 @@ import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Response;
 import com.pugh.sockso.web.User;
 
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
-
-import java.util.Vector;
+import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 public abstract class BaseAction implements WebAction {
     
@@ -39,6 +38,7 @@ public abstract class BaseAction implements WebAction {
      * 
      */
     
+    @Override
     public boolean requiresLogin() {
 
         return true;
@@ -52,6 +52,7 @@ public abstract class BaseAction implements WebAction {
      * 
      */
 
+    @Override
     public boolean requiresSession() {
 
         return true;
@@ -113,7 +114,7 @@ public abstract class BaseAction implements WebAction {
      * 
      */
     
-    protected Vector<Track> getLatestTracks( final int limit ) throws SQLException {
+    protected List<Track> getLatestTracks( final int limit ) throws SQLException {
         
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -129,7 +130,7 @@ public abstract class BaseAction implements WebAction {
             st.setInt( 1, limit );
             rs = st.executeQuery();
             
-            return Track.createVectorFromResultSet( rs );
+            return Track.createListFromResultSet( rs );
         
         }
         

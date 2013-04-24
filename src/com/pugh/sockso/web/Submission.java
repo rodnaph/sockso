@@ -3,13 +3,13 @@ package com.pugh.sockso.web;
 
 import com.pugh.sockso.resources.Locale;
 
-import java.util.Vector;
-
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *  excapsulates validating some data that has been submitted
+ *  Encapsulates validating some data that has been submitted
  * 
  */
 
@@ -20,7 +20,7 @@ public class Submission {
     public static final int FIELD_DATE = 3;
     public static final int FIELD_INTEGER = 4;
     
-    private final Vector<String> errors;
+    private final List<String> errors;
     private final Request req;
     private final Locale locale;
     
@@ -28,7 +28,7 @@ public class Submission {
         
         this.req = req;
         this.locale = locale;
-        this.errors = new Vector<String>();
+        this.errors = new ArrayList<String>();
         
     }
     

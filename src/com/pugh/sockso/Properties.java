@@ -10,9 +10,9 @@
 
 package com.pugh.sockso;
 
-import java.util.Hashtable;
-
 import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 public interface Properties {
 
@@ -107,21 +107,21 @@ public interface Properties {
     public long get( final String name, final long defaultValue );
 
     /**
-     *  returns a hash table of all the properties which start with the string
-     *  given.  ie.  given the following properties:
-     *  
+     *  Returns a Map of all the properties which start with the given string.
+     *  <p>Example: Given the following properties:
+     *  <pre>
      *    prop.a = b
      *    prop.b = c
-     * 
-     *  this function when passed "prop" will return { a => b, b => c }
+     *  </pre>
+     *  When passed the string "prop" it will return { a => b, b => c }
      * 
      *  @param name property name substring
      * 
-     *  @return Hashtable of values matched
+     *  @return Map of values matched
      * 
      */
     
-    public Hashtable<String,String> getMatches( final String name );
+    public Map<String,String> getMatches( final String name );
 
     /**
      *  returns the names of all the properties
@@ -151,7 +151,7 @@ public interface Properties {
     
     /**
      *  indicates if a given property exists in the current property object (though
-     *  this property may ot may not have been saved yet)
+     *  this property may not have been saved yet)
      * 
      *  @param name
      * 
@@ -162,7 +162,7 @@ public interface Properties {
     /**
      *  Resolves the url passed to the correct full url.
      *
-     *  If the URL starts with <skin> get the resource based on the configured skin.
+     *  If the URL starts with &lt;skin&gt; get the resource based on the configured skin.
      *
      *  @param url
      *

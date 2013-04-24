@@ -20,10 +20,9 @@ import com.pugh.sockso.templates.web.TMain;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-
-import java.util.Vector;
-
+import java.util.List;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -44,9 +43,9 @@ public class Homer extends BaseAction {
         final Properties p = getProperties();
         final int totalRecentTracks = (int) p.get( Constants.WWW_BROWSE_RECENT_TRACKS_COUNT, 10 );
         final int totalTopArtists = (int) p.get( Constants.WWW_BROWSE_TOP_ARTISTS_COUNT, 10 );
-        final Vector<Track> recentlyPlayedTracks = getRecentlyPlayedTracks( totalRecentTracks );
-        final Vector<Artist> topArtists = getTopArtists( totalTopArtists );
-        final Vector<Album> recentlyPlayedAlbums = getRecentlyPlayedAlbums( 5 );
+        final List<Track> recentlyPlayedTracks = getRecentlyPlayedTracks( totalRecentTracks );
+        final List<Artist> topArtists = getTopArtists( totalTopArtists );
+        final List<Album> recentlyPlayedAlbums = getRecentlyPlayedAlbums( 5 );
 
         showMain( recentlyPlayedTracks, topArtists, recentlyPlayedAlbums );
         
@@ -63,7 +62,9 @@ public class Homer extends BaseAction {
      * 
      */
     
-    protected void showMain( final Vector<Track> recentlyPlayedTracks, final Vector<Artist> topArtists, final Vector<Album> recentlyPlayedAlbums ) throws IOException, SQLException {
+    protected void showMain( final List<Track> recentlyPlayedTracks,
+            final List<Artist> topArtists,
+            final List<Album> recentlyPlayedAlbums ) throws IOException, SQLException {
         
         final TMain tpl = new TMain();
 
@@ -84,7 +85,7 @@ public class Homer extends BaseAction {
      * 
      */
     
-    protected Vector<Artist> getTopArtists( final int total ) throws SQLException {
+    protected List<Artist> getTopArtists( final int total ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -106,10 +107,10 @@ public class Homer extends BaseAction {
             st.setInt( 1, total );
             rs = st.executeQuery();
             
-            final Vector<Artist> topArtists = new Vector<Artist>();
+            final List<Artist> topArtists = new ArrayList<Artist>();
             
             while ( rs.next() )
-                topArtists.addElement( new Artist(
+                topArtists.add( new Artist(
                     rs.getInt("id"), rs.getString("name"), rs.getInt("playCount") )
                 );
             
@@ -125,7 +126,7 @@ public class Homer extends BaseAction {
     }
     
     /**
-     *  returns recntly played tracks (limit set by property)
+     *  returns recently played tracks (limit set by property)
      * 
      *  @param total
      * 
@@ -133,7 +134,7 @@ public class Homer extends BaseAction {
      * 
      */
     
-    protected Vector<Track> getRecentlyPlayedTracks( final int total ) throws SQLException {
+    protected List<Track> getRecentlyPlayedTracks( final int total ) throws SQLException {
 
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -159,7 +160,7 @@ public class Homer extends BaseAction {
             st.setInt( 1, total );
             rs = st.executeQuery();
             
-            return Track.createVectorFromResultSet( rs );
+            return Track.createListFromResultSet( rs );
                     
                     
         }
@@ -172,7 +173,7 @@ public class Homer extends BaseAction {
     }
     
     /**
-     *  returns a vector of the "total" most recent albums to have been played
+     *  returns a list of the "total" most recent albums to have been played
      * 
      *  @param total
      * 
@@ -182,7 +183,7 @@ public class Homer extends BaseAction {
      * 
      */
     
-    protected Vector<Album> getRecentlyPlayedAlbums( final int total ) throws SQLException {
+    protected List<Album> getRecentlyPlayedAlbums( final int total ) throws SQLException {
 
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -208,7 +209,7 @@ public class Homer extends BaseAction {
             st.setInt( 1, total );
             rs = st.executeQuery();
 
-            final Vector<Album> recentAlbums = new Vector<Album>();
+            final List<Album> recentAlbums = new ArrayList<Album>();
             while ( rs.next() )
                 recentAlbums.add( new Album(
                         rs.getInt("artistId"), rs.getString("artistName"),

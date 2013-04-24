@@ -11,12 +11,11 @@ import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.BaseAction;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import java.io.IOException;
-import java.util.Vector;
+import java.util.List;
 
 /**
  *  shows an album and it's tracks
@@ -37,12 +36,13 @@ public class Albumer extends BaseAction {
      * 
      */
     
+    @Override
     public void handleRequest() throws IOException, SQLException, BadRequestException {
         
         final Request req = getRequest();
         final int id = Integer.parseInt( req.getUrlParam(2)  );
         final Album album = getAlbum ( id );
-        final Vector<Track> tracks = getAlbumTracks( id );
+        final List<Track> tracks = getAlbumTracks( id );
         
         showAlbum( album, tracks );
         
@@ -58,7 +58,7 @@ public class Albumer extends BaseAction {
      * 
      */
     
-    protected void showAlbum( final Album album, final Vector<Track> tracks ) throws IOException, SQLException {
+    protected void showAlbum( final Album album, final List<Track> tracks ) throws IOException, SQLException {
         
         final TAlbum tpl = new TAlbum();
 
@@ -80,7 +80,7 @@ public class Albumer extends BaseAction {
      * 
      */
     
-    protected Vector<Track> getAlbumTracks( final int albumId ) throws SQLException {
+    protected List<Track> getAlbumTracks( final int albumId ) throws SQLException {
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -95,7 +95,7 @@ public class Albumer extends BaseAction {
             st.setInt( 1, albumId );
             rs = st.executeQuery();
 
-            return Track.createVectorFromResultSet( rs );
+            return Track.createListFromResultSet( rs );
             
         }
         

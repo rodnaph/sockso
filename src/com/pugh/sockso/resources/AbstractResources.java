@@ -9,15 +9,15 @@
 
 package com.pugh.sockso.resources;
 
-import java.util.Hashtable;
-import java.util.Vector;
-
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class AbstractResources implements Resources {
 
-    private Hashtable<String,Locale> locales = null;
+    private Map<String,Locale> locales = null;
     private String localeCode = DEFAULT_LOCALE;
     private String[] localeCodes;
     
@@ -27,6 +27,7 @@ public abstract class AbstractResources implements Resources {
      * 
      */
     
+    @Override
     public void init( final String localeCode ) {
         
         this.localeCodes = getLocales();
@@ -55,7 +56,7 @@ public abstract class AbstractResources implements Resources {
     
     protected static String[] getLocalesFromFiles( String[] files ) {
 
-        final Vector<String> codes = new Vector<String>();
+        final List<String> codes = new ArrayList<String>();
 
         for ( int i=0; i<files.length; i++ ) {
             
@@ -63,11 +64,11 @@ public abstract class AbstractResources implements Resources {
             final Matcher m = p.matcher( files[i] );
             
             if ( m.matches() )
-                codes.addElement( m.group(1) );
+                codes.add( m.group(1) );
             
         }
 
-        return (String[]) codes.toArray( new String[codes.size()] );
+        return codes.toArray( new String[codes.size()] );
         
     }
 

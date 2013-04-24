@@ -1,20 +1,17 @@
 
 package com.pugh.sockso.templates.web;
 
-import com.pugh.sockso.Sockso;
-import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.Sockso;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.tests.TemplateTestCase;
-import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.web.User;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jamon.Renderer;
-
-import static org.easymock.EasyMock.*;
 
 public class IFooterTest extends TemplateTestCase {
 
@@ -66,7 +63,7 @@ public class IFooterTest extends TemplateTestCase {
     public void testRecentUsers() {
 
         final Properties p = new StringProperties();
-        final Vector<User> users = new Vector<User>();
+        final List<User> users = new ArrayList<User>();
 
         assertTrue( !render().contains("recentUsers") );
 

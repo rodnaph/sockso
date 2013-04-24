@@ -10,11 +10,9 @@
 package com.pugh.sockso.web.action.playlist;
 
 import com.pugh.sockso.Properties;
+import com.pugh.sockso.music.Track;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.User;
-import com.pugh.sockso.music.Track;
-
-import java.util.Vector;
 
 import org.jamon.Renderer;
 

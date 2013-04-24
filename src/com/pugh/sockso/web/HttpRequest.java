@@ -12,22 +12,22 @@ package com.pugh.sockso.web;
 import com.pugh.sockso.Utils;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
-
-import java.util.Hashtable;
-import java.util.regex.Pattern;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HttpRequest implements Request {
 
     public static final int MAX_HEADERS = 100;
 
     private final Server server;
-    protected final Hashtable<String,String> cookies;
-    protected final Hashtable<String,String> arguments;
-    private final Hashtable<String,String> headers;
-    private final Hashtable<String,UploadFile> files;
+    protected final Map<String,String> cookies;
+    protected final Map<String,String> arguments;
+    private final Map<String,String> headers;
+    private final Map<String,UploadFile> files;
 
     private String[] params = null;
     private String host = null, statusLine = null;
@@ -46,15 +46,15 @@ public class HttpRequest implements Request {
      */
     
     public HttpRequest( final Server server ) {
-        
+
         this.server = server;
-        this.cookies = new Hashtable<String,String>();
-        this.arguments = new Hashtable<String,String>();
-        this.headers = new Hashtable<String,String>();
-        this.files = new Hashtable<String,UploadFile>();
+        this.cookies = new HashMap<String,String>();
+        this.arguments = new HashMap<String,String>();
+        this.headers = new HashMap<String,String>();
+        this.files = new HashMap<String,UploadFile>();
 
     }
-    
+
     /**
      *  processes the request from the given input stream
      * 
@@ -62,11 +62,12 @@ public class HttpRequest implements Request {
      * 
      *  @throws java.io.IOException
      *  @throws com.pugh.sockso.web.BadRequestException
-     * 
+     *
      */
-    
+
+    @Override
     public void process( final InputStream stream ) throws IOException, BadRequestException, EmptyRequestException {
-        
+
         final InputBuffer buffer = new InputBuffer( stream, 100 );
 
         readStatusLine( buffer.readLine() );
@@ -323,11 +324,12 @@ public class HttpRequest implements Request {
      *  returns the http status line
      * 
      *  @return status line
-     * 
+     *
      */
-    
+
+    @Override
     public String getResource() {
-        
+
         return statusLine;
         
     }
@@ -340,11 +342,12 @@ public class HttpRequest implements Request {
      * 
      *  @param name name of the http header
      *  @param header value, or null
-     * 
+     *
      */
-    
+
+    @Override
     public String getHeader( final String name ) {
-        
+
         final String value = headers.get( name.toLowerCase() );
         
         return value == null ? "" : value;
@@ -357,24 +360,26 @@ public class HttpRequest implements Request {
      * 
      *  @param name argument name
      *  @return string value
-     * 
+     *
      */
-    
+
+    @Override
     public String getArgument( final String name ) {
-        
+
         final String value = arguments.get( name );
         
         return value == null ? "" : value;
         
     }
-    
+
     /**
-     *  indicates if an arugment was present
-     * 
+     *  indicates if an argument was present
+     *
      */
-    
+
+    @Override
     public boolean hasArgument( final String name ) {
-        
+
         return !getArgument(name).equals("");
 
     }
@@ -386,9 +391,10 @@ public class HttpRequest implements Request {
      * 
      *  @param name file parameter name
      *  @return uploaded file, or null if not found
-     * 
+     *
      */
-    
+
+    @Override
     public UploadFile getFile( final String name ) {
 
        return files.get( name );
@@ -427,11 +433,12 @@ public class HttpRequest implements Request {
      *  return a named cookie
      * 
      *  @return value of cookie
-     * 
+     *
      */
-    
+
+    @Override
     public String getCookie( final String name ) {
-        
+
         final String value = cookies.get( name );
         
         return value == null ? "" : value;
@@ -444,9 +451,10 @@ public class HttpRequest implements Request {
      *  and guess...
      * 
      *  @return the host to reply with
-     * 
+     *
      */
 
+    @Override
     public String getHost() {
 
         return host != null
@@ -460,9 +468,10 @@ public class HttpRequest implements Request {
      * 
      *  @param index the index of the parameter to fetch
      *  @return the parameter value
-     * 
-     */ 
+     *
+     */
 
+    @Override
     public String getUrlParam( final int index ) {
         return ( index < params.length )
             ? Utils.URLDecode(params[ index ])
@@ -473,11 +482,12 @@ public class HttpRequest implements Request {
      *  returns the number of parameters in the request
      * 
      *  @return parameter count
-     * 
+     *
      */
-    
+
+    @Override
     public int getParamCount() {
-       return params.length; 
+       return params.length;
     }
     
     /**
@@ -489,15 +499,17 @@ public class HttpRequest implements Request {
      * 
      *  @param skipFirstArg skip an argument in list
      *  @return the array with just the custom args
-     * 
+     *
      */
-    
+
+    @Override
     public String[] getPlayParams( final boolean skipFirstArg ) {
         return getPlayParams( skipFirstArg ? 1 : 0 );
     }
-        
+
+    @Override
     public String[] getPlayParams( final int skipNumArgs ) {
-        
+
         final int offset = 1 + skipNumArgs;
         
         final String[] custArgs = new String[ params.length - offset ];
@@ -514,11 +526,12 @@ public class HttpRequest implements Request {
      *  @todo give respect to weightings
      *
      *  @return 2 char lang code or ""
-     * 
+     *
      */
 
+    @Override
     public String getPreferredLangCode() {
-        
+
         final String langs = getHeader( "Accept-Language" );
         final String[] locales = langs.split( "," ); // split apart lang/locale and weightings
 

@@ -29,10 +29,9 @@ import com.pugh.sockso.resources.Locale;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-
 import java.io.IOException;
-
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -40,7 +39,7 @@ public class Userer extends BaseAction {
     
     private static final Logger log = Logger.getLogger( Userer.class );
 
-    private final Vector<Authenticator> authenticators;
+    private final List<Authenticator> authenticators;
 
     /**
      *  Constructor
@@ -49,7 +48,7 @@ public class Userer extends BaseAction {
     
     public Userer() {
         
-        this.authenticators = new Vector<Authenticator>();
+        this.authenticators = new ArrayList<Authenticator>();
                 
     }
 
@@ -103,7 +102,7 @@ public class Userer extends BaseAction {
     protected void scrobbleLog() throws SQLException, IOException {
 
         final User user = getUser();
-        final Vector<Track> tracks = getNonScrobbledTracks( user );
+        final List<Track> tracks = getNonScrobbledTracks( user );
 
         markUsersTracksScrobbled( user );
         showScrobbleLog( tracks );
@@ -119,7 +118,7 @@ public class Userer extends BaseAction {
      * 
      */
     
-    protected void showScrobbleLog( final Vector<Track> tracks ) throws IOException {
+    protected void showScrobbleLog( final List<Track> tracks ) throws IOException {
         
         final TScrobbleLog tpl = new TScrobbleLog();
         final Response res = getResponse();
@@ -168,7 +167,7 @@ public class Userer extends BaseAction {
      * 
      */
     
-    protected Vector<Track> getNonScrobbledTracks( final User user ) throws SQLException {
+    protected List<Track> getNonScrobbledTracks( final User user ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -193,7 +192,7 @@ public class Userer extends BaseAction {
             st.setInt( 1, user.getId() );
             rs = st.executeQuery();
 
-            return Track.createVectorFromResultSet( rs );
+            return Track.createListFromResultSet( rs );
 
         }
 
@@ -221,7 +220,7 @@ public class Userer extends BaseAction {
     }
 
     /**
-     *  shows the page to inform the uer their profile has been updated
+     *  shows the page to inform the user their profile has been updated
      * 
      *  @throws java.io.IOException
      * 

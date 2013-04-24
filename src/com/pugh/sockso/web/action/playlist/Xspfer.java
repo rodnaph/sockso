@@ -17,6 +17,7 @@ public class Xspfer extends Playlister {
         super.init( protocol, "xspf" );
     }
 
+    @Override
     public PlaylistTemplate getPlaylistTemplate() {
         return new TXspf();
     }

@@ -1,7 +1,8 @@
 
 package com.pugh.sockso.commands;
 
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 public class CommandParser {
     
@@ -16,7 +17,7 @@ public class CommandParser {
 
     public String[] parseCommand( final String command ) {
     	
-    	final Vector<String> args = new Vector<String>();
+	final List<String> args = new ArrayList<String>();
         final StringBuffer currentArgument = new StringBuffer();
 
         boolean inString = false;

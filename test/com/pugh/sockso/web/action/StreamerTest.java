@@ -1,29 +1,26 @@
 
 package com.pugh.sockso.web.action;
 
-import com.pugh.sockso.Properties;
 import com.pugh.sockso.Constants;
+import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.Artist;
-import com.pugh.sockso.web.User;
-import com.pugh.sockso.web.Response;
-import com.pugh.sockso.tests.TestUtils;
+import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
-
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestRequest;
 import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.web.BadRequestException;
+import com.pugh.sockso.web.Response;
+import com.pugh.sockso.web.User;
 
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.Types;
-
-import java.io.IOException;
 import java.io.DataInputStream;
-
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Date;
 
 import static org.easymock.EasyMock.*;
@@ -137,6 +134,8 @@ public class StreamerTest extends SocksoTestCase {
         
         final Streamer s = new Streamer();
         s.setResponse( res );
+
+        final Artist artist = new Artist( -1, "" );
 
         assertTrue( s.playMusicStream(ms) );
         
