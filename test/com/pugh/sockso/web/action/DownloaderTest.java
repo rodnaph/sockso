@@ -6,6 +6,7 @@ import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestLocale;
@@ -14,6 +15,7 @@ import com.pugh.sockso.web.BadRequestException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import static junit.framework.Assert.assertTrue;
 
 public class DownloaderTest extends SocksoTestCase {
 
@@ -26,7 +28,19 @@ public class DownloaderTest extends SocksoTestCase {
         
         final Artist artist = new Artist( 1, "artist" );
         final Album album = new Album( artist, 2, "album", "year" );
-        final Track track = new Track( artist, album, 3, "track", "", 4, new Date() );
+        final Genre genre = new Genre( 3, "genre" );
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist( artist )
+                .album( album )
+                .genre( genre )
+                .id(3)
+                .name("track")
+                .number(4)
+                .path("")
+                .dateAdded(new Date());
+        final Track track = builder.build();
+
         final String path = d.getTrackZipPath( track );
         
         assertTrue( path.contains("artist") );
@@ -43,7 +57,18 @@ public class DownloaderTest extends SocksoTestCase {
     private Track getTrack( final String artistName, final String albumName, final String albumYear ) {
         final Artist artist = new Artist( 1, artistName );
         final Album album = new Album( artist, 1, albumName, albumYear);
-        return new Track( artist, album, 1, "track", "", 1, null );
+        final Genre genre = new Genre( 1, "genre" );
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist( artist )
+                .album( album )
+                .genre( genre )
+                .id(1)
+                .name("track")
+                .number(1)
+                .path("")
+                .dateAdded(null);
+        return builder.build();
     }
 
     public void testGettingTheFileNameWhenAllArtistsAreTheSame() {

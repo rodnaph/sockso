@@ -80,9 +80,10 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             checkUserAdminColumnExists();
             checkUserIsActiveColumnExists();
             checkAlbumYearColumnExists();
+            checkTrackGenreColumnExists();
 
         }
-        
+
         catch ( final Exception e ) {
             throw new DatabaseConnectionException( e.getMessage() );
         }
@@ -132,7 +133,15 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " unique ( artist_id, album_id, name ) " +
                   " ) character set utf8 ";
             update( sql );
-            
+
+            sql = " create table genres ( " +
+                      " id int unsigned not null auto_increment, " +
+                      " name varchar(255) not null, " +
+                      " primary key ( id ), " +
+                      " unique ( name ) " +
+                  " ) character set utf8 ";
+            update( sql );
+
             sql = " create table play_log ( " +
                       " id int unsigned not null auto_increment, " +
                       " track_id int unsigned null, " +

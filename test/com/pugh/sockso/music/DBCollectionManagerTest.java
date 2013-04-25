@@ -51,8 +51,17 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         expect( db.prepare((String)anyObject()) ).andReturn( createNiceMock(PreparedStatement.class) ).anyTimes();
         replay( db );
         
-        final Track track = new Track( null, null, -1, trackName, "", trackNumber, null );
-        
+        Track.Builder builder = new Track.Builder();
+        builder.artist(null)
+                .album(null)
+                .genre(null)
+                .id(-1)
+                .name(trackName)
+                .number(trackNumber)
+                .path("")
+                .dateAdded(null);
+        final Track track = builder.build();
+
         final Tag sameTag = createMock( Tag.class );
         expect( sameTag.getTrack() ).andReturn( trackName );
         expect( sameTag.getTrackNumber() ).andReturn( trackNumber );
@@ -285,7 +294,7 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         assertTableSize( db, "albums", 1 );
         assertTableSize( db, "tracks", 0 );
         
-        cm.removeEmptyArtistsAndAlbums();
+        cm.removeOrphans();
 
         assertTableSize( db, "artists", 0 );
         assertTableSize( db, "albums", 0 );
@@ -297,7 +306,7 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         assertTableSize( db, "albums", 1 );
         assertTableSize( db, "tracks", 1 );
 
-        cm.removeEmptyArtistsAndAlbums();
+        cm.removeOrphans();
 
         assertTableSize( db, "artists", 1 );
         assertTableSize( db, "albums", 1 );

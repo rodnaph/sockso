@@ -13,7 +13,7 @@ public interface Indexer {
     public void scan();
 
     /**
-     *  Scans a particluar directory that is part of the specified collection
+     *  Scans a particular directory that is part of the specified collection
      *
      *  @param collectionId
      *  @param directory

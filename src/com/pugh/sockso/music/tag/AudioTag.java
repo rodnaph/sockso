@@ -30,12 +30,14 @@ public abstract class AudioTag implements Tag {
     protected String albumTitle = "";
     protected String trackTitle = "";
     protected String albumYear = "";
+    protected String genre = "";
     protected int trackNumber = 0;
     protected BufferedImage coverArt = null;
 
     public String getArtist() { return artistTitle; }
     public String getAlbum() { return albumTitle; }
     public String getTrack() { return trackTitle; }
+    public String getGenre() { return genre; }
     public int getTrackNumber() { return trackNumber; }
     public String getAlbumYear() { return albumYear; }
     public BufferedImage getCoverArt() { return coverArt; }
@@ -74,21 +76,23 @@ public abstract class AudioTag implements Tag {
         if ( tag.albumTitle == null ) tag.albumTitle = "";
         if ( tag.trackTitle == null ) tag.trackTitle = "";
         if ( tag.albumYear == null ) tag.albumYear = "";
+        if ( tag.genre == null ) tag.genre = "";
 
         // remove leading/trailing space
         tag.albumTitle  = clean(tag.albumTitle.trim());
         tag.artistTitle = clean(tag.artistTitle.trim());
         tag.trackTitle  = clean(tag.trackTitle.trim());
         tag.albumYear   = clean(tag.albumYear.trim());
+        tag.genre       = clean(tag.genre.trim());
 
         // set defaults if we have nothing
         if ( tag.artistTitle.equals("") ) tag.artistTitle = guessArtist( file );
         if ( tag.albumTitle.equals("") ) tag.albumTitle = guessAlbum( file );
         if ( tag.trackTitle.equals("") ) tag.trackTitle = guessTrack( file );
         if ( tag.trackNumber == 0 ) tag.setTrackNumber( guessTrackNumber(file) );
-                
+
         return tag;
-        
+
     }
 
     /**

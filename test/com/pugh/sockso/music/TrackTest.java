@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import static junit.framework.Assert.assertEquals;
 
 import static org.easymock.EasyMock.*;
 
@@ -29,16 +30,22 @@ public class TrackTest extends SocksoTestCase {
     @Override
     public void setUp() {
         
-        final int artistId = 1, albumId = 1, trackId = 1;
+        final int artistId = 1, albumId = 1, trackId = 1, genreId = 1;
         final String artistName = "foo-%/", albumName = "bar", albumYear="baz", trackName = "oof%%^\\+", trackPath = "rab";
+        final String genreName = "rock";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
         
-        track = new Track(
-            new Artist( artistId, artistName ),
-            new Album( artistId, artistName, albumId, albumName, albumYear ),
-            trackId, trackName, trackPath, trackNumber, dateAdded
-        );
+        Track.Builder builder = new Track.Builder();
+        builder.artist(new Artist( artistId, artistName ))
+                .album(new Album( artistId, artistName, albumId, albumName, albumYear ))
+                .genre(new Genre( genreId, genreName ))
+                .id(trackId)
+                .name(trackName)
+                .number(trackNumber)
+                .path(trackPath)
+                .dateAdded(dateAdded);
+        track = builder.build();
 
         p = new StringProperties();
 
@@ -48,16 +55,29 @@ public class TrackTest extends SocksoTestCase {
 
     public void testGetters() {
         
-        final int artistId = -1, albumId = -1, trackId = -1;
+        final int artistId = -1, albumId = -1, trackId = -1, genreId = -1;
         final String artistName = "foo", albumName = "bar", albumYear = "baz", trackName = "oof", trackPath = "rab";
+        final String genreName = "rock";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
         final Artist artist = new Artist(artistId,artistName);
         final Album album = new Album( artistId, artistName, albumId, albumName, albumYear );
-        final Track track = new Track( artist, album, trackId, trackName, trackPath, trackNumber, dateAdded );
-        
+        final Genre genre = new Genre( genreId, genreName );
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist(artist)
+                .album(album)
+                .genre(genre)
+                .id(trackId)
+                .name(trackName)
+                .number(trackNumber)
+                .path(trackPath)
+                .dateAdded(dateAdded);
+        track = builder.build();
+
         assertEquals( artist, track.getArtist() );
         assertEquals( album, track.getAlbum() );
+        assertEquals( genre, track.getGenre() );
         assertEquals( trackPath, track.getPath() );
         assertEquals( trackNumber, track.getNumber() );
         
@@ -66,7 +86,18 @@ public class TrackTest extends SocksoTestCase {
     public void testSetPlayCount() {
 
         final int playCount = 456;
-        final Track track = new Track( null, null, -1, "", "", 1, null );
+
+        Track.Builder builder = new Track.Builder();
+        builder.album(null)
+                .artist(null)
+                .album(null)
+                .genre(null)
+                .id(-1)
+                .name("")
+                .number(-1)
+                .path("")
+                .dateAdded(null);
+        track = builder.build();
 
         assertEquals( 0, track.getPlayCount() );
         track.setPlayCount( playCount );
@@ -94,6 +125,7 @@ public class TrackTest extends SocksoTestCase {
 
         final String albumName = "my album name";
         final String albumYear = "1984";
+        final String genre     = "rock";
         
         // set up result set to return the info for 1 track
         final ResultSet rs = createMock( ResultSet.class );
@@ -103,6 +135,8 @@ public class TrackTest extends SocksoTestCase {
         expect( rs.getInt("albumId") ).andReturn( -1 );
         expect( rs.getString("albumName") ).andReturn( albumName );
         expect( rs.getString("albumYear") ).andReturn( albumYear );
+        expect( rs.getInt("genreId") ).andReturn( -1 );
+        expect( rs.getString("genreName") ).andReturn( genre );
         expect( rs.getInt("trackId") ).andReturn( -1 );
         expect( rs.getString((String)anyObject()) ).andReturn( "1" ).times( 2 );
         expect( rs.getInt("trackNo") ).andReturn( 1 ).times( 1 );
@@ -117,6 +151,7 @@ public class TrackTest extends SocksoTestCase {
             final Track track = tracks.get( 0 );
             assertEquals( albumName, track.getAlbum().getName() );
             assertEquals( albumYear, track.getAlbum().getYear() );
+            assertEquals( genre, track.getGenre().getName() );
             verify( rs );
         }
         
@@ -207,16 +242,16 @@ public class TrackTest extends SocksoTestCase {
     }
     
     public void testGetStreamUrlIncludesSessionDataIfAuthIsRequiredWhenStreaming() {
-        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, p.YES );
-        p.set( Constants.STREAM_REQUIRE_LOGIN, p.YES );
+        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, Properties.YES );
+        p.set( Constants.STREAM_REQUIRE_LOGIN, Properties.YES );
         String url = track.getStreamUrl( p, user );
         assertContains( url, "sessionId=123" );
         assertContains( url, "sessionCode=ABC" );
     }
 
     public void testGetStreamUrlDoesntIncludeSessionDataWhenNotRequired() {
-        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, p.NO );
-        p.set( Constants.STREAM_REQUIRE_LOGIN, p.NO );
+        p.set( Constants.WWW_USERS_REQUIRE_LOGIN, Properties.NO );
+        p.set( Constants.STREAM_REQUIRE_LOGIN, Properties.NO );
         String url = track.getStreamUrl( p, user );
         assertNotContains( url, "sessionId=123" );
         assertNotContains( url, "sessionCode=ABC" );
@@ -296,19 +331,48 @@ public class TrackTest extends SocksoTestCase {
     }
 
     public void testTracksAreEqualWhenTheyHaveTheSameId() {
-        Track track1 = new Track( null,null, 1, "", "", 0, new Date() );        
-        Track track2 = new Track( null,null, 1, "", "", 0, new Date() );        
+        Track.Builder builder = new Track.Builder();
+        builder.artist(null)
+                .album(null)
+                .genre(null)
+                .id(1)
+                .name("")
+                .number(0)
+                .path("")
+                .dateAdded(new Date());
+        Track track1 = builder.build();
+        Track track2 = builder.dateAdded(new Date()).build();
+        
         assertTrue( track1.equals(track2) );
     }
 
     public void testTracksAreNotEqualWhenTheyHaveDifferentIds() {
-        Track track1 = new Track( null,null, 1, "", "", 0, new Date() );        
-        Track track2 = new Track( null,null, 2, "", "", 0, new Date() );        
+        Track.Builder builder = new Track.Builder();
+        builder.artist(null)
+                .album(null)
+                .genre(null)
+                .id(1)
+                .name("")
+                .number(0)
+                .path("")
+                .dateAdded(new Date());
+        Track track1 = builder.build();
+        Track track2 = builder.id(2).dateAdded(new Date()).build();
+
         assertFalse( track1.equals(track2) );
     }
 
     public void testTracksAreNotEqualToOtherObjects() {
-        Track track = new Track( null,null, 1, "", "", 0, new Date() );        
+        Track.Builder builder = new Track.Builder();
+        builder.artist(null)
+                .album(null)
+                .genre(null)
+                .id(1)
+                .name("")
+                .number(0)
+                .path("")
+                .dateAdded(new Date());
+        track = builder.build();
         Album album = new Album( null, 1, "", "" );
         assertFalse( track.equals(album) );
     }

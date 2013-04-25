@@ -7,4 +7,6 @@ artists:2,Empty Artist,now(),Empty Artist
 albums:1,1,A Album,1984,now()
 albums:2,1,Empty Album,1984,now()
 
-tracks:1,1,1,My Track,/music/track.mp3,180,now(),1,1
+genres:1,Rock
+
+tracks:1,1,1,My Track,/music/track.mp3,180,now(),1,1,1

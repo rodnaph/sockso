@@ -14,6 +14,7 @@ public class TracksActionTest extends SocksoTestCase {
     
     private TestDatabase db;
     
+    @Override
     protected void setUp() throws Exception {
         db = new TestDatabase();
         db.fixture( "artistsAlbumsAndTracks" );
@@ -25,8 +26,8 @@ public class TracksActionTest extends SocksoTestCase {
     
     private void createTracks( int total ) throws Exception {
         for ( int i=0; i<total; i++ ) {
-            String sql = " insert into tracks ( collection_id, artist_id, album_id, name, path, length, date_added ) " +
-                         " values ( 1, 1, 1, 'AUTO-" +Utils.getRandomString(20)+ "', '/path.mp3', 0, now() ) ";
+            String sql = " insert into tracks ( collection_id, artist_id, album_id, name, path, length, date_added, genre_id ) " +
+                         " values ( 1, 1, 1, 'AUTO-" +Utils.getRandomString(20)+ "', '/path.mp3', 0, now(), 1 ) ";
             db.update( sql );
         }
     }

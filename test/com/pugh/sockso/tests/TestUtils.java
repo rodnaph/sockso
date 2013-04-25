@@ -9,9 +9,9 @@
 
 package com.pugh.sockso.tests;
 
-import com.pugh.sockso.Properties;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.resources.Locale;
 
@@ -172,6 +172,20 @@ public class TestUtils {
         
     }
     
+
+    /**
+     *  returns a Genre
+     *
+     *  @return
+     *
+     */
+
+    public static Genre getGenre() {
+
+        return new Genre( 123, "rock" );
+
+    }
+
     /**
      *  returns a Track
      * 
@@ -180,12 +194,18 @@ public class TestUtils {
      */
     
     public static Track getTrack() {
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist( getArtist() )
+                .album( getAlbum() )
+                .genre( getGenre() )
+                .id(123)
+                .name("foo")
+                .number(1)
+                .path("/my/path")
+                .dateAdded(new Date());
         
-        return new Track(
-            getArtist(), getAlbum(),
-            123, "foo", "/my/path", 1, new Date()
-        );
-        
+        return builder.build();
     }
     
 }

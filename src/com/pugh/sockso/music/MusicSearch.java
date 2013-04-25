@@ -83,17 +83,20 @@ public class MusicSearch {
         
         return " select '" + MusicItem.TRACK + "' as type, t.id as id, t.name as name, " +
                     " ar.id as artist_id, ar.name as artist_name, " +
-                    " al.id as album_id, al.name as album_name " +
+                    " al.id as album_id, al.name as album_name, " +
+                    " g.id as genre_id, g.name as genre_name " +
                 " from tracks t " +
                     " inner join artists ar " +
                     " on ar.id = t.artist_id " +
                     " inner join albums al " +
                     " on al.id = t.album_id " +
+                    " inner join genres g " +
+                    " on g.id = t.genre_id " +
                 " where t.name like '%" + db.escape(query) + "%' " +
 
                 " union " +
 
-                " select '" + MusicItem.ALBUM + "', al.id, al.name, ar.id, ar.name, -1, '' " +
+                " select '" + MusicItem.ALBUM + "', al.id, al.name, ar.id, ar.name, -1, '', -1, '' " +
                 " from albums al " +
                     " inner join artists ar " +
                     " on ar.id = al.artist_id " +
@@ -101,13 +104,13 @@ public class MusicSearch {
 
                 " union " +
 
-                " select '" + MusicItem.ARTIST + "', ar.id, ar.name, -1, '', -1, '' " +
+                " select '" + MusicItem.ARTIST + "', ar.id, ar.name, -1, '', -1, '', -1, '' " +
                 " from artists ar " +
                 " where ar.name like '%" + db.escape(query) + "%' " +
 
                 " union " +
 
-                " select '" + MusicItem.PLAYLIST + "', p.id, p.name, -1, '', -1, '' " +
+                " select '" + MusicItem.PLAYLIST + "', p.id, p.name, -1, '', -1, '', -1, '' " +
                 " from playlists p " +
                 " where p.name like '%" + db.escape(query) + "%' " +
 
@@ -136,12 +139,16 @@ public class MusicSearch {
             final String type = rs.getString( "type" );
 
             if ( type.equals(MusicItem.TRACK) ) {
-                final Track track = new Track(
-                    new Artist( rs.getInt("artist_id"), rs.getString("artist_name") ),
-                    new Album( null, rs.getInt("album_id"), rs.getString("album_name"), "" ),
-                    rs.getInt("id"), rs.getString("name"), "", -1, null
-                );
-                items.add( track );
+                Track.Builder track = new Track.Builder();
+                track.artist( new Artist(rs.getInt("artist_id"), rs.getString("artist_name")) )
+                        .album( new Album(null, rs.getInt("album_id"), rs.getString("album_name"), "") )
+                        .genre( new Genre(rs.getInt("genre_id"), rs.getString("genre_name")) )
+                        .id( rs.getInt("id") )
+                        .name( rs.getString("name") )
+                        .number(-1)
+                        .path("")
+                        .dateAdded(null);
+                items.add( track.build() );
             }
 
             else if ( type.equals(MusicItem.ALBUM) ) {

@@ -37,6 +37,7 @@ public class SQLiteDatabase extends JDBCDatabase {
             createStructure();
 
             checkUserIsActiveColumnExists();
+            checkTrackGenreColumnExists();
 
         }
         
@@ -71,6 +72,13 @@ public class SQLiteDatabase extends JDBCDatabase {
                   " ) ";
             update( sql );
             
+            sql = " create table genres ( " +
+                      " id integer not null primary key autoincrement, " +
+                      " name text not null, " +
+                      " unique ( name ) " +
+                  " ) ";
+            update( sql );
+
             sql = " create table play_log ( " +
                       " id integer not null primary key autoincrement, " +
                       " track_id integer null, " +
@@ -227,6 +235,15 @@ public class SQLiteDatabase extends JDBCDatabase {
 
         return "random";
 
+    }
+
+    @Override
+    protected void checkTrackGenreColumnExists() {
+
+        final String sql = " alter table tracks " +
+                           " add column genre_id integer null";
+
+        safeUpdate ( sql );
     }
     
 }

@@ -17,6 +17,7 @@ import com.pugh.sockso.auth.DBAuthenticator;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.tests.SocksoTestCase;
@@ -128,7 +129,7 @@ public class UsererTest extends SocksoTestCase {
     }
 
     public void testUsersAreCreatedAsInactiveWhenActivationIsRequired() throws Exception {
-        p.set( Constants.WWW_USERS_REQUIRE_ACTIVATION, p.YES );
+        p.set( Constants.WWW_USERS_REQUIRE_ACTIVATION, Properties.YES );
         req.setArgument( "name", "foobar" );
         req.setArgument( "pass1", "abc" );
         req.setArgument( "pass2", "abc" );
@@ -139,7 +140,7 @@ public class UsererTest extends SocksoTestCase {
     }
 
     public void testNoSessionCreatedForUserWhenTheyNeedToBeActivated() throws Exception {
-        p.set( Constants.WWW_USERS_REQUIRE_ACTIVATION, p.YES );
+        p.set( Constants.WWW_USERS_REQUIRE_ACTIVATION, Properties.YES );
         req.setArgument( "name", "foobar" );
         req.setArgument( "pass1", "abc" );
         req.setArgument( "pass2", "abc" );
@@ -454,8 +455,18 @@ public class UsererTest extends SocksoTestCase {
         final Date theDate = new Date();
         final Artist artist = new Artist( 1, "myArtist" );
         final Album album = new Album( artist, 2, "myAlbum", "year" );
-        final Track track = new Track( artist, album, 3 , "myTrack", "" , 4, theDate );
-        
+        final Genre genre = new Genre( 3, "myGenre" );
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist(artist)
+                .album(album)
+                .genre(genre)
+                .id(3)
+                .name("myTrack")
+                .number(4)
+                .path("")
+                .dateAdded(theDate);
+        final Track track = builder.build();
         tracks.add( track );
         
         u.setResponse( res );

@@ -332,6 +332,21 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
 
     }
 
+
+    /**
+     * Checks the track.genre column
+     *
+     */
+    protected void checkTrackGenreColumnExists() {
+
+        final String sql = " alter table tracks " +
+                           " add genre_id integer null " +
+                           " unique ( genre_id )";
+
+        safeUpdate ( sql );
+
+    }
+
     /**
      * Creates the users.is_active column if it doesn't exist
      *
