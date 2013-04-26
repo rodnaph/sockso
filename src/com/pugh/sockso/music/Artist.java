@@ -118,8 +118,8 @@ public class Artist extends MusicItem {
      * 
      */
 
-    public static List<Artist> findAll( final Database db, final int limit, final int offset, final long fromDate ) throws SQLException {
-        
+    public static List<Artist> findAll( final Database db, final int limit, final int offset, final Date fromDate ) throws SQLException {
+    
         PreparedStatement st = null;
         ResultSet rs = null;
         
@@ -128,8 +128,8 @@ public class Artist extends MusicItem {
             String sql = " select ar.id, ar.name, ar.date_added " +
                          " from artists ar ";
             
-            if ( fromDate > 0 ) {    
-                Timestamp timestamp = new Timestamp( fromDate );
+            if ( fromDate != null ) {
+                Timestamp timestamp = new Timestamp( fromDate.getTime() );
                 sql += " where ar.date_added >= '" + timestamp + "' ";
             }
             
@@ -182,7 +182,7 @@ public class Artist extends MusicItem {
         
     public static Vector<Artist> findAll( final Database db, final int limit, final int offset ) throws SQLException {
         
-        return findAll(db, limit, offset, 0);
+        return findAll(db, limit, offset, null);
     }
     
 }

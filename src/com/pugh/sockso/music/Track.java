@@ -389,7 +389,7 @@ public class Track extends MusicItem {
      * 
      */
     
-    public static List<Track> findAll( final Database db, final int limit, final int offset, final long fromDate ) throws SQLException {
+    public static List<Track> findAll( final Database db, final int limit, final int offset, final Date fromDate ) throws SQLException {
         
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -398,8 +398,8 @@ public class Track extends MusicItem {
             
             String sql = getSelectFromSql();
             
-            if ( fromDate > 0 ) {    
-                Timestamp timestamp = new Timestamp( fromDate );
+            if ( fromDate != null ) {
+                Timestamp timestamp = new Timestamp( fromDate.getTime() );
                 sql += " where t.date_added >= '" + timestamp + "' ";
             }
             
@@ -437,7 +437,7 @@ public class Track extends MusicItem {
     
     public static Vector<Track> findAll( final Database db, final int limit, final int offset ) throws SQLException {
         
-        return findAll( db, limit, offset, 0 );
+        return findAll( db, limit, offset, null );
     }
     
     /**
