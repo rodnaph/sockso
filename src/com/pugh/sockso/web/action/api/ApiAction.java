@@ -3,6 +3,7 @@ package com.pugh.sockso.web.action.api;
 
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.action.WebAction;
+import java.text.ParseException;
 import java.util.Date;
 
 public interface ApiAction extends WebAction {
@@ -41,7 +42,8 @@ public interface ApiAction extends WebAction {
      *
      *  @return
      *
+     *  @throws ParseException if the date string cannot be parsed
      */
     
-    public Date getFromDate();
+    public Date getFromDate() throws ParseException;
 }
