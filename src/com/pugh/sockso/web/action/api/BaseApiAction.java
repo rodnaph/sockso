@@ -17,21 +17,16 @@ abstract public class BaseApiAction extends BaseAction implements ApiAction {
     public static final String FROM_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @Override
-    public Date getFromDate() {
+    public Date getFromDate() throws ParseException {
 
         Date dateFrom = null;
 
-        try {
+        if ( getRequest().hasArgument( "fromDate" ) ) {
 
-            if ( getRequest().hasArgument( "fromDate" ) ) {
-
-                DateFormat dateFormat = new SimpleDateFormat(FROM_DATE_FORMAT);
-                dateFrom = dateFormat.parse( getRequest().getArgument( "fromDate" ) );
-
-            }
-
+            DateFormat dateFormat = new SimpleDateFormat(FROM_DATE_FORMAT);
+            dateFrom = dateFormat.parse( getRequest().getArgument( "fromDate" ) );
         }
-        catch ( final ParseException ignored ) {}
+
 
         return dateFrom;
     }

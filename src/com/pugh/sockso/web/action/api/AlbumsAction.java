@@ -8,6 +8,7 @@ import com.pugh.sockso.web.Request;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.text.ParseException;
 
 public class AlbumsAction extends BaseApiAction {
 
@@ -19,7 +20,7 @@ public class AlbumsAction extends BaseApiAction {
      * 
      */
     
-    public void handleRequest() throws SQLException, IOException {
+    public void handleRequest() throws Exception {
     
         List<Album> albums = Album.findAll(
             getDatabase(),

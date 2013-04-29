@@ -35,10 +35,13 @@ public class ArtistsAction extends BaseApiAction {
      * 
      */
     
-    public void handleRequest() throws SQLException, IOException {
+    public void handleRequest() throws Exception {
         
         final List<Artist> artists = Artist.findAll(
-            getDatabase(), getLimit(), getOffset(), getFromDate()
+            getDatabase(),
+            getLimit(),
+            getOffset(),
+            getFromDate()
         );
         
         showArtists( artists.toArray( new Artist[] {} ) );
