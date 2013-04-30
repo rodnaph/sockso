@@ -19,16 +19,14 @@ abstract public class BaseApiAction extends BaseAction implements ApiAction {
     @Override
     public Date getFromDate() throws ParseException {
 
-        Date dateFrom = null;
-
         if ( getRequest().hasArgument( "fromDate" ) ) {
-
+            
             DateFormat dateFormat = new SimpleDateFormat(FROM_DATE_FORMAT);
-            dateFrom = dateFormat.parse( getRequest().getArgument( "fromDate" ) );
+
+            return dateFormat.parse( getRequest().getArgument( "fromDate" ) );
         }
 
-
-        return dateFrom;
+        return null;
     }
     
     /**
