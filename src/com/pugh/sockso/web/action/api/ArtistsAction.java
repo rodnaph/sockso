@@ -6,7 +6,6 @@ import com.pugh.sockso.templates.api.TArtists;
 import com.pugh.sockso.web.Request;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ArtistsAction extends BaseApiAction {
@@ -35,10 +34,13 @@ public class ArtistsAction extends BaseApiAction {
      * 
      */
     
-    public void handleRequest() throws SQLException, IOException {
-        
+    public void handleRequest() throws Exception {
+
         final List<Artist> artists = Artist.findAll(
-            getDatabase(), getLimit(), getOffset()
+            getDatabase(),
+            getLimit(),
+            getOffset(),
+            getFromDate()
         );
         
         showArtists( artists.toArray( new Artist[] {} ) );

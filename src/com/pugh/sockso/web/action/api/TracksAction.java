@@ -22,7 +22,8 @@ public class TracksAction extends BaseApiAction {
         List<Track> tracks = Track.findAll(
             getDatabase(),
             getLimit(),
-            getOffset()
+            getOffset(),
+            getFromDate()
         );
         
         showTracks( tracks );
