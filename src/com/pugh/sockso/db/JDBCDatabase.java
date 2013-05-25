@@ -339,12 +339,44 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
      */
     protected void checkTrackGenreColumnExists() {
 
-        final String sql = " alter table tracks " +
-                           " add genre_id integer null " +
-                           " unique ( genre_id )";
+        final String alterSql = " alter table tracks " +
+                                " add genre_id integer null " +
+                                " unique ( genre_id )";
 
-        safeUpdate ( sql );
+        safeUpdate ( alterSql );
 
+        final String name = "Unknown Genre";
+
+        final String insertDefaultGenreSql = " insert into genres ( name ) " +
+                                             " values ( '" + name + "' )";
+
+        safeUpdate( insertDefaultGenreSql );
+
+        final String selectIdQuery = " select id " +
+                                     " from genres " +
+                                     " where name = '" + name + "'";
+
+        try {
+
+            final ResultSet rs = query( selectIdQuery );
+
+            if ( rs.next() ) {
+                int unknownGenreId = rs.getInt( "id" );
+
+                final String defaultSql = " update tracks" +
+                                          " set genre_id = " + unknownGenreId +
+                                          " where genre_id == null";
+
+                safeUpdate( defaultSql );
+                
+            }
+            else {
+                log.error("Unable to retrieve default genre id!");
+            }
+
+        } catch (SQLException e) {
+            log.error("Unable to set default genre id!");
+        }
     }
 
     /**
