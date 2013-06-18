@@ -226,6 +226,7 @@ gui.label.community=Community
 gui.label.communityEnabled=List my server in the Sockso community
 gui.label.scanEntireCollection=Entire collection
 gui.label.scanSelectFolder=Select folder
+gui.label.rescanTags=Re-read tag info
 
 #
 #  gui errors

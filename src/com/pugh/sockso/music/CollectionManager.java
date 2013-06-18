@@ -104,5 +104,7 @@ public interface CollectionManager {
      */
     
     public void fireCollectionManagerEvent( final int type, final String message );
+
+    public void rescanTags();
     
 }
