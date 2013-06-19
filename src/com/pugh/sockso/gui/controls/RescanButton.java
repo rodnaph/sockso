@@ -103,8 +103,16 @@ public class RescanButton extends JButton implements ActionListener {
             }
         });
 
+        final JMenuItem rescanTags = new JMenuItem( locale.getString("gui.label.rescanTags") );
+        rescanTags.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent evt ) {
+                rescanTags();
+            }
+        });
+
         menu.add( entireCollection );
         menu.add( selectFolder );
+        menu.add( rescanTags );
 
     }
     
@@ -186,7 +194,23 @@ public class RescanButton extends JButton implements ActionListener {
         }
         
     }
-    
+
+    /**
+     *  Start a rescan on the entire collection
+     *
+     */
+
+    protected void rescanTags() {
+
+        new Thread() {
+
+            @Override
+            public void run() { cm.rescanTags(); }
+
+        }.start();
+
+    }
+
     /**
      *  Prompts the user to select a folder to scan and returns the one they
      *  select, or null if then cancel the dialog
