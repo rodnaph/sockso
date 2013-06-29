@@ -105,18 +105,7 @@ public class Main {
         }
 
         setupAppDirectory();
-        
-        injector = Guice.createInjector( new SocksoModule(options) );
-        
-        try {
-            db = injector.getInstance( Database.class );
-            db.connect( options );
-        }
-        catch ( final Exception e ) {
-            log.error( e );
-            exit( 1 );
-        }
-        
+
         //
         //  final setup from command line options before we try and do
         //  something kinda useful
@@ -124,6 +113,17 @@ public class Main {
 
         if ( options.hasArgument(Options.OPT_LOGTYPE) ) {
             PropertyConfigurator.configure( getLogPropsFile(options.valueOf(Options.OPT_LOGTYPE).toString()) );
+        }
+
+        injector = Guice.createInjector( new SocksoModule(options) );
+
+        try {
+            db = injector.getInstance( Database.class );
+            db.connect( options );
+        }
+        catch ( final Exception e ) {
+            log.error( e );
+            exit( 1 );
         }
 
         //
