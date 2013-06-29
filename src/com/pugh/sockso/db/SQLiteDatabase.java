@@ -36,9 +36,6 @@ public class SQLiteDatabase extends JDBCDatabase {
 
             createStructure();
 
-            checkUserIsActiveColumnExists();
-            checkTrackGenreColumnExists();
-
         }
         
         catch ( final Exception e ) {
@@ -68,14 +65,8 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " date_added datetime not null, " +
                       " collection_id integer not null, " +
                       " track_no integer null, " +
+                      " genre_id integer null, " +
                       " unique ( artist_id, album_id, name ) " +
-                  " ) ";
-            update( sql );
-            
-            sql = " create table genres ( " +
-                      " id integer not null primary key autoincrement, " +
-                      " name text not null, " +
-                      " unique ( name ) " +
                   " ) ";
             update( sql );
 
@@ -116,6 +107,7 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " id integer not null primary key autoincrement, " +
                       " name text not null, " +
                       " date_added datetime not null, " +
+                      " browse_name text null, " +
                       " unique ( name ) " +
                   " ) ";
             update( sql );
@@ -127,6 +119,13 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " year text null, " +
                       " date_added datetime not null, " +
                       " unique ( artist_id, name ) " +
+                  " ) ";
+            update( sql );
+
+            sql = " create table genres ( " +
+                      " id integer not null primary key autoincrement, " +
+                      " name text not null, " +
+                      " unique ( name ) " +
                   " ) ";
             update( sql );
             
@@ -156,7 +155,8 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " pass text not null, " +
                       " email text not null," +
                       " date_created datetime not null, " +
-                      " is_admin integer not null default '0' " +
+                      " is_admin integer not null default 0, " +
+                      " is_active integer not null default 1 " +
                   " ) ";
             update( sql );
 
@@ -165,6 +165,12 @@ public class SQLiteDatabase extends JDBCDatabase {
                       " name text not null, " +
                       " value text not null," +
                       " unique ( name ) " +
+                  " ) ";
+            update( sql );
+
+            sql = " create table indexer ( " +
+                      " id integer not null primary key autoincrement, " +
+                      " last_modified timestamp not null" +
                   " ) ";
             update( sql );
 
@@ -235,15 +241,6 @@ public class SQLiteDatabase extends JDBCDatabase {
 
         return "random";
 
-    }
-
-    @Override
-    protected void checkTrackGenreColumnExists() {
-
-        final String sql = " alter table tracks " +
-                           " add column genre_id integer null";
-
-        safeUpdate ( sql );
     }
     
 }

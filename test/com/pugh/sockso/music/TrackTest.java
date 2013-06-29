@@ -215,13 +215,19 @@ public class TrackTest extends SocksoTestCase {
     }
     
     public void getTracksFromPlayArgs() throws SQLException {
-        
-        ResultSet rs = createMock( ResultSet.class );
+
+        final ResultSet rs = createMock( ResultSet.class );
         expect( rs.next() ).andReturn( false );
+        rs.close();
         replay( rs );
-        
-        Database db = createMock( Database.class );
-        expect( db.query((String)anyObject()) ).andReturn( rs );
+
+        final PreparedStatement st = createMock( PreparedStatement.class );
+        expect( st.executeQuery() ).andReturn( rs );
+        st.close();
+        replay( st );
+
+        final Database db = createMock( Database.class );
+        expect( db.prepare((String)anyObject()) ).andReturn( st );
         replay( db );
 
         try {

@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import java.io.File;
 
@@ -110,8 +111,11 @@ public class HSQLDatabase extends JDBCDatabase {
         checkDefaultStructure();
         setDefaultSettings();
 
-        // check database upgrades have been run.  upgraded should
-        // be written in such a way that they can be re-run.
+        /**
+         * Check database upgrades have been run.
+         * 
+         * Upgrades should be written in such a way that they can be re-run.
+         */
         checkUserSessionsUpgrade();
         checkLogRequestsUpgrade();
         checkCollectionPathBackslashes();
@@ -126,6 +130,7 @@ public class HSQLDatabase extends JDBCDatabase {
         checkUserAdminColumnExists();
         checkUserIsActiveColumnExists();
         checkAlbumYearColumnExists();
+        checkGenreSchema();
         checkTrackGenreColumnExists();
 
     }
@@ -406,12 +411,16 @@ public class HSQLDatabase extends JDBCDatabase {
     private void checkCollectionPathBackslashes() {
         
         final String separator = System.getProperty( "file.separator" );
-       
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
         try {
             
             String sql = " select id, path " +
                                " from collection ";
-            final ResultSet rs = query( sql );
+            st = prepare( sql );
+            rs = st.executeQuery();
             
             while ( rs.next() )
                 if ( !rs.getString("path").matches(".*\\" +separator+ "$") ) {
@@ -426,6 +435,10 @@ public class HSQLDatabase extends JDBCDatabase {
         catch ( final SQLException e ) {
             log.debug( e );
         }
+        finally {
+            Utils.close( st );
+            Utils.close( rs );
+        }
 
     }
     
@@ -439,6 +452,7 @@ public class HSQLDatabase extends JDBCDatabase {
         
         String sql = "";
         ResultSet rs = null;
+        Statement st = null;
         
         try {
 
@@ -447,16 +461,23 @@ public class HSQLDatabase extends JDBCDatabase {
             sql = " select p.value as value " +
                         " from properties p " +
                         " where p.name = 'player.lame.use' ";
-            rs = query( sql );
+            st = getConnection().createStatement();
+            rs = st.executeQuery( sql );
+
             if ( rs.next() && rs.getString("value").equals("yes") ) {
-                rs.close();
+                Utils.close( rs );
+                Utils.close( st );
+
                 String bitrate = "128";
                 sql = " select p.value as value " +
                         " from properties p " +
                         " where p.name = 'player.lame.bitrate' ";
-                rs = query( sql );
-                if ( rs.next() )
+                st = getConnection().createStatement();
+                rs = st.executeQuery( sql );
+
+                if ( rs.next() ) {
                     bitrate = rs.getString( "value" );
+                }
 
                 setProperty( "encoders.mp3", Encoders.Type.BUILTIN.name() );
                 setProperty( "encoders.mp3.name", Encoders.Builtin.Lame.name() );
@@ -489,6 +510,7 @@ public class HSQLDatabase extends JDBCDatabase {
         
         finally {
             Utils.close( rs );
+            Utils.close( st );
         }
         
     }
@@ -619,17 +641,6 @@ public class HSQLDatabase extends JDBCDatabase {
                 " ) "
             );
             log.debug( "Created 'tracks' table" );
-            
-            // genre
-            update(
-                " create table genres ( " +
-                    " id integer not null identity, " +
-                    " name varchar(255) not null, " +
-                    " unique ( name ), " +
-                    " primary key ( id ) " +
-                " ) "
-            );
-            log.debug( "Created 'genres' table" );
 
             // properties
             update(
@@ -701,7 +712,84 @@ public class HSQLDatabase extends JDBCDatabase {
         }
 
     }
-    
+
+    /**
+     * Checks the genres table
+     *
+     */
+    protected void checkGenreSchema() {
+
+         safeUpdate(
+            " create table genres ( " +
+                " id integer not null identity, " +
+                " name varchar(255) not null, " +
+                " unique ( name ), " +
+                " primary key ( id ) " +
+            " ) "
+        );
+        log.debug( "Created 'genres' table" );
+    }
+
+    /**
+     * Check the tracks genre_id column
+     *
+     */
+    protected void checkTrackGenreColumnExists() {
+
+        final String alterSql = " alter table tracks " +
+                                " add genre_id integer null ";
+
+        safeUpdate ( alterSql );
+
+        final String name = "Unknown Genre";
+
+        final String insertDefaultGenreSql = " insert into genres ( name ) " +
+                                             " values ( '" + name + "' )";
+
+        safeUpdate( insertDefaultGenreSql );
+
+        final String selectIdQuery = " select id " +
+                                     " from genres " +
+                                     " where name = ?";
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
+        try {
+
+            st = prepare( selectIdQuery );
+            st.setString( 1, name );
+            rs = st.executeQuery();
+
+            if ( rs.next() ) {
+
+                int unknownGenreId = rs.getInt( "id" );
+
+                Utils.close(rs);
+                Utils.close(st);
+
+                final String defaultSql = " update tracks" +
+                                          " set genre_id = " + unknownGenreId +
+                                          " where genre_id is null";
+
+                safeUpdate( defaultSql );
+
+            }
+            else {
+                log.error("Unable to retrieve default genre id!");
+            }
+
+        }
+        catch (SQLException e) {
+            log.error("Unable to set default genre id: " + e.getMessage());
+        }
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
+    }
+
+
     /**
      *  quotes a string for safe inclusion in sql
      * 

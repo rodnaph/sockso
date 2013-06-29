@@ -39,7 +39,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import static junit.framework.Assert.assertTrue;
 import static org.easymock.EasyMock.*;
 
 public class UsererTest extends SocksoTestCase {
@@ -51,6 +51,7 @@ public class UsererTest extends SocksoTestCase {
     private Database db;
     private Properties p;
     private TestRequest req;
+    private TestResponse resp;
     private Userer u;
     
     @Override
@@ -69,53 +70,30 @@ public class UsererTest extends SocksoTestCase {
         db = new TestDatabase();
         p = new StringProperties();
         req = new TestRequest( "" );
+        resp = new TestResponse();
         u = new Userer();
         u.addAuthenticator( new DBAuthenticator(db) );
         u.setDatabase( db );
         u.setRequest( req );
         u.setProperties( p );
-        u.setResponse( new TestResponse() );
+        u.setResponse( resp );
         u.setLocale( new TestLocale() );
 
     }
     
-    public void testRegisterUser() throws BadRequestException, IOException, SQLException {
-        
-        if ( true ) return;
-        
-        // @TODO - fix test
-        
-        Database db = createMock( Database.class );
-        Request req = createMock( Request.class );
-        Response res = createMock( Response.class );
-        Properties p = createMock( Properties.class );
-        ResultSet rs = createNiceMock( ResultSet.class );
-        Locale locale = createNiceMock( Locale.class );
-        Userer u = new Userer();
-        u.setRequest( req );
-        u.setResponse( res );
-        u.setLocale( locale );
-        
-        expect( req.getArgument("name") ).andReturn( "foo" );
-        expect( req.getArgument("pass1") ).andReturn( "p1" );
-        expect( req.getArgument("pass2") ).andReturn( "p1" );
-        expect( req.getArgument("email") ).andReturn( "ps@ubm.com" );
-        replay( req );
+    public void testRegisterUser() throws Exception {
 
-        expect( rs.next() ).andReturn( true );
-        expect( rs.next() ).andReturn( false );
-        replay( rs );
-        
-        expect( db.escape((String)anyObject()) ).andReturn( "" ).anyTimes();
-        expect( db.query((String)anyObject()) ).andReturn( rs ).anyTimes();
-        expect( db.update((String)anyObject()) ).andReturn( 1 );
-        replay( db );
-        
+        req.setArgument("name", "foo");
+        req.setArgument("name", "foo" );
+        req.setArgument("pass1", "p1" );
+        req.setArgument("pass2", "p1" );
+        req.setArgument("email", "ps@ubm.com" );
+
         u.registerUser();
 
-        verify( req );
-        verify( db );
-
+        User user = User.find( db, 0 );
+        assertEquals("foo", user.getName());
+        assertEquals("ps@ubm.com", user.getEmail());
     }
 
     public void testNewUsersAreCreatedAsActiveByDefault() throws Exception {

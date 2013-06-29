@@ -608,8 +608,8 @@ public class Userer extends BaseAction {
         }
 
         finally {
-            st.close();
-            rs.close();
+            Utils.close( rs );
+            Utils.close( st );
         }
 
     }

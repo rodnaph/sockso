@@ -2,11 +2,13 @@
 package com.pugh.sockso.db;
 
 import com.pugh.sockso.Options;
+import com.pugh.sockso.Utils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 import org.apache.log4j.Logger;
 
@@ -80,6 +82,7 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
             checkUserAdminColumnExists();
             checkUserIsActiveColumnExists();
             checkAlbumYearColumnExists();
+            checkGenreSchema();
             checkTrackGenreColumnExists();
 
         }
@@ -87,24 +90,6 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
         catch ( final Exception e ) {
             throw new DatabaseConnectionException( e.getMessage() );
         }
-        
-    }
-
-    /**
-     *  queries, don't close statement for mysql connection
-     * 
-     *  @param sql
-     * 
-     *  @return
-     * 
-     *  @throws java.sql.SQLException
-     * 
-     */
-
-    @Override
-    public ResultSet query( final String sql ) throws SQLException {
-        
-        return query( sql, false );
         
     }
 
@@ -131,14 +116,6 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
                       " track_no smallint null, " +
                       " primary key ( id ), " +
                       " unique ( artist_id, album_id, name ) " +
-                  " ) character set utf8 ";
-            update( sql );
-
-            sql = " create table genres ( " +
-                      " id int unsigned not null auto_increment, " +
-                      " name varchar(255) not null, " +
-                      " primary key ( id ), " +
-                      " unique ( name ) " +
                   " ) character set utf8 ";
             update( sql );
 
@@ -312,6 +289,80 @@ public class MySQLDatabase extends JDBCDatabase implements Database {
         safeUpdate( sql );
 
     }
+
+
+    protected void checkGenreSchema() {
+
+        safeUpdate(
+                " create table genres ( "
+                   + " id int unsigned not null auto_increment, "
+                   + " name varchar(255) not null, "
+                   + " primary key ( id ), "
+                   + " unique ( name ) "
+                   + " ) character set utf8 "
+                );
+
+    }
+
+    /**
+     * Check the tracks genre_id column
+     *
+     */
+    protected void checkTrackGenreColumnExists() {
+
+        final String alterSql = " alter table tracks " +
+                                " add genre_id int unsigned null";
+
+        safeUpdate ( alterSql );
+
+        final String name = "Unknown Genre";
+
+        final String insertDefaultGenreSql = " insert into genres ( name ) " +
+                                             " values ( '" + name + "' )";
+
+        safeUpdate( insertDefaultGenreSql );
+
+        final String selectIdQuery = " select id " +
+                                     " from genres " +
+                                     " where name = ?";
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
+        try {
+
+            st = prepare( selectIdQuery );
+            st.setString( 1, name );
+
+            rs = st.executeQuery();
+
+            if ( rs.next() ) {
+
+                int unknownGenreId = rs.getInt( "id" );
+
+                Utils.close( rs );
+                Utils.close( st );
+
+                final String defaultSql = " update tracks" +
+                                          " set genre_id = " + unknownGenreId +
+                                          " where genre_id is null";
+                safeUpdate( defaultSql );
+
+            }
+            else {
+                log.error("Unable to retrieve default genre id!");
+            }
+
+        }
+        catch (SQLException e) {
+            log.error("Unable to set default genre id: " + e.getMessage());
+        }
+        finally {
+            Utils.close(rs);
+            Utils.close(st);
+        }
+    }
+
 
     /**
      *  returns the raw jdbc connection

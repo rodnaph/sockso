@@ -12,9 +12,14 @@ import com.pugh.sockso.tests.TestDatabase;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 import static org.easymock.EasyMock.*;
 
@@ -42,55 +47,64 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         super.tearDown();
     }
 
-    public void testCheckTrackTagInfo() throws SQLException {
-        
-        final String trackName = "some name";
-        final int trackNumber = 1;
-        
-        final Database db = createNiceMock( Database.class );
-        expect( db.prepare((String)anyObject()) ).andReturn( createNiceMock(PreparedStatement.class) ).anyTimes();
-        replay( db );
-        
-        Track.Builder builder = new Track.Builder();
-        builder.artist(null)
-                .album(null)
-                .genre(null)
-                .id(-1)
-                .name(trackName)
-                .number(trackNumber)
-                .path("")
-                .dateAdded(null);
-        final Track track = builder.build();
+    public void testCheckTrackTagInfo() throws Exception {
 
-        final Tag sameTag = createMock( Tag.class );
-        expect( sameTag.getTrack() ).andReturn( trackName );
-        expect( sameTag.getTrackNumber() ).andReturn( trackNumber );
-        replay( sameTag  );
+        final TestDatabase db = new TestDatabase();
+        final DBCollectionManager cm = new DBCollectionManager( db, p, indexer );
 
-        final Tag diffTag = createMock( Tag.class );
-        expect( diffTag.getTrack() ).andReturn( trackName + " change" ).times( 2 );
-        expect( diffTag.getTrackNumber() ).andReturn( trackNumber + 1 ).times( 2 );
-        replay( diffTag  );
+        db.fixture( "checkTrackTagChange" );
 
-        try {
+        // Verify that if tag data == track name & number in db then track is not updated
+        {
+            Track trackBefore = cm.getTrack(1);
 
-            final DBCollectionManager colMan = new DBCollectionManager( db, p, indexer );
+            Tag newTag = createNiceMock( Tag.class );
+            expect(newTag.getTrack()).andReturn(trackBefore.getName());
+            expect(newTag.getTrackNumber()).andReturn(trackBefore.getNumber());
+            replay(newTag);
 
-            // no change
-            colMan.checkTrackTagInfo( sameTag, track  );
+            cm.checkTrackTagInfo(newTag, trackBefore);
+            Track trackAfter = cm.getTrack(1);
 
-            // tag changed
-            colMan.checkTrackTagInfo( diffTag, track  );
-
-            //verify( db );
-            //verify( p );
-
+            assertEquals(trackBefore.getId(), trackAfter.getId());
+            assertEquals(trackBefore.getName(), trackAfter.getName());
+            assertEquals(trackBefore.getNumber(), trackAfter.getNumber());
         }
 
-        catch ( final SQLException e ) {
-            fail( e.getMessage() );
+        // Verify that if tag track name changes then track is updated in db
+        {
+            Track trackBefore = cm.getTrack(2);
+
+            Tag newTag = createNiceMock( Tag.class );
+            expect(newTag.getTrack()).andReturn( trackBefore.getName() + " changed!" ).anyTimes();
+            expect(newTag.getTrackNumber()).andReturn( trackBefore.getNumber() ).anyTimes();
+            replay(newTag);
+
+            cm.checkTrackTagInfo(newTag, trackBefore);
+            Track trackAfter = cm.getTrack(2);
+
+            assertEquals(trackBefore.getId(), trackAfter.getId());
+            assertFalse(trackBefore.getName().equals(trackAfter.getName()));
+            assertEquals(trackBefore.getNumber(), trackAfter.getNumber());
         }
-        
+
+        // Verify that if tag track number changes then track is updated in db
+        {
+            Track trackBefore = cm.getTrack(3);
+
+            Tag newTag = createNiceMock( Tag.class );
+            expect(newTag.getTrack()).andReturn( trackBefore.getName() ).anyTimes();
+            expect(newTag.getTrackNumber()).andReturn( trackBefore.getNumber() + 1 ).anyTimes();
+            replay(newTag);
+
+            cm.checkTrackTagInfo(newTag, trackBefore);
+            Track trackAfter = cm.getTrack(3);
+
+            assertEquals(trackBefore.getId(), trackAfter.getId());
+            assertEquals(trackBefore.getName(), trackAfter.getName());
+            assertFalse(trackBefore.getNumber() == trackAfter.getNumber());
+        }
+
     }
 
     public void testAddDirectoryToDb() throws SQLException {
@@ -211,20 +225,28 @@ public class DBCollectionManagerTest extends SocksoTestCase {
         Tag newTag = createMock( Tag.class );
         expect( newTag.getArtist() ).andReturn( artistName ).times(2);
         replay( newTag );
-        
-        ResultSet rs = db.query( "select * from albums where id = 1" );
+
+        Statement st = db.getConnection().createStatement();
+        ResultSet rs = st.executeQuery("select * from albums where id = 1" );
         
         while (rs.next())
             firstArtistId = rs.getInt( "artist_id" );
 
+        Utils.close( rs );
+        Utils.close( st );
+
         Track track = cm.getTrack( 3 );
         cm.checkArtistTagInfo( newTag, track );
         track = cm.getTrack( 3 );
-        
-        rs = db.query( "select * from albums where id = 3" );
+
+        st = db.getConnection().createStatement();
+        rs = st.executeQuery("select * from albums where id = 3" );
         
         while (rs.next())
             secondArtistId = rs.getInt( "artist_id" ); 
+
+        Utils.close( rs );
+        Utils.close( st );
 
         assertEquals( firstArtistId, secondArtistId );
  

@@ -1,0 +1,11 @@
+collection:1,/music
+
+artists:1,My Artist,now(),My Artist
+
+albums:1,1,My Album,1984,now()
+
+genres:1,Rock
+
+tracks:1,1,1,My Track1,/music/track1.mp3,180,now(),1,1,1
+tracks:2,1,1,My Track2,/music/track2.mp3,180,now(),1,1,1
+tracks:3,1,1,My Track3,/music/track3.mp3,180,now(),1,1,1

@@ -473,6 +473,17 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     }
 
+    /**
+     * checks the genre's tag has changed and updates the database with the
+     * new information if it has.
+     *
+     * @param tag
+     * @param track
+     *
+     * @throws java.sql.SQLException
+     *
+     */
+    
     private void checkGenreTagInfo( final Tag tag, final Track track ) throws SQLException {
 
         final String genre = ( track.getGenre() == null ? null : track.getGenre().getName() );
