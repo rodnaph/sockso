@@ -1,52 +1,40 @@
 
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.web.Response;
+
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
-/**
- *  a class to encapsulate an audio stream and information about it, for
- *  instance the mime type of the data.
- * 
- */
 
-public class MusicStream {
-    
-    private final DataInputStream stream;
-    private final String mimeType;
-    
-    /**
-     *  constructor
-     * 
-     *  @param stream
-     *  @param mimeType
-     * 
-     */
-    
-    public MusicStream( final DataInputStream stream, final String mimeType ) {
-        this.stream = stream;
-        this.mimeType = mimeType;
-    }
+public interface MusicStream {
 
     /**
-     *  returns the audio stream
+     * Stream from a music file
+     *
+     * @return DataInputStream
      * 
-     *  @return
-     * 
+     * @throws
+     *
      */
-    
-    public DataInputStream getAudioStream() {
-        return stream;
-    }
-    
+    public DataInputStream getAudioStream() throws IOException;
+
     /**
-     *  returns the mime type of the data from audio stream
+     * Send audio stream to client
      * 
-     *  @return
+     * @param client
      * 
+     * @throws IOException
      */
-    
-    public String getMimeType() {
-        return mimeType;
-    }
+    public void sendAudioStream( final DataOutputStream client ) throws IOException;
+
+
+    /**
+     * Set headers for streaming
+     *
+     * @param response
+     */
+    public void setHeaders( final Response response );
     
 }

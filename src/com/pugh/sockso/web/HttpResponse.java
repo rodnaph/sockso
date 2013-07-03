@@ -94,7 +94,7 @@ public class HttpResponse implements Response {
         // default headers
         addHeader( "Server", "Sockso" );
         addHeader( "Connection", "close" ); // we don't support keep-alive connections at the moment
-        addHeader( "Accept-Ranges", "bytes");
+        addHeader( "Accept-Ranges", "none"); // by default, we don't support range-requests
 
     }
  

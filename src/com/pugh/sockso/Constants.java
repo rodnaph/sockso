@@ -118,6 +118,8 @@ public class Constants {
     public static final String DEFAULT_ARTWORK_HEIGHT = "covers.defaultHeight";
     public static final String DEFAULT_ARTWORK_TYPE = "covers.defaultType";
 
+    public static final String PROP_ENCODERS_PREFIX = "encoders.";
+    
     //**********************************************************
     //**********************************************************
     //

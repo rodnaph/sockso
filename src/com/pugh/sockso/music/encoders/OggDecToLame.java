@@ -31,8 +31,4 @@ public class OggDecToLame extends BuiltinScriptEncoder {
         return "Convert to mp3 (oggdec and lame)";
     }
     
-    public String getOutputMimeType() {
-        return Files.getMimeType( "file.mp3" );
-    }
-    
 }

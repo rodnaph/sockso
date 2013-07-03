@@ -2,7 +2,6 @@
 package com.pugh.sockso.music.encoders;
 
 import com.pugh.sockso.music.Track;
-import com.pugh.sockso.music.Files;
 
 import java.io.IOException;
 import java.io.DataInputStream;
@@ -28,9 +27,5 @@ public class FfmpegToLame extends BuiltinScriptEncoder {
     public String toString() {
         return "Convert to mp3 (ffmpeg and lame)";
     }
-    
-    public String getOutputMimeType() {
-        return Files.getMimeType( "file.mp3" );
-    }
-    
+
 }
