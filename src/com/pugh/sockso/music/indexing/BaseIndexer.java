@@ -1,6 +1,7 @@
 
 package com.pugh.sockso.music.indexing;
 
+import com.pugh.sockso.Utils;
 import com.pugh.sockso.db.Database;
 
 import org.apache.log4j.Logger;
@@ -13,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.atomic.AtomicBoolean;
 /**
  *  Scans and indexes files in the collection.
  *
@@ -33,7 +34,7 @@ public abstract class BaseIndexer implements Indexer {
     private final Database db;
     private final IndexCache cache;
 
-    private boolean isIndexing;
+    private AtomicBoolean isIndexing;
 
     /**
      *  Constructor
@@ -62,7 +63,7 @@ public abstract class BaseIndexer implements Indexer {
         this.cache = cache;
 
         indexListeners = new ArrayList<IndexListener>();
-        isIndexing = false;
+        isIndexing = new AtomicBoolean(false);
         
     }
 
@@ -103,28 +104,34 @@ public abstract class BaseIndexer implements Indexer {
 
     @Override
     public void scan() {
+        
+        scan( ScanFilter.MODIFICATION_DATE, ScanScope.ALL_FILES );
+    }
 
-        if ( !isIndexing ) {
 
-            isIndexing = true;
+    public void scan( final ScanFilter filter, final ScanScope scope ) {
+
+        if ( isIndexing.compareAndSet( false, true ) ) {
 
             final long start = System.currentTimeMillis();
 
             log.debug( "scan() starting..." );
 
-            checkIntegrity();
+            checkIntegrity( filter );
 
-            log.debug( "integrity check done: " +(System.currentTimeMillis() - start) );
+            log.debug( "integrity check done: " + (System.currentTimeMillis() - start) );
 
-            checkForNewFiles();
+            if ( !ScanScope.EXISTING_FILES.equals(scope) ) {
+                checkForNewFiles();
+            }
 
-            log.debug( "scan() finished: " +(System.currentTimeMillis() - start) );
+            log.debug( "scan() finished: " + (System.currentTimeMillis() - start) );
 
             fireIndexEvent(
-                new IndexEvent( IndexEvent.COMPLETE, -1, new File("") )
+                new IndexEvent( IndexEvent.Type.COMPLETE, -1, new File("") )
             );
 
-            isIndexing = false;
+            isIndexing.set( false );
         }
 
     }
@@ -159,20 +166,20 @@ public abstract class BaseIndexer implements Indexer {
         }
 
         finally {
-            try { rs.close(); }
-            catch ( final SQLException e ) {}
+            Utils.close( rs );
         }
         
     }
 
     /**
      *  Checks the files current in the index still are, if they are not then
-     *  a IndexEvent.MISSING event is fired.  If they appear changed then a
-     *  IndexEvent.CHANGED event is fired.
+     *  a IndexEvent.MISSING event is fired.
+     *
+     * If they appear changed then a IndexEvent.CHANGED event is fired.
      * 
      */
 
-    protected void checkIntegrity() {
+    protected void checkIntegrity( final ScanFilter filter ) {
 
         ResultSet rs = null;
 
@@ -186,12 +193,24 @@ public abstract class BaseIndexer implements Indexer {
                 final int id = rs.getInt( "file_id" );
                 final File file = new File( path );
 
-                if ( checkExists(file,id) ) {
-                    if ( checkModified(file,id,rs.getDate("index_last_modified")) ) {
-                        markFileModified( id, rs.getInt("index_id") );
-                    }
-                }
+                if ( checkExists(file, id) ) {
 
+                    boolean changed = false;
+
+                    if ( ScanFilter.MODIFICATION_DATE.equals(filter) ) {
+                        changed = checkModified(file, rs.getDate("index_last_modified"));
+                    }
+                    else if ( ScanFilter.NONE.equals(filter) ) {
+                        changed = true;
+                    }
+
+                    if ( changed ) {
+                        fireIndexEvent(new IndexEvent(IndexEvent.Type.CHANGED, id, file));
+                        markFileModified(id, rs.getInt("index_id"));
+                    }
+
+                }
+                
             }
 
         }
@@ -201,8 +220,7 @@ public abstract class BaseIndexer implements Indexer {
         }
 
         finally {
-            try { rs.close(); }
-            catch ( final SQLException e ) {}
+            Utils.close( rs );
         }
 
     }
@@ -231,8 +249,7 @@ public abstract class BaseIndexer implements Indexer {
         }
                 
         finally {
-            try { rs.close(); }
-            catch ( final SQLException e ) {}
+            Utils.close( rs );
         }
         
     }
@@ -278,7 +295,7 @@ public abstract class BaseIndexer implements Indexer {
 
             else if ( !cache.exists(file.getAbsolutePath()) ) {
                 fireIndexEvent(
-                    new IndexEvent( IndexEvent.UNKNOWN, directoryId, file )
+                    new IndexEvent( IndexEvent.Type.UNKNOWN, directoryId, file )
                 );
             }
 
@@ -366,8 +383,7 @@ public abstract class BaseIndexer implements Indexer {
         }
 
         finally {
-            try { st.close(); }
-            catch ( final SQLException e ) {}
+            Utils.close( st );
         }
 
         return false;
@@ -391,7 +407,7 @@ public abstract class BaseIndexer implements Indexer {
 
         if ( !file.exists() ) {
             fireIndexEvent(
-                new IndexEvent( IndexEvent.MISSING, id, file )
+                new IndexEvent( IndexEvent.Type.MISSING, id, file )
             );
             return false;
         }
@@ -401,7 +417,7 @@ public abstract class BaseIndexer implements Indexer {
     }
 
     /**
-     *  Checks if a file has been modified.  If it has then an IndexEvent.TRACK_CHANGED
+     *  Checks if a file has been modified.  If it has then an IndexEvent.Type.CHANGED
      *  event is fired and true returned.
      * 
      *  @param file
@@ -414,16 +430,9 @@ public abstract class BaseIndexer implements Indexer {
      * 
      */
 
-    protected boolean checkModified( final File file, final int id, final Date lastModified ) throws SQLException {
-
-        if ( lastModified == null || lastModified.getTime() < file.lastModified() ) {
-            fireIndexEvent(
-                new IndexEvent( IndexEvent.CHANGED, id, file )
-            );
-            return true;
-        }
-
-        return false;
+    protected boolean checkModified( final File file, final Date lastModified ) {
+        
+        return ( lastModified == null || lastModified.getTime() < file.lastModified() );
 
     }
 

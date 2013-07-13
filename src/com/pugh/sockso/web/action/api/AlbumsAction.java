@@ -19,12 +19,13 @@ public class AlbumsAction extends BaseApiAction {
      * 
      */
     
-    public void handleRequest() throws SQLException, IOException {
+    public void handleRequest() throws Exception {
     
         List<Album> albums = Album.findAll(
             getDatabase(),
             getLimit(),
-            getOffset()
+            getOffset(), 
+            getFromDate()
         );
         
         showAlbums( albums );

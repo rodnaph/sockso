@@ -32,7 +32,7 @@ import java.util.List;
 @Singleton
 public class DBCollectionManager extends Thread implements CollectionManager, IndexListener {
     
-    private static final Logger log = Logger.getLogger( CollectionManager.class );
+    private static final Logger log = Logger.getLogger( DBCollectionManager.class );
 
     private final Database db;
     private final Properties p;
@@ -68,20 +68,20 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
             switch ( evt.getType() ) {
 
-                case IndexEvent.UNKNOWN:
+                case UNKNOWN:
                     addFile( evt.getFileId(), evt.getFile() );
                     break;
 
-                case IndexEvent.CHANGED:
+                case CHANGED:
                     checkTrack( getTrack(evt.getFileId()), evt.getFile() );
                     break;
 
-                case IndexEvent.MISSING:
+                case MISSING:
                     removeTrack( evt.getFileId() );
                     break;
 
-                case IndexEvent.COMPLETE:
-                    removeOrphans();
+                case COMPLETE:
+                    removeEmptyArtistsAndAlbums();
                     fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Collection Updated!" );
                     break;
 
@@ -233,6 +233,15 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         indexer.scan();
 
+    }
+
+    /**
+     * Re-reads tag information from files
+     */
+    public void rescanTags() {
+
+        indexer.scan(Indexer.ScanFilter.NONE, Indexer.ScanScope.ALL_FILES);
+        
     }
 
     /**

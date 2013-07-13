@@ -10,12 +10,15 @@ import java.io.File;
 
 public class IndexEvent {
 
-    public static final int UNKNOWN = 1;
-    public static final int MISSING = 2;
-    public static final int CHANGED = 3;
-    public static final int COMPLETE = 4;
+    public enum Type {
+        UNKNOWN,
+        MISSING,
+        CHANGED,
+        COMPLETE
+    }
 
-    private final int type, fileId;
+    private final Type type;
+    private final int fileId;
     private final File file;
 
     /**
@@ -27,7 +30,7 @@ public class IndexEvent {
      * 
      */
 
-    public IndexEvent( final int type, final int fileId, final File file ) {
+    public IndexEvent( Type type, final int fileId, final File file ) {
         
         this.type = type;
         this.fileId = fileId;
@@ -42,7 +45,7 @@ public class IndexEvent {
      * 
      */
 
-    public int getType() {
+    public Type getType() {
 
         return type;
 

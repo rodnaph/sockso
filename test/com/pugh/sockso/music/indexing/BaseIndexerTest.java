@@ -45,7 +45,7 @@ public class BaseIndexerTest extends SocksoTestCase implements IndexListener {
         indexEvent = null;
         assertFalse( indexer.checkExists(doesntExist,1) );
         assertNotNull( indexEvent );
-        assertEquals( indexEvent.getType(), IndexEvent.MISSING );
+        assertEquals( indexEvent.getType(), IndexEvent.Type.MISSING );
 
     }
     
@@ -56,19 +56,19 @@ public class BaseIndexerTest extends SocksoTestCase implements IndexListener {
         final Date hasChange = new Date( exists.lastModified() - 1000 );
 
         indexEvent = null;
-        assertFalse( indexer.checkModified( exists, 1, noChange ) );
+        assertFalse( indexer.checkModified( exists, noChange ) );
         assertNull( indexEvent );
 
         indexEvent = null;
-        assertTrue( indexer.checkModified( exists, 134, hasChange ) );
+        assertTrue( indexer.checkModified( exists, hasChange ) );
         assertNotNull( indexEvent );
-        assertEquals( indexEvent.getType(), IndexEvent.CHANGED );
+        assertEquals( indexEvent.getType(), IndexEvent.Type.CHANGED );
         assertEquals( indexEvent.getFileId(), 134 );
 
         indexEvent = null;
-        assertTrue( indexer.checkModified( exists, 143, null ) );
+        assertTrue( indexer.checkModified( exists, hasChange ) );
         assertNotNull( indexEvent );
-        assertEquals( indexEvent.getType(), IndexEvent.CHANGED );
+        assertEquals( indexEvent.getType(), IndexEvent.Type.CHANGED );
         assertEquals( indexEvent.getFileId(), 143 );
 
     }
@@ -109,7 +109,7 @@ public class BaseIndexerTest extends SocksoTestCase implements IndexListener {
         assertNotNull( indexEvent );
         assertTrue( indexEvent.getFile().getAbsolutePath().equals( newFile.getAbsolutePath() ) );
         assertEquals( indexEvent.getFileId(), 123 );
-        assertEquals( indexEvent.getType(), IndexEvent.UNKNOWN );
+        assertEquals( indexEvent.getType(), IndexEvent.Type.UNKNOWN );
 
     }
 
@@ -123,7 +123,7 @@ public class BaseIndexerTest extends SocksoTestCase implements IndexListener {
         final Indexer i = new TrackIndexer( new TestDatabase() );
         i.addIndexListener( this );
         i.scan();
-        assertEquals( IndexEvent.COMPLETE, this.indexEvent.getType() );
+        assertEquals( IndexEvent.Type.COMPLETE, this.indexEvent.getType() );
     }
 
 }

@@ -17,7 +17,7 @@
 
 {
     "id": <% artist.getId() %>,
-    "name": <% JsonUtils.string(artist.getName()) %>,
+    "name": <% JsonUtils.string(artist.getName()) #n %>,
     "albums": [
         <%for Album album : albums %>
             <%if !isFirst%>,</%if>

@@ -3,11 +3,31 @@ package com.pugh.sockso.web.action.api;
 
 import com.pugh.sockso.web.action.BaseAction;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 abstract public class BaseApiAction extends BaseAction implements ApiAction {
 
     public static final int DEFAULT_OFFSET = 0;
     
     public static final int DEFAULT_LIMIT = 100;
+    
+    public static final String FROM_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    @Override
+    public Date getFromDate() throws ParseException {
+
+        if ( getRequest().hasArgument( "fromDate" ) ) {
+            
+            DateFormat dateFormat = new SimpleDateFormat(FROM_DATE_FORMAT);
+
+            return dateFormat.parse( getRequest().getArgument( "fromDate" ) );
+        }
+
+        return null;
+    }
     
     /**
      *  Return the number of results to limit by

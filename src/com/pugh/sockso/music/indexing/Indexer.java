@@ -5,12 +5,26 @@ import java.io.File;
 
 public interface Indexer {
 
+
+    public enum ScanFilter {
+        MODIFICATION_DATE,
+        NONE
+    }
+
+    public enum ScanScope {
+        NEW_FILES,
+        EXISTING_FILES,
+        ALL_FILES
+    }
+    
     /**
      *  Performs a scan on the index
      *
      */
     
     public void scan();
+
+    public void scan( ScanFilter filter, ScanScope scope );
 
     /**
      *  Scans a particular directory that is part of the specified collection
