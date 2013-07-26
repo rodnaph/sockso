@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 public class Artist extends MusicItem {
     
-    private static Logger log = Logger.getLogger( CollectionManager.class );
+    private static Logger log = Logger.getLogger( Artist.class );
 
     private final int albumCount, trackCount, playCount;
     
