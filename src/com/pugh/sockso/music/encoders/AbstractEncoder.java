@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public abstract class AbstractEncoder implements Encoder {
 
-    private final int DEFAULT_BITRATE = 128;
+    private static final int DEFAULT_BITRATE = 128;
 
     public int getDefaultBitrate() {
 

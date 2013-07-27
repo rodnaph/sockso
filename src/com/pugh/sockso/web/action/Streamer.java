@@ -1,5 +1,6 @@
 package com.pugh.sockso.web.action;
 
+import com.pugh.sockso.music.stream.MusicStream;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.Utils;
@@ -46,11 +47,17 @@ public class Streamer extends BaseAction {
     public void handleRequest() throws SQLException, IOException, BadRequestException {
         
         final Request req = getRequest();
-        final String trackId = req.getUrlParam( 1 );
+        final int trackId = Integer.parseInt( req.getUrlParam( 1 ) );
 
-        playTrack(
-            Integer.parseInt( trackId )
-        );
+        final Track track = Track.find( getDatabase(), trackId );
+
+        if ( track == null ) {
+            throw new BadRequestException( "Invalid track ID", 404 );
+        }
+
+        final MusicStream stream = getStream( track );
+
+        playTrack( track, stream );
 
     }
     
@@ -68,28 +75,11 @@ public class Streamer extends BaseAction {
         return p.get( Constants.STREAM_REQUIRE_LOGIN ).equals( Properties.YES );
 
     }
-    
-    /**
-     *  streams a particular track to the response object
-     *
-     *  @param trackId the track id to playTrack
-     * 
-     *  @throws SQLException
-     *  @throws IOException
-     *  @throws BadRequestException
-     * 
-     */
 
-    protected void playTrack( final int trackId ) throws SQLException, IOException, BadRequestException {
-
-        final Track track = Track.find( getDatabase(), trackId );
-
-        if ( track == null ) {
-            throw new BadRequestException( "Invalid track ID", 404 );
-        }
+    protected MusicStream getStream( final Track track ) throws IOException, BadRequestException {
 
         MusicStream stream;
-        
+
         // check if we're using an encoder first
         Encoder encoder = getEncoder( track );
 
@@ -108,6 +98,23 @@ public class Streamer extends BaseAction {
             stream = new SimpleStream( track );
         }
 
+        return stream;
+
+    }
+
+    /**
+     *  streams a particular track to the response object
+     *
+     *  @param trackId the track id to playTrack
+     * 
+     *  @throws SQLException
+     *  @throws IOException
+     *  @throws BadRequestException
+     * 
+     */
+
+    protected void playTrack( final Track track, final MusicStream stream ) throws SQLException, IOException, BadRequestException {
+
         logTrackPlayed( track );
 
         final Response response = getResponse();
@@ -118,7 +125,7 @@ public class Streamer extends BaseAction {
     }
 
 
-    private Encoder getEncoder( final Track track ) throws IOException {
+    protected Encoder getEncoder( final Track track ) throws IOException {
 
         final Properties p = getProperties();
         final String ext = Utils.getExt(track.getPath());
@@ -196,7 +203,7 @@ public class Streamer extends BaseAction {
      * Content-Range: bytes 1000-3979/3980
      *
      */
-    private Range processRangeRequest( final Track track ) throws IOException, BadRequestException {
+    protected Range processRangeRequest( final Track track ) throws IOException, BadRequestException {
 
         final String rangeHeader = getRequest().getHeader("Range");
 

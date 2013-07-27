@@ -3,7 +3,6 @@ package com.pugh.sockso.music.stream;
 import com.pugh.sockso.Utils;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.web.Response;
-import com.pugh.sockso.web.action.AbstractMusicStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -47,7 +46,7 @@ public class SimpleStream extends AbstractMusicStream {
 
         try {
 
-            int lastPct = -1;
+            int nextRead = -1;
             for ( int bytesRead = 0; bytesRead >= 0 && totalBytes < contentLength; bytesRead = audio.read(buffer, 0, readBlock) ) {
 
                 totalBytes += bytesRead;
@@ -58,11 +57,9 @@ public class SimpleStream extends AbstractMusicStream {
 
                 client.write(buffer, 0, bytesRead);
 
-                int pctRead = (int) (((double) totalBytes / (double) contentLength) * 100);
-
-                if (pctRead > lastPct && pctRead % 5 == 0) {
-                    lastPct = pctRead;
-                    log.debug(String.format("Sent %2d%%", pctRead));
+                if ( totalBytes > nextRead ) {
+                    nextRead += STREAM_BUFFER_SIZE * 12; // print ~every 100 KB
+                    log.debug(String.format("Sent %2d%%", bytesRead));
                 }
             }
 

@@ -7,6 +7,7 @@ import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
+import com.pugh.sockso.music.stream.MusicStream;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestRequest;
@@ -18,10 +19,10 @@ import com.pugh.sockso.web.User;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.Date;
 
 import static org.easymock.EasyMock.*;
 
@@ -48,14 +49,10 @@ public class StreamerTest extends SocksoTestCase {
         final int trackId = 123;
 
         Track.Builder builder = new Track.Builder();
-        builder.artist(null)
-                .album(null)
-                .genre(null)
-                .id(trackId)
+        builder.id(trackId)
                 .name("")
                 .number(1)
-                .path("")
-                .dateAdded(null);
+                .path("");
         final Track track = builder.build();
         
         final PreparedStatement st = createMock( PreparedStatement.class );
@@ -144,25 +141,6 @@ public class StreamerTest extends SocksoTestCase {
         
     }
 
-    public void testPlayMusicStream() throws IOException {
-        
-        final Response res = createMock( Response.class );
-        expect( res.getOutputStream() ).andReturn( null ).times( 1 );
-        replay( res );
-        
-        final MusicStream ms = new MusicStream( new DataInputStream(TestUtils.getInputStream("QWE")), "" );
-        
-        final Streamer s = new Streamer();
-        s.setResponse( res );
-
-        final Artist artist = new Artist( -1, "" );
-
-        assertTrue( s.playMusicStream(ms) );
-        
-        verify( res );
-        
-    }
-
     public void testGettingAValidTrackDoesntThrowAnException() throws SQLException, IOException {
         
         final TestRequest req = new TestRequest( "GET /stream/1 HTTP/1.1" );
@@ -196,37 +174,5 @@ public class StreamerTest extends SocksoTestCase {
         assertTrue( gotException );
         
     }
-    
-    public void testSendTrackHeaders() {
-        
-        final Response res = createMock( Response.class );
-        res.addHeader( matches("Content-Type"), (String) anyObject() );
-        res.addHeader( matches("Content-Length"), (String) anyObject() );
-        res.addHeader( matches("Content-Disposition"), (String) anyObject() );
-        res.sendHeaders();
-        replay( res );
 
-        final Artist artist = new Artist( -1, "" );
-        
-        Track.Builder builder = new Track.Builder();
-        builder.artist(artist)
-                .album(null)
-                .genre(null)
-                .id(-1)
-                .name("")
-                .number(-1)
-                .path("")
-                .dateAdded(null);
-        final Track track = builder.build();
-
-        final Streamer s = new Streamer();
-        final String mimeType = "foo/bar";
-        
-        s.setResponse( res );
-        s.sendTrackHeaders( track, mimeType );
-        
-        verify( res );
-        
-    }
-    
 }

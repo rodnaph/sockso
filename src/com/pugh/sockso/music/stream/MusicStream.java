@@ -1,5 +1,5 @@
 
-package com.pugh.sockso.web.action;
+package com.pugh.sockso.music.stream;
 
 import com.pugh.sockso.web.Response;
 
