@@ -56,17 +56,17 @@ public class BaseIndexerTest extends SocksoTestCase implements IndexListener {
         final Date hasChange = new Date( exists.lastModified() - 1000 );
 
         indexEvent = null;
-        assertFalse( indexer.checkModified( exists, noChange ) );
+        assertFalse( indexer.checkModified( exists, 1, noChange, Indexer.ScanFilter.MODIFICATION_DATE ) );
         assertNull( indexEvent );
 
         indexEvent = null;
-        assertTrue( indexer.checkModified( exists, hasChange ) );
+        assertTrue( indexer.checkModified( exists, 134, hasChange, Indexer.ScanFilter.MODIFICATION_DATE ) );
         assertNotNull( indexEvent );
         assertEquals( indexEvent.getType(), IndexEvent.Type.CHANGED );
         assertEquals( indexEvent.getFileId(), 134 );
 
         indexEvent = null;
-        assertTrue( indexer.checkModified( exists, hasChange ) );
+        assertTrue( indexer.checkModified( exists, 143, hasChange, Indexer.ScanFilter.MODIFICATION_DATE ) );
         assertNotNull( indexEvent );
         assertEquals( indexEvent.getType(), IndexEvent.Type.CHANGED );
         assertEquals( indexEvent.getFileId(), 143 );

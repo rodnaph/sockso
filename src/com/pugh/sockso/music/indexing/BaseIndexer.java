@@ -195,17 +195,7 @@ public abstract class BaseIndexer implements Indexer {
 
                 if ( checkExists(file, id) ) {
 
-                    boolean changed = false;
-
-                    if ( ScanFilter.MODIFICATION_DATE.equals(filter) ) {
-                        changed = checkModified(file, rs.getDate("index_last_modified"));
-                    }
-                    else if ( ScanFilter.NONE.equals(filter) ) {
-                        changed = true;
-                    }
-
-                    if ( changed ) {
-                        fireIndexEvent(new IndexEvent(IndexEvent.Type.CHANGED, id, file));
+                    if ( checkModified( file, id, rs.getDate("index_last_modified"), filter ) ) {
                         markFileModified(id, rs.getInt("index_id"));
                     }
 
@@ -430,9 +420,21 @@ public abstract class BaseIndexer implements Indexer {
      * 
      */
 
-    protected boolean checkModified( final File file, final Date lastModified ) {
-        
-        return ( lastModified == null || lastModified.getTime() < file.lastModified() );
+    protected boolean checkModified( final File file, final int id, final Date lastModified, final ScanFilter filter ) {
+
+        boolean changed = false;
+
+        if ( ScanFilter.MODIFICATION_DATE.equals(filter) ) {
+            changed = (lastModified == null || lastModified.getTime() < file.lastModified());
+        } else if ( ScanFilter.NONE.equals(filter) ) {
+            changed = true;
+        }
+
+        if ( changed ) {
+            fireIndexEvent(new IndexEvent(IndexEvent.Type.CHANGED, id, file));
+        }
+
+        return changed;
 
     }
 
