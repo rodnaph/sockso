@@ -79,8 +79,17 @@ public class LatesterTest extends SocksoTestCase {
         final List<Album> albums = new ArrayList<Album>();
         final Artist artist = new Artist( 1, "my artist" );
         final Album album = new Album( artist, 1, "my album", "year" );
-        final Track track = new Track( artist, null, 1, "my track", "", 1, null );
 
+        Track.Builder builder = new Track.Builder();
+        builder.artist(artist)
+                .album(null)
+                .genre(null)
+                .id(1)
+                .name("my track")
+                .number(1)
+                .path("")
+                .dateAdded(null);
+        final Track track = builder.build();
         tracks.add( track );
         artists.add( artist );
         albums.add( album );

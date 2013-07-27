@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import junit.framework.TestCase;
 
@@ -34,10 +35,11 @@ public class SocksoTestCase extends TestCase {
     public void assertTableSize( final Database db, final String table, final int size ) throws SQLException {
 
         ResultSet rs = null;
+        Statement st = null;
 
         try {
-
-            rs = db.query( " select count(*) as total from " +table );
+            st = db.getConnection().createStatement();
+            rs = st.executeQuery(" select count(*) as total from " +table );
 
             assertTrue( rs.next() );
             assertEquals( size, rs.getInt("total") );
@@ -45,8 +47,8 @@ public class SocksoTestCase extends TestCase {
         }
 
         finally {
-            try { rs.close(); }
-            catch ( SQLException e ) {}
+            Utils.close( rs );
+            Utils.close( st );
         }
 
     }
@@ -129,7 +131,8 @@ public class SocksoTestCase extends TestCase {
     private int getRowCount( final Database db, final String table, final String column, final String value ) throws SQLException {
 
         ResultSet rs = null;
-        
+        Statement st = null;
+
         try {
 
             final String columnValue = value.matches( "^\\d+$" )
@@ -138,8 +141,8 @@ public class SocksoTestCase extends TestCase {
             final String sql = " select count(*) as total " +
                                " from " +table+ " " +
                                " where " +column+ " = " +columnValue+ " ";
-
-            rs = db.query( sql );
+            st = db.getConnection().createStatement();
+            rs = st.executeQuery(sql );
             
             if ( !rs.next() ) {
                 fail( "Query failed: " + sql );
@@ -150,8 +153,8 @@ public class SocksoTestCase extends TestCase {
         }
         
         finally {
-            try { rs.close(); }
-            catch ( final SQLException e ) {}
+            Utils.close( rs );
+            Utils.close( st );
         }
         
     }

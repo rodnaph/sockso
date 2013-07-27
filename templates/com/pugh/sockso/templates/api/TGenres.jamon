@@ -1,0 +1,27 @@
+
+<%import>
+    com.pugh.sockso.music.Genre;
+    com.pugh.sockso.JsonUtils;
+</%import>
+
+<%args>
+    Genre[] genres = null;
+</%args>
+
+<%java>
+    boolean isFirst = true;
+</%java>
+
+[
+    <%for Genre genre : genres %>
+
+        <%if !isFirst %>,</%if>
+        <%java>isFirst = false;</%java>
+
+        {
+            "id": <% genre.getId() %>,
+            "name": <% JsonUtils.string(genre.getName()) #n %>
+        }
+
+    </%for>
+]

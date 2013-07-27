@@ -15,6 +15,7 @@ import com.pugh.sockso.web.action.api.ArtistAction;
 import com.pugh.sockso.web.action.api.ArtistRelatedAction;
 import com.pugh.sockso.web.action.api.ArtistTracksAction;
 import com.pugh.sockso.web.action.api.ArtistsAction;
+import com.pugh.sockso.web.action.api.GenresAction;
 import com.pugh.sockso.web.action.api.PlaylistAction;
 import com.pugh.sockso.web.action.api.PlaylistsAction;
 import com.pugh.sockso.web.action.api.RootAction;
@@ -210,8 +211,10 @@ public class Api extends BaseAction {
             
             AlbumAction.class,
             AlbumsAction.class,
-            AlbumTracksAction.class
+            AlbumTracksAction.class,
 
+            // genres
+            GenresAction.class
         };
 
     }

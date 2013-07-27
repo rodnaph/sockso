@@ -68,6 +68,13 @@ public interface Tag {
     public String getAlbumYear();
 
     /**
+     * returns the genre
+     *
+     * @return
+     */
+    public String getGenre();
+
+    /**
      * returns the cover art
      *
      * @return

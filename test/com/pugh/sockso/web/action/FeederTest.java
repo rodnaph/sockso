@@ -12,6 +12,7 @@ package com.pugh.sockso.web.action;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestResponse;
@@ -29,7 +30,19 @@ public class FeederTest extends SocksoTestCase {
         
         final Artist artist = new Artist( 1, "artistFoo" );
         final Album album = new Album( artist, 2, "albumBar", "year");
-        final Track track = new Track( artist, album, 3, "track name", "/path", 1, new Date() );
+        final Genre genre = new Genre( 3, "genreBaz" );
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist( artist )
+                .album( album )
+                .genre( genre )
+                .id(3)
+                .name("track name")
+                .number(1)
+                .path("/path")
+                .dateAdded(new Date());
+        final Track track = builder.build();
+
         final List<Track> tracks = new ArrayList<Track>();
         final Server sv = createNiceMock( Server.class );
         final TestResponse res = new TestResponse();

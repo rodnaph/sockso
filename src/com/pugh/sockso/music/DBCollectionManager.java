@@ -81,7 +81,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                     break;
 
                 case COMPLETE:
-                    removeEmptyArtistsAndAlbums();
+                    removeOrphans();
                     fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Collection Updated!" );
                     break;
 
@@ -151,14 +151,20 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         final Tag tag = AudioTag.getTag( file );
 
-        log.debug( tag.getArtist() + " - " + tag.getAlbum() + " - " + tag.getAlbumYear() + " - " + tag.getTrack() );
+        log.debug( tag.getArtist() + " - "
+                 + tag.getAlbum() + " - "
+                 + tag.getAlbumYear() + " - "
+                 + tag.getTrack() + " - "
+                 + tag.getGenre() );
 
         final int artistId = addArtist( tag.getArtist() );
         final int albumId  = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
-        final int trackId  = addTrack( artistId, albumId, tag.getTrack(), tag.getTrackNumber(), file, collectionId );
+        final int genreId  = addGenre( tag.getGenre() );
+        final int trackId  = addTrack( artistId, albumId, tag.getTrack(),
+                tag.getTrackNumber(), file, collectionId, genreId );
 
         if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) ) {
-            
+
             final BufferedImage coverArt = tag.getCoverArt();
             
             if ( coverArt != null ) {
@@ -251,10 +257,10 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      */
     
     protected void checkAlbumTagInfo( final int artistId, final Tag tag, final Track track ) throws SQLException {
-        
+
         // need to ignore case because that's how the DB does it
-        if ( !track.getAlbum().getName().toLowerCase().equals(tag.getAlbum().toLowerCase()) ||
-             !track.getAlbum().getYear().toLowerCase().equals(tag.getAlbumYear().toLowerCase()) ) {
+        if ( !track.getAlbum().getName().equalsIgnoreCase(tag.getAlbum()) ||
+             !track.getAlbum().getYear().equalsIgnoreCase(tag.getAlbumYear()) ) {
 
             ResultSet rs = null;
             PreparedStatement st = null;
@@ -314,23 +320,25 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     }
 
     /**
-     *  checks if the artist information has changed, if it has the the database
-     *  is updated, and the new artist id returned (otherwise the artist id that's
-     *  returned will be the one from the track that hasn't changed)
-     * 
+     *  Checks if the artist information has changed.
+     *  If it has changed, then the database is updated and the new artist id is
+     *  returned.
+     *  Otherwise, the artist id that's returned will be the one from the track
+     *  that hasn't changed.
+     *
      *  @param tag
      *  @param track
      * 
      *  @return
      * 
      *  @throws java.sql.SQLException
-     * 
+     *
      */
-    
-    protected int checkArtistTagInfo( final Tag tag, final Track track) throws SQLException {
+
+    protected int checkArtistTagInfo( final Tag tag, final Track track ) throws SQLException {
 
         // need to ignore case because that's how the DB does it
-        if ( !track.getArtist().getName().toLowerCase().equals(tag.getArtist().toLowerCase()) ) {
+        if ( !track.getArtist().getName().equalsIgnoreCase(tag.getArtist()) ) {
 
             PreparedStatement st = null;
             ResultSet rs = null;
@@ -444,26 +452,26 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *  @throws java.sql.SQLException
      * 
      */
-    
+
     protected void checkTrackTagInfo( final Tag tag, final Track track ) throws SQLException {
 
         if ( !track.getName().equals(tag.getTrack()) || (track.getNumber() != tag.getTrackNumber()) ) {
-            
+
             PreparedStatement st = null;
-            
+
             try {
-                            
+
                 final String sql = " update tracks " +
                                    " set name = ?, " +
                                        " track_no = ? " +
                                    " where id = ? ";
-                
+
                 st = db.prepare( sql );
                 st.setString( 1, tag.getTrack() );
                 st.setInt( 2, tag.getTrackNumber() );
                 st.setInt( 3, track.getId() );
                 st.execute();
-                
+
             }
             
             finally {
@@ -473,7 +481,67 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         }
 
     }
+
+    /**
+     * checks the genre's tag has changed and updates the database with the
+     * new information if it has.
+     *
+     * @param tag
+     * @param track
+     *
+     * @throws java.sql.SQLException
+     *
+     */
     
+    private void checkGenreTagInfo( final Tag tag, final Track track ) throws SQLException {
+
+        final String genre = ( track.getGenre() == null ? null : track.getGenre().getName() );
+
+        if ( !tag.getGenre().equalsIgnoreCase(genre) ) {
+
+            PreparedStatement st = null;
+            ResultSet rs = null;
+
+            try {
+
+                // if the genre has changed, first try and fetch the genre
+                // of this new name to tag track to...
+                String sql = " select id " +
+                             " from genres " +
+                             " where name = ? ";
+
+                st = db.prepare( sql );
+                st.setString( 1, tag.getGenre() );
+                rs = st.executeQuery();
+
+                final int newGenreId = rs.next()
+                    ? rs.getInt("id")
+                    : addGenre(tag.getGenre());
+
+                Utils.close( rs );
+                Utils.close( st );
+
+                // then update the track with the new genre
+                sql = " update tracks " +
+                      " set genre_id = ? " +
+                      " where id = ? ";
+
+                st = db.prepare( sql );
+                st.setInt( 1, newGenreId );
+                st.setInt( 2, track.getId() );
+                st.execute();
+
+            }
+
+            finally {
+                Utils.close( rs );
+                Utils.close( st );
+            }
+
+        }
+
+    }
+
     /**
      *  checks that a track is up to date with the tag information of it's
      *  file on disk (it may have been edited between updates to the collection)
@@ -496,9 +564,12 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             // artist id, otherwise we'll get the same one as the track is
             // assigned to when we passed in
             final int artistId = checkArtistTagInfo( tag, track );
-            
+
             // has album info changed?
             checkAlbumTagInfo( artistId, tag, track );
+
+            // has the genre info changed?
+            checkGenreTagInfo( tag, track );
 
         }
 
@@ -521,7 +592,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     protected String getArtistBrowseName( final String[] prefixes, final String name ) {
 
         for ( final String prefix : prefixes ) {
-            if ( name.substring(0,prefix.length()).toLowerCase().equals(prefix.toLowerCase()) ) {
+            if ( name.substring(0,prefix.length()).equalsIgnoreCase(prefix) ) {
                 return name.substring( prefix.length() );
             }
         }
@@ -550,15 +621,13 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *  @param trackId the track id to remove
      * 
      */
-    
+
     protected void removeTrack( final int trackId ) throws SQLException {
-        
-        String sql = "";
-        
-        sql = " delete from play_log " +
+
+        String sql = " delete from play_log " +
                 " where track_id = '" +trackId+ "' ";
         db.update( sql );
-        
+
         sql = " delete from playlist_tracks " +
                 " where track_id = '" +trackId+ "' ";
         db.update( sql );
@@ -664,9 +733,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             int collectionId = addDirectoryToDb( dir );
 
             indexer.scanDirectory( collectionId, dir );
-            
-            removeEmptyArtistsAndAlbums();
-            
+
+            removeOrphans();
+
             fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Update Finished" );
 
             return collectionId;
@@ -687,12 +756,13 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *  exist) and returns its id
      *
      */
-    
+
     private int addArtist( String name ) {
 
-        if ( name.equals("") )
+        if ( name.equals("") ) {
             name = "Unknown Artist";
-        
+        }
+
         ResultSet rs = null;
         PreparedStatement st = null;
 
@@ -751,11 +821,12 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      *  exist) and returns its id
      *
      */
-    
+
     private int addAlbum( final int artistId, String name, String year ) {
 
-        if ( name.equals("") )
+        if ( name.equals("") ) {
             name = "Unknown Album";
+        }
 
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -811,13 +882,76 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     }
 
+
+    /**
+     *  adds a genre to the collection (if it doesn't already
+     *  exist) and returns its id
+     *
+     */
+
+    private int addGenre( String name ) {
+
+        if ( name.equals("") ) {
+            name = "Unknown Genre";
+        }
+
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
+        try {
+
+            try {
+
+                st = db.prepare(
+                    " insert into genres ( name ) " +
+                    " values ( ? ) "
+                );
+                st.setString( 1, name );
+                st.execute();
+
+                log.debug( "Added Genre: " + name );
+
+            }
+            catch (Exception e) {}
+            finally {
+                Utils.close( st );
+            }
+
+            st = db.prepare(
+                " select id " +
+                " from genres " +
+                " where name = ? "
+            );
+            st.setString( 1, name );
+            rs = st.executeQuery();
+
+            if ( rs.next() ) {
+                fireCollectionManagerEvent( CollectionManagerListener.GENRE_ADDED, name );
+                return rs.getInt( "id" );
+            }
+        }
+
+        catch ( final Exception e ) {
+            log.error( "Error Adding Genre: " + e );
+        }
+
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
+
+        return -1;
+
+    }
+
     /**
      *  adds a track to the collection (if it doesn't already
      *  exist) and returns its id
      *
      */
-    
-    private int addTrack( final int artistId, final int albumId, String name, final int trackNo, final File file, final int collectionId ) {
+
+    private int addTrack( final int artistId, final int albumId, String name,
+            final int trackNo, final File file, final int collectionId, final int genreId ) {
 
         if ( name.equals("") )
             name = "Unknown Track (" + trackNo + ")";
@@ -830,9 +964,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             try {
 
                 final String sql = " insert into tracks ( artist_id, album_id, name, path, " +
-                        " length, collection_id, date_added, track_no ) " +
-                    " values ( ?, ?, ?, ?, 100, ?, current_timestamp, ? ) ";
-                
+                                   " length, collection_id, date_added, track_no, genre_id ) " +
+                                   " values ( ?, ?, ?, ?, 100, ?, current_timestamp, ?, ? ) ";
+
                 st = db.prepare( sql );
                 st.setInt( 1, artistId );
                 st.setInt( 2, albumId );
@@ -840,8 +974,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                 st.setString( 4, file.getAbsolutePath() );
                 st.setInt( 5, collectionId );
                 st.setInt( 6, trackNo );
+                st.setInt( 7, genreId);
                 st.execute();
-                
+
                 log.debug( "Added Track: " + name );
 
             }
@@ -899,8 +1034,8 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
             // first we need to get the collection id
             String sql = " select id " +
-                        " from collection c " +
-                        " where path = ? ";
+                         " from collection c " +
+                         " where path = ? ";
             st = db.prepare( sql );
             st.setString( 1, Utils.getPathWithSlash(path) );
             rs = st.executeQuery();
@@ -951,16 +1086,15 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                 st = db.prepare( sql );
                 st.setInt( 1, collectionId );
                 st.execute();
-                
+
                 Utils.close( st );
 
-                removeEmptyArtistsAndAlbums();
+                removeOrphans();
                 fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Directory Removed" );
-                
+
                 return true;
 
-            }
-            
+            }            
             
         }
         
@@ -976,34 +1110,76 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         return false;
         
     }
-    
+
     /**
-     *  removes any artists and albums from the collection that don't
-     *  have any tracks associated with them
-     * 
-     *  @throws SQLException
-     * 
+     * Clean up unreferenced artists, albums, genres from database
+     *
+     * @throws SQLException
      */
-    
-    protected void removeEmptyArtistsAndAlbums() throws SQLException {
-                
-        String sql = null;
+    protected void removeOrphans() throws SQLException {
+
+        removeOrphanedArtists();
+        removeOrphanedAlbums();
+        removeOrphanedGenres();
+
+    }
+
+    /**
+     *  removes any artists from the collection that don't
+     *  have any tracks associated with them
+     *
+     *  @throws SQLException
+     *
+     */
+
+    protected void removeOrphanedArtists() throws SQLException {
 
         // remove any artists left without tracks
-        sql = " delete from artists " +
-                " where id not in ( select artist_id " +
-                                    " from tracks ) ";
+        String sql = " delete from artists " +
+                     " where id not in ( select artist_id " +
+                                       " from tracks ) ";
         db.update( sql );
+
+    }
+
+    /**
+     *  removes any albums from the collection that don't
+     *  have any tracks associated with them
+     *
+     *  @throws SQLException
+     *
+     */
+
+    protected void removeOrphanedAlbums() throws SQLException {
+
         // remove any albums left without tracks
-        sql = " delete from albums " +
-                " where id not in ( select album_id " +
-                                    " from tracks ) ";                
+        String sql = " delete from albums " +
+                     " where id not in ( select album_id " +
+                                       " from tracks ) ";
+        db.update( sql );
+
+    }
+
+    /**
+     *  removes any albums from the collection that don't
+     *  have any tracks associated with them
+     *
+     *  @throws SQLException
+     *
+     */
+
+    protected void removeOrphanedGenres() throws SQLException {
+
+        // remove any genres left without tracks
+        String sql = " delete from genres " +
+                     " where id not in ( select genre_id " +
+                                       " from tracks ) ";
         db.update( sql );
 
     }
 
     public int savePlaylist( final String name, final Track[] tracks ) {
-        
+
         return savePlaylist( name, tracks, null );
         
     }

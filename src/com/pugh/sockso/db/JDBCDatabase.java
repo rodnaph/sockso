@@ -18,52 +18,7 @@ import org.apache.log4j.Logger;
 public abstract class JDBCDatabase extends AbstractDatabase implements Database {
 
     private static final Logger log = Logger.getLogger( JDBCDatabase.class );
-    
-    /**
-     *  queries the db
-     * 
-     */
-    
-    public ResultSet query( final String sql ) throws SQLException {
-        
-        return query( sql, true );
-        
-    }
-    
-    /**
-     *  performs a query to fetch a ResultSet, and closes the statement object
-     *  if we've been told to do so
-     * 
-     *  @param sql
-     *  @param closeStatement
-     * 
-     *  @return
-     * 
-     *  @throws java.sql.SQLException
-     * 
-     */
-    
-    protected ResultSet query( final String sql, final boolean closeStatement ) throws SQLException {
-        
-        Statement st = null;
-        ResultSet rs = null;
-        
-        log.debug( sql );
-        
-        try {
-            st = getConnection().createStatement();
-            rs = st.executeQuery( sql );
-        }
-        
-        finally {
-            if ( closeStatement ) {
-                Utils.close( st );
-            }
-        }
-        
-        return rs;
-        
-    }
+
     
     /**
      *  updates the db
@@ -93,7 +48,7 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
     }
 
     /**
-     * Execute an sql statement and supress any exceptions
+     * Execute a SQL statement and suppress any exceptions
      *
      * @param sql
      *
@@ -220,7 +175,6 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
     protected boolean updateProperty( final String name, final String value ) throws SQLException {
 
         PreparedStatement st = null;
-        ResultSet rs = null;
         
         try {
         
@@ -237,7 +191,6 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         }
         
         finally {
-            Utils.close( rs );
             Utils.close( st );
         }
         
@@ -258,7 +211,6 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
     protected boolean createProperty( final String name, final String value ) throws SQLException {
         
         PreparedStatement st = null;
-        ResultSet rs = null;
         
         try {
         
@@ -274,7 +226,6 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         }
         
         finally {
-            Utils.close( rs );
             Utils.close( st );
         }
         
@@ -332,26 +283,18 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
 
     }
 
+
     /**
      * Creates the users.is_active column if it doesn't exist
      *
      */
     protected void checkUserIsActiveColumnExists() {
 
-        try {
+        final String sql = " alter table users " +
+                           " add is_active char(1) default '1' not null ";
 
-            final String sql = " alter table users " +
-                               " add is_active char(1) default '1' not null ";
-
-            update( sql );
-            
-        }
-
-        catch ( final SQLException e ) {
-            log.info( e.getMessage() );
-        }
+        safeUpdate(sql);
 
     }
-
 
 }

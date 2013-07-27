@@ -25,6 +25,7 @@ public class Track extends MusicItem {
     
     private final Artist artist;
     private final Album album;
+    private final Genre genre;
     private final String path;
     private final int number;
     private final Date dateAdded;
@@ -34,27 +35,84 @@ public class Track extends MusicItem {
     /**
      *  constructor
      * 
-     *  @param artist
-     *  @param album
-     *  @param id
-     *  @param name
-     *  @param path
-     *  @param number
+     *  @param Builder builder
      * 
      */
-    
-    public Track( final Artist artist, final Album album, final int id, final String name,
-                  final String path, final int number, final Date dateAdded ) {
-        super( MusicItem.TRACK, id, name );
-        this.artist = artist;
-        this.album = album;
-        this.path = path;
-        this.number = number;
-        this.dateAdded = dateAdded;
+
+    public Track( Builder builder ) {
+        super(MusicItem.TRACK, builder.id, builder.name);
+
+        this.artist = builder.artist;
+        this.album = builder.album;
+        this.genre = builder.genre;
+        this.path = builder.path;
+        this.number = builder.number;
+        this.dateAdded = builder.dateAdded;
     }
+
+
+    public static class Builder {
+
+        private int id;
+        private String name;
+        private Artist artist;
+        private Album album;
+        private Genre genre;
+        private String path;
+        private int number;
+        private Date dateAdded;
+        // private int playCount = 0;
+
+        public Builder artist( Artist artist ) {
+            this.artist = artist;
+            return this;
+        }
+
+        public Builder album( Album album ) {
+            this.album = album;
+            return this;
+        }
+
+        public Builder genre( Genre genre ) {
+            this.genre = genre;
+            return this;
+        }
+
+        public Builder path( String path ) {
+            this.path = path;
+            return this;
+        }
+
+        public Builder number( int number ) {
+            this.number = number;
+            return this;
+        }
+
+        public Builder dateAdded( Date dateAdded ) {
+            this.dateAdded = dateAdded;
+            return this;
+        }
+
+        public Builder id( int id ) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name( String name ) {
+            this.name = name;
+            return this;
+        }
+
+        public Track build() {
+            return new Track(this);
+        }
+
+    }
+
 
     public Artist getArtist() { return artist; }
     public Album getAlbum() { return album; }
+    public Genre getGenre() { return genre; }
     public String getPath() { return path; }
     public int getNumber() { return number; }
     public int getPlayCount() { return playCount; }
@@ -77,13 +135,20 @@ public class Track extends MusicItem {
     public static Track createFromResultSet( final ResultSet rs ) throws SQLException {
 
         final Artist artist = new Artist( rs.getInt("artistId"), rs.getString("artistName") );
+        final Album album   = new Album( artist, rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear") );
+        final Genre genre   = new Genre( rs.getInt("genreId"), rs.getString("genreName") );
 
-        return new Track(
-            artist, new Album( artist, rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear") ),
-            rs.getInt("trackId"), rs.getString("trackName"), rs.getString("trackPath"),
-            rs.getInt("trackNo"), rs.getDate("dateAdded")
-        );
+        final Builder builder = new Track.Builder();
+        builder.artist(artist)
+                .album(album)
+                .genre(genre)
+                .id(rs.getInt("trackId"))
+                .name(rs.getString("trackName"))
+                .path(rs.getString("trackPath"))
+                .number(rs.getInt("trackNo"))
+                .dateAdded(rs.getDate("dateAdded"));
 
+        return builder.build();
     }
 
     /**
@@ -119,7 +184,8 @@ public class Track extends MusicItem {
         return " select ar.id as artistId, ar.name as artistName, " +
                " al.id as albumId, al.name as albumName, al.year as albumYear, " +
                " t.id as trackId, t.name as trackName, t.path as trackPath, " +
-               " t.track_no as trackNo, t.date_added as dateAdded ";
+               " t.track_no as trackNo, t.date_added as dateAdded, " +
+               " g.id as genreId, g.name as genreName";
     }
 
     /**
@@ -136,7 +202,9 @@ public class Track extends MusicItem {
                             " inner join artists ar " +
                             " on ar.id = t.artist_id " +
                             " inner join albums al " +
-                            " on al.id = t.album_id ";
+                            " on al.id = t.album_id " +
+                            " inner join genres g " +
+                            " on g.id = t.genre_id ";
     }
     
     /**
@@ -309,8 +377,8 @@ public class Track extends MusicItem {
                                     removeSpecialChars( getName() );
         
         final String sessionArgs =
-            p.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(p.YES)
-                && p.get(Constants.STREAM_REQUIRE_LOGIN).equals(p.YES)
+            p.get(Constants.WWW_USERS_REQUIRE_LOGIN).equals(Properties.YES)
+                && p.get(Constants.STREAM_REQUIRE_LOGIN).equals(Properties.YES)
                 && user != null
             ? "?sessionId=" +user.getSessionId()+ "&sessionCode=" +user.getSessionCode()
             : "";

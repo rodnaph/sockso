@@ -50,12 +50,13 @@ public class WmaTag extends AudioTag {
     public String getArtist() { return notnull(_artist); }
     @Override
     public String getTrack() { return notnull(_title); }
+    @Override
+    public String getGenre() { return notnull(_genre); }
     
     String getTitle() { return _title; }
     String getYear() { return _year; }
     String getCopyright() { return _copyright; }
     String getRating() { return _rating; }
-    String getGenre() { return _genre; }
     String getComment() { return _comment; }
     int getBitrate() { return _bitrate; }
     int getLength() { return _length; }
@@ -560,7 +561,7 @@ public class WmaTag extends AudioTag {
         /** the title of the file */
         private static final String WM_TITLE = "WM/Title";
         
-        /** the author of the fiel */
+        /** the author of the file */
         private static final String WM_AUTHOR = "WM/Author";
         
         /** the title of the album the file is on */
