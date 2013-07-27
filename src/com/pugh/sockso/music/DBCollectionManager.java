@@ -81,7 +81,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
                     break;
 
                 case COMPLETE:
-                    removeEmptyArtistsAndAlbums();
+                    removeOrphans();
                     fireCollectionManagerEvent( CollectionManagerListener.UPDATE_COMPLETE, "Collection Updated!" );
                     break;
 
