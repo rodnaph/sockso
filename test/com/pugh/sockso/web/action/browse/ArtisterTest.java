@@ -97,6 +97,7 @@ public class ArtisterTest extends SocksoTestCase {
         
         final PreparedStatement st = createMock( PreparedStatement.class );
         st.setInt( 1, 123 );
+        st.setInt( 2, 123 );
         expect( st.executeQuery() ).andReturn( rs ).times( 1 );
         st.close();
         replay( st );

@@ -50,25 +50,29 @@ public class Mp3Tag extends AudioTag {
         ID3v24Tag v2tag  = f.getID3v2TagAsv24();
 
         artistTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_ARTIST );
-        albumTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_ALBUM );
         albumArtist = v2tag.getFirst( FieldKey.ALBUM_ARTIST );
-        trackTitle = v2tag.getFirst( ID3v24Frames.FRAME_ID_TITLE );
-        albumYear = v2tag.getFirst( ID3v24Frames.FRAME_ID_YEAR );
-        genre = v2tag.getFirst( ID3v24Frames.FRAME_ID_GENRE );
+        albumTitle  = v2tag.getFirst( ID3v24Frames.FRAME_ID_ALBUM );
+        trackTitle  = v2tag.getFirst( ID3v24Frames.FRAME_ID_TITLE );
+        albumYear   = v2tag.getFirst( ID3v24Frames.FRAME_ID_YEAR );
+        genre       = v2tag.getFirst( ID3v24Frames.FRAME_ID_GENRE );
+
         String trackN = v2tag.getFirst( ID3v24Frames.FRAME_ID_TRACK );
 
-        try {
-            trackNumber = Integer.parseInt( trackN );
-        } catch ( final NumberFormatException e ) {
-            log.warn("Could not parse track number: " + trackN, e);
+        if ( ! trackN.equals("") ) {
+            try {
+                trackNumber = Integer.parseInt(trackN);
+            } catch (final NumberFormatException e) {
+                log.warn("Could not parse track number: " + trackN, e);
+            }
         }
 
         Artwork artwork = v2tag.getFirstArtwork();
+
         if ( artwork != null ) {
             try {
                 coverArt = artwork.getImage();
             } catch (final IOException ioe) {
-                log.warn("Unable to extract cover art image: " + ioe.getMessage());
+                log.warn("Could not read cover art from tag", ioe);
             }
         }
 
@@ -80,25 +84,22 @@ public class Mp3Tag extends AudioTag {
 
         try {
 
-            if ( artistTitle.equals( "" ) )
-                artistTitle = tag.getArtist().get(0).toString();
-            if ( albumTitle.equals( "" ) )
-                albumTitle = tag.getAlbum().get(0).toString();
-            if ( trackTitle.equals( "" ) )
-                trackTitle = tag.getTitle().get(0).toString();
-            if ( albumYear.equals( "" ) )
-                albumYear = tag.getYear().get(0).toString();
-            if ( genre.equals( "" ) )
-                genre = tag.getGenre().get(0).toString();
-            if ( trackNumber == 0 ) {
-                    String trackN = tag.getTrack().get(0).toString();
-                    try {
-                    trackNumber = Integer.parseInt( trackN );
-                } catch ( final NumberFormatException e ) {
+            artistTitle = tag.getArtist().get(0).toString();
+            albumTitle  = tag.getAlbum().get(0).toString();
+            trackTitle  = tag.getTitle().get(0).toString();
+            albumYear   = tag.getYear().get(0).toString();
+            genre       = tag.getGenre().get(0).toString();
+
+            String trackN = tag.getTrack().get(0).toString();
+
+            if ( ! trackN.equals("") ) {
+                try {
+                    trackNumber = Integer.parseInt(trackN);
+                } catch (final NumberFormatException e) {
                     log.warn("Could not parse track number " + trackN, e);
                 }
             }
-
+        
         } catch ( final Exception e ) {}
 
     }
