@@ -37,7 +37,7 @@ import java.util.logging.LogManager;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
-public class Main {
+ public class Main {
 
     private static final Logger log = Logger.getLogger( Main.class );
 
@@ -76,10 +76,11 @@ public class Main {
 
         final OptionParser parser = Options.getParser();
         OptionSet options = null;
-        try { options = parser.parse(args); }
-            catch ( final Exception e ) {
-                System.err.println( "Invalid command line switch!\n" );
-            }
+        try {
+            options = parser.parse(args);
+        } catch ( final Exception e ) {
+            System.err.println( "Invalid command line switch!" );
+        }
 
         // check if user asked for basic things as early as we can, don't
         // wanna go doing anything we don't need to.
@@ -97,10 +98,6 @@ public class Main {
         // set a user-defined data directory?
         if ( options.hasArgument(Options.OPT_DATADIR) ) {
             final File dir = new File( (String) options.valueOf(Options.OPT_DATADIR) );
-            if ( !dir.exists() ) {
-                log.error( dir.getAbsolutePath()+ " does not exist" );
-                exit( 1 );
-            }
             Utils.setApplicationDirectory( dir );
         }
 
