@@ -7,6 +7,8 @@ artists:2,Empty Artist,now(),Empty Artist
 albums:1,1,A Album,now(),1984
 albums:2,1,Empty Album,now(),1985
 
-tracks:1,1,1,First Track,/music/folder/track.mp3,180,now(),1,1
-tracks:2,1,1,Second Track,/music/track.mp3,180,now(),1,1
-tracks:3,2,2,Third Track,/music/folder/track.mp3,180,now(),1,1
+genres:1,Hip-Hop
+
+tracks:1,1,1,First Track,/music/folder/track.mp3,180,now(),1,1,1
+tracks:2,1,1,Second Track,/music/track.mp3,180,now(),1,1,1
+tracks:3,2,2,Third Track,/music/folder/track.mp3,180,now(),1,1,1

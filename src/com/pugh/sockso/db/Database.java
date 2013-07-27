@@ -10,7 +10,6 @@
 package com.pugh.sockso.db;
 
 import java.sql.SQLException;
-import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -26,18 +25,6 @@ public interface Database {
      */
     
     public void connect( final OptionSet options ) throws DatabaseConnectionException;
-    
-    /**
-     *  performs a query on the database
-     * 
-     *  @param sql the sql for the query
-     *  @return the result of the query
-     * 
-     *  @throws SQLException
-     * 
-     */
-    
-    public ResultSet query( final String sql ) throws SQLException;
     
     /**
      *  performs an update on the database, and returns a boolean

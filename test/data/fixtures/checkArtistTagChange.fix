@@ -7,7 +7,9 @@ albums:1,1,My Album,1984,now()
 albums:2,1,The other album,1985,now()
 albums:3,2,Yet another album,1986,now()
 
-tracks:1,1,1,My Track1,/music/track1.mp3,180,now(),1,1
-tracks:2,1,2,My Track2,/music/track2.mp3,180,now(),1,1
-tracks:3,2,3,My Track3,/music/track3.mp3,180,now(),1,1
-tracks:4,2,3,My Track4,/music/track4.mp3,180,now(),1,1
+genres:1,Rock
+
+tracks:1,1,1,My Track1,/music/track1.mp3,180,now(),1,1,1
+tracks:2,1,2,My Track2,/music/track2.mp3,180,now(),1,1,1
+tracks:3,2,3,My Track3,/music/track3.mp3,180,now(),1,1,1
+tracks:4,2,3,My Track4,/music/track4.mp3,180,now(),1,1,1

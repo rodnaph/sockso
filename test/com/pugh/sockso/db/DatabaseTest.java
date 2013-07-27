@@ -15,6 +15,7 @@ import com.pugh.sockso.tests.SocksoTestCase;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,7 +76,9 @@ public class DatabaseTest extends SocksoTestCase {
         
         doTableTest( "albums", new String[] { "id", "artist_id", "name", "year", "date_added" }, db );
 
-        doTableTest( "tracks", new String[] { "id", "artist_id", "album_id", "name", "path", "length", "date_added", "collection_id", "track_no" }, db );
+        doTableTest( "genres", new String[] { "id", "name" }, db );
+
+        doTableTest( "tracks", new String[] { "id", "artist_id", "album_id", "name", "path", "length", "date_added", "collection_id", "track_no", "genre_id" }, db );
 
         doTableTest( "properties", new String[] { "id", "name", "value" }, db );
 
@@ -98,12 +101,16 @@ public class DatabaseTest extends SocksoTestCase {
     }
     
     private void doTableTest( final String tableName, final String[] fields, final Database db ) {
-        
+
+        Statement st = null;
+        ResultSet rs = null;
+
         try {
             
             final String sql = " select * " +
                                " from " + tableName;
-            final ResultSet rs = db.query( sql );
+            st = db.getConnection().createStatement();
+            rs = st.executeQuery(sql );
             final ResultSetMetaData meta = rs.getMetaData();
             
             assertEquals( meta.getColumnCount(), fields.length );
@@ -122,6 +129,10 @@ public class DatabaseTest extends SocksoTestCase {
         
         catch ( final SQLException e ) {
             fail( e.getMessage() );
+        }
+        finally {
+            Utils.close( st );
+            Utils.close( rs );
         }
                 
     }
@@ -142,19 +153,22 @@ public class DatabaseTest extends SocksoTestCase {
                         " from properties p " +
                         " where p.name = '" + db.escape(name) + "' ";
         ResultSet rs = null;
+        Statement st = null;
         try {
-            rs = db.query( sql );
+            st = db.getConnection().createStatement();
+            rs = st.executeQuery(sql );
+            final ResultSetMetaData meta = rs.getMetaData();
             if ( !rs.next() )
                 fail( "expected property '" + name + "' not found" );
             if ( !rs.getString("value").equals(value) )
                 fail( "expected property value not found ('" + value + "' != '" + rs.getString("value") + "')" );
-            return;
         }
         catch ( SQLException e ) {
             fail( e.getMessage() );
         }
         finally {
             Utils.close( rs );
+            Utils.close( st );
         }
     }
     

@@ -4,6 +4,7 @@ package com.pugh.sockso.web.action.browse;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
@@ -152,8 +153,18 @@ public class AlbumerTest extends SocksoTestCase {
         final List<Track> tracks = new ArrayList<Track>();
         final Artist artist = new Artist( 1, "my artist", new Date(), 1, 1 );
         final Album album = new Album( artist, 1, "foo", "year", new Date(), 1, 1 );
-        final Track track = new Track( artist, album, 1, "myTrack", "", 1, null );
+        final Genre genre = new Genre( 1, "myGenre" );
 
+        Track.Builder builder = new Track.Builder();
+        builder.artist(artist)
+                .album(album)
+                .genre(genre)
+                .id(1)
+                .name("myTrack")
+                .number(1)
+                .path("")
+                .dateAdded(null);
+        final Track track = builder.build();
         tracks.add( track );
         
         b.setResponse( res );

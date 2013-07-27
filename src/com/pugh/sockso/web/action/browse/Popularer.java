@@ -88,10 +88,12 @@ public class Popularer extends BaseAction {
                             " on ar.id = t.artist_id " +
                             " inner join albums al " +
                             " on al.id = t.album_id " +
+                            " inner join genres g " +
+                            " on g.id = t.genre_id " +
                             " left outer join play_log l " +
                             " on l.track_id = t.id " +
                         " group by artistId, artistName, albumId, albumName, albumYear, trackId, " +
-                            " trackName, trackPath, trackNo, dateAdded " +
+                            " trackName, trackPath, trackNo, genreId, genreName, dateAdded " +
                         " having count(l.id) > 0 " +
                         " order by count(l.id) desc " +
                         " limit ? ";

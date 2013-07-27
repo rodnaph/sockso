@@ -4,6 +4,7 @@ package com.pugh.sockso.web.action;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
@@ -163,7 +164,18 @@ public class HomerTest extends SocksoTestCase {
 
         final Artist artist = new Artist( 1, "my ARtiST" );
         final Album album = new Album( artist, 1, "MY alBBuuMM", "year" );
-        final Track track = new Track( artist, album, 1, "TRRRAck", "", 1, null );
+        final Genre genre = new Genre( 3, "my geNRE" );
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist( artist )
+                .album( album )
+                .genre( genre )
+                .id(1)
+                .name("TRRRAck")
+                .number(1)
+                .path("")
+                .dateAdded(null);
+        final Track track = builder.build();
         
         recentlyPlayedTracks.add( track );
         recentlyPlayedAlbums.add( album );

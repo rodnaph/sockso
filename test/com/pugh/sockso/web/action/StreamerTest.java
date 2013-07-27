@@ -46,7 +46,17 @@ public class StreamerTest extends SocksoTestCase {
     public void testLogTrackPlayed() throws SQLException {
         
         final int trackId = 123;
-        final Track track = new Track( null, null, trackId, "", "", 1, new Date() );
+
+        Track.Builder builder = new Track.Builder();
+        builder.artist(null)
+                .album(null)
+                .genre(null)
+                .id(trackId)
+                .name("")
+                .number(1)
+                .path("")
+                .dateAdded(null);
+        final Track track = builder.build();
         
         final PreparedStatement st = createMock( PreparedStatement.class );
         st.setInt( 1, trackId );
@@ -74,7 +84,17 @@ public class StreamerTest extends SocksoTestCase {
         final User user = new User( 1, "foo" );
         
         final int trackId = 123;
-        final Track track = new Track( null, null, trackId, "", "", 1, new Date() );
+        
+        Track.Builder builder = new Track.Builder();
+        builder.artist(null)
+                .album(null)
+                .genre(null)
+                .id(trackId)
+                .name("")
+                .number(1)
+                .path("")
+                .dateAdded(null);
+        final Track track = builder.build();
         
         final PreparedStatement st = createMock( PreparedStatement.class );
         st.setInt( 1, trackId );
@@ -185,10 +205,21 @@ public class StreamerTest extends SocksoTestCase {
         res.addHeader( matches("Content-Disposition"), (String) anyObject() );
         res.sendHeaders();
         replay( res );
-        
-        final Streamer s = new Streamer();
+
         final Artist artist = new Artist( -1, "" );
-        final Track track = new Track( artist, null, -1, "", "", -1, null );
+        
+        Track.Builder builder = new Track.Builder();
+        builder.artist(artist)
+                .album(null)
+                .genre(null)
+                .id(-1)
+                .name("")
+                .number(-1)
+                .path("")
+                .dateAdded(null);
+        final Track track = builder.build();
+
+        final Streamer s = new Streamer();
         final String mimeType = "foo/bar";
         
         s.setResponse( res );

@@ -82,6 +82,9 @@ public class Playlist extends MusicItem {
                         " inner join albums al " +
                         " on al.id = t.album_id " +
                         
+                        " inner join genres g " +
+                        " on g.id = t.genre_id " +
+
                    " where p.id = '" + playlistId + "' " +
                    orderBySql;
         

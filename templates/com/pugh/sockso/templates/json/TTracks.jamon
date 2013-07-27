@@ -19,6 +19,7 @@
 {
         id: <% track.getId() %>,
         name: "<% Utils.escapeJs(track.getName()) %>",
+        number: <% track.getNumber() %>,
 
         artist: {
             id: <% track.getArtist().getId() %>,
@@ -28,6 +29,11 @@
         album: {
             id: <% track.getAlbum().getId() %>,
             name: "<% Utils.escapeJs(track.getAlbum().getName()) %>"
+        },
+
+        genre: {
+            id: <% track.getGenre().getId() %>,
+            name: "<% Utils.escapeJs(track.getGenre().getName()) %>"
         }
 }
         <%java>

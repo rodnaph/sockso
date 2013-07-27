@@ -1,7 +1,10 @@
 
 package com.pugh.sockso.tests;
 
+import com.pugh.sockso.Utils;
+
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class TestDatabaseTest extends SocksoTestCase {
 
@@ -19,12 +22,21 @@ public class TestDatabaseTest extends SocksoTestCase {
         
         db.fixture( "test" );
 
-        final ResultSet rs = db.query( " select id, path from collection " );
+        Statement st = null;
+        ResultSet rs = null;
 
-        assertTrue( rs.next() );
-        assertEquals( rs.getInt("id"), 99 );
-        assertTrue( rs.getString("path").equals("/some/path") );
+        try {
+            st = db.getConnection().createStatement();
+            rs = st.executeQuery(" select id, path from collection ");
 
+            assertTrue(rs.next());
+            assertEquals(rs.getInt("id"), 99);
+            assertTrue(rs.getString("path").equals("/some/path"));
+        }
+        finally {
+            Utils.close( rs );
+            Utils.close( st );
+        }
     }
 
 }
