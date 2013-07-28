@@ -59,7 +59,7 @@ public class Downloader extends BaseAction {
         final Locale locale = getLocale();
         final Properties p = getProperties();
 
-        if ( p.get(Constants.WWW_DOWNLOADS_DISABLE).equals(p.YES) )
+        if ( p.get(Constants.WWW_DOWNLOADS_DISABLE).equals(Properties.YES) )
             throw new BadRequestException( locale.getString("www.error.downloadsDisabled"), 403 );
         
         final Database db = getDatabase();
@@ -83,7 +83,11 @@ public class Downloader extends BaseAction {
 
         }
 
-        finally { zip.close(); }
+        finally {
+            if ( zip != null ) {
+                zip.close();
+            }
+        }
         
     }
     

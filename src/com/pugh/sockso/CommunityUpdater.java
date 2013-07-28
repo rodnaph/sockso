@@ -80,7 +80,7 @@ public class CommunityUpdater extends Thread implements PropertiesListener {
 
     protected void check() {
 
-        if ( p.get(Constants.COMMUNITY_ENABLED).equals(p.YES) ) {
+        if ( p.get(Constants.COMMUNITY_ENABLED).equals(Properties.YES) ) {
             ping();
         }
 

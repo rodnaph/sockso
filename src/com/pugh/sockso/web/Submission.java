@@ -269,7 +269,7 @@ public class Submission {
     
     public boolean isValid() {
         
-        return ( errors.size() == 0 );
+        return errors.isEmpty();
         
     }
     

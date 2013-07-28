@@ -43,9 +43,9 @@ public class PropList extends BaseCommand {
 
         // print header
 
-        sb.append( " NAME" +getPadding(4,longest)+ "  VALUE\n" );
+        sb.append(" NAME").append(getPadding(4,longest)).append("  VALUE\n" );
         if ( pattern != null ) {
-            sb.append( "\n (containing '" +pattern+ "')\n" );
+            sb.append( "\n (containing '").append(pattern).append("')\n" );
         }
         sb.append( "\n" );
 
@@ -58,8 +58,8 @@ public class PropList extends BaseCommand {
                 continue;
             }
 
-            sb.append( " " +prop + getPadding(prop.length(),longest)+ "  " + p.get(prop) );
-            sb.append( "\n" );
+            sb.append(" ").append(prop).append(getPadding(prop.length(), longest))
+                    .append("  ").append(p.get(prop)).append("\n");
 
         }
 

@@ -127,7 +127,7 @@ public class CommandExecuter {
 
         int longest = 0;
         
-        sb.append( locale.getString("con.desc.commands") + "\n" );
+        sb.append( locale.getString("con.desc.commands") ).append( "\n" );
 
         for ( int i=0; i<commands.length; i++ ) {
 

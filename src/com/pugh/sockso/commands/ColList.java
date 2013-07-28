@@ -58,7 +58,8 @@ public class ColList extends BaseCommand {
             sb.append( "----------\n" );
 
             while ( rs.next() ) {
-                sb.append( " [" +rs.getString("id")+ "] " +rs.getString("path") + "\n" );
+                sb.append(" [").append(rs.getString("id")).append("] ")
+                  .append(rs.getString("path")).append("\n");
             }
 
         }

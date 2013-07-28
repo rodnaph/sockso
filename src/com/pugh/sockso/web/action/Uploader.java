@@ -205,7 +205,7 @@ public class Uploader extends BaseAction {
         // if the user isn't logged in then make sure that anonymous
         // uploads have been enabled
         if ( user == null )
-            if ( !p.get(Constants.WWW_UPLOADS_ALLOW_ANONYMOUS).equals(p.YES) )
+            if ( !p.get(Constants.WWW_UPLOADS_ALLOW_ANONYMOUS).equals(Properties.YES) )
                 throw new BadRequestException( locale.getString("www.error.noAnonymousUploads"), 403 );
 
         // check there is a valid collection set for uploads

@@ -309,11 +309,9 @@ public class Utils {
 
     public static String md5( final String text ) {
         try {
-            final MessageDigest md;
-            md = MessageDigest.getInstance("MD5");
-            byte[] md5hash = new byte[32];
+            final MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(text.getBytes("iso-8859-1"), 0, text.length());
-            md5hash = md.digest();
+            byte[] md5hash = md.digest();
             return convertToHex(md5hash);
         }
         catch ( final Exception e ) {}

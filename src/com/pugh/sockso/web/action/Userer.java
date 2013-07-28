@@ -343,7 +343,7 @@ public class Userer extends BaseAction {
         final User user = getUser();
         final Locale locale = getLocale();
         
-        if ( p.get(Constants.WWW_USERS_DISABLE_REGISTRATION).equals(p.YES) )
+        if ( p.get(Constants.WWW_USERS_DISABLE_REGISTRATION).equals(Properties.YES) )
             throw new BadRequestException( locale.getString("www.error.registrationDisabled"), 403 );
         if ( user != null )
             throw new BadRequestException( locale.getString("www.error.alreadyLoggedIn"), 403 );
@@ -411,7 +411,7 @@ public class Userer extends BaseAction {
             throw new BadRequestException( locale.getString("www.error.duplicateEmail") );
 
         User newUser = new User( -1, name, pass1, email );
-        newUser.setActive( !p.get(Constants.WWW_USERS_REQUIRE_ACTIVATION).equals(p.YES) );
+        newUser.setActive( !p.get(Constants.WWW_USERS_REQUIRE_ACTIVATION).equals(Properties.YES) );
         newUser.save( db );
 
         if ( newUser.isActive() ) {
