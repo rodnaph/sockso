@@ -139,23 +139,29 @@ public class MusicSearch {
             final String type = rs.getString( "type" );
 
             if ( type.equals(MusicItem.TRACK) ) {
-                Track.Builder track = new Track.Builder();
-                track.artist( new Artist(rs.getInt("artist_id"), rs.getString("artist_name")) )
-                        .album( new Album(null, rs.getInt("album_id"), rs.getString("album_name"), "") )
+                final Album album =  new Album.Builder()
+                        .id(rs.getInt("album_id"))
+                        .name(rs.getString("album_name"))
+                        .build();
+                final Track track = new Track.Builder()
+                        .artist( new Artist(rs.getInt("artist_id"), rs.getString("artist_name")) )
+                        .album(album)
                         .genre( new Genre(rs.getInt("genre_id"), rs.getString("genre_name")) )
                         .id( rs.getInt("id") )
                         .name( rs.getString("name") )
                         .number(-1)
                         .path("")
-                        .dateAdded(null);
-                items.add( track.build() );
+                        .dateAdded(null)
+                        .build();
+                items.add( track );
             }
 
             else if ( type.equals(MusicItem.ALBUM) ) {
-                final Album album = new Album(
-                    rs.getInt("artist_id"), rs.getString("artist_name"),
-                    rs.getInt("id"), rs.getString("name"), ""
-                );
+                final Album album = new Album.Builder()
+                        .artist( new Artist( rs.getInt("artist_id"), rs.getString("artist_name") ) )
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .build();
                 items.add( album );
             }
                     

@@ -135,8 +135,13 @@ public class Track extends MusicItem {
     public static Track createFromResultSet( final ResultSet rs ) throws SQLException {
 
         final Artist artist = new Artist( rs.getInt("artistId"), rs.getString("artistName") );
-        final Album album   = new Album( artist, rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear") );
-        final Genre genre   = new Genre( rs.getInt("genreId"), rs.getString("genreName") );
+        final Album album = new Album.Builder()
+                .artist(artist)
+                .id(rs.getInt("albumId"))
+                .name(rs.getString("albumName"))
+                .year(rs.getString("albumYear"))
+                .build();
+        final Genre genre = new Genre( rs.getInt("genreId"), rs.getString("genreName") );
 
         final Builder builder = new Track.Builder();
         builder.artist(artist)
@@ -523,7 +528,7 @@ public class Track extends MusicItem {
         if ( !object.getClass().equals(Track.class) ) {
             return false;
         }
-        
+
         final Track track = (Track) object;
 
         return getId() == track.getId();

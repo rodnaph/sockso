@@ -4,15 +4,13 @@ package com.pugh.sockso.web.action.playlist;
 import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
-import com.pugh.sockso.music.Album;
-import com.pugh.sockso.music.Artist;
-import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.templates.TXspf;
 import com.pugh.sockso.tests.PlaylistTestCase;
 import com.pugh.sockso.web.Request;
 import com.pugh.sockso.web.Server;
 import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.tests.TestUtils;
 
 import static org.easymock.EasyMock.*;
 
@@ -26,19 +24,7 @@ public class XspferTest extends PlaylistTestCase {
         
         final TestResponse res = new TestResponse();
         final TXspf tpl = new TXspf();
-        final Artist artist = new Artist( 1, "artist" );
-        final Album album = new Album( artist, 1, "album", "year" );
-        final Genre genre = new Genre( 1, "genre" );
-        Track.Builder builder = new Track.Builder();
-        builder.artist(artist)
-                .album(album)
-                .genre(genre)
-                .id(1)
-                .name("track")
-                .number(2)
-                .path("")
-                .dateAdded(null);
-        final Track track = builder.build();
+        final Track track = TestUtils.getTrack();
         final String protocol = "hTTppTT";
         
         tpl.setRequest( req );

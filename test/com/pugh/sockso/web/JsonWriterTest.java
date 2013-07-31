@@ -2,6 +2,7 @@
 package com.pugh.sockso.web;
 
 import com.pugh.sockso.music.Album;
+import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.templates.api.TAlbums;
 import com.pugh.sockso.tests.SocksoTestCase;
 
@@ -33,7 +34,13 @@ public class JsonWriterTest extends SocksoTestCase {
     public void testIssue109() throws Exception {
         TAlbums tpl = new TAlbums();
         List<Album> albums = new ArrayList<Album>();
-        albums.add( new Album( 1, "Artist\"", 2, "Album\"", "1980") );
+        albums.add( new Album.Builder()
+                .artist( new Artist(1, "Artist\"") )
+                .id(2)
+                .name("Album\"")
+                .year("1980")
+                .build()
+                );
         tpl.setAlbums(albums);
         tpl.makeRenderer().renderTo(jsonWriter);
 

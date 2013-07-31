@@ -211,12 +211,15 @@ public class Homer extends BaseAction {
             rs = st.executeQuery();
 
             final List<Album> recentAlbums = new ArrayList<Album>();
-            while ( rs.next() )
-                recentAlbums.add( new Album(
-                        rs.getInt("artistId"), rs.getString("artistName"),
-                        rs.getInt("albumId"), rs.getString("albumName"),
-                        rs.getString("albumYear")
-                ));
+            while ( rs.next() ) {
+                recentAlbums.add( new Album.Builder()
+                        .artist( new Artist(rs.getInt("artistId"), rs.getString("artistName") ) )
+                        .id( rs.getInt("albumId") )
+                        .name( rs.getString("albumName") )
+                        .year( rs.getString("albumYear") )
+                        .build()
+                );
+            }
             
             return recentAlbums;
 
