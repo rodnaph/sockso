@@ -7,10 +7,12 @@ import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
+import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.tests.TestUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,19 +79,12 @@ public class LatesterTest extends SocksoTestCase {
         final List<Track> tracks = new ArrayList<Track>();
         final List<Artist> artists = new ArrayList<Artist>();
         final List<Album> albums = new ArrayList<Album>();
-        final Artist artist = new Artist( 1, "my artist" );
-        final Album album = new Album( artist, 1, "my album", "year" );
 
-        Track.Builder builder = new Track.Builder();
-        builder.artist(artist)
-                .album(null)
-                .genre(null)
-                .id(1)
-                .name("my track")
-                .number(1)
-                .path("")
-                .dateAdded(null);
-        final Track track = builder.build();
+        final Artist artist = TestUtils.getArtist();
+        final Album album = TestUtils.getAlbum(artist);
+        final Genre genre = TestUtils.getGenre();
+        final Track track = TestUtils.getTrack(artist, album, genre);
+
         tracks.add( track );
         artists.add( artist );
         albums.add( album );

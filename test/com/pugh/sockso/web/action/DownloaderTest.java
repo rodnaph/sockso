@@ -10,6 +10,7 @@ import com.pugh.sockso.music.Genre;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestLocale;
+import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.web.BadRequestException;
 
 import java.util.ArrayList;
@@ -26,26 +27,25 @@ public class DownloaderTest extends SocksoTestCase {
         
         d.setProperties( p );
         
-        final Artist artist = new Artist( 1, "artist" );
-        final Album album = new Album( artist, 2, "album", "year" );
-        final Genre genre = new Genre( 3, "genre" );
-
-        Track.Builder builder = new Track.Builder();
-        builder.artist( artist )
+        final Artist artist = TestUtils.getArtist();
+        final Album album = TestUtils.getAlbum(artist);
+        final Genre genre = TestUtils.getGenre();
+        final Track track = new Track.Builder()
+                .artist( artist )
                 .album( album )
                 .genre( genre )
                 .id(3)
                 .name("track")
                 .number(4)
                 .path("")
-                .dateAdded(new Date());
-        final Track track = builder.build();
+                .dateAdded(new Date())
+                .build();
 
         final String path = d.getTrackZipPath( track );
         
-        assertTrue( path.contains("artist") );
-        assertTrue( path.contains("album") );
-        assertTrue( path.contains("track") );
+        assertTrue( path.contains(artist.getName()) );
+        assertTrue( path.contains(album.getName()) );
+        assertTrue( path.contains(track.getName()) );
         assertTrue( path.contains("04") ); // tens should be padded
         
     }
@@ -56,19 +56,23 @@ public class DownloaderTest extends SocksoTestCase {
     
     private Track getTrack( final String artistName, final String albumName, final String albumYear ) {
         final Artist artist = new Artist( 1, artistName );
-        final Album album = new Album( artist, 1, albumName, albumYear);
+        final Album album = new Album.Builder()
+                .artist(artist)
+                .id(1)
+                .name(albumName)
+                .year(albumYear)
+                .build();
         final Genre genre = new Genre( 1, "genre" );
-
-        Track.Builder builder = new Track.Builder();
-        builder.artist( artist )
+        return new Track.Builder()
+                .artist( artist )
                 .album( album )
                 .genre( genre )
                 .id(1)
                 .name("track")
                 .number(1)
                 .path("")
-                .dateAdded(null);
-        return builder.build();
+                .dateAdded(null)
+                .build();
     }
 
     public void testGettingTheFileNameWhenAllArtistsAreTheSame() {

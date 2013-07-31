@@ -149,7 +149,10 @@ public class Latester extends BaseAction {
 
         while ( rs.next() )
             albums.add(
-                new Album( null, rs.getInt("id"), rs.getString("name"), "" )
+                new Album.Builder()
+                    .id( rs.getInt("id") )
+                    .name( rs.getString("name") )
+                    .build()
             );
 
         return albums;

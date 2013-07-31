@@ -147,11 +147,14 @@ public class Albumer extends BaseAction {
             if ( !rs.next() )
                 throw new BadRequestException( "album not found", 404 );
 
-            return new Album(
-                new Artist( rs.getInt("artistId"), rs.getString("artistName") ),
-                rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear"),
-                rs.getDate("date_added"), -1, rs.getInt("playCount")
-            );
+            return new Album.Builder()
+                .artist( new Artist( rs.getInt("artistId"), rs.getString("artistName") ) )
+                .id( rs.getInt("albumId") )
+                .name( rs.getString("albumName") )
+                .year( rs.getString("albumYear") )
+                .dateAdded( rs.getDate("date_added") )
+                .playCount( rs.getInt("playCount") )
+                .build();
 
         }
         
