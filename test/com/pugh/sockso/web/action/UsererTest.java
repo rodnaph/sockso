@@ -25,6 +25,7 @@ import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestLocale;
 import com.pugh.sockso.tests.TestRequest;
 import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.HttpResponseCookie;
 import com.pugh.sockso.web.Request;
@@ -430,21 +431,11 @@ public class UsererTest extends SocksoTestCase {
         final Userer u = new Userer();
         final List<Track> tracks = new ArrayList<Track>();
         
-        final Date theDate = new Date();
-        final Artist artist = new Artist( 1, "myArtist" );
-        final Album album = new Album( artist, 2, "myAlbum", "year" );
-        final Genre genre = new Genre( 3, "myGenre" );
+        final Artist artist = TestUtils.getArtist();
+        final Album album = TestUtils.getAlbum(artist);
+        final Genre genre = TestUtils.getGenre();
+        final Track track = TestUtils.getTrack(artist, album, genre);
 
-        Track.Builder builder = new Track.Builder();
-        builder.artist(artist)
-                .album(album)
-                .genre(genre)
-                .id(3)
-                .name("myTrack")
-                .number(4)
-                .path("")
-                .dateAdded(theDate);
-        final Track track = builder.build();
         tracks.add( track );
         
         u.setResponse( res );

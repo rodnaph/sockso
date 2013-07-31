@@ -101,11 +101,13 @@ public class Artister extends BaseAction {
             
             while ( rs.next() )
                 albums.add(
-                    new Album(
-                        new Artist( rs.getInt("artistId"), rs.getString("artistName") ),
-                        rs.getInt("albumId"), rs.getString("albumName"), rs.getString("albumYear"), rs.getInt("trackCount")                  
-                    )
-                
+                    new Album.Builder()
+                        .artist( new Artist( rs.getInt("artistId"), rs.getString("artistName") ) )
+                        .id( rs.getInt("albumId") )
+                        .name( rs.getString("albumName") )
+                        .year( rs.getString("albumYear") )
+                        .trackCount( rs.getInt("trackCount") )
+                        .build()
                 );
 
             return albums;

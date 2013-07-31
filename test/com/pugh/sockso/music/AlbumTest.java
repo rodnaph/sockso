@@ -7,6 +7,8 @@ import com.pugh.sockso.tests.TestDatabase;
 import java.util.Date;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+
 public class AlbumTest extends SocksoTestCase {
     
     private TestDatabase db;
@@ -16,26 +18,12 @@ public class AlbumTest extends SocksoTestCase {
         db = new TestDatabase();
     }
     
-    public void testConstructor() {
-
-        final int id = 123, artistId = 456, trackCount = 789, playCount = 159;
-        final String name = "some name", artistName = "another", year = "1984";
-        final Date theDate = new Date();
-
-        assertNotNull( new Album( artistId, artistName, id, name, year ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year, trackCount ) );
-        assertNotNull( new Album( new Artist(artistId,artistName), id, name, year, theDate, trackCount, playCount ) );
-
-    }
-
     public void testGetArtist() {
         
         final int id = 123;
         final String name = "qwe rty";
         final Artist artist = new Artist( id, name );
-        final Album album = new Album( artist, -1, "", "");
+        final Album album = new Album.Builder().artist(artist).build();
         
         assertEquals( artist, album.getArtist() );
         
@@ -44,7 +32,7 @@ public class AlbumTest extends SocksoTestCase {
     public void testGetTrackCount() {
 
         final int trackCount = 148;
-        final Album album = new Album( new Artist(-1,""), -1, "", "", trackCount );
+        final Album album = new Album.Builder().trackCount(trackCount).build();
 
         assertEquals( trackCount, album.getTrackCount() );
         
@@ -53,7 +41,7 @@ public class AlbumTest extends SocksoTestCase {
     public void testGetPlayCount() {
 
         final int playCount = 148;
-        final Album album = new Album( new Artist(-1,""), -1, "", "", new Date(), -1, playCount );
+        final Album album = new Album.Builder().playCount(playCount).build();
 
         assertEquals( playCount, album.getPlayCount() );
         
@@ -62,24 +50,36 @@ public class AlbumTest extends SocksoTestCase {
     public void testGetDateAdded() {
 
         final Date theDate = new Date();
-        final Album album = new Album( new Artist(-1,""), -1, "", "", theDate, -1, -1 );
+        final Album album = new Album.Builder().dateAdded(theDate).build();
 
         assertEquals( theDate, album.getDateAdded() );
         
     }
 
     public void testGettingTheYearReturnsIt() {
-        assertEquals( "2001", new Album(1,"",1,"","2001").getYear() );
+
+        final String year = "2001";
+        final Album album = new Album.Builder().year(year).build();
+
+        assertEquals( "2001", album.getYear() );
+
     }
 
     public void testOnlyYearPartOfDateIsReturnedForYearIfItIncludesOtherInfo() {
-        assertEquals( "2001", new Album(1,"",1,"","2001-02-01").getYear() );
+
+        final String year = "2001-02-01";
+        final Album album = new Album.Builder().year(year).build();
+
+        assertEquals( "2001", album.getYear() );
     }
 
-    public void testEmptyStringReturnedWhenDateIsNull() {
-        assertEquals( "", new Album(1,"",1,"",null).getYear() );
+    public void testEmptyStringReturnedWhenYearIsNull() {
+
+        final Album album = new Album.Builder().build();
+
+        assertEquals( "", album.getYear() );
     }
-    
+
     public void testFindbyartistidReturnsAllAlbumsForTheSpecifiedArtist() throws Exception {
         db.fixture( "artistsAlbumsAndTracks" );
         List<Album> albums = Album.findByArtistId( db, 1 );

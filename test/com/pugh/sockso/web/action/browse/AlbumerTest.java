@@ -9,6 +9,7 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.tests.TestUtils;
 import com.pugh.sockso.web.BadRequestException;
 
 import java.sql.PreparedStatement;
@@ -151,20 +152,12 @@ public class AlbumerTest extends SocksoTestCase {
         final TestResponse res = new TestResponse();
         final Albumer b = new Albumer();
         final List<Track> tracks = new ArrayList<Track>();
-        final Artist artist = new Artist( 1, "my artist", new Date(), 1, 1 );
-        final Album album = new Album( artist, 1, "foo", "year", new Date(), 1, 1 );
-        final Genre genre = new Genre( 1, "myGenre" );
 
-        Track.Builder builder = new Track.Builder();
-        builder.artist(artist)
-                .album(album)
-                .genre(genre)
-                .id(1)
-                .name("myTrack")
-                .number(1)
-                .path("")
-                .dateAdded(null);
-        final Track track = builder.build();
+        final Artist artist = TestUtils.getArtist();
+        final Album album = TestUtils.getAlbum(artist);
+        final Genre genre = TestUtils.getGenre();
+        final Track track = TestUtils.getTrack(artist, album, genre);
+        
         tracks.add( track );
         
         b.setResponse( res );
