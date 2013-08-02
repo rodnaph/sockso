@@ -109,10 +109,14 @@ public class Homer extends BaseAction {
             
             final List<Artist> topArtists = new ArrayList<Artist>();
             
-            while ( rs.next() )
-                topArtists.add( new Artist(
-                    rs.getInt("id"), rs.getString("name"), rs.getInt("playCount") )
+            while ( rs.next() ) {
+                topArtists.add( new Artist.Builder()
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .playCount(rs.getInt("playCount"))
+                        .build()
                 );
+            }
             
             return topArtists;
             
@@ -212,8 +216,12 @@ public class Homer extends BaseAction {
 
             final List<Album> recentAlbums = new ArrayList<Album>();
             while ( rs.next() ) {
+                final Artist artist = new Artist.Builder()
+                        .id(rs.getInt("artistId"))
+                        .name(rs.getString("artistName"))
+                        .build();
                 recentAlbums.add( new Album.Builder()
-                        .artist( new Artist(rs.getInt("artistId"), rs.getString("artistName") ) )
+                        .artist( artist )
                         .id( rs.getInt("albumId") )
                         .name( rs.getString("albumName") )
                         .year( rs.getString("albumYear") )

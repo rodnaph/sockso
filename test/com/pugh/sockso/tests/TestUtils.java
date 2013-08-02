@@ -151,7 +151,11 @@ public class TestUtils {
     
     public static Artist getArtist() {
         
-        return new Artist( 123, "foo" );
+        return new Artist.Builder()
+                .id(123)
+                .name("foo")
+                .dateAdded(new Date())
+                .build();
 
     }
 

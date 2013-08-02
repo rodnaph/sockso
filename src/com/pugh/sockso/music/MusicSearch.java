@@ -143,8 +143,12 @@ public class MusicSearch {
                         .id(rs.getInt("album_id"))
                         .name(rs.getString("album_name"))
                         .build();
+                final Artist artist =  new Artist.Builder()
+                        .id(rs.getInt("artist_id"))
+                        .name(rs.getString("artist_name"))
+                        .build();
                 final Track track = new Track.Builder()
-                        .artist( new Artist(rs.getInt("artist_id"), rs.getString("artist_name")) )
+                        .artist(artist)
                         .album(album)
                         .genre( new Genre(rs.getInt("genre_id"), rs.getString("genre_name")) )
                         .id( rs.getInt("id") )
@@ -157,8 +161,12 @@ public class MusicSearch {
             }
 
             else if ( type.equals(MusicItem.ALBUM) ) {
+                final Artist artist =  new Artist.Builder()
+                        .id(rs.getInt("artist_id"))
+                        .name(rs.getString("artist_name"))
+                        .build();
                 final Album album = new Album.Builder()
-                        .artist( new Artist( rs.getInt("artist_id"), rs.getString("artist_name") ) )
+                        .artist(artist)
                         .id(rs.getInt("id"))
                         .name(rs.getString("name"))
                         .build();

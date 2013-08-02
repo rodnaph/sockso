@@ -147,8 +147,13 @@ public class Albumer extends BaseAction {
             if ( !rs.next() )
                 throw new BadRequestException( "album not found", 404 );
 
+            final Artist artist = new Artist.Builder()
+                    .id(rs.getInt("artistId"))
+                    .name(rs.getString("artistName"))
+                    .build();
+
             return new Album.Builder()
-                .artist( new Artist( rs.getInt("artistId"), rs.getString("artistName") ) )
+                .artist( artist )
                 .id( rs.getInt("albumId") )
                 .name( rs.getString("albumName") )
                 .year( rs.getString("albumYear") )

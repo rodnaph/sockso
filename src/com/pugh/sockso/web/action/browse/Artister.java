@@ -99,16 +99,21 @@ public class Artister extends BaseAction {
 
             final List<Album> albums = new ArrayList<Album>();
             
-            while ( rs.next() )
+            while ( rs.next() ) {
+                final Artist artist = new Artist.Builder()
+                        .id(rs.getInt("artistId"))
+                        .name(rs.getString("artistName"))
+                        .build();
                 albums.add(
                     new Album.Builder()
-                        .artist( new Artist( rs.getInt("artistId"), rs.getString("artistName") ) )
+                        .artist( artist )
                         .id( rs.getInt("albumId") )
                         .name( rs.getString("albumName") )
                         .year( rs.getString("albumYear") )
                         .trackCount( rs.getInt("trackCount") )
                         .build()
                 );
+            }
 
             return albums;
             
@@ -162,11 +167,13 @@ public class Artister extends BaseAction {
             if ( !rs.next() )
                 throw new BadRequestException( "artist not found", 404 );
             
-            return new Artist(
-                rs.getInt("id"), rs.getString("name"),
-                rs.getDate("date_added"), -1, rs.getInt("trackCount"),
-                rs.getInt("playCount")
-            );
+            return new Artist.Builder()
+                .id(rs.getInt("id"))
+                .name(rs.getString("name"))
+                .dateAdded(rs.getDate("date_added"))
+                .trackCount(rs.getInt("trackCount"))
+                .playCount(rs.getInt("playCount"))
+                .build();
         
         }
         

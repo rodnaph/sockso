@@ -95,7 +95,7 @@ public class ByLettererTest extends SocksoTestCase {
         final TestResponse res = new TestResponse();
         final ByLetterer b = new ByLetterer();
         final List<Artist> artists = new ArrayList<Artist>();
-        final Artist artist = new Artist( 1, "my artist" );
+        final Artist artist = new Artist.Builder().id(1).name("my artist").build();
         final String letter = "G";
 
         artists.add( artist );

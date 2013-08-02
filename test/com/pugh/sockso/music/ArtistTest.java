@@ -3,6 +3,7 @@ package com.pugh.sockso.music;
 
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
+import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -15,26 +16,20 @@ public class ArtistTest extends SocksoTestCase {
     protected void setUp() {
         db = new TestDatabase();
     }
-    
-    public void testConstructors() {
-        
-        final int id = 123, albumCount = 456, trackCount = 789, playCount = 159;
-        final String name = "some name";
-        final Date dateAdded = new Date();
-        
-        assertNotNull( new Artist(id,name) );
-        assertNotNull( new Artist(id,name,playCount) );
-        assertNotNull( new Artist(id,name,dateAdded,albumCount,trackCount) );
-        assertNotNull( new Artist(id,name,dateAdded,albumCount,trackCount,playCount) );
 
-    }
-    
     public void testGetters() {
 
         final int id = 123, albumCount = 456, trackCount = 789, playCount = 159;
         final String name = "some name";
         final Date dateAdded = new Date();
-        final Artist artist = new Artist(id,name,dateAdded,albumCount,trackCount,playCount);
+        final Artist artist = new Artist.Builder()
+                .id(id)
+                .name(name)
+                .dateAdded(dateAdded)
+                .albumCount(albumCount)
+                .trackCount(trackCount)
+                .playCount(playCount)
+                .build();
 
         assertEquals( dateAdded, artist.getDateAdded() );
         assertEquals( trackCount, artist.getTrackCount() );
@@ -88,7 +83,10 @@ public class ArtistTest extends SocksoTestCase {
     public void testFindallReturnsArtistsWithTheirDateAddedSet() throws Exception {
         db.fixture( "artists" );
         List<Artist> artists = Artist.findAll( db, -1, 0 );
-        assertEquals( "2011-02-03", artists.get(0).getDateAdded().toString() );
+
+        final Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2011-02-03 01:02:03");
+        
+        assertEquals(date, artists.get(0).getDateAdded());
     }
     
 }

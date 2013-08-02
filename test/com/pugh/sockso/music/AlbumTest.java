@@ -22,7 +22,7 @@ public class AlbumTest extends SocksoTestCase {
         
         final int id = 123;
         final String name = "qwe rty";
-        final Artist artist = new Artist( id, name );
+        final Artist artist = new Artist.Builder().id(id).name(name).build();
         final Album album = new Album.Builder().artist(artist).build();
         
         assertEquals( artist, album.getArtist() );

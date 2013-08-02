@@ -75,18 +75,18 @@ public class PopularerTest extends SocksoTestCase {
         final TestResponse res = new TestResponse();
         final Popularer b = new Popularer();
         final List<Track> tracks = new ArrayList<Track>();
-        
-        final Artist artist = new Artist( 1, "my artist" );
-        Track.Builder builder = new Track.Builder();
-        builder.artist(artist)
+
+        final Artist artist = new Artist.Builder().id(1).name("my artist").build();
+        Track track = new Track.Builder()
+                .artist(artist)
                 .album(null)
                 .genre(null)
                 .id(1)
                 .name("my track")
                 .number(1)
                 .path("")
-                .dateAdded(null);
-        final Track track = builder.build();
+                .dateAdded(null)
+                .build();
         tracks.add( track );
         
         b.setResponse( res );
