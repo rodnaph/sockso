@@ -2,7 +2,6 @@
 package com.pugh.sockso.music.encoders;
 
 import com.pugh.sockso.music.Track;
-import com.pugh.sockso.music.Files;
 
 import java.io.IOException;
 import java.io.DataInputStream;
@@ -27,10 +26,6 @@ public class FlacToLame extends BuiltinScriptEncoder {
     @Override
     public String toString() {
         return "Convert to mp3 (flac and lame)";
-    }
-
-    public String getOutputMimeType() {
-        return Files.getMimeType( "file.mp3" );
     }
 
 }

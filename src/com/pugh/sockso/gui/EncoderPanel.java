@@ -16,7 +16,6 @@ import com.pugh.sockso.resources.Resources;
 import com.pugh.sockso.resources.Locale;
 import com.pugh.sockso.music.encoders.Encoders;
 import com.pugh.sockso.music.encoders.Encoders.Builtin;
-import com.pugh.sockso.music.encoders.BuiltinEncoder;
 import com.pugh.sockso.gui.controls.TextOptionField;
 import com.pugh.sockso.gui.controls.ComboOptionField;
 

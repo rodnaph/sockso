@@ -6,6 +6,7 @@ import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Track;
+import com.pugh.sockso.music.stream.MusicStream;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestRequest;
@@ -17,6 +18,7 @@ import com.pugh.sockso.web.User;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -131,23 +133,6 @@ public class StreamerTest extends SocksoTestCase {
         
     }
 
-    public void testPlayMusicStream() throws IOException {
-        
-        final Response res = createMock( Response.class );
-        expect( res.getOutputStream() ).andReturn( null ).times( 1 );
-        replay( res );
-        
-        final MusicStream ms = new MusicStream( new DataInputStream(TestUtils.getInputStream("QWE")), "" );
-        
-        final Streamer s = new Streamer();
-        s.setResponse( res );
-
-        assertTrue( s.playMusicStream(ms) );
-        
-        verify( res );
-        
-    }
-
     public void testGettingAValidTrackDoesntThrowAnException() throws SQLException, IOException {
         
         final TestRequest req = new TestRequest( "GET /stream/1 HTTP/1.1" );
@@ -181,26 +166,5 @@ public class StreamerTest extends SocksoTestCase {
         assertTrue( gotException );
         
     }
-    
-    public void testSendTrackHeaders() {
-        
-        final Response res = createMock( Response.class );
-        res.addHeader( matches("Content-Type"), (String) anyObject() );
-        res.addHeader( matches("Content-Length"), (String) anyObject() );
-        res.addHeader( matches("Content-Disposition"), (String) anyObject() );
-        res.sendHeaders();
-        replay( res );
-        
-        final Track track = TestUtils.getTrack();
 
-        final Streamer s = new Streamer();
-        final String mimeType = "foo/bar";
-        
-        s.setResponse( res );
-        s.sendTrackHeaders( track, mimeType );
-        
-        verify( res );
-        
-    }
-    
 }
