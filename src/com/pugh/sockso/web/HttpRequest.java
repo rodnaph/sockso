@@ -136,10 +136,10 @@ public class HttpRequest implements Request {
         while ( headerCount++ < MAX_HEADERS ) {
 
             final String line = buffer.readLine();
-            
+
             if ( line == null || line.equals("") ) break;
 
-            //log.debug( "HTTP Header: " + line );
+            log.debug( "HTTP Header: " + line );
 
             final Pattern p2 = Pattern.compile( "(.*?): (.*)" );
             final Matcher m2 = p2.matcher( line );

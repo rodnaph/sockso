@@ -28,10 +28,19 @@ public class Encoders {
         FfmpegToLame(new FfmpegToLame());
         
         private BuiltinEncoder encoder;
-        private Builtin( BuiltinEncoder encoder ) { this.encoder = encoder; }
-        public BuiltinEncoder getEncoder() { return encoder; }
+
+        private Builtin( BuiltinEncoder encoder ) {
+            this.encoder = encoder;
+        }
+
+        public BuiltinEncoder getEncoder() {
+            return encoder;
+        }
+
         @Override
-        public String toString() { return encoder.toString(); }
+        public String toString() { 
+            return encoder.toString();
+        }
 
     };
     
@@ -50,8 +59,9 @@ public class Encoders {
         
         for ( Builtin b : Builtin.values() )
             for ( String supportedFormat : b.getEncoder().getSupportedFormats() )
-                if ( format.toLowerCase().equals(supportedFormat.toLowerCase()) )
+                if ( format.toLowerCase().equals(supportedFormat.toLowerCase()) ) {
                     builtins.add( b );
+		}
         
         // messy generics... :(
         return builtins.toArray( new Builtin[builtins.size()] );
@@ -69,9 +79,11 @@ public class Encoders {
     
     public static Builtin getBuiltinEncoderByName( String name ) {
         
-        for ( Builtin b : Builtin.values() )
-            if ( b.name().equals(name) )
+        for ( Builtin b : Builtin.values() ) {
+            if ( b.name().equals(name) ) {
                 return b;
+            }
+        }
         
         return null;
         
