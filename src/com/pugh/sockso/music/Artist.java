@@ -7,45 +7,74 @@ import com.pugh.sockso.db.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.sql.Timestamp;
 
 import org.apache.log4j.Logger;
 
 public class Artist extends MusicItem {
     
-    private static Logger log = Logger.getLogger( Artist.class );
+    private static final Logger log = Logger.getLogger( Artist.class );
 
-    private final int albumCount, trackCount, playCount;
-    
+    private final int albumCount;
+    private final int trackCount;
+    private final int playCount;
     private final Date dateAdded;
 
-    /**
-     *  Constructors for creating artists with carrying amount of info
-     * 
-     */
-    
-    public Artist( final int id, final String name ) {
-        this( id, name, null, -1, -1 );
+    public Artist( final Builder builder ) {
+        super( MusicItem.ARTIST, builder.id, builder.name );
+
+        this.albumCount = builder.albumCount;
+        this.trackCount = builder.trackCount;
+        this.playCount  = builder.playCount;
+        this.dateAdded  = ( builder.dateAdded != null ) ? new Date( builder.dateAdded.getTime() ) : null;
     }
-    
-    public Artist( final int id, final String name, final int playCount ) {
-        this( id, name, null, -1, -1, playCount );
-    }
-    
-    public Artist( final int id, final String name, final Date dateAdded, final int albumCount, final int trackCount ) {
-        this( id, name, dateAdded, albumCount, trackCount, -1 );
-    }
-    
-    public Artist( final int id, final String name, final Date dateAdded, final int albumCount, final int trackCount, final int playCount ) {
-        super( MusicItem.ARTIST, id, name );
-        this.dateAdded = dateAdded;
-        this.albumCount = albumCount;
-        this.trackCount = trackCount;
-        this.playCount = playCount;
+
+    public static class Builder {
+
+        private int id;
+        private String name;
+        private int albumCount = -1;
+        private int trackCount = -1;
+        private int playCount = -1;
+        private Date dateAdded;
+
+        public Builder id( int id ) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name( String name ) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder albumCount( int albumCount ) {
+            this.albumCount = albumCount;
+            return this;
+        }
+
+        public Builder trackCount( int trackCount ) {
+            this.trackCount = trackCount;
+            return this;
+        }
+
+        public Builder playCount( int playCount ) {
+            this.playCount = playCount;
+            return this;
+        }
+
+        public Builder dateAdded( Date dateAdded ) {
+            this.dateAdded = dateAdded;
+            return this;
+        }
+
+        public Artist build() {
+            return new Artist(this);
+        }
     }
 
     /**
@@ -86,10 +115,10 @@ public class Artist extends MusicItem {
             rs = st.executeQuery();
             
             if ( rs.next() ) {
-                return new Artist(
-                    rs.getInt( "id" ),
-                    rs.getString( "name" )
-                );
+                return new Artist.Builder()
+                        .id(rs.getInt( "id" ))
+                        .name(rs.getString( "name" ))
+                        .build();
             }
             
         }
@@ -146,13 +175,12 @@ public class Artist extends MusicItem {
             final List<Artist> artists = new ArrayList<Artist>();
             
             while ( rs.next() ) {
-                Artist artist = new Artist(
-                    rs.getInt( "id" ),
-                    rs.getString( "name" ),
-                    rs.getDate( "date_added" ),
-                    -1,
-                    -1
-                );
+
+                Artist artist = new Artist.Builder()
+                        .id(rs.getInt( "id" ))
+                        .name(rs.getString( "name" ))
+                        .dateAdded(rs.getTimestamp("date_added"))
+                        .build();
                 artists.add( artist );
             }
             

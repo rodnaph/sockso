@@ -114,11 +114,14 @@ public class ByLetterer extends BaseAction {
             rs = st.executeQuery();
 
             final List<Artist> artists = new ArrayList<Artist>();
-            while ( rs.next() )
-                artists.add( new Artist(
-                    rs.getInt("id"), rs.getString("name"),
-                    null, rs.getInt("albumCount"), -1
-                ));
+            while ( rs.next() ) {
+                artists.add( new Artist.Builder()
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .albumCount(rs.getInt("albumCount"))
+                        .build()
+                );
+            }
 
             return artists;
             

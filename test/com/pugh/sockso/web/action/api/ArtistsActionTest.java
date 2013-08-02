@@ -82,7 +82,7 @@ public class ArtistsActionTest extends SocksoTestCase {
     public void testArtistsAreListedAlphabeticallyAscending() {
         
     }
-    
+
     public void testArtistsListedIncludeDateArtistWasAdded() throws Exception {
         createArtists( 1 );
         action.setRequest(getRequest( "/api/artists" ));

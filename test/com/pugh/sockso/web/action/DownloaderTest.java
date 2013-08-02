@@ -55,7 +55,10 @@ public class DownloaderTest extends SocksoTestCase {
     }
     
     private Track getTrack( final String artistName, final String albumName, final String albumYear ) {
-        final Artist artist = new Artist( 1, artistName );
+        final Artist artist = new Artist.Builder()
+                .id(1)
+                .name(artistName)
+                .build();
         final Album album = new Album.Builder()
                 .artist(artist)
                 .id(1)

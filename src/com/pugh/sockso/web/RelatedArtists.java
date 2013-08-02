@@ -66,12 +66,12 @@ public class RelatedArtists {
             rs = st.executeQuery();
             
             while ( rs.next() ) {
-                artists.add(new Artist(
-                    rs.getInt( "id" ),
-                    rs.getString( "name" ),
-                    rs.getDate( "date_added" ),
-                    -1, -1
-                ));
+                artists.add(new Artist.Builder()
+                    .id(rs.getInt( "id" ))
+                    .name(rs.getString( "name" ))
+                    .dateAdded(rs.getDate( "date_added" ))
+                    .build()
+                );
             }
 
             return artists.toArray( new Artist[] {} );

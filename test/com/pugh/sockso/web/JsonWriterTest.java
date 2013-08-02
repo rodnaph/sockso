@@ -34,8 +34,9 @@ public class JsonWriterTest extends SocksoTestCase {
     public void testIssue109() throws Exception {
         TAlbums tpl = new TAlbums();
         List<Album> albums = new ArrayList<Album>();
+        final Artist artist = new Artist.Builder().id(1).name("Artist\"").build();
         albums.add( new Album.Builder()
-                .artist( new Artist(1, "Artist\"") )
+                .artist(artist)
                 .id(2)
                 .name("Album\"")
                 .year("1980")
