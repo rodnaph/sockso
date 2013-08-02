@@ -49,10 +49,6 @@ public class Album extends MusicItem {
         private int playCount = -1;
         private int trackCount = -1;
 
-        public Builder() {
-
-        }
-
         public Builder id( int id ) {
             this.id = id;
             return this;
@@ -176,9 +172,14 @@ public class Album extends MusicItem {
      */
     
     protected static Album createFromResultSet( final ResultSet rs ) throws SQLException {
-        
+
+        final Artist artist = new Artist.Builder()
+                .id(rs.getInt( "artist_id" ))
+                .name(rs.getString( "artist_name" ))
+                .build();
+
         return new Album.Builder()
-                .artist( new Artist( rs.getInt( "artist_id" ), rs.getString( "artist_name" ) ) )
+                .artist(artist)
                 .id(rs.getInt( "id" ))
                 .name(rs.getString( "name" ))
                 .year(rs.getString( "year" ))

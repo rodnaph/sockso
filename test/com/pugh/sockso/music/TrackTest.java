@@ -37,7 +37,11 @@ public class TrackTest extends SocksoTestCase {
         final int trackNumber = 1;
         final Date dateAdded = new Date();
 
-        final Artist artist = new Artist( artistId, artistName );
+        final Artist artist = new Artist.Builder()
+                .id(artistId)
+                .name(artistName)
+                .build();
+
         final Album album = new Album.Builder()
                 .artist(artist)
                 .id(albumId)
@@ -58,7 +62,7 @@ public class TrackTest extends SocksoTestCase {
 
         p = new StringProperties();
 
-        user = new User( 1, "name",null, null, 123, "ABC", true );
+        user = new User( 1, "name", null, null, 123, "ABC", true );
 
     }
 
@@ -69,7 +73,12 @@ public class TrackTest extends SocksoTestCase {
         final String genreName = "rock";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
-        final Artist artist = new Artist(artistId,artistName);
+
+        final Artist artist = new Artist.Builder()
+                .id(artistId)
+                .name(artistName)
+                .build();
+
         final Album album = new Album.Builder()
                 .artist(artist)
                 .id(albumId)

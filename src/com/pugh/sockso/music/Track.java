@@ -47,7 +47,7 @@ public class Track extends MusicItem {
         this.genre = builder.genre;
         this.path = builder.path;
         this.number = builder.number;
-        this.dateAdded = builder.dateAdded;
+        this.dateAdded = ( builder.dateAdded != null ) ? new Date( builder.dateAdded.getTime() ) : null;
     }
 
 
@@ -134,7 +134,10 @@ public class Track extends MusicItem {
     
     public static Track createFromResultSet( final ResultSet rs ) throws SQLException {
 
-        final Artist artist = new Artist( rs.getInt("artistId"), rs.getString("artistName") );
+        final Artist artist = new Artist.Builder()
+                .id(rs.getInt("artistId"))
+                .name(rs.getString("artistName"))
+                .build();
         final Album album = new Album.Builder()
                 .artist(artist)
                 .id(rs.getInt("albumId"))

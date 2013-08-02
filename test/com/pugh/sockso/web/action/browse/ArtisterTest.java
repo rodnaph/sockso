@@ -4,8 +4,6 @@ package com.pugh.sockso.web.action.browse;
 import com.pugh.sockso.db.Database;
 import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
-import com.pugh.sockso.music.Genre;
-import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestResponse;
@@ -153,7 +151,7 @@ public class ArtisterTest extends SocksoTestCase {
         final TestResponse res = new TestResponse();
         final Artister b = new Artister();
         final List<Album> albums = new ArrayList<Album>();
-        final Artist artist = new Artist( 1, "my artist", new Date(), 1, 1 );
+        final Artist artist = TestUtils.getArtist();
         final Album album = TestUtils.getAlbum(artist);
 
         albums.add( album );
