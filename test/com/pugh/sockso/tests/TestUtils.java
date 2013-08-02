@@ -122,8 +122,6 @@ public class TestUtils {
 
         final FileInputStream in1 = new FileInputStream( file1 );
         final FileInputStream in2 = new FileInputStream( file2 );
-        
-        int onChar = 1;
 
         while ( true ) {
 
@@ -137,8 +135,6 @@ public class TestUtils {
             if ( c1 != c2 ) {
                 return false;
             }
-
-            onChar++;
 
         }
         
@@ -155,23 +151,44 @@ public class TestUtils {
     
     public static Artist getArtist() {
         
-        return new Artist( 123, "foo" );
+        return new Artist.Builder()
+                .id(123)
+                .name("foo")
+                .dateAdded(new Date())
+                .build();
 
     }
-    
+
     /**
      *  returns an Album
-     * 
+     *
      *  @return
-     * 
+     *
      */
-    
+
     public static Album getAlbum() {
-        
-        return new Album( getArtist(), 123, "foo", "bar" );
-        
+
+        return getAlbum( getArtist() );
     }
-    
+
+    /**
+     *  returns an Album
+     *
+     *  @param artist
+     *  @return
+     *
+     */
+
+    public static Album getAlbum(Artist artist) {
+        
+        return new Album.Builder()
+                .artist(artist)
+                .id(123)
+                .name("foo")
+                .year("1999")
+                .dateAdded(new Date())
+                .build();
+    }
 
     /**
      *  returns a Genre
@@ -195,17 +212,32 @@ public class TestUtils {
     
     public static Track getTrack() {
 
-        Track.Builder builder = new Track.Builder();
-        builder.artist( getArtist() )
-                .album( getAlbum() )
-                .genre( getGenre() )
+        return getTrack( getArtist(), getAlbum(), getGenre() );
+    }
+
+    /**
+     *  returns a Track
+     * 
+     *  @param artist
+     *  @param album
+     *  @param album
+     * 
+     *  @return
+     *
+     */
+
+    public static Track getTrack( Artist artist, Album album, Genre genre ) {
+
+        return new Track.Builder()
+                .artist(artist)
+                .album(album)
+                .genre(genre)
                 .id(123)
                 .name("foo")
                 .number(1)
                 .path("/my/path")
-                .dateAdded(new Date());
-        
-        return builder.build();
+                .dateAdded(new Date())
+                .build();
     }
     
 }

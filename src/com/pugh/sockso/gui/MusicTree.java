@@ -141,7 +141,10 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
             rs = st.executeQuery();
 
             while ( rs.next() ) {
-                final Artist artist = new Artist( rs.getInt("id"), rs.getString("name") );
+                final Artist artist = new Artist.Builder()
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .build();
                 final MusicTreeNode node = new MusicTreeNode( artist );
                 node.add( new DefaultMutableTreeNode() );
                 root.add( node );
@@ -173,7 +176,11 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
 
         try {
 
-            final Artist artist = new Artist( item.getId(), item.getName() );
+            final Artist artist = new Artist.Builder()
+                    .id(item.getId())
+                    .name(item.getName())
+                    .build();
+            
             final String sql = " select al.id, al.name, al.year " +
                                " from albums al " +
                                " where al.artist_id = ? " +
@@ -186,7 +193,12 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
             node.removeAllChildren();
 
             while ( rs.next() ) {
-                final Album album = new Album( artist, rs.getInt("id"), rs.getString("name"), rs.getString("year") );
+                final Album album = new Album.Builder()
+                        .artist(artist)
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .year(rs.getString("year"))
+                        .build();
                 final MusicTreeNode child = new MusicTreeNode( album );
                 child.add( new DefaultMutableTreeNode() );
                 node.add( child );
@@ -197,8 +209,8 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
         }
 
         finally {
-            rs.close();
-            st.close();
+            Utils.close( rs );
+            Utils.close( st );
         }
 
     }
@@ -239,8 +251,8 @@ public class MusicTree extends JTree implements DragSourceListener, DragGestureL
         }
 
         finally {
-            rs.close();
-            st.close();
+            Utils.close( rs );
+            Utils.close( st );
         }
 
     }

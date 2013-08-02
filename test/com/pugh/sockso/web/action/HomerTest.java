@@ -9,6 +9,7 @@ import com.pugh.sockso.music.Track;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.tests.TestResponse;
+import com.pugh.sockso.tests.TestUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -162,20 +163,10 @@ public class HomerTest extends SocksoTestCase {
         final TestResponse res = new TestResponse( db );
         final Homer h = new Homer();
 
-        final Artist artist = new Artist( 1, "my ARtiST" );
-        final Album album = new Album( artist, 1, "MY alBBuuMM", "year" );
-        final Genre genre = new Genre( 3, "my geNRE" );
-
-        Track.Builder builder = new Track.Builder();
-        builder.artist( artist )
-                .album( album )
-                .genre( genre )
-                .id(1)
-                .name("TRRRAck")
-                .number(1)
-                .path("")
-                .dateAdded(null);
-        final Track track = builder.build();
+        final Artist artist = TestUtils.getArtist();
+        final Album album = TestUtils.getAlbum(artist);
+        final Genre genre = TestUtils.getGenre();
+        final Track track = TestUtils.getTrack(artist, album, genre);
         
         recentlyPlayedTracks.add( track );
         recentlyPlayedAlbums.add( album );

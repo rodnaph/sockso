@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
 import static junit.framework.Assert.assertEquals;
 
 import static org.easymock.EasyMock.*;
@@ -35,21 +36,33 @@ public class TrackTest extends SocksoTestCase {
         final String genreName = "rock";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
-        
-        Track.Builder builder = new Track.Builder();
-        builder.artist(new Artist( artistId, artistName ))
-                .album(new Album( artistId, artistName, albumId, albumName, albumYear ))
+
+        final Artist artist = new Artist.Builder()
+                .id(artistId)
+                .name(artistName)
+                .build();
+
+        final Album album = new Album.Builder()
+                .artist(artist)
+                .id(albumId)
+                .name(albumName)
+                .year(albumYear)
+                .build();
+
+        track = new Track.Builder()
+                .artist(artist)
+                .album(album)
                 .genre(new Genre( genreId, genreName ))
                 .id(trackId)
                 .name(trackName)
                 .number(trackNumber)
                 .path(trackPath)
-                .dateAdded(dateAdded);
-        track = builder.build();
+                .dateAdded(dateAdded)
+                .build();
 
         p = new StringProperties();
 
-        user = new User( 1, "name",null, null, 123, "ABC", true );
+        user = new User( 1, "name", null, null, 123, "ABC", true );
 
     }
 
@@ -60,8 +73,18 @@ public class TrackTest extends SocksoTestCase {
         final String genreName = "rock";
         final int trackNumber = 1;
         final Date dateAdded = new Date();
-        final Artist artist = new Artist(artistId,artistName);
-        final Album album = new Album( artistId, artistName, albumId, albumName, albumYear );
+
+        final Artist artist = new Artist.Builder()
+                .id(artistId)
+                .name(artistName)
+                .build();
+
+        final Album album = new Album.Builder()
+                .artist(artist)
+                .id(albumId)
+                .name(albumName)
+                .year(albumYear)
+                .build();
         final Genre genre = new Genre( genreId, genreName );
 
         Track.Builder builder = new Track.Builder();
@@ -379,7 +402,7 @@ public class TrackTest extends SocksoTestCase {
                 .path("")
                 .dateAdded(new Date());
         track = builder.build();
-        Album album = new Album( null, 1, "", "" );
+        Album album = new Album.Builder().build();
         assertFalse( track.equals(album) );
     }
 

@@ -22,7 +22,7 @@
         {
             "id": <% artist.getId() %>,
             "name": <% JsonUtils.string(artist.getName()) #n %>,
-            "date_added": "<% artist.getDateAdded().toString() %>"
+            "date_added": "<% JsonUtils.formatDate(artist.getDateAdded()) %>"
         }
 
     </%for>

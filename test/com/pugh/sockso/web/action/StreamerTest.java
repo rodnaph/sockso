@@ -5,7 +5,6 @@ import com.pugh.sockso.Constants;
 import com.pugh.sockso.Properties;
 import com.pugh.sockso.StringProperties;
 import com.pugh.sockso.db.Database;
-import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.music.Track;
 import com.pugh.sockso.music.stream.MusicStream;
 import com.pugh.sockso.tests.SocksoTestCase;
@@ -46,17 +45,10 @@ public class StreamerTest extends SocksoTestCase {
 
     public void testLogTrackPlayed() throws SQLException {
         
-        final int trackId = 123;
-
-        Track.Builder builder = new Track.Builder();
-        builder.id(trackId)
-                .name("")
-                .number(1)
-                .path("");
-        final Track track = builder.build();
+        final Track track = TestUtils.getTrack();
         
         final PreparedStatement st = createMock( PreparedStatement.class );
-        st.setInt( 1, trackId );
+        st.setInt( 1, track.getId() );
         st.setNull( 2, Types.INTEGER );
         expect( st.execute() ).andReturn( true );
         st.close();

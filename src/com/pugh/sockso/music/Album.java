@@ -21,25 +21,72 @@ public class Album extends MusicItem {
     private final Date dateAdded;
     private final String year;
 
-    public Album( final int artistId, final String artistName, final int id, final String name, final String year ) {
-        this( new Artist(artistId,artistName), id, name, year );
-    }
-    
-    public Album( final Artist artist, final int id, final String name, final String year ) {
-        this( artist, id, name, year, -1 );
+
+    /**
+     *  constructor
+     *
+     *  @param Builder builder
+     *
+     */
+
+    public Album( final Builder builder ) {
+        super( MusicItem.ALBUM, builder.id, builder.name);
+
+        this.artist = builder.artist;
+        this.dateAdded = ( builder.dateAdded != null ) ? new Date( builder.dateAdded.getTime() ) : null;
+        this.year = ( builder.year != null ) ? builder.year : "";
+        this.trackCount = builder.trackCount;
+        this.playCount = builder.playCount;
     }
 
-    public Album( final Artist artist, final int id, final String name, final String year, final int trackCount ) {
-        this( artist, id, name, year, null, trackCount, -1 );
-    }
-    
-    public Album( final Artist artist, final int id, final String name, final String year, final Date dateAdded, final int trackCount, int playCount ) {
-        super( MusicItem.ALBUM, id, name );
-        this.artist = artist;
-        this.trackCount = trackCount;
-        this.playCount = playCount;
-        this.dateAdded = ( dateAdded != null ) ? new Date(dateAdded.getTime()) : null;
-        this.year = ( year != null ) ? year : "";
+    public static class Builder {
+
+        private int id;
+        private String name;
+        private Artist artist;
+        private Date dateAdded;
+        private String year = "";
+        private int playCount = -1;
+        private int trackCount = -1;
+
+        public Builder id( int id ) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder artist( Artist artist ) {
+            this.artist = artist;
+            return this;
+        }
+
+        public Builder name( String name ) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder dateAdded( Date dateAdded ) {
+            this.dateAdded = dateAdded;
+            return this;
+        }
+
+        public Builder year( String year ) {
+            this.year = year;
+            return this;
+        }
+
+        public Builder playCount( int playCount) {
+            this.playCount = playCount;
+            return this;
+        }
+
+        public Builder trackCount( int trackCount) {
+            this.trackCount = trackCount;
+            return this;
+        }
+
+        public Album build() {
+            return new Album(this);
+        }
     }
 
     /**
@@ -49,14 +96,9 @@ public class Album extends MusicItem {
      */
     public String getYear() {
 
-        if ( year == null ) {
-            return "";
-        }
-
         return ( year.length() > 4 )
             ? year.substring( 0, 4 )
             : year;
-
     }
 
     public Artist getArtist() { return artist; }
@@ -130,17 +172,18 @@ public class Album extends MusicItem {
      */
     
     protected static Album createFromResultSet( final ResultSet rs ) throws SQLException {
-        
-        return new Album(
-            new Artist(
-                rs.getInt( "artist_id" ),
-                rs.getString( "artist_name" )
-            ),
-            rs.getInt( "id" ),
-            rs.getString( "name" ),
-            rs.getString( "year" )
-        );
-        
+
+        final Artist artist = new Artist.Builder()
+                .id(rs.getInt( "artist_id" ))
+                .name(rs.getString( "artist_name" ))
+                .build();
+
+        return new Album.Builder()
+                .artist(artist)
+                .id(rs.getInt( "id" ))
+                .name(rs.getString( "name" ))
+                .year(rs.getString( "year" ))
+                .build();
     }
     
     /**

@@ -247,7 +247,10 @@ public class User {
         catch ( final Exception e ) {
             log.error( e );
         }
-
+        finally {
+            Utils.close(rs);
+            Utils.close(st);
+        }
         return null;
 
     }

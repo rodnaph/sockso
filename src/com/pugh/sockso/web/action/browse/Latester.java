@@ -89,10 +89,14 @@ public class Latester extends BaseAction {
         final ResultSet rs = getLatestMusic( "artist", Constants.WWW_BROWSE_LATEST_ARTISTS_COUNT );
         final List<Artist> artists = new ArrayList<Artist>();
 
-        while ( rs.next() )
+        while ( rs.next() ) {
             artists.add(
-                new Artist( rs.getInt("id"), rs.getString("name") )
+                new Artist.Builder()
+                    .id(rs.getInt("id"))
+                    .name(rs.getString("name"))
+                    .build()
             );
+        }
 
         Utils.close( rs );
         
@@ -149,7 +153,10 @@ public class Latester extends BaseAction {
 
         while ( rs.next() )
             albums.add(
-                new Album( null, rs.getInt("id"), rs.getString("name"), "" )
+                new Album.Builder()
+                    .id( rs.getInt("id") )
+                    .name( rs.getString("name") )
+                    .build()
             );
 
         return albums;

@@ -6,7 +6,6 @@ import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestResponse;
 import com.pugh.sockso.web.BadRequestException;
 import com.pugh.sockso.web.RelatedArtists;
-
 import java.util.Date;
 
 import static org.easymock.classextension.EasyMock.*;
@@ -21,8 +20,8 @@ public class ArtistRelatedActionTest extends SocksoTestCase {
     protected void setUp() throws Exception {
         RelatedArtists related = createMock( RelatedArtists.class );
         Artist[] artists = new Artist[] {
-            new Artist( 1, "FooFoo", new Date(0), 0, 0 ),
-            new Artist( 2, "BarBar", new Date(0), 0, 0 )
+            new Artist.Builder().id(1).name("FooFoo").dateAdded(new Date()).build(),
+            new Artist.Builder().id(2).name("BarBar").dateAdded(new Date()).build()
         };
         expect( related.getRelatedArtistsFor(1) ).andReturn( artists );
         expect( related.getRelatedArtistsFor(99) ).andThrow( new BadRequestException("") );
