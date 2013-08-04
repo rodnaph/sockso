@@ -6,7 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.pugh.sockso.music.tag.aac.AACMetaData;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.mp4.Mp4FieldKey;
+import org.jaudiotagger.tag.mp4.Mp4Tag;
+import org.jaudiotagger.tag.mp4.field.Mp4TrackField;
 
 public class AACTag extends AudioTag {
 
@@ -23,7 +28,7 @@ public class AACTag extends AudioTag {
         ProcessBuilder pb = new ProcessBuilder(new String[]{ "sh", "scripts/unix/aactag.sh", file.getAbsolutePath() });
 
         Process proc = pb.start();
-
+        
         InputStream inputstream = proc.getInputStream();
         InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
         BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
@@ -59,11 +64,21 @@ public class AACTag extends AudioTag {
     }
 
     public void parse( File file ) throws IOException {
-        AACMetaData aacMetaData = new AACMetaData(file);
-        this.albumTitle = aacMetaData.getAlbum();
-        this.artistTitle = aacMetaData.getArtist();
-        this.trackNumber = aacMetaData.getNumber();
-        this.trackTitle = aacMetaData.getTrack();
-        this.genre = aacMetaData.getGenre();
+
+        try {
+            AudioFile f = AudioFileIO.read(file);
+            Mp4Tag mp4tag = (Mp4Tag) f.getTag();
+
+            this.artistTitle = mp4tag.getFirst(Mp4FieldKey.ARTIST);
+            this.albumTitle = mp4tag.getFirst(Mp4FieldKey.ALBUM);
+            this.albumArtist = mp4tag.getFirst(Mp4FieldKey.ALBUM_ARTIST);
+            this.trackTitle = mp4tag.getFirst(FieldKey.TITLE);
+            this.genre = mp4tag.getFirst(FieldKey.GENRE);
+            this.trackNumber = ((Mp4TrackField) mp4tag.getFirstField(Mp4FieldKey.TRACK)).getTrackNo();
+            
+        } catch ( Exception e) {
+            throw new IOException("Unable to read file: " + file.getName(), e);
+        }
     }
+
 }

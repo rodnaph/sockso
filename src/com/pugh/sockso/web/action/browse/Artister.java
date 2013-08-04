@@ -90,11 +90,12 @@ public class Artister extends BaseAction {
                             " on ar.id = al.artist_id " +
                             " left outer join tracks t " +
                             " on t.album_id = al.id " +
-                        " where al.artist_id = ? " +
+                        " where (t.artist_id = ? or al.artist_id = ?) " +
                         " group by artistId, artistName, albumId, albumYear, albumName " +
                         " order by al.year desc, al.name asc ";
             st = db.prepare( sql );
             st.setInt( 1, artistId );
+            st.setInt( 2, artistId );
             rs = st.executeQuery();
 
             final List<Album> albums = new ArrayList<Album>();

@@ -28,6 +28,7 @@ public abstract class AudioTag implements Tag {
 
     protected String artistTitle = "";
     protected String albumTitle = "";
+    protected String albumArtist = "";
     protected String trackTitle = "";
     protected String albumYear = "";
     protected String genre = "";
@@ -36,6 +37,7 @@ public abstract class AudioTag implements Tag {
 
     public String getArtist() { return artistTitle; }
     public String getAlbum() { return albumTitle; }
+    public String getAlbumArtist() { return albumArtist; }
     public String getTrack() { return trackTitle; }
     public String getGenre() { return genre; }
     public int getTrackNumber() { return trackNumber; }
@@ -74,13 +76,15 @@ public abstract class AudioTag implements Tag {
         // please, please no nullness...
         if ( tag.artistTitle == null ) tag.artistTitle = "";
         if ( tag.albumTitle == null ) tag.albumTitle = "";
+        if ( tag.albumArtist == null ) tag.albumArtist = "";
         if ( tag.trackTitle == null ) tag.trackTitle = "";
         if ( tag.albumYear == null ) tag.albumYear = "";
         if ( tag.genre == null ) tag.genre = "";
 
         // remove leading/trailing space
-        tag.albumTitle  = clean(tag.albumTitle.trim());
         tag.artistTitle = clean(tag.artistTitle.trim());
+        tag.albumTitle  = clean(tag.albumTitle.trim());
+        tag.albumArtist = clean(tag.albumArtist.trim());
         tag.trackTitle  = clean(tag.trackTitle.trim());
         tag.albumYear   = clean(tag.albumYear.trim());
         tag.genre       = clean(tag.genre.trim());
@@ -88,6 +92,7 @@ public abstract class AudioTag implements Tag {
         // set defaults if we have nothing
         if ( tag.artistTitle.equals("") ) tag.artistTitle = guessArtist( file );
         if ( tag.albumTitle.equals("") ) tag.albumTitle = guessAlbum( file );
+        if ( tag.albumArtist.equals("") ) tag.albumArtist = guessAlbumArtist( file );
         if ( tag.trackTitle.equals("") ) tag.trackTitle = guessTrack( file );
         if ( tag.trackNumber == 0 ) tag.setTrackNumber( guessTrackNumber(file) );
 
@@ -174,7 +179,7 @@ public abstract class AudioTag implements Tag {
 
             // see if there's a parent folder that seems to have
             // an "artist - album" type name
-            for ( int i=0; i<splits.length; i++ )
+            for ( int i = 0; i < splits.length; i++ )
                 if ( parentName.indexOf(splits[i]) != -1 )
                     return parentName.substring( 0, parentName.indexOf(splits[i]) );
 
@@ -207,7 +212,7 @@ public abstract class AudioTag implements Tag {
 
             // see if there's a parent folder that seems to have
             // an "artist - album" type name
-            for ( int i=0; i<splits.length; i++ )
+            for ( int i = 0; i < splits.length; i++ )
                 if ( parentName.indexOf(splits[i]) != -1 )
                     return parentName.substring( parentName.indexOf(splits[i]) + splits[i].length(), parentName.length() );
 
@@ -220,6 +225,19 @@ public abstract class AudioTag implements Tag {
         
     }
     
+    /**
+     *  tries to guess the name of the album artist from the file name/path
+     *
+     *  @param file filename to guess from
+     *  @return album artist name
+     *
+     */
+
+    protected static String guessAlbumArtist( final File file ) {
+        // TODO: This could look for directory names like "Various Artists" or something
+        return "";
+    }
+
     /**
      *  tries to guess the name of the track from the file name
      * 
@@ -292,4 +310,19 @@ public abstract class AudioTag implements Tag {
         
     }
     
+    @Override
+    public String toString() {
+        
+        return AudioTag.class.getSimpleName() +
+                "{" +
+                  "artistTitle=" + artistTitle +
+                ", albumTitle=" + albumTitle +
+                ", albumArtist=" + albumArtist +
+                ", trackTitle=" + trackTitle +
+                ", albumYear=" + albumYear +
+                ", genre=" + genre +
+                ", trackNumber=" + trackNumber +
+                "}";
+    }
+
 }
