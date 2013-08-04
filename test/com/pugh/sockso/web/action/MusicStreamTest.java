@@ -27,7 +27,7 @@ public class MusicStreamTest extends SocksoTestCase {
         super.setUp();
 
         tr = new Track.Builder()
-                .artist(new Artist(1, "Usher"))
+                .artist( new Artist.Builder().id(1).name("Usher").build() )
                 .path("/music/usher-yeah.mp3")
                 .name("yeah")
                 .build();
