@@ -151,14 +151,16 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         final Tag tag = AudioTag.getTag( file );
 
-        log.debug( tag.getArtist() + " - "
-                 + tag.getAlbum() + " - "
-                 + tag.getAlbumYear() + " - "
-                 + tag.getTrack() + " - "
-                 + tag.getGenre() );
+	log.debug( tag.toString() );
 
         final int artistId = addArtist( tag.getArtist() );
-        final int albumId  = addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
+        int albumArtistId = artistId;
+
+        if ( tag.getAlbumArtist() != null && tag.getAlbumArtist().equals("") ) {
+            albumArtistId = addArtist( tag.getAlbumArtist() );
+        }
+
+        final int albumId  = addAlbum( albumArtistId, tag.getAlbum(), tag.getAlbumYear() );
         final int genreId  = addGenre( tag.getGenre() );
         final int trackId  = addTrack( artistId, albumId, tag.getTrack(),
                 tag.getTrackNumber(), file, collectionId, genreId );
@@ -168,9 +170,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             final BufferedImage coverArt = tag.getCoverArt();
             
             if ( coverArt != null ) {
-                addCoverArt( trackId, "tr", coverArt );
+                addCoverArt( albumArtistId, "ar", coverArt );
                 addCoverArt( albumId, "al", coverArt );
-                addCoverArt( artistId, "ar", coverArt );
+                addCoverArt( trackId, "tr", coverArt );
             }
         }
 
@@ -1125,25 +1127,27 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     }
 
     /**
-     *  removes any artists from the collection that don't
+     *  Removes any artists from the collection that don't
      *  have any tracks associated with them
      *
      *  @throws SQLException
      *
      */
-
+    
     protected void removeOrphanedArtists() throws SQLException {
 
-        // remove any artists left without tracks
+        // remove any artists left without tracks OR albums
+        // (artist can be an "album artist" and have zero tracks)
         String sql = " delete from artists " +
-                     " where id not in ( select artist_id " +
-                                       " from tracks ) ";
+                     " where id not in ( select artist_id from albums ) " +
+                     "   and id not in ( select artist_id from tracks ) ";
+
         db.update( sql );
 
     }
 
     /**
-     *  removes any albums from the collection that don't
+     *  Removes any albums from the collection that don't
      *  have any tracks associated with them
      *
      *  @throws SQLException
@@ -1156,6 +1160,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         String sql = " delete from albums " +
                      " where id not in ( select album_id " +
                                        " from tracks ) ";
+
         db.update( sql );
 
     }

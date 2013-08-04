@@ -41,6 +41,15 @@ public interface Tag {
     public String getAlbum();
     
     /**
+     *  returns the name of the album artist (i.e. "Various Artists")
+     *
+     *  @return
+     *
+     */
+
+    public String getAlbumArtist();
+
+    /**
      *  returns the name of the track
      * 
      *  @return

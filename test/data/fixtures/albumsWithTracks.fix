@@ -1,0 +1,4 @@
+
+albums:1,1,A Album,now(),1984
+
+tracks:1,1,1,First Track,/music/folder/track.mp3,180,now(),1,1,1
