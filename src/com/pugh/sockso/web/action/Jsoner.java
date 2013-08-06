@@ -159,7 +159,7 @@ public class Jsoner extends BaseAction {
      * 
      */
     
-    protected void showSimilarArtists( final Artist[] artists ) throws IOException {
+    protected void showSimilarArtists( final List<Artist> artists ) throws IOException {
         
         final TSimilarArtists tpl = new TSimilarArtists();
         

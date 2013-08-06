@@ -11,8 +11,11 @@
 {
     "id": <% album.getId() %>,
     "name": <% JsonUtils.string(album.getName()) #n %>,
+    "date_added": "<% JsonUtils.formatDate(album.getDateAdded()) %>",
+
     "artist": {
         "id": <% album.getArtist().getId() %>,
-        "name": <% JsonUtils.string(album.getArtist().getName()) #n %>
+        "name": <% JsonUtils.string(album.getArtist().getName()) #n %>,
+        "date_added": "<% JsonUtils.formatDate(album.getArtist().getDateAdded()) %>"
     }
 }

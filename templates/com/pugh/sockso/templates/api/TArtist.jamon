@@ -8,7 +8,6 @@
 
 <%args>
     Artist artist = null;
-    List<Album> albums = null;
 </%args>
 
 <%java>
@@ -18,15 +17,5 @@
 {
     "id": <% artist.getId() %>,
     "name": <% JsonUtils.string(artist.getName()) #n %>,
-    "albums": [
-        <%for Album album : albums %>
-            <%if !isFirst%>,</%if>
-            <%java>isFirst=false;</%java>
-            {
-                "id": <% album.getId() %>,
-                "name": <% JsonUtils.string(album.getName()) #n %>,
-                "year": <% JsonUtils.string(album.getYear()) %>
-            }
-        </%for>
-    ]
+    "date_added": "<% JsonUtils.formatDate(artist.getDateAdded()) %>"
 }

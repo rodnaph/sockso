@@ -1,7 +1,6 @@
 
 package com.pugh.sockso.web.action.api;
 
-import com.pugh.sockso.music.Album;
 import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.templates.api.TArtist;
 import com.pugh.sockso.web.BadRequestException;
@@ -9,7 +8,6 @@ import com.pugh.sockso.web.Request;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 public class ArtistAction extends BaseApiAction {
     
@@ -52,12 +50,7 @@ public class ArtistAction extends BaseApiAction {
             throw new BadRequestException( "Invalid artist ID", 404 );
         }
         
-        final List<Album> albums = Album.findByArtistId(
-            getDatabase(),
-            artist.getId()
-        );
-        
-        showArtist( artist, albums );
+        showArtist( artist );
         
     }
     
@@ -71,11 +64,10 @@ public class ArtistAction extends BaseApiAction {
      * 
      */
     
-    protected void showArtist( final Artist artist, final List<Album> albums ) throws IOException {
+    protected void showArtist( final Artist artist ) throws IOException {
         
         final TArtist tpl = new TArtist();
         tpl.setArtist( artist );
-        tpl.setAlbums( albums );
         
         getResponse().showJson( tpl.makeRenderer() );
         

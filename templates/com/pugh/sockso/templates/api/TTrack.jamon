@@ -12,15 +12,18 @@
     "id": <% track.getId() %>,
     "name": <% JsonUtils.string(track.getName()) #n %>,
     "number": <% track.getNumber() %>,
+    "date_added": "<% JsonUtils.formatDate(track.getDateAdded()) %>",
 
     "album": {
         "id": <% track.getAlbum().getId() %>,
-        "name": <% JsonUtils.string(track.getAlbum().getName()) #n %>
+        "name": <% JsonUtils.string(track.getAlbum().getName()) #n %>,
+        "date_added": "<% JsonUtils.formatDate(track.getAlbum().getDateAdded()) %>"
     },
 
     "artist": {
         "id": <% track.getArtist().getId() %>,
-        "name": <% JsonUtils.string(track.getArtist().getName()) #n %>
+        "name": <% JsonUtils.string(track.getArtist().getName()) #n %>,
+        "date_added": "<% JsonUtils.formatDate(track.getArtist().getDateAdded()) %>"
     },
 
     "genre" : {

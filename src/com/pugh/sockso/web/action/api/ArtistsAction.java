@@ -43,7 +43,7 @@ public class ArtistsAction extends BaseApiAction {
             getFromDate()
         );
         
-        showArtists( artists.toArray( new Artist[] {} ) );
+        showArtists( artists );
         
     }
     
@@ -56,7 +56,7 @@ public class ArtistsAction extends BaseApiAction {
      * 
      */
     
-    protected void showArtists( final Artist[] artists ) throws IOException {
+    protected void showArtists( final List<Artist> artists ) throws IOException {
         
         TArtists tpl = new TArtists();
         tpl.setArtists( artists );

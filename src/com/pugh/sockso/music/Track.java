@@ -116,7 +116,9 @@ public class Track extends MusicItem {
     public String getPath() { return path; }
     public int getNumber() { return number; }
     public int getPlayCount() { return playCount; }
-    public Date getDateAdded() { return dateAdded; }
+    public Date getDateAdded() {
+        return dateAdded == null ? null : new Date(dateAdded.getTime());
+    }
     
     public void setPlayCount( final int playCount ) {
         this.playCount = playCount;
@@ -137,12 +139,14 @@ public class Track extends MusicItem {
         final Artist artist = new Artist.Builder()
                 .id(rs.getInt("artistId"))
                 .name(rs.getString("artistName"))
+                .dateAdded(rs.getDate("artistDateAdded"))
                 .build();
         final Album album = new Album.Builder()
                 .artist(artist)
                 .id(rs.getInt("albumId"))
                 .name(rs.getString("albumName"))
                 .year(rs.getString("albumYear"))
+                .dateAdded(rs.getDate("albumDateAdded"))
                 .build();
         final Genre genre = new Genre( rs.getInt("genreId"), rs.getString("genreName") );
 
@@ -189,8 +193,8 @@ public class Track extends MusicItem {
      */
     
     public static String getSelectSql() {
-        return " select ar.id as artistId, ar.name as artistName, " +
-               " al.id as albumId, al.name as albumName, al.year as albumYear, " +
+        return " select ar.id as artistId, ar.name as artistName, ar.date_added as artistDateAdded, " +
+               " al.id as albumId, al.name as albumName, al.year as albumYear, al.date_added as albumDateAdded, " +
                " t.id as trackId, t.name as trackName, t.path as trackPath, " +
                " t.track_no as trackNo, t.date_added as dateAdded, " +
                " g.id as genreId, g.name as genreName";

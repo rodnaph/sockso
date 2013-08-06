@@ -1,12 +1,11 @@
 
 <%import>
     com.pugh.sockso.music.Artist;
-    com.pugh.sockso.JsonUtils;
     java.util.List;
 </%import>
 
 <%args>
-    Artist[] artists = null;
+    List<Artist> artists = null;
 </%args>
 
 <%java>
@@ -19,11 +18,7 @@
         <%if !isFirst %>,</%if>
         <%java>isFirst = false;</%java>
 
-        {
-            "id": <% artist.getId() %>,
-            "name": <% JsonUtils.string(artist.getName()) #n %>,
-            "date_added": "<% JsonUtils.formatDate(artist.getDateAdded()) %>"
-        }
+        <& TArtist; artist=artist; &>
 
     </%for>
 ]

@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.google.inject.Inject;
+import java.util.List;
 
 public class RelatedArtists {
 
@@ -44,7 +45,7 @@ public class RelatedArtists {
      * 
      */
     
-    public Artist[] getRelatedArtistsFor( final int artistId ) throws SQLException, IOException, BadRequestException, CacheException {
+    public List<Artist> getRelatedArtistsFor( final int artistId ) throws SQLException, IOException, BadRequestException, CacheException {
         
         ResultSet rs = null;
         PreparedStatement st = null;
@@ -74,7 +75,7 @@ public class RelatedArtists {
                 );
             }
 
-            return artists.toArray( new Artist[] {} );
+            return artists;
             
         }
         

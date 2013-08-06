@@ -82,7 +82,9 @@ public class Artist extends MusicItem {
      * 
      */
     
-    public Date getDateAdded() { return dateAdded; }
+    public Date getDateAdded() { 
+        return dateAdded == null ? null : new Date(dateAdded.getTime());
+    }
     public int getTrackCount() { return trackCount; }
     public int getAlbumCount() { return albumCount; }
     public int getPlayCount() { return playCount; }
@@ -106,7 +108,7 @@ public class Artist extends MusicItem {
         
         try {
             
-            final String sql = " select ar.id, ar.name " +
+            final String sql = " select ar.id, ar.name, ar.date_added " +
                                " from artists ar " +
                                " where id = ? ";
             
@@ -118,6 +120,7 @@ public class Artist extends MusicItem {
                 return new Artist.Builder()
                         .id(rs.getInt( "id" ))
                         .name(rs.getString( "name" ))
+                        .dateAdded(rs.getDate("date_added"))
                         .build();
             }
             

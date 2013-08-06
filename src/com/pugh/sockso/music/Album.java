@@ -103,7 +103,9 @@ public class Album extends MusicItem {
 
     public Artist getArtist() { return artist; }
     public int getTrackCount() { return trackCount; }
-    public Date getDateAdded() { return new Date(dateAdded.getTime()); }
+    public Date getDateAdded() {
+        return dateAdded == null ? null : new Date(dateAdded.getTime());
+    }
     public int getPlayCount() { return playCount; }
 
     /**
@@ -152,8 +154,8 @@ public class Album extends MusicItem {
     
     protected static String getSelectAllFromSql() {
         
-        return " select al.id, al.name, al.year, " +
-                   " ar.id as artist_id, ar.name as artist_name " +
+        return " select al.id, al.name, al.year, al.date_added, " +
+                   " ar.id as artist_id, ar.name as artist_name, ar.date_added as artist_date_added " +
                " from albums al " +
                    " inner join artists ar " +
                    " on ar.id = al.artist_id ";
@@ -176,6 +178,7 @@ public class Album extends MusicItem {
         final Artist artist = new Artist.Builder()
                 .id(rs.getInt( "artist_id" ))
                 .name(rs.getString( "artist_name" ))
+                .dateAdded(rs.getDate("artist_date_added"))
                 .build();
 
         return new Album.Builder()
@@ -183,6 +186,7 @@ public class Album extends MusicItem {
                 .id(rs.getInt( "id" ))
                 .name(rs.getString( "name" ))
                 .year(rs.getString( "year" ))
+                .dateAdded(rs.getDate("date_added"))
                 .build();
     }
     
