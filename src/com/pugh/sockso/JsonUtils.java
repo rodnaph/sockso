@@ -18,13 +18,17 @@ public class JsonUtils {
      */
     
     public static String string( final String string ) {
-        
+        if ( string == null) {
+            return "null";
+        }
         return "\"" +string.replace("\"","\\\"")+ "\"";
         
     }
 
     public static String formatDate( final Date date ) {
-
+        if ( date == null) {
+            return "null";
+        }
         return new SimpleDateFormat(DATE_FORMAT).format(date);
 
     }
