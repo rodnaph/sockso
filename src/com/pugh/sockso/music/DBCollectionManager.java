@@ -19,6 +19,8 @@ import com.google.inject.Singleton;
 
 import org.apache.log4j.Logger;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -156,7 +158,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
         final int artistId = addArtist( tag.getArtist() );
         int albumArtistId = artistId;
 
-        if ( tag.getAlbumArtist() != null && tag.getAlbumArtist().equals("") ) {
+        if ( StringUtils.isBlank(tag.getAlbumArtist()) ) {
             albumArtistId = addArtist( tag.getAlbumArtist() );
         }
 
@@ -196,7 +198,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             log.warn("addCoverArt: itemId param was -1");
             return;
         }
-
+        
         // TODO Would be nice if we had some sort of helper to build a coverId from arbitrary music item types
         String coverId = itemType + itemId;
 
@@ -761,7 +763,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     private int addArtist( String name ) {
 
-        if ( name.equals("") ) {
+        if ( StringUtils.isBlank(name) ) {
             name = "Unknown Artist";
         }
 
@@ -826,7 +828,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     private int addAlbum( final int artistId, String name, String year ) {
 
-        if ( name.equals("") ) {
+        if ( StringUtils.isBlank(name) ) {
             name = "Unknown Album";
         }
 
@@ -893,7 +895,7 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
     private int addGenre( String name ) {
 
-        if ( name.equals("") ) {
+        if ( StringUtils.isBlank(name) ) {
             name = "Unknown Genre";
         }
 
@@ -955,8 +957,9 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     private int addTrack( final int artistId, final int albumId, String name,
             final int trackNo, final File file, final int collectionId, final int genreId ) {
 
-        if ( name.equals("") )
+        if ( StringUtils.isBlank(name) ) {
             name = "Unknown Track (" + trackNo + ")";
+        }
 
         ResultSet rs = null;
         PreparedStatement st = null;
