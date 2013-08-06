@@ -38,12 +38,11 @@ public class ArtistActionTest extends SocksoTestCase {
         assertFalse( action.canHandle(getRequest( "/api/albums/456" )) );
     }
     
-    public void testArtistAndAlbumInfoShowsWhenArtistRequested() throws Exception {
+    public void testArtistInfoShowsWhenArtistRequested() throws Exception {
         action.setRequest(getRequest( "/api/artists/1" ));
         action.handleRequest();
+        assertContains( res.getOutput(), "1");
         assertContains( res.getOutput(), "A Artist" );
-        assertContains( res.getOutput(), "A Album" );
-        assertContains( res.getOutput(), "Empty Album" );
     }
     
     public void testExceptionThrownWhenInvalidArtistRequested() {
@@ -56,13 +55,6 @@ public class ArtistActionTest extends SocksoTestCase {
         if ( !gotException ) {
             fail( "Expected BadRequestException when invalid artist ID specified" );
         }
-    }
-    
-    public void testYearsAreListedWithTheArtistsAlbums() throws Exception {
-        action.setRequest(getRequest( "/api/artists/1" ));
-        action.handleRequest();
-        assertContains( res.getOutput(), "1984" );
-        assertContains( res.getOutput(), "1985" );
     }
     
 }

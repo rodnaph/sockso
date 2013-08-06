@@ -155,9 +155,11 @@ public class TrackTest extends SocksoTestCase {
         expect( rs.next() ).andReturn( true );
         expect( rs.getInt("artistId") ).andReturn( -1 );
         expect( rs.getString("artistName") ).andReturn( albumName );
+        expect( rs.getDate("artistDateAdded") ).andReturn( null ).times( 1 );
         expect( rs.getInt("albumId") ).andReturn( -1 );
         expect( rs.getString("albumName") ).andReturn( albumName );
         expect( rs.getString("albumYear") ).andReturn( albumYear );
+        expect( rs.getDate("albumDateAdded") ).andReturn( null ).times( 1 );
         expect( rs.getInt("genreId") ).andReturn( -1 );
         expect( rs.getString("genreName") ).andReturn( genre );
         expect( rs.getInt("trackId") ).andReturn( -1 );

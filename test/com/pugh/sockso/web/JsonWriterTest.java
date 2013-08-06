@@ -45,7 +45,7 @@ public class JsonWriterTest extends SocksoTestCase {
         tpl.setAlbums(albums);
         tpl.makeRenderer().renderTo(jsonWriter);
 
-        String expected = "[{\"id\":2,\"name\":\"Album\\\"\",\"artist\":{\"id\":1,\"name\":\"Artist\\\"\"}}]";
+        String expected = "[{\"id\":2,\"name\":\"Album\\\"\",\"date_added\":\"null\",\"artist\":{\"id\":1,\"name\":\"Artist\\\"\",\"date_added\":\"null\"}}]";
         String actual = stringWriter.toString();
 
         assertEquals( expected, actual );

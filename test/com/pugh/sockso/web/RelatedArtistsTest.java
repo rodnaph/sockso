@@ -5,6 +5,7 @@ import com.pugh.sockso.music.Artist;
 import com.pugh.sockso.tests.SocksoTestCase;
 import com.pugh.sockso.tests.TestDatabase;
 import com.pugh.sockso.web.action.AudioScrobbler;
+import java.util.List;
 
 import static org.easymock.classextension.EasyMock.*;
 
@@ -24,12 +25,12 @@ public class RelatedArtistsTest extends SocksoTestCase {
     }
     
     public void testOnlyRelatedArtistsInCollectionAreReturned() throws Exception {
-        Artist[] artists = related.getRelatedArtistsFor( 1 );
-        assertEquals( 2, artists.length );
+        List<Artist> artists = related.getRelatedArtistsFor( 1 );
+        assertEquals( 2, artists.size() );
     }
     
     public void testArtistAddedDateIsReturnedWithArtistObjects() throws Exception {
-        Artist[] artists = related.getRelatedArtistsFor( 1 );
-        assertNotNull( artists[0].getDateAdded() );
+        List<Artist> artists = related.getRelatedArtistsFor( 1 );
+        assertNotNull( artists.get(0).getDateAdded() );
     }
 }
