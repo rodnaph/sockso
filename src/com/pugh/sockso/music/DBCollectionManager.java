@@ -155,16 +155,16 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
 	log.debug( tag.toString() );
 
-        final int artistId = addArtist( tag.getArtist() );
-        int albumArtistId = artistId;
+        final Artist artist = addArtist( tag.getArtist() );
+        Artist albumArtist = artist;
 
         if ( StringUtils.isBlank(tag.getAlbumArtist()) ) {
-            albumArtistId = addArtist( tag.getAlbumArtist() );
+            albumArtist = addArtist( tag.getAlbumArtist() );
         }
 
-        final int albumId  = addAlbum( albumArtistId, tag.getAlbum(), tag.getAlbumYear() );
+        final Album album = addAlbum( albumArtist, tag.getAlbum(), tag.getAlbumYear() );
         final int genreId  = addGenre( tag.getGenre() );
-        final int trackId  = addTrack( artistId, albumId, tag.getTrack(),
+        final int trackId  = addTrack( artist, album, tag.getTrack(),
                 tag.getTrackNumber(), file, collectionId, genreId );
 
         if ( Utils.isFeatureEnabled( p, Constants.COLLMAN_SCAN_COVERS ) ) {
@@ -172,8 +172,10 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
             final BufferedImage coverArt = tag.getCoverArt();
             
             if ( coverArt != null ) {
-                addCoverArt( albumArtistId, "ar", coverArt );
-                addCoverArt( albumId, "al", coverArt );
+                // TODO Lot of duplication here for SAME cover (should have only one)
+                addCoverArt( albumArtist.getId(), "ar", coverArt );
+                addCoverArt( artist.getId(), "ar", coverArt );
+                addCoverArt( album.getId(), "al", coverArt );
                 addCoverArt( trackId, "tr", coverArt );
             }
         }
@@ -260,65 +262,35 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
      * 
      */
     
-    protected void checkAlbumTagInfo( final int artistId, final Tag tag, final Track track ) throws SQLException {
+    protected void checkAlbumTagInfo( final Artist artist, final Tag tag, final Track track ) throws SQLException {
 
         // need to ignore case because that's how the DB does it
         if ( !track.getAlbum().getName().equalsIgnoreCase(tag.getAlbum()) ||
              !track.getAlbum().getYear().equalsIgnoreCase(tag.getAlbumYear()) ) {
-
-            ResultSet rs = null;
-            PreparedStatement st = null;
-
-            try {
-
-                // if the album has changed, first try and fetch an album
-                // for this artist of this new name to tag track to...
-                String sql = " select id " +
-                             " from albums " +
-                             " where name = ? " +
-                                 " and artist_id = ? ";
-
-                st = db.prepare( sql );
-                st.setString( 1, tag.getAlbum() );
-                st.setInt( 2, artistId );
-                rs = st.executeQuery();
-
-                final int newAlbumId = rs.next()
-                    ? rs.getInt( "id" )
-                    : addAlbum( artistId, tag.getAlbum(), tag.getAlbumYear() );
-
-                Utils.close( rs );
-                Utils.close( st );
-                
-                // then update track
-                sql = " update tracks " +
-                      " set album_id = ? " +
-                      " where id = ? ";
-                
-                st = db.prepare( sql );
-                st.setInt( 1, newAlbumId );
-                st.setInt( 2, track.getId() );
-                st.execute();
-                
-                Utils.close( rs );
-                Utils.close( st );
-
-                sql = " update albums " +
-                      " set year = ? " +
-                      " where id = ? ";
-
-                st = db.prepare( sql );
-                st.setString( 1, tag.getAlbumYear() );
-                st.setInt( 2, newAlbumId );
-                st.execute();
-
-            }
             
-            finally {
-                Utils.close( rs );
-                Utils.close( st );
+            // if the album has changed, first try and fetch an album
+            // for this artist of this new name to tag track to...
+            AlbumDataProvider adp = new AlbumDataProvider(db);
+            Album album = adp.findByNameAndArtistId(tag.getAlbum(), artist.getId());
+
+            if (album == null) {
+                album = addAlbum(artist, tag.getAlbum(), tag.getAlbumYear());
             }
-                
+            else {
+                album.setYear(tag.getAlbumYear());
+                adp.save(album);
+            }
+
+            // then update track
+            sql = " update tracks "
+                + " set album_id = ? "
+                + " where id = ? ";
+
+            st = db.prepare(sql);
+            st.setInt(1, album.getId());
+            st.setInt(2, track.getId());
+            st.execute();
+
         }
         
     }
@@ -343,62 +315,40 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         // need to ignore case because that's how the DB does it
         if ( !track.getArtist().getName().equalsIgnoreCase(tag.getArtist()) ) {
-
-            PreparedStatement st = null;
-            ResultSet rs = null;
             
-            try {
-            
-                // if the artist has changed, first try and fetch an artist
-                // of this new name to tag track to...
-                String sql = " select id " +
-                             " from artists " +
-                             " where name = ? ";
-                
-                st = db.prepare( sql );
-                st.setString( 1, tag.getArtist() );
-                rs = st.executeQuery();
+     
+            // if the artist has changed, first try and fetch an artist
+            // of this new name to tag track to...
+            ArtistDataProvider adp = new ArtistDataProvider(db);
+            Artist artist = adp.findByName(tag.getArtist());
 
-                final int newArtistId = rs.next()
-                    ? rs.getInt("id")
-                    : addArtist(tag.getArtist());
-
-                Utils.close( rs );
-                Utils.close( st );
-                
-                // then update track
-                sql = " update tracks " +
-                      " set artist_id = ? " +
-                      " where id = ? ";
-                
-                st = db.prepare( sql );
-                st.setInt( 1, newArtistId );
-                st.setInt( 2, track.getId() );
-                st.execute();
-
-                Utils.close( rs );
-                Utils.close( st );
-
-                sql = " update albums " +
-                      " set artist_id = ? " +
-                      " where id = ? ";
-
-                st = db.prepare( sql );
-                st.setInt( 1, newArtistId );
-                st.setInt( 2, track.getAlbum().getId() );
-                st.execute();
-
-                return newArtistId;
-            
+            if (artist == null) {
+                artist = addArtist(tag.getArtist());
             }
-            
-            finally {
-                Utils.close( rs );
-                Utils.close( st );
-            }
+
+            // update tracks for artist
+            sql = " update tracks "
+                    + " set artist_id = ? "
+                    + " where id = ? ";
+
+            st = db.prepare(sql);
+            st.setInt(1, newArtistId);
+            st.setInt(2, track.getId());
+            st.execute();
+
+            // update albums for artist
+            sql = " update albums "
+                    + " set artist_id = ? "
+                    + " where id = ? ";
+
+            st = db.prepare(sql);
+            st.setInt(1, newArtistId);
+            st.setInt(2, track.getAlbum().getId());
+            st.execute();
+
+            return artist.getId();
 
         }
-
         // name not changed, but make sure browse_name is up to date
         // @TODO - maybe it'd be better to extract the browse_name with the artist
         // information (in Track), then we can check if it needs changing...
@@ -409,41 +359,6 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
 
         return track.getArtist().getId();
         
-    }
-
-    /**
-     *  Updates the artists browse name from the real name
-     * 
-     *  @param artistId
-     *  @param realName
-     * 
-     *  @throws java.sql.SQLException
-     * 
-     */
-
-    protected void updateArtistBrowseName( final int artistId, final String realName ) throws SQLException {
-
-        PreparedStatement st = null;
-
-        try {
-
-            final String browseName = getArtistBrowseName( getArtistPrefixesToRemove(), realName );
-            final String sql = " update artists " +
-                               " set browse_name = ? " +
-                               " where id = ? ";
-
-            st = db.prepare( sql );
-            st.setString( 1, browseName );
-            st.setInt( 2, artistId );
-
-            st.execute();
-
-        }
-
-        finally {
-            Utils.close( st );
-        }
-
     }
 
     /**
@@ -756,133 +671,71 @@ public class DBCollectionManager extends Thread implements CollectionManager, In
     }
     
     /**
-     *  adds an artist to the collection (if it doesn't already
+     *  Adds an artist to the collection (if it doesn't already
      *  exist) and returns its id
      *
      */
 
-    private int addArtist( String name ) {
+    private Artist addArtist( String name ) {
 
         if ( StringUtils.isBlank(name) ) {
             name = "Unknown Artist";
         }
 
-        ResultSet rs = null;
-        PreparedStatement st = null;
+        final String browseName = getArtistBrowseName(getArtistPrefixesToRemove(), name);
+        final Artist artist = new Artist.Builder()
+                .name(name)
+                .browseName(browseName)
+                .build();
 
         try {
+            
+            ArtistDataProvider adp = new ArtistDataProvider(db);
+            adp.saveOrUpdate(artist);
+            fireCollectionManagerEvent( CollectionManagerListener.ARTIST_ADDED, name );
 
-            try {
-                
-                final String browseName = getArtistBrowseName( getArtistPrefixesToRemove(), name );
-
-                st = db.prepare(
-                    " insert into artists ( name, date_added, browse_name ) " +
-                    " values ( ?, current_timestamp, ? ) "
-                );
-                st.setString( 1, name );
-                st.setString( 2, browseName );
-                st.execute();
-                
-                log.debug( "Added Artist: " + name );
-                
-            }
-            catch ( final Exception e ) {}
-            finally {
-                Utils.close( st );
-            }
-
-            st = db.prepare(
-                " select id " +
-                " from artists " +
-                " where name = ? "
-            );
-            st.setString( 1, name );
-            rs = st.executeQuery();
-
-            if ( rs.next() ) {
-                fireCollectionManagerEvent( CollectionManagerListener.ARTIST_ADDED, name );
-                return rs.getInt( "id" );
-            }
+            return artist;
+            
         }
-        
         catch ( final Exception e ) {
-            log.error( "Error Adding Artist: " + e );
+            log.error( "Error Adding Artist: " + name, e );
         }
 
-        finally {
-            Utils.close( rs );
-            Utils.close( st );
-            System.gc();
-        }
-        
-        return -1;
-
+        return null;
     }
 
     /**
-     *  adds an album to the collection (if it doesn't already
+     *  Adds an album to the collection (if it doesn't already
      *  exist) and returns its id
      *
      */
 
-    private int addAlbum( final int artistId, String name, String year ) {
+    private Album addAlbum( final Artist albumArtist, String name, String year ) {
 
         if ( StringUtils.isBlank(name) ) {
             name = "Unknown Album";
         }
 
-        ResultSet rs = null;
-        PreparedStatement st = null;
+        final Album album = new Album.Builder()
+                .artist(albumArtist)
+                .name(name)
+                .year(year)
+                .build();
 
         try {
 
-            try {
-                
-                st = db.prepare(
-                        " insert into albums ( artist_id, name, year, date_added ) " +
-                        " values ( ?, ?, ?, current_timestamp ) "
-                );
-                st.setInt( 1, artistId );
-                st.setString( 2, name );
-                st.setString(3, year);
-                st.execute();
-                
-                log.debug( "Added Album: " + name + " " + year );
-                
-            }
-            catch ( final Exception e ) {}
-            finally {
-                Utils.close( st );
-            }
-
-            final String sql = " select id " +
-                               " from albums " +
-                               " where artist_id = ? " +
-                                   " and name = ? ";
+            AlbumDataProvider adp = new AlbumDataProvider(db);
+            adp.saveOrUpdate(album);
+            fireCollectionManagerEvent( CollectionManagerListener.ALBUM_ADDED, name );
             
-            st = db.prepare( sql );
-            st.setInt( 1, artistId );
-            st.setString( 2, name );
-            rs = st.executeQuery();
-
-            if ( rs.next() ) {
-                fireCollectionManagerEvent( CollectionManagerListener.ALBUM_ADDED, name );
-                return rs.getInt( "id" );
-            }
+            return album;
 
         }
-        
-        catch ( final Exception e ) {
+        catch ( final SQLException e ) {
             log.error( "Error Adding Album (" + name + "): " + e.getMessage() );
         }
-        
-        finally {
-            Utils.close( rs );
-            Utils.close( st );
-        }
-        
-        return -1;
+
+        return null;
 
     }
 

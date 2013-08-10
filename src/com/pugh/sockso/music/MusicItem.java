@@ -25,8 +25,9 @@ public class MusicItem implements Transferable {
     public static final String COLLECTION = "collection";
     public static final String PLAYLIST = "playlist";
 
-    private final String type, name;
-    private final int id;
+    private String type;
+    private String name;
+    private int id;
     
     public MusicItem( final String type, final int id, final String name ) {
         this.type = type;
@@ -34,24 +35,57 @@ public class MusicItem implements Transferable {
         this.name = name;
     }
 
-    public String getType() { return type; }
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public String getShortType() { return type.substring(0,2).toLowerCase(); }
-    public int getChildCount() { return 0; }
+    public String getType() {
+
+        return type;
+    }
+
+    public int getId() {
+
+        return id;
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public String getShortType() {
+
+        return type.substring(0, 2).toLowerCase();
+    }
+
+    public int getChildCount() {
+
+        return 0;
+    }
+
+    public void setId( final int id ) {
+
+        this.id = id;
+    }
 
     @Override
-    public String toString() { return name; }
+    public String toString() {
 
+        return name;
+    }
+
+    @Override
     public Object getTransferData( final DataFlavor flavor ) {
+
         return this;
     }
 
+    @Override
     public boolean isDataFlavorSupported( final DataFlavor flavor ) {
+
         return ( flavor.equals(flavors[0]) );
     }
 
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
+        
         return flavors.clone();
     }
     

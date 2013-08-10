@@ -87,7 +87,7 @@ public abstract class JDBCDatabase extends AbstractDatabase implements Database 
         
         final Connection cnn = getConnection();
         
-        return cnn.prepareStatement( sql );
+        return cnn.prepareStatement( sql, PreparedStatement.RETURN_GENERATED_KEYS );
         
     }
 
