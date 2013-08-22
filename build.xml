@@ -97,8 +97,7 @@
         ################
     -->
 
-    <!-- compile jamon source files to java classes -->
-    <target name="compile-templates" depends="init">
+    <target name="compile-templates" depends="init" description="compile jamon source files to java classes">
         <delete dir="${dir.src}/com/pugh/mymusic/tmpl" />
         <jamon destdir="${dir.src}" srcdir="templates" />
     </target>
@@ -114,8 +113,7 @@ public class Sockso {
         </echo>
     </target>
     
-    <!-- compiles the project to build/ -->
-    <target name="compile" depends="create-properties,compile-templates">
+    <target name="compile" depends="create-properties,compile-templates" description="compiles the project to build dir">
         <!-- then do compile -->
         <javac srcdir="${dir.src}"
                 destdir="${dir.build}"
@@ -129,8 +127,7 @@ public class Sockso {
         </javac>
     </target>
 
-    <!-- builds resources -->
-    <target name="resources" depends="init">
+    <target name="resources" depends="init" description="compiles the resources">
         <!-- compile stub file -->
         <javac srcdir="${dir.resources}" 
                destdir="${dir.resources}"
@@ -169,8 +166,7 @@ public class Sockso {
         </copy>
     </target>
 
-    <!-- puts the dist together -->
-    <target name="dist" depends="jars">
+    <target name="dist" depends="jars" description="builds the distributable files">
         <copy todir="${dir.dist}">
             <fileset dir="dist-files" />
         </copy>
@@ -182,24 +178,20 @@ public class Sockso {
         <copy file="${dir.resources}/icons/tray.ico" todir="${dir.dist}/icons" />
     </target>
 
-    <!-- creates all the main sockso jar files -->
-    <target name="jars" depends="jar,resources" />
+    <target name="jars" depends="jar,resources" description="builds the sockso jar and resources"/>
     
-    <!-- cleans any compiles tests -->
-    <target name="clean-tests">
+    <target name="clean-tests" description="cleans compiled tests classes">
         <delete dir="${dir.build.test}" />
     </target>
 
-    <!-- cleans the dist build -->
-    <target name="clean" depends="clean-tests">
+    <target name="clean" depends="clean-tests" description="cleans the dist build">
         <delete dir="${dir.build}" />
         <delete dir="${dir.dist}" />
         <delete dir="${dir.src}/com/pugh/sockso/templates" />
         <delete dir="${dir.packages}" />
     </target>
 
-    <!-- build the main jar file -->
-    <target name="jar" depends="compile">
+    <target name="jar" depends="compile" description="builds the main jar file">
         <jar file="${dir.dist}/sockso.jar" basedir="${dir.build}">
             <include name="**/*.class" />
             <manifest>
@@ -223,12 +215,11 @@ public class Sockso {
         #####################
     -->
 
-    <target name="javadocs">
+    <target name="javadocs" description="generate sockso javadoc files">
         <javadoc sourcepath="${dir.src}" destdir="${dir.javadocs}" classpath="${app.classpath}:${dev.classpath}:${opt.classpath}" />
     </target>
 
-    <!-- make packages from dist -->
-    <target name="package" depends="clean,dist,website">
+    <target name="package" depends="clean,dist,website" description="make packages from dist">
 
         <mkdir dir="${dir.temp}" />
         <move file="${dir.dist}" tofile="${dir.temp}/sockso-${sockso.version}" />
@@ -278,8 +269,7 @@ public class Sockso {
 
     </target>
 
-    <!-- updates the website (if it's configured) with information like current version -->
-    <target name="website">
+    <target name="website" description="updates the website (if it's configured) with information like current version">
         <if>
             <not><equals arg1="${website.path}" arg2="" /></not>
             <then>
@@ -291,8 +281,7 @@ public class Sockso {
         </if>
     </target>
 
-    <!-- includes optional components into the distribution -->
-    <target name="optionals">
+    <target name="optionals" description="includes optional components into the distribution">
         <copy todir="${dir.dist}/lib/opt">
             <fileset dir="${dir.lib-opt}" />
         </copy>
@@ -371,8 +360,7 @@ public class Sockso {
         </condition>
     </target>
 
-    <!-- runs the project -->
-    <target name="run" depends="dist,optionals,-runargs.init">
+    <target name="run" depends="dist,optionals,-runargs.init" description="runs the project">
          <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
              <sysproperty key="java.library.path" value="${dir.lib}" />
              <arg value="${run.opt.admin}" />
@@ -394,8 +382,8 @@ public class Sockso {
          </java>
      </target>
 
-    <!-- starts a project in debug mode -->
-    <target name="debug" depends="clean,dist,optionals,-runargs.init" if="netbeans.home">
+     <target name="debug" depends="clean,dist,optionals,-runargs.init" 
+         if="netbeans.home" description="runs the project in debug mode">
          <java jar="${dir.dist}/sockso.jar" dir="${dir.dist}/" fork="true" jvm="${ant.run.jvm}">
              <sysproperty key="java.library.path" value="${dir.lib}" />
              <arg value="${run.opt.admin}" />
@@ -450,8 +438,7 @@ public class Sockso {
         ##################
     -->
 
-    <!-- compile test cases -->
-    <target name="compile-tests">
+    <target name="compile-tests" description="compiles test classes">
         <javac srcdir="${dir.src.test}"
                 destdir="${dir.build.test}"
                 classpath="${dir.build}:${app.classpath}:${dev.classpath}"
@@ -482,10 +469,9 @@ public class Sockso {
         </if>
     </target>
 
-    <!-- tests a particular class -->
     <!-- the class to test needs to be specified on the command line by using:
         -Dclass=FULL_CLASSNAME -->
-     <target name="test-single" depends="compile,compile-tests,init-tests">
+     <target name="test-single" depends="compile,compile-tests,init-tests" description="tests a particular class">
          <fail unless="class">Must set property 'class'</fail>
          <junit haltonfailure="true" fork="yes" dir="." showoutput="true">
              <formatter type="plain" usefile="false" />
@@ -495,8 +481,7 @@ public class Sockso {
          </junit>
      </target>
     
-    <!-- run all tests and generate reports -->
-    <target name="test" depends="clean,compile,compile-tests,init-tests">
+    <target name="test" depends="clean,compile,compile-tests,init-tests" description="run all tests and generate reports">
 
         <delete dir="${dir.docs.junit}" />
         <mkdir dir="${dir.docs.junit}" />
@@ -523,8 +508,7 @@ public class Sockso {
 
     </target>
 
-    <!-- runs the testability reports -->
-    <target name="testability" depends="clean,dist">
+    <target name="testability" depends="clean,dist" description="runs the testability reports">
       <testability
           filter=""
           resultfile="${dir.docs}/testability.result.html"
@@ -547,18 +531,16 @@ public class Sockso {
       </testability>
     </target>
 
-    <target name="test-all" depends="test,test-js" />
+    <target name="test-all" depends="test,test-js" description="test everything"/>
 
-    <!-- starts the js test server -->
-    <target name="test-js-server">
+    <target name="test-js-server" description="starts the js test server">
         <java jar="${dir.lib-dev}/JsTestDriver-${jstestdriver.version}.jar" fork="true">
             <arg value="--port" />
             <arg value="${jstestdriver.port}" />
         </java>
     </target>
 
-    <!-- runs the js tests -->
-    <target name="test-js">
+    <target name="test-js" description="runs the js tests">
         <waitfor maxwait="1" maxwaitunit="second">
             <socket server="localhost" port="${jstestdriver.port}"/>
         </waitfor>
