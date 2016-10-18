@@ -150,6 +150,19 @@ public class M3uFile extends PlaylistFile {
         
     }
     
+    private void loadPath(String line) {
+        
+        File f = new File(line);
+        if (!f.isAbsolute()) {
+            log.debug( "Relative path found: " +line );
+            f = new File(this.file.getParentFile(),line);
+            line = f.getAbsolutePath();
+        }
+        log.debug( "Adding path: " +line );
+        paths.add( line );
+    }
+    
+    
     /**
      *  Load a path from the m3u file into the array of paths
      * 
